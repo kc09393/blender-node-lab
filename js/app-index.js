@@ -34,6 +34,11 @@ function initHeroPreview() {
   heroPreview.controls.autoRotate = true;
   heroPreview.controls.autoRotateSpeed = 2.2;
   heroPreview.controls.enableZoom = false;
+  // OrbitControls 會直接把 canvas 的 inline style 設成 touch-action:none（攔截所有觸控手勢
+  // 交給自己判讀），但這顆 hero 預覽是嵌在可以整頁捲動的首頁內容中間，手機使用者很容易第一次
+  // 想往下捲頁就剛好從這顆球上開始滑——改成 pan-y，讓瀏覽器原生判斷「這個手勢主要是垂直方向」
+  // 時直接當成捲頁處理（不會經過 JS），左右/其他方向的手勢才會交給 OrbitControls 判讀成旋轉。
+  heroPreview.renderer.domElement.style.touchAction = "pan-y";
 
   const preset = presets.find((p) => p.id === HERO_PRESET_ID) || presets[0];
   try {
