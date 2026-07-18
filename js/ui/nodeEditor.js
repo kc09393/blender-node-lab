@@ -503,7 +503,14 @@ export class NodeEditor {
         const startPos = this._socketCanvasPos(existingLink.fromNode, existingLink.fromSocket, "out");
         this.graph.removeLink(existingLink.id);
         this.pendingLink = { nodeId, socketKey, dir: "in", type, startPos, currentPos: startPos };
-        this.render();
+        // 這裡故意只重畫電線（_drawWires），不要整個 render()——render() 會把包含這個 socket
+        // 本身在內的所有節點卡片 DOM 全部拆掉重建，而這個當下手勢才剛開始、pointerId 還在
+        // 進行中。觸控裝置的「隱性捕獲」是鎖定在一開始按下去的那個實際 DOM 節點上，如果這裡
+        // 把它換掉，等放開手指時瀏覽器要怎麼處理「捕獲目標已經不在文件裡了」是沒有保證的
+        // 行為（不同瀏覽器/情況可能不一致，難以完全驗證）——不值得為了「拖曳中，這個輸入
+        // 插槽的『已連接』樣式要不要立刻消失」這種次要的視覺細節冒這個風險，等手勢結束時
+        // _completePendingLink 一定會整個 render() 一次，到時候畫面自然會正確反映最新狀態。
+        this._drawWires();
         this.onChange();
         return;
       }
@@ -525,7 +532,13 @@ export class NodeEditor {
     if (!a) return;
     if (a.dir === dir) {
       this.pendingLink = null;
-      this._drawWires();
+      // 這裡要用 render()、不能只用 _drawWires()——如果這條 pendingLink 是「抓著已接線的
+      // 輸入插槽拖出來」那種（見 _onSocketPointerDown 的 dir==="in" 分支），拖曳當下那個
+      // 插槽的舊連線圖示已經先被拔掉了，只是為了避免手勢進行中整個重繪 DOM（同一個檔案的
+      // 註解有解釋原因）才延後到這裡才真正重畫。這個分支代表手勢已經結束（不管是同方向被
+      // 拒絕還是單純點一下沒有真的接成），如果只重畫電線、不整個 render()，那個插槽的
+      // 「已連接」樣式會維持拖曳前的舊樣子，跟實際上已經斷線的圖不一致，要在這裡補回來。
+      this.render();
       return;
     }
     const pushed = this._pushHistory();
