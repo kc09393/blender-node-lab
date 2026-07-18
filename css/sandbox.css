@@ -73,6 +73,21 @@
 @media (pointer: coarse) {
   .socket { position: relative; }
   .socket::after { content: ""; position: absolute; inset: -7px; }
+
+  /* 曲線控制點（.curve-dot）是 SVG <circle>，半徑只有 3px（視覺直徑 6px），是這個元件
+     唯一的拖曳把手——SVG 形狀沒有 ::after 偽元素可用，改用透明 stroke 撐大實際可以點到
+     的判定範圍：stroke 預設從路徑中心往外對稱擴散，加大 stroke-width 不會動到 r 本身
+     （可見大小完全不變），只是把手指誤點在圓點旁邊也算數。一旦成功按下，既有的
+     setPointerCapture（見 js/ui/nodeCard.js 的 buildCurveControl）會讓拖曳中手指飄出這個
+     範圍也不受影響——這裡只需要解決「一開始按下去那一下按不準」的問題。 */
+  .curve-dot { stroke: transparent; stroke-width: 14px; }
+
+  /* Color Ramp／曲線控制點清單旁邊的「×」刪除按鈕、欄位說明用的 ⓘ 圖示，可見大小都刻意
+     維持原本的精巧尺寸（避免在一排數值輸入框旁邊顯得太搶眼），改用同一招撐大判定區。 */
+  .colorramp-del-btn, .curve-del-btn, .hint-icon { position: relative; }
+  .colorramp-del-btn::after, .curve-del-btn::after, .hint-icon::after {
+    content: ""; position: absolute; inset: -8px;
+  }
 }
 
 .panel {
