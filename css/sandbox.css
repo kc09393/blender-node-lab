@@ -42,9 +42,29 @@
   .sandbox-body:not([data-mobile-panel="canvas"]) .editor-panel { display: none; }
   .sandbox-body:not([data-mobile-panel="props"]) .side-panel { display: none; }
 
-  /* 工具列按鈕在窄螢幕塞不下一整排，改成可橫向捲動而不是被迫換行擠壓／溢出畫面。 */
-  .editor-toolbar { overflow-x: auto; }
+  /* 工具列按鈕在窄螢幕塞不下一整排，改成可橫向捲動而不是被迫換行擠壓／溢出畫面。
+     實測這排按鈕（復原/重做/預設材質/複製/刪除/縮放至全部/匯出/匯入/清空）在手機寬度下
+     捲動範圍超過一倍寬——跟修過的導覽列同一種問題：真手機瀏覽器預設捲軸是隱藏的（要捲動
+     當下才會短暫浮現），使用者不會知道右邊還有按鈕沒看到。導覽列改成漢堡選單是因為那些
+     是「跳頁連結」，但這排是「編輯中隨時要用的工具」（尤其複製/刪除在手機上沒有鍵盤快捷鍵
+     可以替代，是唯一入口），收進下拉選單反而更難用，這裡改成加一個貼在右邊緣的漸層淡出
+     提示（比照瀏覽器分頁列常見的「還有更多」視覺手法），比較適合「工具列」這種每顆都可能
+     常用的性質。 */
+  .editor-toolbar { overflow-x: auto; position: relative; }
   .editor-toolbar button, .editor-toolbar select { flex-shrink: 0; }
+  .editor-toolbar::after {
+    content: "";
+    position: sticky;
+    right: 0;
+    top: 0;
+    display: block;
+    flex-shrink: 0;
+    width: 22px;
+    height: 100%;
+    margin-left: -22px;
+    background: linear-gradient(to right, transparent, var(--bg-1));
+    pointer-events: none;
+  }
 }
 
 /* 觸控裝置（不看螢幕寬度，看的是輸入方式本身）：socket 圓點只有 11px，滑鼠點很夠，
