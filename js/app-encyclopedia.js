@@ -4,9 +4,10 @@ import { initMobileNav } from "./ui/mobileNav.js";
 import { listByCategory, CATEGORY_ORDER, CATEGORY_LABELS, searchNodeTypes, getNodeType } from "./core/nodeRegistry.js";
 import { renderNodeDoc } from "./ui/nodeCard.js";
 import { glossNodeNames } from "./core/glossary.js";
-import tutorials from "../data/tutorials/index.js";
+import tutorials from "../data/tutorials/searchIndex.js";
 import nodeTutorialIndex from "../data/tutorials/nodeIndex.js";
-import presets from "../data/presets/index.js";
+import presets from "../data/presets/searchIndex.js";
+import nodeTypeUsage from "../data/presets/nodeTypeUsage.js";
 
 initLangToggle();
 initMobileNav();
@@ -120,10 +121,12 @@ function renderDetail() {
     wrap.appendChild(learnBtn);
   }
 
-  // 這個節點實際被用在哪些預設材質裡——直接掃全部 preset 的節點圖找同型別節點，
-  // 不需要另外維護一份對照表（跟 nodeIndex.js 不同，那個是人工精選「最推薦」單篇教學，
-  // 這裡反而是要盡量列出全部真實用例，讓使用者看到同一個節點在不同材質裡的實際用法）。
-  const usingPresets = presets.filter((p) => p.graph.nodes.some((n) => n.typeId === typeDef.id));
+  // 這個節點實際被用在哪些預設材質裡——nodeTypeUsage.js 是 scripts/generate-search-index.mjs
+  // 從全部 preset 的節點圖預先算好的反查表（typeId -> presetId[]），跟 nodeIndex.js 不同
+  // （那個是人工精選「最推薦」單篇教學），這裡是要盡量列出全部真實用例，讓使用者看到同一個
+  // 節點在不同材質裡的實際用法。用預先算好的反查表，這個頁面就不用載入全部 preset 的完整節點圖。
+  const usingPresetIds = nodeTypeUsage[typeDef.id] || [];
+  const usingPresets = usingPresetIds.map((id) => presets.find((p) => p.id === id)).filter(Boolean);
   if (usingPresets.length > 0) {
     const section = document.createElement("div");
     section.className = "used-in-presets";

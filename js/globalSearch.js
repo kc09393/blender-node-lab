@@ -3,8 +3,8 @@
 // 每個頁面的 app-*.js 只需要呼叫一次 initGlobalSearch()，索引資料在這個模組內部組好、跨頁共用同一份邏輯。
 import { listNodeTypes } from "./core/nodeRegistry.js";
 import { tBi, t, getLang } from "./i18n.js";
-import presets from "../data/presets/index.js";
-import tutorials from "../data/tutorials/index.js";
+import presets from "../data/presets/searchIndex.js";
+import tutorials from "../data/tutorials/searchIndex.js";
 import troubleshootGuide from "../data/troubleshootGuide.js";
 
 const MAX_PER_GROUP = 6;

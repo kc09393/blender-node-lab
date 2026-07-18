@@ -7,8 +7,9 @@ import { renderInspector } from "./ui/inspector.js";
 import { compileGraph, applyFragmentChunk, createPreviewMaterial, CompileError } from "./core/compiler.js";
 import { Graph } from "./core/graphModel.js";
 import { getNodeType } from "./core/nodeRegistry.js";
-import presets from "../data/presets/index.js";
+import presets from "../data/presets/searchIndex.js";
 import presetCategories from "../data/presets/categories.js";
+import { loadPresetGraph } from "./core/presetLoader.js";
 import { tBi } from "./i18n.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
@@ -248,10 +249,10 @@ document.addEventListener("langchange", () => {
   if (currentPreset) showPresetDescription(currentPreset);
 });
 
-presetSelect.addEventListener("change", () => {
+presetSelect.addEventListener("change", async () => {
   const preset = presets.find((p) => p.id === presetSelect.value);
   if (!preset) return;
-  editor.loadGraph(Graph.fromJSON(preset.graph));
+  editor.loadGraph(Graph.fromJSON(await loadPresetGraph(preset)));
   showPresetDescription(preset);
 });
 
@@ -261,14 +262,16 @@ const presetParam = new URLSearchParams(location.search).get("preset");
 if (presetParam) {
   const preset = presets.find((p) => p.id === presetParam);
   if (preset) {
-    editor.loadGraph(Graph.fromJSON(preset.graph));
-    editor.clearHistory();
-    showPresetDescription(preset);
-    // refreshPresetOptions() 已經在上面跑過一次了，這裡是唯一一次「用網址參數載入」的
-    // 路徑，下拉選單不會自己知道要顯示這個材質名稱（不像使用者手動選單，瀏覽器原生 <select>
-    // 會自動同步顯示值）——手動同步一次，否則選單會停在「載入預設材質…」佔位字，
-    // 但畫布跟說明文字卻已經是正確的材質，兩者對不上。
-    presetSelect.value = preset.id;
+    loadPresetGraph(preset).then((graphData) => {
+      editor.loadGraph(Graph.fromJSON(graphData));
+      editor.clearHistory();
+      showPresetDescription(preset);
+      // refreshPresetOptions() 已經在上面跑過一次了，這裡是唯一一次「用網址參數載入」的
+      // 路徑，下拉選單不會自己知道要顯示這個材質名稱（不像使用者手動選單，瀏覽器原生 <select>
+      // 會自動同步顯示值）——手動同步一次，否則選單會停在「載入預設材質…」佔位字，
+      // 但畫布跟說明文字卻已經是正確的材質，兩者對不上。
+      presetSelect.value = preset.id;
+    });
   }
   history.replaceState(null, "", location.pathname);
 }
