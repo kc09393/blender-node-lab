@@ -69,6 +69,10 @@ export class NodeEditor {
 
     container.addEventListener("pointerdown", (e) => this._onCanvasPointerDown(e));
     window.addEventListener("pointermove", (e) => this._onPointerMove(e));
+    // _onPointerUp 故意留在冒泡階段（不能改成像下面 _onTouchStart/_onTouchEnd 那樣用捕獲）——
+    // 它裡面 pendingLink 的收尾邏輯（見下方）一定要在 socket 自己的 onSocketPointerUp
+    // 真正判斷過「這條線接不接得起來」之後才能執行；如果改成捕獲階段，會在 onSocketPointerUp
+    // 看到 pendingLink 之前就搶先把它清成 null，變成永遠連不成功任何一條線。
     window.addEventListener("pointerup", (e) => this._onPointerUp(e));
     // pointercancel（瀏覽器把這個手勢判給別的用途搶走，觸控裝置常見）沒有另外接住的話，
     // 拖節點/框選/剪線/平移/待完成連線這幾個狀態會卡住不清除，下一次操作行為會亂掉——
@@ -80,8 +84,18 @@ export class NodeEditor {
     // 這樣不管第二根手指是按在空白處還是節點卡片上，都能正確被記錄成「兩指手勢開始」。
     window.addEventListener("pointerdown", (e) => this._onTouchStart(e), true);
     window.addEventListener("pointermove", (e) => this._onTouchMove(e));
-    window.addEventListener("pointerup", (e) => this._onTouchEnd(e));
-    window.addEventListener("pointercancel", (e) => this._onTouchEnd(e));
+    // pointerup／pointercancel 這兩個也要用捕獲階段，理由跟上面 pointerdown 一樣、但這裡是
+    // 真的抓到的 bug（不是預防性寫法）：_onTouchEnd 只負責清 _touchPoints／_pinchStart，
+    // 跟 onSocketPointerUp 的 pendingLink 判斷完全無關，沒有上面 _onPointerUp 那種順序顧慮，
+    // 可以放心用捕獲階段搶在最前面執行。如果留在冒泡階段，使用者手指放開的位置剛好是
+    // 一顆 socket（不管接線成功還是失敗都一樣，socket 自己的 pointerup 監聽器一律
+    // stopPropagation()），這個事件就永遠到不了這裡，那根手指的 pointerId 會永遠留在
+    // _touchPoints 裡清不掉——多試幾次接線，_touchPoints.size 遲早會卡在 >=2，之後畫布上
+    // 所有單指手勢（拖節點/框選/拉線/接線）開頭都會被誤判成「兩指手勢進行中」直接擋掉，
+    // 畫布對單指觸控完全沒反應，但頁面其他按鈕不受影響（這個狀態只存在 NodeEditor 內部）。
+    // 使用者實機回報「手機接線接不上、之後畫布整個卡住」，用合成事件複現過就是這個。
+    window.addEventListener("pointerup", (e) => this._onTouchEnd(e), true);
+    window.addEventListener("pointercancel", (e) => this._onTouchEnd(e), true);
     container.addEventListener("contextmenu", (e) => {
       // 右鍵在這個畫布上永遠用來取消放置節點／剪電線手勢，不要跳出瀏覽器的右鍵選單。
       e.preventDefault();
