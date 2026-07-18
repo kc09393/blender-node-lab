@@ -102,7 +102,13 @@ function makeScrubbable(input, { min, max, step, getValue, setValue }) {
     // 不動了」。掛在 window 上就不受這個限制，數值一律用 startValue 加累積位移算，不依賴 input
     // 元素本身還活著；`getValue`/`setValue` 兩個外部傳入的存取器已經是跟真正的資料來源
     // （`node.params[key]`）打交道，不是靠這個 DOM 元素本身存值。
+    // 多一層 pointerId 比對當第二層防護——這個檔案的曲線控制點拖曳（buildCurveControl）
+    // 曾經實測抓到「沒有 pointerId 比對＋沒有成功拿到 capture」會導致放開手指後，任何不相干
+    // 的手指/滑鼠移動都被誤認成「還在拖這個欄位」；這裡雖然已經有 setPointerCapture，
+    // 但補這層比對幾乎零成本，統一套用同一套防護、不用去記哪個拖曳手勢有補、哪個沒補。
+    const pointerId = e.pointerId;
     const onMove = (ev) => {
+      if (ev.pointerId !== pointerId) return;
       const dx = ev.clientX - startX;
       if (!moved && Math.abs(dx) < 3) return;
       if (!moved) {
@@ -116,6 +122,7 @@ function makeScrubbable(input, { min, max, step, getValue, setValue }) {
       setValue(next);
     };
     const onUp = (ev) => {
+      if (ev.pointerId !== pointerId) return;
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener("pointerup", onUp);
       window.removeEventListener("pointercancel", onUp);
@@ -399,10 +406,17 @@ function buildColorRampControl(node, def, onParamChange) {
         // 沒包 try/catch 的話這行以下（含 onMove/onUp 的事件監聽器註冊）整段都不會執行，
         // 使用者會覺得「按住把手完全拖不動」，而且畫面上不會有任何錯誤提示。
         try { handle.setPointerCapture(e.pointerId); } catch { /* 沒有有效的 pointer session 可以捕獲，忽略即可 */ }
+        const pointerId = e.pointerId;
         let stopRef = stop; // 拖曳期間用物件參照鎖定同一個停駐點，不受排序影響
         const barRect = gradientBar.getBoundingClientRect();
 
+        // 多一層 pointerId 比對當第二層防護——正常情況下 setPointerCapture 已經能保證
+        // onUp 收得到事件、不會洩漏，但萬一 capture 意外失敗（極少數情況會直接 throw，
+        // 上面已經包了 try/catch 但沒有真的捕獲成功），這裡至少不會誤把其他手指/滑鼠的
+        // 移動事件當成「還在拖這個把手」處理（曲線控制點那邊已經抓到這個真的會發生的
+        // 洩漏情境，這裡沒實測到、但是同一套機制、補起來風險是零）。
         const onMove = (ev) => {
+          if (ev.pointerId !== pointerId) return;
           const rel = clamp((ev.clientX - barRect.left) / barRect.width, 0, 1);
           const current = node.params[def.key] || [];
           const matchIdx = current.indexOf(stopRef);
@@ -420,6 +434,7 @@ function buildColorRampControl(node, def, onParamChange) {
             .join(", ")})`;
         };
         const onUp = (ev) => {
+          if (ev.pointerId !== pointerId) return;
           try { handle.releasePointerCapture(ev.pointerId); } catch { /* 沒有捕獲成功過，忽略即可 */ }
           handle.classList.remove("dragging");
           window.removeEventListener("pointermove", onMove);
@@ -630,7 +645,21 @@ function buildCurveControl(node, def, onParamChange) {
       dot.addEventListener("pointerdown", (e) => {
         e.stopPropagation();
         const rect = svg.getBoundingClientRect();
+        const pointerId = e.pointerId;
+        // 這個 dot 本身沒有設 setPointerCapture 過，之前拖曳到一半、手指剛好放開在某個
+        // 會 e.stopPropagation() 的元素上（例如任何 socket——不管是拖過去接線還是純粹路過）
+        // 時，這裡的 pointerup 監聽器永遠收不到事件、清不掉，onMove/onUp 這兩個監聽器就會
+        // 永遠留在 window 上——之後任何地方、任何一根手指/滑鼠的移動都會被誤認成「還在拖這個
+        // 控制點」，畫面上的曲線會跟著使用者完全無關的游標移動亂跳（實測抓到的真 bug，
+        // 不是預防性寫法：合成一次「拖曳→放開在 socket 上→之後隨便送一個不相干的
+        // pointermove」的序列，曲線點真的被那個不相干的事件動了）。
+        // 修法比照顏色漸變把手（上面 handle 的 pointerdown 處理）：補 setPointerCapture
+        // 讓事件確實從這個 dot 冒泡（不會被路過的其他元素攔截），加上 pointerId 比對當
+        // 第二層防護——就算哪天 capture 意外失敗（極少數情況會直接 throw，見下面 try/catch），
+        // onMove/onUp 也不會誤認其他手指/滑鼠的事件。
+        try { dot.setPointerCapture(pointerId); } catch { /* 沒有有效的 pointer session 可以捕獲，忽略即可 */ }
         const onMove = (ev) => {
+          if (ev.pointerId !== pointerId) return;
           const relX = clamp(((ev.clientX - rect.left) / rect.width) * 100, 0, 100);
           const relY = clamp(((ev.clientY - rect.top) / rect.height) * 100, 0, 100);
           const next = fromSvg(relX, relY);
@@ -640,7 +669,9 @@ function buildCurveControl(node, def, onParamChange) {
           current[idx] = next;
           onParamChange(node.id, def.key, current);
         };
-        const onUp = () => {
+        const onUp = (ev) => {
+          if (ev.pointerId !== pointerId) return;
+          try { dot.releasePointerCapture(pointerId); } catch { /* 沒有捕獲成功過，忽略即可 */ }
           window.removeEventListener("pointermove", onMove);
           window.removeEventListener("pointerup", onUp);
           window.removeEventListener("pointercancel", onUp);
