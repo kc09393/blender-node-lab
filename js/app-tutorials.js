@@ -377,10 +377,13 @@ function startTutorial(tut) {
   currentTutorial = tut;
   currentStepIndex = 0;
   ensureEditorInitialized();
-  editor.loadGraph(Graph.fromJSON(tut.startGraph));
-  editor.clearHistory();
+  // 先讓畫布容器變成可見（.tutorial-run-view 從 display:none 變 flex）再 loadGraph()——
+  // loadGraph() 內部現在會呼叫 frameAll() 自動置中視角（見 nodeEditor.js），這個計算要靠
+  // container 當下的實際寬高，容器還隱藏時量到的寬高是 0，算出來的縮放/置中會整個錯掉。
   listView.style.display = "none";
   runView.classList.add("active");
+  editor.loadGraph(Graph.fromJSON(tut.startGraph));
+  editor.clearHistory();
   renderOverlay();
 }
 
@@ -598,6 +601,7 @@ document.getElementById("t-restart").addEventListener("click", () => {
   currentStepIndex = 0;
   editor.loadGraph(Graph.fromJSON(currentTutorial.startGraph));
   editor.clearHistory();
+  editor.frameAll(); // 同 startTutorial()，重新開始也要把視角拉回起始節點，不然手機窄畫布下又會落在畫面外
   renderOverlay();
 });
 

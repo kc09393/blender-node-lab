@@ -79,6 +79,12 @@ function renderGrid() {
     card.addEventListener("click", () => {
       selectedNodeId = typeDef.id;
       renderDetail();
+      // 窄螢幕下三個面板（分類/節點格/詳解）是上下堆疊，詳解面板在節點格下方、通常還在
+      // 螢幕外——點了節點卡片卻「畫面上什麼都沒變」，使用者容易以為沒點到。桌面版三欄
+      // 並排本來就都看得到，不需要也不該自動捲動（會打斷使用者原本正在看的位置）。
+      if (window.matchMedia("(max-width: 900px)").matches) {
+        detailPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
     });
     nodeGrid.appendChild(card);
   }

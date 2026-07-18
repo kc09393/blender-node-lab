@@ -229,6 +229,14 @@ export class NodeEditor {
     this._lastSelectedId = null;
     this.selectedLinkId = null;
     this.render();
+    // 換一整張圖（教學起始圖／預設材質／匯入 JSON／還原自動保存）之後，畫面的 pan/scale
+    // 是延續上一張圖的舊視角，新圖的節點座標不保證落在畫面裡——實測抓到的真 bug：手機窄畫布
+    // 下開始教學，節點座標常常整個落在螢幕外，畫面看起來像空白畫布。這裡統一補一次
+    // frameAll()，比在 app-sandbox.js／app-tutorials.js 每個呼叫點各自記得補一次可靠
+    // （之後任何新的載入圖流程也會自動受惠，不用重新想起來要補這行）。undo()/redo() 不會
+    // 受影響——它們直接改 this.graph 走自己的路徑，不經過 loadGraph()，維持使用者原本的
+    // 視角不會被打斷。frameAll() 對空圖是安全的無動作（見它自己的 nodes.length===0 提早return）。
+    this.frameAll();
     this.onChange();
   }
 
