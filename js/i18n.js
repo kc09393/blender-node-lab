@@ -171,6 +171,9 @@ export function tBi(obj) {
 }
 
 export function applyI18n(root = document) {
+  if (root === document) {
+    document.documentElement.lang = getLang() === "en" ? "en" : "zh-Hant";
+  }
   root.querySelectorAll("[data-i18n]").forEach((el) => {
     el.textContent = t(el.getAttribute("data-i18n"));
   });

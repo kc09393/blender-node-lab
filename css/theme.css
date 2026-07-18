@@ -171,6 +171,7 @@ input:focus-visible, [tabindex]:focus-visible {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   overflow: hidden;
 }
 .app-body { flex: 1; min-height: 0; display: flex; }
