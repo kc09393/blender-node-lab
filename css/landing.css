@@ -1,14 +1,22 @@
-.landing-body { flex: 1; overflow-y: auto; padding: 56px 24px 80px; position: relative; }
+/* overflow-x 故意明講設成 hidden，不要留給瀏覽器自己決定——CSS 規範規定只要 overflow-y
+   不是 visible、overflow-x 又沒明講，瀏覽器會自動把 overflow-x 也算成 auto，這個頁面
+   下面那圈裝飾性光暈（.landing-body::before）在窄螢幕下寬度會超出視窗，如果 overflow-x
+   被動變成 auto，就會憑空冒出一條橫向捲軸、把整頁往右拖走（這是真的在手機上發生過的
+   bug，不是預防性寫法）。 */
+.landing-body { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 56px 24px 80px; position: relative; }
 
 /* 一大片純黑背景太死板，加一圈很淡的暖色放射狀光暈給首頁一點縱深感，
-   不誇張、不影響閱讀，只在最上面那一屏隱約看得出來。 */
+   不誇張、不影響閱讀，只在最上面那一屏隱約看得出來。寬度用 min() 夾住——1100px 是桌面
+   螢幕下好看的尺寸，但這是絕對定位＋置中的裝飾用色塊，窄螢幕下如果還是寫死 1100px，
+   即使視覺上因為漸層本身很淡看不太出來，版面上還是會實際占用超出視窗的寬度，
+   這正是上面 .landing-body 要另外明講 overflow-x:hidden 兜底的那個情境。 */
 .landing-body::before {
   content: "";
   position: absolute;
   top: -120px;
   left: 50%;
   transform: translateX(-50%);
-  width: 1100px;
+  width: min(1100px, 100vw);
   height: 560px;
   background: radial-gradient(ellipse at center, rgba(255,138,43,.10) 0%, rgba(75,159,255,.06) 45%, transparent 72%);
   pointer-events: none;
@@ -49,7 +57,15 @@
   background: var(--bg-1); border: 1px solid var(--border);
   box-shadow: 0 20px 60px rgba(0,0,0,.45);
 }
-.hero-preview-container canvas { display: block; }
+/* Three.js 的 renderer.setSize(w, h, false)（見 js/ui/preview3d.js）第三個參數故意傳 false，
+   代表「只設定內部繪圖緩衝解析度（含 devicePixelRatio 縮放，畫面才夠銳利），CSS 顯示尺寸
+   不要動」，這樣才能讓 canvas 的實際顯示大小完全交給這裡的 CSS 決定、跟著容器響應式縮放。
+   但如果這裡沒有補一個明確的 width/height，canvas 元素在沒有 CSS 尺寸規則時就會退回用自己
+   的 width/height 屬性（也就是「容器寬度 × devicePixelRatio」那個放大過的內部解析度）當作
+   顯示尺寸——一般桌機螢幕 DPR 通常是 1，這個差異不明顯，但手機（DPR 2-3 很常見）畫面會直接
+   撐出容器 2-3 倍寬，把整個外層一路撐出水平捲動（這個 bug 直到使用者拿真手機截圖回報才第一次
+   被抓到，本地測試工具的 DPR 只有 1.25，超出的量不夠明顯到會產生看得出來的橫向捲軸）。 */
+.hero-preview-container canvas { display: block; width: 100%; height: 100%; }
 .hero-preview-caption { text-align: center; margin-top: 10px; font-size: 12.5px; color: var(--text-2); }
 
 /* ---------- 材質畫廊 ---------- */
@@ -125,6 +141,12 @@
   .hero-actions { justify-content: center; }
   .hero-stats { justify-content: center; }
   .hero-preview { max-width: 360px; width: 100%; }
+}
+/* 手機寬度下兩顆 CTA 按鈕並排常常擠到文字換成兩行、高度長短不一很難看
+   （實測抓到，不是預防性寫法）——改成上下堆疊，每顆都能用滿版寬度放得下整行文字。 */
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; }
+  .cta { text-align: center; }
 }
 @media (max-width: 760px) {
   .feature-grid { grid-template-columns: 1fr; }
