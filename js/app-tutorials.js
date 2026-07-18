@@ -11,6 +11,7 @@ import learningPath from "../data/tutorials/learningPath.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
+import { initMobilePreviewDock } from "./ui/mobilePreviewDock.js";
 
 initLangToggle();
 initMobileNav();
@@ -310,6 +311,11 @@ function ensureEditorInitialized() {
   preview = new Preview3D(previewContainer);
   preview.setMaterial(createPreviewMaterial());
   document.getElementById("t-mesh-select").addEventListener("change", (e) => preview.setMesh(e.target.value));
+  initMobilePreviewDock(
+    document.querySelector(".sandbox-body"),
+    previewContainer,
+    document.getElementById("t-mini-preview-slot")
+  );
 
   const canvasEl = document.getElementById("t-graph-canvas");
   const errorBox = document.getElementById("t-shader-error");

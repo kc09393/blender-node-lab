@@ -160,6 +160,31 @@
    側邊欄撐爆，這裡加 overflow:hidden 是雙重保險，避免萬一以後又有哪裡漏補 width:100% 時
    直接整個畫面炸開而不是安靜地被裁掉。 */
 .preview-container canvas { display: block; width: 100%; height: 100%; }
+
+/* 手機版浮動即時預覽：跟側邊欄「預覽/屬性」分頁看到的是同一個 Three.js canvas
+   （見 js/ui/mobilePreviewDock.js 動態搬移 DOM，不是另開一個 WebGL context），讓使用者
+   在「畫布」分頁編輯節點的當下，不用切分頁也能立刻看到即時渲染結果。用 bottom 定位
+   （不是 top）是刻意的——這個元素跟 .controls-hint 一樣是 .editor-panel 的直接子層，
+   而 .editor-panel 的定位基準點包含最上面的工具列列高，用 top 會被工具列蓋住；用 bottom
+   則跟 .controls-hint 一樣，量的是畫布區真正的下緣，不受工具列高度影響。 */
+.mini-preview-slot {
+  display: none;
+  position: absolute;
+  right: 12px;
+  bottom: 64px;
+  width: 92px;
+  height: 92px;
+  z-index: 8;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: 0 6px 18px rgba(0,0,0,.45);
+  background: #1b1b1e;
+}
+.mini-preview-slot .preview-container { width: 100%; height: 100%; }
+@media (max-width: 860px) {
+  .mini-preview-slot { display: block; }
+}
 .shader-error {
   margin: 0 12px 10px; padding: 8px 10px; font-size: 11.5px;
   background: rgba(229,72,77,.15); border-left: 3px solid var(--danger);

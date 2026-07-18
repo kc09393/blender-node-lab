@@ -13,6 +13,7 @@ import { tBi } from "./i18n.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
+import { initMobilePreviewDock } from "./ui/mobilePreviewDock.js";
 
 initLangToggle();
 initMobileNav();
@@ -21,6 +22,11 @@ initGlobalSearch();
 const previewContainer = document.getElementById("preview-container");
 const preview = new Preview3D(previewContainer);
 preview.setMaterial(createPreviewMaterial());
+initMobilePreviewDock(
+  document.querySelector(".sandbox-body"),
+  previewContainer,
+  document.getElementById("mini-preview-slot")
+);
 
 document.getElementById("mesh-select").addEventListener("change", (e) => {
   preview.setMesh(e.target.value);

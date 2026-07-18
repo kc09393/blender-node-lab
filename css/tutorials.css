@@ -94,6 +94,11 @@
   background: var(--bg-1); border: 1px solid var(--accent); border-radius: var(--radius);
   padding: 14px; box-shadow: 0 8px 24px rgba(0,0,0,.4); overflow-y: auto;
 }
+/* 窄螢幕右下角疊了一個浮動即時預覽（.mini-preview-slot，見 css/sandbox.css），
+   這裡的 max-width 縮小到會自動避開那塊區域的寬度，避免兩者在窄手機上重疊。 */
+@media (max-width: 860px) {
+  .tutorial-overlay { max-width: min(320px, calc(100% - 130px)); }
+}
 .tutorial-overlay .step-count { font-size: 11px; color: var(--text-2); margin-bottom: 4px; }
 .tutorial-overlay .step-path-context {
   font-size: 10.5px; color: var(--accent); margin-bottom: 8px; padding-bottom: 8px;
