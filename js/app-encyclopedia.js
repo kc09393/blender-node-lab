@@ -1,5 +1,6 @@
 import { initLangToggle, tBi, getLang, t } from "./i18n.js";
 import { initGlobalSearch } from "./globalSearch.js";
+import { initMobileNav } from "./ui/mobileNav.js";
 import { listByCategory, CATEGORY_ORDER, CATEGORY_LABELS, searchNodeTypes, getNodeType } from "./core/nodeRegistry.js";
 import { renderNodeDoc } from "./ui/nodeCard.js";
 import { glossNodeNames } from "./core/glossary.js";
@@ -8,6 +9,7 @@ import nodeTutorialIndex from "../data/tutorials/nodeIndex.js";
 import presets from "../data/presets/index.js";
 
 initLangToggle();
+initMobileNav();
 initGlobalSearch();
 
 const categoryList = document.getElementById("category-list");

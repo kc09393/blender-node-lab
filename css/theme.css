@@ -94,6 +94,7 @@ input:focus-visible, [tabindex]:focus-visible {
 
 /* ---------- 頂部導覽列（跨頁共用） ---------- */
 .site-nav {
+  position: relative; /* 手機版下拉選單（.site-nav nav.open）用 position:absolute 貼齊這裡的下緣 */
   display: flex;
   align-items: center;
   gap: 18px;
@@ -122,11 +123,48 @@ input:focus-visible, [tabindex]:focus-visible {
 }
 #lang-toggle { font-size: 12px; flex-shrink: 0; }
 
-/* 窄螢幕：品牌名稱縮短顯示、導覽項目留可橫向捲動的空間，避免整排文字疊在一起換行。 */
-@media (max-width: 480px) {
+/* 漢堡選單按鈕（js/ui/mobileNav.js 動態插入），桌面寬度完全不顯示——桌面版六個連結
+   本來就排得下一整排，不需要收起來。 */
+.nav-toggle {
+  display: none;
+  flex-shrink: 0;
+  font-size: 18px;
+  line-height: 1;
+  padding: 6px 10px;
+}
+
+/* 窄螢幕：六個導覽連結＋搜尋＋語言切換塞不進一行，本來讓 nav 自己橫向捲動，但沒有任何
+   提示告訴使用者「還可以往右滑」，大部分連結形同看不到——改成漢堡選單，點開往下展開
+   成整排可以直接點的連結，不用用猜的有沒有更多內容（使用者截圖回報這段「很難操作」，
+   已實測確認就是這個原因，不是預防性寫法）。 */
+@media (max-width: 760px) {
   .site-nav { gap: 8px; padding: 8px 10px; }
   .site-nav .brand { font-size: 13px; }
-  .site-nav nav a { padding: 6px 8px; font-size: 13px; }
+  /* margin-left:auto 把漢堡按鈕（跟它後面的搜尋/語言切換）推到最右邊，品牌名稱留在最左邊——
+     nav 一旦變成 position:absolute 就離開了原本靠 flex:1 撐開左右兩側的排版邏輯。 */
+  .nav-toggle { display: flex; align-items: center; justify-content: center; margin-left: auto; }
+  .site-nav nav {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex: none;
+    flex-direction: column;
+    gap: 0;
+    overflow: hidden;
+    max-height: 0;
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 8px 20px rgba(0,0,0,.35);
+    transition: max-height .2s ease;
+    z-index: 50;
+  }
+  .site-nav nav.open { max-height: 70vh; overflow-y: auto; }
+  .site-nav nav a {
+    padding: 13px 20px;
+    border-radius: 0;
+    border-bottom: 1px solid var(--bg-2);
+  }
 }
 
 .app-shell {

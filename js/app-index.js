@@ -1,5 +1,6 @@
 import { initLangToggle, tBi, getLang, t } from "./i18n.js";
 import { initGlobalSearch } from "./globalSearch.js";
+import { initMobileNav } from "./ui/mobileNav.js";
 import { Preview3D } from "./ui/preview3d.js";
 import { compileGraph, applyFragmentChunk, createPreviewMaterial } from "./core/compiler.js";
 import { Graph } from "./core/graphModel.js";
@@ -8,6 +9,7 @@ import presets from "../data/presets/index.js";
 import tutorials from "../data/tutorials/index.js";
 
 initLangToggle();
+initMobileNav();
 initGlobalSearch();
 
 // ---------- 統計數字：直接算真實資料筆數，不寫死數字，內容增加時不會忘記同步 ----------

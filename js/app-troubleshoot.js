@@ -1,10 +1,12 @@
 import { initLangToggle, tBi, t, getLang } from "./i18n.js";
 import { initGlobalSearch } from "./globalSearch.js";
+import { initMobileNav } from "./ui/mobileNav.js";
 import troubleshootGuide from "../data/troubleshootGuide.js";
 import tutorials from "../data/tutorials/index.js";
 import presets from "../data/presets/index.js";
 
 initLangToggle();
+initMobileNav();
 initGlobalSearch();
 
 const listEl = document.getElementById("troubleshoot-list");

@@ -1,8 +1,10 @@
 import { initLangToggle, tBi, t } from "./i18n.js";
 import { initGlobalSearch } from "./globalSearch.js";
+import { initMobileNav } from "./ui/mobileNav.js";
 import { iorTable, roughnessTable, metalColorTable } from "../data/materialsReference.js";
 
 initLangToggle();
+initMobileNav();
 initGlobalSearch();
 
 function renderIorTable() {

@@ -12,8 +12,10 @@ import presetCategories from "../data/presets/categories.js";
 import { tBi } from "./i18n.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
+import { initMobileNav } from "./ui/mobileNav.js";
 
 initLangToggle();
+initMobileNav();
 initGlobalSearch();
 
 const previewContainer = document.getElementById("preview-container");

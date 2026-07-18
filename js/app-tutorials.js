@@ -10,8 +10,10 @@ import tutorials from "../data/tutorials/index.js";
 import learningPath from "../data/tutorials/learningPath.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
+import { initMobileNav } from "./ui/mobileNav.js";
 
 initLangToggle();
+initMobileNav();
 initGlobalSearch();
 initMobilePanelTabs(document.querySelector(".sandbox-body"));
 
