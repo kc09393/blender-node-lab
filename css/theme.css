@@ -1,0 +1,227 @@
+/* ============================================================
+   Blender 材質節點學習網站 — 共用深色主題
+   配色風格參考 Blender Shader Editor（非像素級還原）
+   ============================================================ */
+
+:root {
+  --bg-0: #1b1b1e;
+  --bg-1: #232327;
+  --bg-2: #2b2b30;
+  --bg-3: #35353c;
+  --border: #44444c;
+  --text-0: #f0f0f2;
+  --text-1: #c7c7cf;
+  --text-2: #8d8d97;
+  --accent: #ff8a2b;
+  --accent-2: #4b9fff;
+  --danger: #e5484d;
+  --ok: #4caf6a;
+
+  /* socket 型別配色（近似 Blender） */
+  --sock-shader: #63c763;
+  --sock-color: #c9c729;
+  --sock-vector: #6d6dd6;
+  --sock-float: #a3a3a3;
+  --sock-bool: #cc7575;
+
+  /* 節點分類標頭配色（近似 Blender，非精確還原） */
+  --cat-input: #3d6d95;
+  --cat-output: #8b3a3a;
+  --cat-shader: #5f8a4c;
+  --cat-texture: #a8672e;
+  --cat-color: #a89b3a;
+  --cat-vector: #4b4b9e;
+  --cat-converter: #3a8e82;
+
+  --radius: 8px;
+  --font-ui: "Noto Sans TC", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "Consolas", "SFMono-Regular", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--bg-0);
+  color: var(--text-0);
+  font-family: var(--font-ui);
+}
+
+a { color: var(--accent-2); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  background: var(--bg-3);
+  color: var(--text-0);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 6px 12px;
+  font-size: 13px;
+}
+button:hover { background: var(--bg-2); border-color: var(--accent-2); }
+button.primary { background: var(--accent); border-color: var(--accent); color: #1b1b1e; font-weight: 600; }
+button.primary:hover { filter: brightness(1.08); }
+button:disabled { opacity: .4; cursor: not-allowed; }
+
+select, input[type="text"], input[type="number"] {
+  font-family: inherit;
+  background: var(--bg-1);
+  color: var(--text-0);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 5px 8px;
+  font-size: 13px;
+}
+
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--bg-1); }
+::-webkit-scrollbar-thumb { background: var(--bg-3); border-radius: 6px; }
+
+/* ---------- 頂部導覽列（跨頁共用） ---------- */
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 10px 20px;
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--border);
+  height: 52px;
+  flex-shrink: 0;
+}
+.site-nav .brand { font-weight: 700; font-size: 15px; letter-spacing: .3px; flex-shrink: 0; white-space: nowrap; }
+.site-nav .brand span { color: var(--accent); }
+.site-nav nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; scrollbar-width: none; }
+.site-nav nav::-webkit-scrollbar { display: none; }
+.site-nav nav a {
+  color: var(--text-1);
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.site-nav nav a:hover, .site-nav nav a.active {
+  background: var(--bg-3);
+  color: var(--text-0);
+  text-decoration: none;
+}
+#lang-toggle { font-size: 12px; flex-shrink: 0; }
+
+/* 窄螢幕：品牌名稱縮短顯示、導覽項目留可橫向捲動的空間，避免整排文字疊在一起換行。 */
+@media (max-width: 480px) {
+  .site-nav { gap: 8px; padding: 8px 10px; }
+  .site-nav .brand { font-size: 13px; }
+  .site-nav nav a { padding: 6px 8px; font-size: 13px; }
+}
+
+.app-shell {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  overflow: hidden;
+}
+.app-body { flex: 1; min-height: 0; display: flex; }
+
+/* ---------- 節點卡片（百科唯讀 + 沙盒互動 共用） ---------- */
+.node-card {
+  position: absolute;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  /* 刻意不設 overflow:hidden——socket 圓點故意用負 margin 讓一半懸在卡片邊框外
+     （比照 Blender），設 overflow:hidden 會把懸出去的那一半裁掉，變成半圓。
+     頭部的圓角改成直接在 .node-header 自己身上做。 */
+  width: 220px;
+  min-width: 200px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.35);
+  font-size: 12.5px;
+}
+.node-card .node-header {
+  padding: 7px 10px;
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+  cursor: grab;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: calc(var(--radius) - 1px) calc(var(--radius) - 1px) 0 0;
+}
+.node-card.cat-input .node-header { background: var(--cat-input); }
+.node-card.cat-output .node-header { background: var(--cat-output); }
+.node-card.cat-shader .node-header { background: var(--cat-shader); }
+.node-card.cat-texture .node-header { background: var(--cat-texture); }
+.node-card.cat-color .node-header { background: var(--cat-color); }
+.node-card.cat-vector .node-header { background: var(--cat-vector); }
+.node-card.cat-converter .node-header { background: var(--cat-converter); }
+
+.node-card .node-body { padding: 8px 0; }
+.node-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 3px 10px;
+  position: relative;
+  gap: 8px;
+}
+.node-row .row-label { color: var(--text-1); white-space: nowrap; }
+.node-row.output-row { justify-content: flex-end; }
+.node-row.output-row .row-label { color: var(--text-0); }
+
+.socket {
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(0,0,0,.4);
+  flex-shrink: 0;
+  cursor: crosshair;
+}
+.socket.type-shader { background: var(--sock-shader); }
+.socket.type-color  { background: var(--sock-color); }
+.socket.type-vector { background: var(--sock-vector); }
+.socket.type-float  { background: var(--sock-float); border-radius: 50%; }
+.socket.type-bool   { background: var(--sock-bool); }
+.socket.connected { box-shadow: 0 0 0 3px rgba(255,255,255,.12); }
+.socket.socket-in { margin-left: -16px; }
+.socket.socket-out { margin-right: -16px; }
+
+.node-row input[type="number"], .node-row input[type="text"] {
+  width: 58px; padding: 2px 5px; font-size: 12px;
+  cursor: ew-resize; /* 比照 Blender：數值欄位可以左右拖曳調整，用箭頭游標提示 */
+}
+.node-row input[type="color"] { width: 28px; height: 18px; padding: 0; border: none; background: none; }
+
+/* 拿掉瀏覽器原生的上下箭頭：跟 Blender 一樣改成用拖曳調整數值，原生箭頭反而會跟數字疊在一起。 */
+input[type="number"] {
+  -moz-appearance: textfield;
+  -webkit-appearance: textfield;
+  appearance: textfield;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.node-card.readonly .node-header { cursor: default; }
+.node-card.readonly .socket { cursor: default; }
+
+/* 節點卡片文件說明（百科用） */
+.node-doc { padding: 12px; font-size: 13px; color: var(--text-1); line-height: 1.6; }
+.node-doc h4 { margin: 10px 0 4px; font-size: 12px; color: var(--text-2); text-transform: uppercase; letter-spacing: .5px; }
+.node-doc .tip-beginner, .node-doc .tip-pro {
+  margin-top: 8px; padding: 8px 10px; border-radius: 6px; font-size: 12.5px;
+}
+.node-doc .tip-beginner { background: rgba(76,175,106,.12); border-left: 3px solid var(--ok); }
+.node-doc .tip-pro { background: rgba(255,138,43,.12); border-left: 3px solid var(--accent); }
+
+.io-table { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 4px; }
+.io-table td { padding: 3px 4px; border-bottom: 1px solid var(--bg-3); }
+.io-table .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; vertical-align: middle; }
+
+/* 通用 loading / empty 狀態 */
+.empty-hint { color: var(--text-2); font-size: 13px; padding: 20px; text-align: center; }

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>引導教學 · Blender 材質節點學習網站</title>
+<meta name="description" content="跟著步驟做出玻璃、金屬、木紋、石頭、磚牆等真實材質，每一步都有提示與自動驗證，適合 0 基礎的 Blender 材質節點入門教學。" />
+<meta name="theme-color" content="#1b1b1e" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b1b1e'/%3E%3Ccircle cx='16' cy='48' r='7' fill='%23ff8a2b'/%3E%3Ccircle cx='48' cy='16' r='7' fill='%2363c763'/%3E%3Ccircle cx='48' cy='48' r='7' fill='%236d6dd6'/%3E%3Cpath d='M16 48L48 16M16 48L48 48' stroke='%23c7c7cf' stroke-width='3' fill='none'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/theme.css" />
+<link rel="stylesheet" href="css/globalSearch.css" />
+<link rel="stylesheet" href="css/sandbox.css" />
+<link rel="stylesheet" href="css/tutorials.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="site-nav">
+    <div class="brand">Blender 材質<span>節點學堂</span></div>
+    <nav>
+      <a href="index.html" data-i18n="nav.home">首頁</a>
+      <a href="encyclopedia.html" data-i18n="nav.encyclopedia">節點百科</a>
+      <a href="sandbox.html" data-i18n="nav.sandbox">自由沙盒</a>
+      <a href="tutorials.html" class="active" data-i18n="nav.tutorials">引導教學</a>
+      <a href="reference.html" data-i18n="nav.reference">參考表</a>
+      <a href="troubleshoot.html" data-i18n="nav.troubleshoot">疑難排解</a>
+    </nav>
+    <button id="global-search-btn" type="button"><span data-i18n="search.button">搜尋</span><span class="gs-kbd">Ctrl K</span></button>
+    <button id="lang-toggle" type="button">中 / EN</button>
+  </header>
+
+  <div class="app-body" id="tutorials-body">
+    <div id="tutorial-list-view" class="tutorial-list-view">
+      <h1 data-i18n="tutorials.title">引導式教學</h1>
+
+      <section class="learning-path-section">
+        <div class="learning-path-header">
+          <div>
+            <h2 data-i18n="tutorials.pathTitle">建議學習路徑</h2>
+            <p class="learning-path-sub" data-i18n="tutorials.pathSub">不知道從哪裡開始？照這條主線走一輪，從材質圖基礎到綜合實戰，一步一步循序漸進。</p>
+            <div class="learning-path-progress" id="learning-path-progress"></div>
+          </div>
+          <button type="button" id="path-toggle" class="path-toggle-btn"></button>
+        </div>
+        <div id="learning-path-body" class="learning-path-body"></div>
+      </section>
+
+      <h2 class="browse-all-heading" data-i18n="tutorials.browseAllHeading">瀏覽全部教學</h2>
+      <div class="tutorial-toolbar">
+        <input type="text" id="tutorial-search" class="tutorial-search" placeholder="搜尋教學名稱、內容…" data-i18n-placeholder="tutorials.searchPlaceholder" />
+        <div class="tutorial-level-filters" id="tutorial-level-filters">
+          <button type="button" class="level-filter-btn active" data-level="" data-i18n="tutorials.filterAll">全部</button>
+          <button type="button" class="level-filter-btn" data-level="入門" data-i18n="tutorials.filterBeginner">入門</button>
+          <button type="button" class="level-filter-btn" data-level="中階" data-i18n="tutorials.filterIntermediate">中階</button>
+          <button type="button" class="level-filter-btn" data-level="進階" data-i18n="tutorials.filterAdvanced">進階</button>
+        </div>
+        <div class="tutorial-progress" id="tutorial-progress"></div>
+      </div>
+      <div id="tutorial-cards" class="tutorial-cards">
+        <div class="empty-hint">教學載入中…</div>
+      </div>
+    </div>
+
+    <!-- 縮圖渲染用的隱藏畫布：移到畫面外（而不是 display:none），這樣 ResizeObserver 才量得到寬高。 -->
+    <div id="thumb-render-container" class="thumb-render-container"></div>
+
+    <div id="tutorial-run-view" class="tutorial-run-view sandbox-body">
+      <div class="editor-mobile-notice">
+        <p data-i18n="sandbox.mobileNotice">節點編輯器需要滑鼠拖曳操作，畫面空間也比較吃緊，建議改用桌面電腦或平板橫向以取得完整體驗。</p>
+      </div>
+      <aside class="panel palette-panel">
+        <div class="panel-title">節點面板</div>
+        <input type="text" id="t-palette-search" placeholder="搜尋節點…" />
+        <div id="t-palette-list" class="palette-list"></div>
+      </aside>
+
+      <main class="editor-panel">
+        <div class="editor-toolbar">
+          <button id="t-back-to-list" type="button">← 返回教學列表</button>
+          <button id="t-undo" type="button" title="Ctrl+Z" data-i18n="sandbox.undo">↶ 復原</button>
+          <button id="t-redo" type="button" title="Ctrl+Y" data-i18n="sandbox.redo">↷ 重做</button>
+          <div class="toolbar-spacer"></div>
+          <button id="t-restart" type="button">重新開始這個教學</button>
+        </div>
+        <div id="t-graph-canvas" class="graph-canvas"></div>
+        <div id="tutorial-overlay" class="tutorial-overlay"></div>
+      </main>
+
+      <aside class="panel side-panel">
+        <div class="preview-block">
+          <div class="panel-title-row">
+            <span class="panel-title">即時預覽</span>
+            <select id="t-mesh-select">
+              <option value="sphere">Sphere 球體</option>
+              <option value="cube">Cube 方塊</option>
+              <option value="plane">Plane 平面</option>
+              <option value="torus">Torus 環結</option>
+            </select>
+          </div>
+          <div id="t-preview-container" class="preview-container"></div>
+          <div id="t-shader-error" class="shader-error" hidden></div>
+        </div>
+        <div class="inspector-block">
+          <div class="panel-title">節點屬性</div>
+          <div id="t-inspector-body" class="inspector-body">
+            <div class="empty-hint">選取一個節點以編輯參數</div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+</div>
+
+<script src="js/bootGuard.js"></script>
+<script type="module" src="js/app-tutorials.js"></script>
+</body>
+</html>

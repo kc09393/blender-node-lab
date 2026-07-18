@@ -1,0 +1,50 @@
+export default {
+  id: "molten_gold",
+  name: { zh: "熔化黃金", en: "Molten Gold" },
+  description: {
+    zh: "沃羅諾伊的到邊緣距離＋雜訊用乘加運算混合出裂縫遮罩，接一條「白熱→橘→暗金」的溫度色階：轉黑白後驅動混合著色器切換金屬底色跟發光裂縫，顏色本身又同時餵給發光節點。",
+    en: "Voronoi's Distance to Edge combined with Noise via Multiply Add forms a crack mask, feeding a 'white-hot → orange → dark gold' temperature ramp: converted to grayscale it drives the Mix Shader between the metal body and the glowing cracks, while the same ramp color feeds the Emission node.",
+  },
+  graph: {
+    nodes: [
+      { id: "mgold_out", typeId: "output_material", x: 1400, y: 240, params: {} },
+      { id: "mgold_texcoord", typeId: "input_texture_coordinate", x: -260, y: 200, params: {} },
+      { id: "mgold_mapping", typeId: "vector_mapping", x: 0, y: 200, params: { scale: [3, 3, 3] } },
+      { id: "mgold_voronoi", typeId: "texture_voronoi", x: 260, y: 100, params: { feature: "distance_to_edge", scale: 1 } },
+      { id: "mgold_noise", typeId: "texture_noise", x: 260, y: 400, params: { detail: 4, roughness: 0.55, scale: 2 } },
+      { id: "mgold_mix_math", typeId: "converter_math", x: 540, y: 250, params: { operation: "multiply_add", value2: 0.3, value3: 0 } },
+      {
+        id: "mgold_ramp",
+        typeId: "converter_color_ramp",
+        x: 800,
+        y: 250,
+        params: {
+          stops: [
+            { position: 0, color: [1, 0.95, 0.7, 1] },
+            { position: 0.15, color: [1, 0.5, 0.05, 1] },
+            { position: 0.4, color: [0.25, 0.15, 0.02, 1] },
+            { position: 1, color: [0.25, 0.15, 0.02, 1] },
+          ],
+        },
+      },
+      { id: "mgold_bw", typeId: "converter_rgb_to_bw", x: 1060, y: 340, params: {} },
+      { id: "mgold_gold", typeId: "shader_principled_bsdf", x: 1060, y: 100, params: { baseColor: [0.83, 0.68, 0.21, 1], roughness: 0.2, metallic: 1 } },
+      { id: "mgold_glow", typeId: "shader_emission", x: 1060, y: 460, params: { strength: 7 } },
+      { id: "mgold_mix", typeId: "shader_mix_shader", x: 1300, y: 260, params: {} },
+    ],
+    links: [
+      { id: "mgold_l1", fromNode: "mgold_texcoord", fromSocket: "generated", toNode: "mgold_mapping", toSocket: "vector" },
+      { id: "mgold_l2", fromNode: "mgold_mapping", fromSocket: "vector", toNode: "mgold_voronoi", toSocket: "vector" },
+      { id: "mgold_l3", fromNode: "mgold_mapping", fromSocket: "vector", toNode: "mgold_noise", toSocket: "vector" },
+      { id: "mgold_l4", fromNode: "mgold_voronoi", fromSocket: "distance", toNode: "mgold_mix_math", toSocket: "value1" },
+      { id: "mgold_l5", fromNode: "mgold_noise", fromSocket: "fac", toNode: "mgold_mix_math", toSocket: "value3" },
+      { id: "mgold_l6", fromNode: "mgold_mix_math", fromSocket: "value", toNode: "mgold_ramp", toSocket: "fac" },
+      { id: "mgold_l7", fromNode: "mgold_ramp", fromSocket: "color", toNode: "mgold_bw", toSocket: "color" },
+      { id: "mgold_l8", fromNode: "mgold_ramp", fromSocket: "color", toNode: "mgold_glow", toSocket: "color" },
+      { id: "mgold_l9", fromNode: "mgold_bw", fromSocket: "value", toNode: "mgold_mix", toSocket: "fac" },
+      { id: "mgold_l10", fromNode: "mgold_gold", fromSocket: "bsdf", toNode: "mgold_mix", toSocket: "shader1" },
+      { id: "mgold_l11", fromNode: "mgold_glow", fromSocket: "bsdf", toNode: "mgold_mix", toSocket: "shader2" },
+      { id: "mgold_l12", fromNode: "mgold_mix", fromSocket: "bsdf", toNode: "mgold_out", toSocket: "surface" },
+    ],
+  },
+};

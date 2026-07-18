@@ -1,0 +1,61 @@
+export default {
+  id: "alien_meteorite",
+  name: { zh: "外星隕石", en: "Alien Meteorite" },
+  description: {
+    zh: "沃羅諾伊裂紋遮罩決定礦脈發光的位置與強度（黑體節點算出真實的高溫顏色），另用獨立的沃羅諾伊紋理驅動位移，做出隕石表面真正凹凸不平的坑洞。",
+    en: "A Voronoi-based crack mask decides where and how strongly the mineral veins glow (a Blackbody node computes physically-accurate hot color); a separate Voronoi texture drives Displacement for genuinely pitted, uneven surface geometry.",
+  },
+  graph: {
+    nodes: [
+      { id: "meteor_out", typeId: "output_material", x: 1400, y: 260, params: {} },
+      {
+        id: "meteor_rock",
+        typeId: "shader_principled_bsdf",
+        x: 900,
+        y: 60,
+        params: { baseColor: [0.09, 0.08, 0.1, 1], roughness: 0.75, metallic: 0.1 },
+      },
+      { id: "meteor_voronoi_vein", typeId: "texture_voronoi", x: 300, y: 120, params: { scale: 5, randomness: 0.7 } },
+      {
+        id: "meteor_ramp",
+        typeId: "converter_color_ramp",
+        x: 560,
+        y: 120,
+        params: {
+          stops: [
+            { position: 0, color: [0, 0, 0, 1] },
+            { position: 0.5, color: [0, 0, 0, 1] },
+            { position: 0.58, color: [0.2, 0.9, 0.8, 1] },
+            { position: 0.66, color: [0, 0, 0, 1] },
+            { position: 1, color: [0, 0, 0, 1] },
+          ],
+        },
+      },
+      {
+        id: "meteor_blackbody",
+        typeId: "converter_blackbody",
+        x: 300,
+        y: 320,
+        params: { temperature: 9500 },
+      },
+      { id: "meteor_veinmix", typeId: "converter_math", x: 820, y: 220, params: { operation: "multiply", value2: 8 } },
+      { id: "meteor_glow", typeId: "shader_emission", x: 1120, y: 220, params: { strength: 6 } },
+      { id: "meteor_add", typeId: "shader_add_shader", x: 1180, y: 140, params: {} },
+      { id: "meteor_bw", typeId: "converter_rgb_to_bw", x: 820, y: 400, params: {} },
+      { id: "meteor_voronoi_disp", typeId: "texture_voronoi", x: 300, y: 560, params: { scale: 5, randomness: 1 } },
+      { id: "meteor_disp", typeId: "vector_displacement", x: 560, y: 560, params: { midlevel: 0.55, scale: 0.1 } },
+    ],
+    links: [
+      { id: "meteor_l1", fromNode: "meteor_add", fromSocket: "bsdf", toNode: "meteor_out", toSocket: "surface" },
+      { id: "meteor_l2", fromNode: "meteor_rock", fromSocket: "bsdf", toNode: "meteor_add", toSocket: "shader1" },
+      { id: "meteor_l3", fromNode: "meteor_glow", fromSocket: "bsdf", toNode: "meteor_add", toSocket: "shader2" },
+      { id: "meteor_l4", fromNode: "meteor_voronoi_vein", fromSocket: "distance", toNode: "meteor_ramp", toSocket: "fac" },
+      { id: "meteor_l5", fromNode: "meteor_ramp", fromSocket: "color", toNode: "meteor_bw", toSocket: "color" },
+      { id: "meteor_l6", fromNode: "meteor_bw", fromSocket: "value", toNode: "meteor_veinmix", toSocket: "value1" },
+      { id: "meteor_l7", fromNode: "meteor_blackbody", fromSocket: "color", toNode: "meteor_glow", toSocket: "color" },
+      { id: "meteor_l8", fromNode: "meteor_veinmix", fromSocket: "value", toNode: "meteor_glow", toSocket: "strength" },
+      { id: "meteor_l9", fromNode: "meteor_voronoi_disp", fromSocket: "distance", toNode: "meteor_disp", toSocket: "height" },
+      { id: "meteor_l10", fromNode: "meteor_disp", fromSocket: "displacement", toNode: "meteor_out", toSocket: "displacement" },
+    ],
+  },
+};

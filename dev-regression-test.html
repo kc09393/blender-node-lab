@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<title>回歸測試（開發用）｜Blender 材質節點學習網站</title>
+<link rel="stylesheet" href="css/theme.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<style>
+  body { padding: 24px; max-width: 1100px; margin: 0 auto; }
+  h1 { font-size: 20px; }
+  .summary { display: flex; gap: 16px; margin: 16px 0; }
+  .stat { background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius); padding: 12px 18px; }
+  .stat b { display: block; font-size: 22px; }
+  .stat.ok b { color: var(--ok); }
+  .stat.warn b { color: var(--accent); }
+  .stat.err b { color: var(--danger); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th, td { text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  th { color: var(--text-2); font-weight: 600; position: sticky; top: 0; background: var(--bg-0); }
+  tr.status-ok td.status { color: var(--ok); }
+  tr.status-warn td.status { color: var(--accent); }
+  tr.status-err td.status { color: var(--danger); }
+  .detail { font-family: var(--font-mono); font-size: 12px; color: var(--text-1); white-space: pre-wrap; }
+  .kind { color: var(--text-2); font-size: 11px; text-transform: uppercase; }
+  #run { margin-bottom: 12px; }
+  .filters { margin-bottom: 10px; }
+  .filters label { margin-right: 14px; font-size: 13px; color: var(--text-1); }
+</style>
+</head>
+<body>
+<h1>全站回歸測試（開發用，不對外連結）</h1>
+<p style="color:var(--text-2)">對所有 <code>data/presets/*.js</code>／<code>data/tutorials/*.js</code> 做結構檢查＋<code>compileGraph()</code> 編譯檢查。取代每次改動後手動在 console 貼腳本的做法。</p>
+<button id="run">重新執行測試</button>
+<div class="summary" id="summary"></div>
+<div class="filters" id="filters"></div>
+<table>
+  <thead><tr><th>狀態</th><th>類型</th><th>ID</th><th>名稱</th><th>細節</th></tr></thead>
+  <tbody id="rows"></tbody>
+</table>
+
+<script type="module">
+import { Graph } from "./js/core/graphModel.js";
+import { compileGraph } from "./js/core/compiler.js";
+import { getNodeType } from "./js/core/nodeRegistry.js";
+import presets from "./data/presets/index.js";
+import tutorials from "./data/tutorials/index.js";
+
+// 檢查一份原始 JSON graph 資料：typeId 是否存在、有沒有重複 id、
+// 連線是否都指向真的存在的節點/socket——這些問題 Graph.fromJSON() 會「悄悄跳過」
+// 而不是丟錯誤（設計上是為了容忍舊存檔/損毀資料），但對於「這份資料本身寫得對不對」
+// 這種開發期檢查來說，悄悄跳過反而會把真正的 bug 藏起來，所以這裡在 fromJSON 之外
+// 用一層自己的檢查，跟 fromJSON 的結果做「應該有幾個/實際剩几個」的落差比對。
+function auditRawGraph(rawGraph) {
+  const problems = [];
+  const rawNodes = Array.isArray(rawGraph?.nodes) ? rawGraph.nodes : [];
+  const rawLinks = Array.isArray(rawGraph?.links) ? rawGraph.links : [];
+  const idSet = new Set();
+
+  for (const n of rawNodes) {
+    if (!n || typeof n.id !== "string") { problems.push(`節點缺 id：${JSON.stringify(n)}`); continue; }
+    if (idSet.has(n.id)) problems.push(`節點 id 重複：${n.id}`);
+    idSet.add(n.id);
+    if (!getNodeType(n.typeId)) problems.push(`節點 ${n.id} 用了不存在的 typeId："${n.typeId}"`);
+  }
+
+  for (const l of rawLinks) {
+    if (!l) continue;
+    if (!idSet.has(l.fromNode)) problems.push(`連線 ${l.id} 的 fromNode 找不到節點："${l.fromNode}"`);
+    if (!idSet.has(l.toNode)) problems.push(`連線 ${l.id} 的 toNode 找不到節點："${l.toNode}"`);
+  }
+
+  // 用 fromJSON 實際載入一次，比對節點/連線數量有沒有被悄悄丟棄
+  let graph = null;
+  try {
+    graph = Graph.fromJSON(rawGraph);
+    if (graph.nodes.size !== rawNodes.length) {
+      problems.push(`節點數量對不上：JSON 裡有 ${rawNodes.length} 個，Graph.fromJSON() 只載入了 ${graph.nodes.size} 個（可能是 id 重複或 typeId 不存在）`);
+    }
+    if (graph.links.size !== rawLinks.length) {
+      problems.push(`連線數量對不上：JSON 裡有 ${rawLinks.length} 條，Graph.fromJSON() 只載入了 ${graph.links.size} 條（可能是 socket key 打錯字、型別不相容，或同一個輸入被兩條線佔用）`);
+    }
+  } catch (e) {
+    problems.push(`Graph.fromJSON() 拋出例外：${e.message}`);
+  }
+
+  return { problems, graph };
+}
+
+function tryCompile(graph) {
+  if (!graph) return { ok: false, error: "graph 未成功載入" };
+  try {
+    compileGraph(graph);
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, error: e.message };
+  }
+}
+
+function runAll() {
+  const results = [];
+
+  for (const preset of presets) {
+    const { problems, graph } = auditRawGraph(preset.graph);
+    const compile = tryCompile(graph);
+    const errors = [...problems];
+    if (!compile.ok) errors.push(`編譯錯誤：${compile.error}`);
+    results.push({
+      kind: "預設材質",
+      id: preset.id,
+      name: preset.name?.zh || preset.id,
+      status: errors.length === 0 ? "ok" : compile.ok === false ? "err" : "warn",
+      detail: errors.join("\n"),
+    });
+  }
+
+  for (const tut of tutorials) {
+    const startAudit = auditRawGraph(tut.startGraph);
+    const endAudit = auditRawGraph(tut.endGraph);
+    const startCompile = tryCompile(startAudit.graph);
+    const endCompile = tryCompile(endAudit.graph);
+    const errors = [];
+    for (const p of startAudit.problems) errors.push(`[startGraph] ${p}`);
+    for (const p of endAudit.problems) errors.push(`[endGraph] ${p}`);
+    if (!startCompile.ok) errors.push(`[startGraph] 編譯錯誤：${startCompile.error}`);
+    if (!endCompile.ok) errors.push(`[endGraph] 編譯錯誤：${endCompile.error}`);
+
+    // 最後一步驟拿 endGraph 驗證，僅供參考（已知會有「後面步驟合理取代前面步驟」的假警報，
+    // 不計入 pass/fail 判定，只在 detail 欄位顯示，真正可靠的驗證仍須逐步模擬使用者操作）。
+    let lastStepNote = "";
+    if (endAudit.graph && tut.steps?.length) {
+      try {
+        const lastOk = tut.steps[tut.steps.length - 1].check(endAudit.graph);
+        lastStepNote = lastOk ? "" : "（參考：最後一步驟 check() 對 endGraph 回傳 false，可能是已知假警報，需逐步模擬確認）";
+      } catch (e) {
+        lastStepNote = `（最後一步驟 check() 拋出例外：${e.message}）`;
+      }
+    }
+    if (lastStepNote) errors.push(lastStepNote);
+
+    const hasRealError = !startCompile.ok || !endCompile.ok || startAudit.problems.length > 0 || endAudit.problems.length > 0;
+    results.push({
+      kind: "教學",
+      id: tut.id,
+      name: tut.name?.zh || tut.id,
+      status: hasRealError ? "err" : lastStepNote ? "warn" : "ok",
+      detail: errors.join("\n"),
+    });
+  }
+
+  render(results);
+}
+
+function render(results) {
+  const okCount = results.filter((r) => r.status === "ok").length;
+  const warnCount = results.filter((r) => r.status === "warn").length;
+  const errCount = results.filter((r) => r.status === "err").length;
+
+  document.getElementById("summary").innerHTML = `
+    <div class="stat ok"><b>${okCount}</b>全數通過</div>
+    <div class="stat warn"><b>${warnCount}</b>僅有參考性警告</div>
+    <div class="stat err"><b>${errCount}</b>真正失敗</div>
+    <div class="stat"><b>${results.length}</b>總計項目</div>
+  `;
+
+  const rows = document.getElementById("rows");
+  rows.innerHTML = results
+    .sort((a, b) => (a.status === b.status ? 0 : a.status === "err" ? -1 : b.status === "err" ? 1 : a.status === "warn" ? -1 : 1))
+    .map(
+      (r) => `
+      <tr class="status-${r.status}">
+        <td class="status">${r.status === "ok" ? "✅ 通過" : r.status === "warn" ? "⚠️ 參考警告" : "❌ 失敗"}</td>
+        <td class="kind">${r.kind}</td>
+        <td><code>${r.id}</code></td>
+        <td>${r.name}</td>
+        <td class="detail">${r.detail || "—"}</td>
+      </tr>`
+    )
+    .join("");
+}
+
+document.getElementById("run").addEventListener("click", runAll);
+runAll();
+</script>
+</body>
+</html>

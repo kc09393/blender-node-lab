@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blender 材質節點學習網站｜從 0 基礎到專業</title>
+<meta name="description" content="免費的 Blender 材質節點學習網站：節點百科查每個節點的功能、自由沙盒動手接線即時看 3D 預覽效果、引導式教學一步步做出玻璃、金屬、木紋等真實材質。中英雙語，適合從 0 基礎到專業使用者。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Blender 材質節點學習網站" />
+<meta property="og:description" content="節點百科、互動沙盒、引導式教學——從 0 基礎到專業，看懂 Blender 每一個材質節點。" />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%231b1b1e'/%3E%3Ccircle cx='16' cy='48' r='7' fill='%23ff8a2b'/%3E%3Ccircle cx='48' cy='16' r='7' fill='%2363c763'/%3E%3Ccircle cx='48' cy='48' r='7' fill='%236d6dd6'/%3E%3Cpath d='M16 48L48 16M16 48L48 48' stroke='%23c7c7cf' stroke-width='3' fill='none'/%3E%3C/svg%3E" />
+<link rel="stylesheet" href="css/theme.css" />
+<link rel="stylesheet" href="css/globalSearch.css" />
+<link rel="stylesheet" href="css/landing.css" />
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+<div class="app-shell">
+  <header class="site-nav">
+    <div class="brand">Blender 材質<span>節點學堂</span></div>
+    <nav>
+      <a href="index.html" class="active" data-i18n="nav.home">首頁</a>
+      <a href="encyclopedia.html" data-i18n="nav.encyclopedia">節點百科</a>
+      <a href="sandbox.html" data-i18n="nav.sandbox">自由沙盒</a>
+      <a href="tutorials.html" data-i18n="nav.tutorials">引導教學</a>
+      <a href="reference.html" data-i18n="nav.reference">參考表</a>
+      <a href="troubleshoot.html" data-i18n="nav.troubleshoot">疑難排解</a>
+    </nav>
+    <button id="global-search-btn" type="button"><span data-i18n="search.button">搜尋</span><span class="gs-kbd">Ctrl K</span></button>
+    <button id="lang-toggle" type="button">中 / EN</button>
+  </header>
+
+  <main class="landing-body">
+    <section class="hero">
+      <div class="hero-copy">
+        <h1><span class="hero-line1" data-i18n="landing.heroTitle1">從 0 基礎到專業，</span><br /><span class="hero-line2" data-i18n="landing.heroTitle2">看懂 Blender 每一個材質節點</span></h1>
+        <p data-i18n="landing.heroSubtitle">不知道怎麼開始？跟著建議學習路徑一步步學會材質怎麼連接、怎麼使用；已經有想法的話，也可以直接查節點百科或動手玩沙盒。</p>
+        <div class="hero-actions">
+          <a class="cta primary" href="tutorials.html" data-i18n="landing.ctaLearningPath">不知道從哪開始？跟著學</a>
+          <a class="cta" href="sandbox.html" data-i18n="landing.ctaSandbox">直接動手玩沙盒</a>
+        </div>
+        <div class="hero-stats" id="hero-stats"></div>
+      </div>
+      <div class="hero-preview">
+        <div id="hero-preview-container" class="hero-preview-container"></div>
+        <div class="hero-preview-caption" id="hero-preview-caption"></div>
+      </div>
+    </section>
+
+    <section class="gallery-section">
+      <h2 data-i18n="landing.galleryTitle">材質範例，點一下直接開始玩</h2>
+      <p class="gallery-sub" data-i18n="landing.gallerySub">全部都是真的節點圖算出來的，不是照片——點縮圖直接在沙盒裡打開，拆開來看怎麼接的。</p>
+      <div class="gallery-grid" id="gallery-grid">
+        <div class="empty-hint" data-i18n="landing.galleryLoading">材質縮圖渲染中…</div>
+      </div>
+    </section>
+
+    <section class="feature-grid">
+      <a class="feature-card" href="tutorials.html">
+        <div class="feature-icon icon-tutorials" aria-hidden="true"></div>
+        <h3 data-i18n="landing.featureTutorialsTitle">引導教學</h3>
+        <p data-i18n="landing.featureTutorialsDesc">不知道從哪開始？建議學習路徑一步步帶你學會材質怎麼連接、怎麼使用，每一步都有提示與驗證。</p>
+        <span class="feature-arrow">→</span>
+      </a>
+      <a class="feature-card" href="encyclopedia.html">
+        <div class="feature-icon icon-encyclopedia" aria-hidden="true"></div>
+        <h3 data-i18n="landing.featureEncyclopediaTitle">節點百科</h3>
+        <p data-i18n="landing.featureEncyclopediaDesc">依分類瀏覽所有材質節點，每個節點都有新手／進階雙層說明與輸入輸出圖解。</p>
+        <span class="feature-arrow">→</span>
+      </a>
+      <a class="feature-card" href="sandbox.html">
+        <div class="feature-icon icon-sandbox" aria-hidden="true"></div>
+        <h3 data-i18n="landing.featureSandboxTitle">自由沙盒</h3>
+        <p data-i18n="landing.featureSandboxDesc">拖拉節點、自己接線，右側 3D 預覽即時反應每一次修改。</p>
+        <span class="feature-arrow">→</span>
+      </a>
+    </section>
+
+    <!-- 縮圖渲染用的隱藏畫布：移到畫面外（而不是 display:none），保留真實版面尺寸讓 ResizeObserver 量得到寬高。 -->
+    <div id="thumb-render-container" class="thumb-render-container"></div>
+  </main>
+</div>
+
+<script src="js/bootGuard.js"></script>
+<script type="module" src="js/app-index.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+export default {
+  id: "bioluminescent_fungus",
+  name: { zh: "生物發光真菌", en: "Bioluminescent Fungus" },
+  description: {
+    zh: "沃羅諾伊的到邊緣距離接常量插值的顏色漸變，做出硬邊菌傘遮罩決定哪裡發光；發光顏色則另外用同一組沃羅諾伊接 HSV 顏色漸變做出色彩變化。",
+    en: "Voronoi's Distance to Edge feeds a Constant-interpolation Color Ramp for a hard-edged mushroom-cap mask deciding where to glow; the glow's own color comes from the same Voronoi feeding a separate HSV Color Ramp for variation.",
+  },
+  graph: {
+    nodes: [
+      { id: "fungus_out", typeId: "output_material", x: 1300, y: 220, params: {} },
+      { id: "fungus_texcoord", typeId: "input_texture_coordinate", x: -260, y: 160, params: {} },
+      { id: "fungus_mapping", typeId: "vector_mapping", x: 0, y: 160, params: { scale: [8, 8, 8] } },
+      { id: "fungus_voronoi", typeId: "texture_voronoi", x: 260, y: 100, params: { feature: "distance_to_edge", randomness: 1 } },
+      { id: "fungus_edge_ramp", typeId: "converter_color_ramp", x: 540, y: 100, params: { interpolation: "constant", stops: [{ position: 0, color: [1, 1, 1, 1] }, { position: 0.06, color: [0, 0, 0, 1] }] } },
+      { id: "fungus_edge_bw", typeId: "converter_rgb_to_bw", x: 800, y: 100, params: {} },
+      {
+        id: "fungus_hue_ramp",
+        typeId: "converter_color_ramp",
+        x: 260,
+        y: 380,
+        params: { colorMode: "hsv", stops: [{ position: 0, color: [0.3, 0.9, 0.4, 1] }, { position: 1, color: [0.55, 0.9, 0.5, 1] }] },
+      },
+      { id: "fungus_base", typeId: "shader_diffuse_bsdf", x: 800, y: 380, params: { color: [0.05, 0.1, 0.08, 1] } },
+      { id: "fungus_glow", typeId: "shader_emission", x: 1040, y: 100, params: { strength: 5 } },
+      { id: "fungus_mix", typeId: "shader_mix_shader", x: 1080, y: 260, params: {} },
+    ],
+    links: [
+      { id: "fungus_l1", fromNode: "fungus_texcoord", fromSocket: "generated", toNode: "fungus_mapping", toSocket: "vector" },
+      { id: "fungus_l2", fromNode: "fungus_mapping", fromSocket: "vector", toNode: "fungus_voronoi", toSocket: "vector" },
+      { id: "fungus_l3", fromNode: "fungus_voronoi", fromSocket: "distance", toNode: "fungus_edge_ramp", toSocket: "fac" },
+      { id: "fungus_l4", fromNode: "fungus_edge_ramp", fromSocket: "color", toNode: "fungus_edge_bw", toSocket: "color" },
+      { id: "fungus_l5", fromNode: "fungus_voronoi", fromSocket: "distance", toNode: "fungus_hue_ramp", toSocket: "fac" },
+      { id: "fungus_l6", fromNode: "fungus_hue_ramp", fromSocket: "color", toNode: "fungus_glow", toSocket: "color" },
+      { id: "fungus_l7", fromNode: "fungus_edge_bw", fromSocket: "value", toNode: "fungus_mix", toSocket: "fac" },
+      { id: "fungus_l8", fromNode: "fungus_base", fromSocket: "bsdf", toNode: "fungus_mix", toSocket: "shader1" },
+      { id: "fungus_l9", fromNode: "fungus_glow", fromSocket: "bsdf", toNode: "fungus_mix", toSocket: "shader2" },
+      { id: "fungus_l10", fromNode: "fungus_mix", fromSocket: "bsdf", toNode: "fungus_out", toSocket: "surface" },
+    ],
+  },
+};

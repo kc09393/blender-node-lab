@@ -1,0 +1,50 @@
+export default {
+  id: "molten_lava_rock",
+  name: { zh: "熔岩岩漿石", en: "Molten Lava Rock" },
+  description: {
+    zh: "沃羅諾伊的到邊緣距離（裂縫網絡）跟雜訊紋理用乘加運算混合，接顏色漸變同時驅動岩石底色與熔岩發光的遮罩。",
+    en: "Voronoi's Distance to Edge (a crack network) is combined with Noise Texture via Multiply Add, feeding a Color Ramp that drives both the rock's base color and the lava-glow mask.",
+  },
+  graph: {
+    nodes: [
+      { id: "mlr_out", typeId: "output_material", x: 1500, y: 260, params: {} },
+      { id: "mlr_texcoord", typeId: "input_texture_coordinate", x: -260, y: 200, params: {} },
+      { id: "mlr_mapping", typeId: "vector_mapping", x: 0, y: 200, params: { scale: [3, 3, 3] } },
+      { id: "mlr_voronoi", typeId: "texture_voronoi", x: 260, y: 100, params: { feature: "distance_to_edge", scale: 1 } },
+      { id: "mlr_noise", typeId: "texture_noise", x: 260, y: 400, params: { detail: 4, roughness: 0.55, scale: 2 } },
+      { id: "mlr_math_mix", typeId: "converter_math", x: 540, y: 250, params: { operation: "multiply_add", value2: 0.3, value3: 0 } },
+      {
+        id: "mlr_ramp",
+        typeId: "converter_color_ramp",
+        x: 800,
+        y: 250,
+        params: {
+          stops: [
+            { position: 0, color: [1, 0.9, 0.3, 1] },
+            { position: 0.15, color: [1, 0.35, 0.02, 1] },
+            { position: 0.4, color: [0.05, 0.02, 0.02, 1] },
+            { position: 1, color: [0.05, 0.02, 0.02, 1] },
+          ],
+        },
+      },
+      { id: "mlr_bw", typeId: "converter_rgb_to_bw", x: 1060, y: 340, params: {} },
+      { id: "mlr_rock", typeId: "shader_principled_bsdf", x: 1060, y: 100, params: { baseColor: [0.05, 0.04, 0.04, 1], roughness: 0.85 } },
+      { id: "mlr_glow", typeId: "shader_emission", x: 1060, y: 460, params: { strength: 6 } },
+      { id: "mlr_mix", typeId: "shader_mix_shader", x: 1300, y: 260, params: {} },
+    ],
+    links: [
+      { id: "mlr_l1", fromNode: "mlr_texcoord", fromSocket: "generated", toNode: "mlr_mapping", toSocket: "vector" },
+      { id: "mlr_l2", fromNode: "mlr_mapping", fromSocket: "vector", toNode: "mlr_voronoi", toSocket: "vector" },
+      { id: "mlr_l3", fromNode: "mlr_mapping", fromSocket: "vector", toNode: "mlr_noise", toSocket: "vector" },
+      { id: "mlr_l4", fromNode: "mlr_voronoi", fromSocket: "distance", toNode: "mlr_math_mix", toSocket: "value1" },
+      { id: "mlr_l5", fromNode: "mlr_noise", fromSocket: "fac", toNode: "mlr_math_mix", toSocket: "value3" },
+      { id: "mlr_l6", fromNode: "mlr_math_mix", fromSocket: "value", toNode: "mlr_ramp", toSocket: "fac" },
+      { id: "mlr_l7", fromNode: "mlr_ramp", fromSocket: "color", toNode: "mlr_bw", toSocket: "color" },
+      { id: "mlr_l8", fromNode: "mlr_ramp", fromSocket: "color", toNode: "mlr_glow", toSocket: "color" },
+      { id: "mlr_l9", fromNode: "mlr_bw", fromSocket: "value", toNode: "mlr_mix", toSocket: "fac" },
+      { id: "mlr_l10", fromNode: "mlr_rock", fromSocket: "bsdf", toNode: "mlr_mix", toSocket: "shader1" },
+      { id: "mlr_l11", fromNode: "mlr_glow", fromSocket: "bsdf", toNode: "mlr_mix", toSocket: "shader2" },
+      { id: "mlr_l12", fromNode: "mlr_mix", fromSocket: "bsdf", toNode: "mlr_out", toSocket: "surface" },
+    ],
+  },
+};

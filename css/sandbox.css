@@ -1,0 +1,311 @@
+/* 沙盒頁面版面配置 */
+.sandbox-body { gap: 1px; background: var(--border); }
+
+.editor-mobile-notice { display: none; }
+/* 節點編輯器假設滑鼠操作（拖曳節點、拖線、框選、拖曳數值欄位微調），
+   觸控裝置沒有對應的手勢，畫面空間也不夠放三個面板；與其硬擠出一個
+   壞掉、操作不了的版面，不如提示使用者換到更大的螢幕。 */
+@media (max-width: 860px) {
+  .sandbox-body > *:not(.editor-mobile-notice) { display: none; }
+  .editor-mobile-notice {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 24px;
+    text-align: center;
+    color: var(--text-1);
+    font-size: 14px;
+    line-height: 1.8;
+  }
+}
+
+.panel {
+  background: var(--bg-1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.panel-title {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--text-2);
+  padding: 10px 12px 6px;
+}
+.panel-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px 6px;
+}
+.panel-title-row .panel-title { padding: 0; }
+.panel-title-row select { font-size: 11px; padding: 3px 6px; }
+
+/* 左側節點面板 */
+.palette-panel { width: 230px; flex-shrink: 0; }
+#palette-search { margin: 0 12px 8px; }
+.palette-list { flex: 1; overflow-y: auto; padding: 0 8px 12px; }
+.palette-group { margin-bottom: 6px; }
+.palette-group-title {
+  font-size: 11.5px; font-weight: 700; padding: 6px 6px;
+  color: #fff; border-radius: 4px; cursor: pointer; user-select: none;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.palette-item {
+  padding: 5px 10px; margin: 2px 0; border-radius: 5px;
+  font-size: 12.5px; cursor: grab; color: var(--text-1);
+  display: flex; align-items: center; gap: 6px;
+}
+.palette-item:hover { background: var(--bg-3); color: var(--text-0); }
+.palette-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+
+/* 中間節點編輯器 */
+.editor-panel { flex: 1; min-width: 0; display: flex; flex-direction: column; background: var(--bg-0); position: relative; }
+.editor-toolbar {
+  display: flex; align-items: center; gap: 8px;
+  padding: 8px 12px; background: var(--bg-1); border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.toolbar-spacer { flex: 1; }
+.preset-description {
+  padding: 8px 14px;
+  background: var(--bg-1);
+  border-bottom: 1px solid var(--border);
+  color: var(--text-1);
+  font-size: 12.5px;
+  line-height: 1.6;
+  flex-shrink: 0;
+}
+.preset-description b { color: var(--text-0); }
+.graph-canvas {
+  flex: 1; position: relative; overflow: hidden;
+  background-image: radial-gradient(circle, #2a2a30 1px, transparent 1px);
+  background-size: 22px 22px;
+  cursor: default;
+}
+.graph-canvas.panning { cursor: grabbing; }
+.graph-canvas.cutting { cursor: crosshair; }
+.graph-layer { position: absolute; inset: 0; transform-origin: 0 0; }
+.wire-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+.wire-svg path { pointer-events: stroke; }
+
+/* 右側面板（預覽 + 屬性） */
+.side-panel { width: 340px; flex-shrink: 0; }
+.preview-block { flex-shrink: 0; border-bottom: 1px solid var(--border); }
+.preview-container { width: 100%; height: 260px; position: relative; background: #1b1b1e; }
+.preview-container canvas { display: block; }
+.shader-error {
+  margin: 0 12px 10px; padding: 8px 10px; font-size: 11.5px;
+  background: rgba(229,72,77,.15); border-left: 3px solid var(--danger);
+  color: #ffb3b5; font-family: var(--font-mono); white-space: pre-wrap; max-height: 120px; overflow-y: auto;
+}
+.inspector-block { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+.inspector-body { flex: 1; overflow-y: auto; padding: 0 12px 12px; }
+
+.inspector-row { margin-bottom: 10px; }
+.inspector-row label { display: block; font-size: 11.5px; color: var(--text-2); margin-bottom: 3px; }
+.inspector-row input[type="range"] { width: 100%; }
+.inspector-row .value-line { display: flex; align-items: center; gap: 8px; }
+.inspector-row .value-line input[type="number"] { width: 64px; }
+
+/* 操作提示條（第一次進來時說明中鍵平移、框選、拖曳調數值等手勢） */
+.controls-hint {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  z-index: 6;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(35,35,39,.94);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--text-1);
+  box-shadow: 0 4px 14px rgba(0,0,0,.35);
+}
+.controls-hint-close {
+  margin-left: auto;
+  flex-shrink: 0;
+  background: transparent;
+  border: none;
+  color: var(--text-2);
+  font-size: 15px;
+  line-height: 1;
+  padding: 0 4px;
+}
+.controls-hint-close:hover { color: var(--text-0); }
+
+/* 節點編輯器：選取狀態、輔助控制項 */
+.node-card { user-select: none; }
+.node-card.selected { outline: 2px solid var(--accent-2); }
+.node-delete-btn {
+  background: transparent; border: none; color: rgba(255,255,255,.75); padding: 0 4px;
+  font-size: 15px; line-height: 1; border-radius: 4px;
+}
+.node-delete-btn:hover { background: rgba(0,0,0,.25); color: #fff; }
+.vector-control { display: flex; gap: 3px; }
+.vector-control input[type="number"] { width: 36px !important; padding: 2px 3px; font-size: 11px; }
+.row-hint { font-size: 11px; color: var(--text-2); font-style: italic; }
+.setting-row select { flex: 1; margin-left: 6px; }
+
+.graph-canvas.invalid-flash { box-shadow: inset 0 0 0 3px var(--danger); }
+.socket.socket-hover-ok { box-shadow: 0 0 0 4px rgba(76,175,106,.55); }
+.socket.socket-hover-bad { box-shadow: 0 0 0 4px rgba(229,72,77,.55); }
+.palette-item.unsupported { opacity: .55; font-style: italic; }
+
+/* 框選矩形（比照 Blender 的 tweak 框選） */
+.selection-box {
+  position: absolute;
+  border: 1px dashed var(--accent-2);
+  background: rgba(75, 159, 255, .12);
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* 從節點面板點選後、跟著游標移動的節點預覽（比照 Blender Shift+A 的放置流程） */
+.node-ghost {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background: var(--bg-2);
+  border: 1px solid var(--accent-2);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12.5px;
+  color: var(--text-0);
+  box-shadow: 0 4px 14px rgba(0,0,0,.5);
+  white-space: nowrap;
+}
+
+.image-control { display: flex; align-items: center; gap: 6px; flex: 1; }
+.image-control button { font-size: 11px; padding: 3px 8px; }
+.image-thumb { width: 22px; height: 22px; object-fit: cover; border-radius: 3px; border: 1px solid var(--border); }
+
+/* Color Ramp：漸層預覽條 + 可新增/刪除的停駐點清單 */
+.colorramp-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+.colorramp-control { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.colorramp-gradient-wrap { position: relative; width: 100%; padding-bottom: 11px; touch-action: none; }
+.colorramp-gradient {
+  width: 100%; height: 18px; border-radius: 4px; border: 1px solid var(--border);
+  background: linear-gradient(to right, #000, #fff);
+  cursor: copy;
+}
+/* 拖曳用的停駐點三角形把手，比照 Blender 的漸層條互動——直接在色條上拖曳調整位置，
+   不用每次都手動輸入位置數字。點漸層條空白處（不是把手上）＝在該位置新增停駐點。
+   handle-layer 本身穿透滑鼠事件（讓點擊落到底下的漸層條上觸發新增），只有個別把手可以互動。
+   .colorramp-handle 是「判定區」，比看得到的 .colorramp-handle-visual 三角形大一圈且
+   往上跨進漸層條下緣——這樣滑鼠只要「大概」點在把手附近就會抓到既有把手來拖曳，而不是
+   因為點歪 1-2px 落到漸層條上意外新增一個幾乎重疊的停駐點（這是真的實測到的 bug，
+   不是臆測：小三角形＋跟漸層條零間距，兩種互動的判定區域幾乎沒有容錯空間）。 */
+.colorramp-handle-layer { position: absolute; inset: 0; pointer-events: none; }
+.colorramp-handle {
+  position: absolute;
+  bottom: -4px;
+  width: 22px;
+  height: 20px;
+  margin-left: -11px;
+  cursor: grab;
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.colorramp-handle-visual {
+  width: 12px;
+  height: 11px;
+  clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+  border: 1px solid var(--bg-0);
+  pointer-events: none;
+}
+.colorramp-handle.dragging { cursor: grabbing; z-index: 2; }
+.colorramp-handle.dragging .colorramp-handle-visual { filter: brightness(1.3); }
+.colorramp-handle:hover .colorramp-handle-visual { filter: brightness(1.25); }
+.colorramp-stops { display: flex; flex-direction: column; gap: 4px; }
+.colorramp-stop-row { display: flex; align-items: center; gap: 6px; }
+.colorramp-stop-row input[type="number"] { width: 52px; font-size: 11px; padding: 2px 4px; }
+.colorramp-stop-row input[type="color"] { width: 24px; height: 18px; padding: 0; border: none; }
+.colorramp-del-btn {
+  background: transparent; border: none; color: var(--text-2); font-size: 13px; padding: 0 4px; cursor: pointer;
+}
+.colorramp-del-btn:hover:not(:disabled) { color: var(--danger); }
+.colorramp-del-btn:disabled { opacity: .3; cursor: not-allowed; }
+.colorramp-add-btn {
+  align-self: flex-start; font-size: 11px; padding: 2px 10px; border-radius: 4px;
+}
+
+/* Float/Vector/RGB Curves：可拖拉控制點的迷你曲線圖 + 數值列表 */
+.curve-control { width: 100%; display: flex; flex-direction: column; gap: 6px; }
+.curve-graph {
+  width: 100%; height: 90px; border-radius: 4px; border: 1px solid var(--border);
+  background: var(--bg-1); overflow: hidden;
+}
+.curve-svg { width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+.curve-zero-line { stroke: var(--border); stroke-width: 0.5; }
+.curve-path { fill: none; stroke: var(--accent-2); stroke-width: 1.5; vector-effect: non-scaling-stroke; }
+.curve-dot {
+  fill: var(--accent-2); stroke: var(--bg-0); stroke-width: 1; cursor: pointer;
+  vector-effect: non-scaling-stroke;
+}
+.curve-dot:hover { fill: var(--text-0); }
+.curve-points { display: flex; flex-direction: column; gap: 4px; }
+.curve-point-row { display: flex; align-items: center; gap: 6px; }
+.curve-point-row input[type="number"] { width: 52px; font-size: 11px; padding: 2px 4px; }
+.curve-del-btn {
+  background: transparent; border: none; color: var(--text-2); font-size: 13px; padding: 0 4px; cursor: pointer;
+}
+.curve-del-btn:hover:not(:disabled) { color: var(--danger); }
+.curve-del-btn:disabled { opacity: .3; cursor: not-allowed; }
+.curve-add-btn {
+  align-self: flex-start; font-size: 11px; padding: 2px 10px; border-radius: 4px;
+}
+
+/* 混合模式直觀示意圖：借用瀏覽器原生 mix-blend-mode，兩個圓形色塊疊在一起即時預覽 */
+.blend-preview { width: 100%; margin: 2px 0 4px; }
+.blend-preview-stage {
+  position: relative; width: 100%; height: 60px; border-radius: 4px;
+  border: 1px solid var(--border); overflow: hidden;
+  background-image: linear-gradient(45deg, #3a3a3f 25%, transparent 25%), linear-gradient(-45deg, #3a3a3f 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #3a3a3f 75%), linear-gradient(-45deg, transparent 75%, #3a3a3f 75%);
+  background-size: 12px 12px;
+  background-position: 0 0, 0 6px, 6px -6px, -6px 0;
+  background-color: var(--bg-0);
+}
+.blend-preview-bg, .blend-preview-fg {
+  position: absolute; width: 42px; height: 42px; border-radius: 50%; top: 9px;
+}
+.blend-preview-bg { left: 10px; background: #ff9d3d; }
+.blend-preview-fg { left: 34px; background: #2f8dff; }
+.blend-preview-note { font-size: 11px; color: var(--text-2); line-height: 1.5; padding: 4px 2px; }
+.blend-preview-note[hidden] { display: none; }
+
+/* 形狀/圖樣直觀示意圖：漸變紋理的類型等下拉選單用，一個小方塊即時顯示選到的類型長什麼樣子 */
+.shape-preview { width: 100%; height: 44px; margin: 2px 0 4px; border-radius: 4px; border: 1px solid var(--border); }
+
+/* 有說明的欄位標籤（例如 IOR 是什麼）：旁邊會有一個可以點的 ⓘ 圖示 */
+.row-label.has-hint { display: inline-flex; align-items: center; }
+.hint-icon {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 13px; height: 13px; margin-left: 5px; border-radius: 50%;
+  background: var(--accent-2); color: #0d1b2a; font-size: 9.5px; font-weight: 700;
+  cursor: pointer; flex-shrink: 0; user-select: none;
+}
+.hint-icon:hover { filter: brightness(1.15); }
+.hint-popover {
+  position: fixed;
+  z-index: 10000;
+  max-width: 260px;
+  background: var(--bg-2);
+  border: 1px solid var(--accent-2);
+  border-radius: 6px;
+  padding: 9px 11px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-0);
+  box-shadow: 0 6px 20px rgba(0,0,0,.5);
+}
+
