@@ -69,10 +69,11 @@ export class NodeEditor {
 
     container.addEventListener("pointerdown", (e) => this._onCanvasPointerDown(e));
     window.addEventListener("pointermove", (e) => this._onPointerMove(e));
-    // _onPointerUp 故意留在冒泡階段（不能改成像下面 _onTouchStart/_onTouchEnd 那樣用捕獲）——
-    // 它裡面 pendingLink 的收尾邏輯（見下方）一定要在 socket 自己的 onSocketPointerUp
-    // 真正判斷過「這條線接不接得起來」之後才能執行；如果改成捕獲階段，會在 onSocketPointerUp
-    // 看到 pendingLink 之前就搶先把它清成 null，變成永遠連不成功任何一條線。
+    // _onPointerUp 留在冒泡階段——它裡面 pendingLink 的收尾（見下方）只是「還沒被處理掉的話
+    // 就清乾淨」的保底，真正完成接線這件事現在都交給下面捕獲階段的
+    // _resolvePendingLinkFromPointer 搶先處理掉了，執行到這裡時 pendingLink 正常應該已經是
+    // null，這行只是防禦性收尾，不是主要邏輯（早期版本這裡兩件事是綁在一起的，見下方
+    // _resolvePendingLinkFromPointer 的完整說明）。
     window.addEventListener("pointerup", (e) => this._onPointerUp(e));
     // pointercancel（瀏覽器把這個手勢判給別的用途搶走，觸控裝置常見）沒有另外接住的話，
     // 拖節點/框選/剪線/平移/待完成連線這幾個狀態會卡住不清除，下一次操作行為會亂掉——
@@ -96,6 +97,11 @@ export class NodeEditor {
     // 使用者實機回報「手機接線接不上、之後畫布整個卡住」，用合成事件複現過就是這個。
     window.addEventListener("pointerup", (e) => this._onTouchEnd(e), true);
     window.addEventListener("pointercancel", (e) => this._onTouchEnd(e), true);
+    // 接線完成/拒絕的判斷也要搶在捕獲階段執行，理由見 _resolvePendingLinkFromPointer 開頭
+    // 的完整說明——簡述：觸控裝置的 pointerup 不像滑鼠會即時反映游標下面真正是什麼元素，
+    // 而是鎖定回一開始按下去的那個元素，導致「從插槽 A 拖到插槽 B」這個手勢在觸控裝置上
+    // B 自己的監聽器永遠不會被觸發，使用者會發現「用手指怎麼拖都連不上線」。
+    window.addEventListener("pointerup", (e) => this._resolvePendingLinkFromPointer(e), true);
     container.addEventListener("contextmenu", (e) => {
       // 右鍵在這個畫布上永遠用來取消放置節點／剪電線手勢，不要跳出瀏覽器的右鍵選單。
       e.preventDefault();
@@ -508,8 +514,15 @@ export class NodeEditor {
   }
 
   _onSocketPointerUp(e, nodeId, socketKey, dir) {
-    if (!this.pendingLink) return;
+    this._completePendingLink(nodeId, socketKey, dir);
+  }
+
+  // 接線收尾的實際邏輯，抽成獨立方法——見下面 _resolvePendingLinkFromPointer 的說明，
+  // 觸控裝置上這段邏輯不能只靠「放開的那個 socket 自己的 pointerup 監聽器」觸發，
+  // 兩條路徑（socket 自己的監聽器／指標位置反查）最後都會走到這裡，行為要完全一致。
+  _completePendingLink(nodeId, socketKey, dir) {
     const a = this.pendingLink;
+    if (!a) return;
     if (a.dir === dir) {
       this.pendingLink = null;
       this._drawWires();
@@ -530,6 +543,30 @@ export class NodeEditor {
       this.onChange();
     }
     this.render();
+  }
+
+  // 觸控裝置對 pointerup 有「隱性捕獲」行為（跟滑鼠完全不同）：一根手指從 A 按下開始拖曳，
+  // 不管放開時手指實際移到畫面上哪裡，瀏覽器都會把這個 pointerup 事件的 target 鎖定回
+  // 「一開始按下去的那個元素」（A 自己），不會像滑鼠一樣即時看游標下面真正是什麼元素。
+  // 這代表「從插槽 A 拖到插槽 B、放開手指」這個手勢，B 自己掛的 pointerup 監聽器
+  // 在觸控裝置上其實永遠不會被觸發到——事件永遠只會落回 A 身上，而 A 對 pendingLink
+  // 來說就是「同一個方向」，會直接被 _completePendingLink 判定成同方向、悄悄拒絕，
+  // 使用者會覺得「怎麼樣都連不上」（實測合成觸控事件重現過，使用者也實機回報「用手拖拉
+  // 節點根本沒辦法接線」，兩者吻合）。
+  // 修法：不要相信事件的 target，改成在放開的當下直接用指標位置反查「現在真正在底下的是
+  // 哪個 socket」（跟 _updateHoverFeedback 顯示 hover 提示用的是同一招）。這個監聽器故意
+  // 掛在捕獲階段、搶在任何 socket 自己的 pointerup 監聽器（冒泡階段）之前執行，這樣就能在
+  // pendingLink 被那個「錯誤地落回起點」的呼叫污染之前，先用正確的目標完成或拒絕這條線；
+  // 事件處理完之後 pendingLink 已經是 null，後面不管是 socket 自己的監聽器還是
+  // _onPointerUp，看到 pendingLink 已經是 null 都會自然地什麼都不做，不會重複處理。
+  // 滑鼠操作的 target 本來就是對的，這裡用指標位置反查一樣會查到同一個 socket，結果一致，
+  // 不需要另外分流處理。
+  _resolvePendingLinkFromPointer(e) {
+    if (!this.pendingLink) return;
+    const el = document.elementFromPoint(e.clientX, e.clientY);
+    const socketEl = el?.closest(".socket");
+    if (!socketEl) return; // 放開在空白處，維持原本流程：交給 _onPointerUp 清掉 pendingLink
+    this._completePendingLink(socketEl.dataset.nodeId, socketEl.dataset.socketKey, socketEl.dataset.dir);
   }
 
   _onParamChange(nodeId, key, value) {
