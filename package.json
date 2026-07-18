@@ -1,6 +1,7 @@
 {
   "name": "blender-node-lab",
   "private": true,
+  "type": "module",
   "description": "Dev-only tooling for this static site (no build step for the site itself). See scripts/run-regression-test.mjs.",
   "scripts": {
     "test": "node scripts/run-regression-test.mjs"

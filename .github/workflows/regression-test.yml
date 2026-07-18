@@ -18,6 +18,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Check generated search index files are up to date
+        run: node scripts/generate-search-index.mjs --check
+
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
 

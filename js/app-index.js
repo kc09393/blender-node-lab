@@ -5,8 +5,9 @@ import { Preview3D } from "./ui/preview3d.js";
 import { compileGraph, applyFragmentChunk, createPreviewMaterial } from "./core/compiler.js";
 import { Graph } from "./core/graphModel.js";
 import { listNodeTypes } from "./core/nodeRegistry.js";
-import presets from "../data/presets/index.js";
-import tutorials from "../data/tutorials/index.js";
+import presets from "../data/presets/searchIndex.js";
+import tutorialCount from "../data/tutorials/searchIndex.js";
+import { loadPresetGraph } from "./core/presetLoader.js";
 
 initLangToggle();
 initMobileNav();
@@ -19,14 +20,14 @@ function renderStats() {
   statsEl.innerHTML = `
     <div class="stat-chip"><b>${nodeCount}</b>${t("landing.statsNodes")}</div>
     <div class="stat-chip"><b>${presets.length}</b>${t("landing.statsPresets")}</div>
-    <div class="stat-chip"><b>${tutorials.length}</b>${t("landing.statsTutorials")}</div>
+    <div class="stat-chip"><b>${tutorialCount.length}</b>${t("landing.statsTutorials")}</div>
   `;
 }
 
 // ---------- Hero 即時預覽：挑一個視覺效果最搶眼的預設材質，慢慢自動旋轉 ----------
 const HERO_PRESET_ID = "peacock_feather";
 let heroPreview = null;
-function initHeroPreview() {
+async function initHeroPreview() {
   const container = document.getElementById("hero-preview-container");
   if (!container) return;
   heroPreview = new Preview3D(container);
@@ -42,7 +43,7 @@ function initHeroPreview() {
 
   const preset = presets.find((p) => p.id === HERO_PRESET_ID) || presets[0];
   try {
-    const graph = Graph.fromJSON(preset.graph);
+    const graph = Graph.fromJSON(await loadPresetGraph(preset));
     const result = compileGraph(graph);
     applyFragmentChunk(heroPreview.getMaterial(), graph, result);
   } catch (err) {
@@ -71,10 +72,10 @@ function ensureThumbPreview() {
   return thumbPreview;
 }
 
-function renderPresetThumbnail(preset) {
+async function renderPresetThumbnail(preset) {
   try {
     const preview = ensureThumbPreview();
-    const graph = Graph.fromJSON(preset.graph);
+    const graph = Graph.fromJSON(await loadPresetGraph(preset));
     const result = compileGraph(graph);
     applyFragmentChunk(preview.getMaterial(), graph, result);
     preview._resize();
@@ -88,7 +89,7 @@ function renderPresetThumbnail(preset) {
 
 // 縮圖快取：語言切換時只要重繪文字標籤，圖片不用重新跑一次 WebGL render。
 const thumbCache = new Map();
-function renderGallery() {
+async function renderGallery() {
   const grid = document.getElementById("gallery-grid");
   const items = GALLERY_PRESET_IDS.map((id) => presets.find((p) => p.id === id)).filter(Boolean);
   grid.innerHTML = "";
@@ -114,7 +115,7 @@ function renderGallery() {
   const thumbEls = grid.querySelectorAll(".gallery-thumb");
   for (let i = 0; i < items.length; i++) {
     if (thumbCache.has(items[i].id)) continue;
-    const dataUrl = renderPresetThumbnail(items[i]);
+    const dataUrl = await renderPresetThumbnail(items[i]);
     if (dataUrl) {
       thumbCache.set(items[i].id, dataUrl);
       if (thumbEls[i]) {
