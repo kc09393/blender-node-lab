@@ -3,16 +3,20 @@
 .reference-intro { color: var(--text-1); font-size: 14px; line-height: 1.7; margin: 0 0 8px; }
 .reference-why-link { display: inline-block; font-size: 13px; margin-bottom: 40px; }
 
-.ref-section { margin-bottom: 40px; }
+.ref-section {
+  margin-bottom: 28px; padding: 20px 22px;
+  background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius);
+}
 .ref-section h2 { font-size: 17px; margin: 0 0 4px; }
 .ref-section-sub { color: var(--text-2); font-size: 12.5px; margin: 0 0 14px; line-height: 1.6; }
+.ref-section .reference-why-link { display: block; margin: -6px 0 14px; }
 
 .ref-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .ref-table th {
   text-align: left; padding: 8px 10px; color: var(--text-2); font-size: 11.5px;
   text-transform: uppercase; letter-spacing: .4px; border-bottom: 1px solid var(--border);
 }
-.ref-table td { padding: 9px 10px; border-bottom: 1px solid var(--bg-2); color: var(--text-0); }
+.ref-table td { padding: 9px 10px; border-bottom: 1px solid var(--bg-2); color: var(--text-0); transition: background-color .12s ease; }
 .ref-table tbody tr:hover td { background: var(--bg-1); }
 .ref-num { font-family: var(--font-mono); color: var(--text-1); white-space: nowrap; }
 

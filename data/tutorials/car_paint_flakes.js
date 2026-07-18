@@ -79,4 +79,26 @@ export default {
       check: (graph) => hasNodeOfType(graph, "shader_add_shader") && nodeHasIncomingFromType(graph, "shader_add_shader", "shader_principled_bsdf"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學用兩個完全獨立的原理化 BSDF（一個當車漆底色、一個只發光當亮片）接到加法著色器，而不是把亮片遮罩直接接進車漆材質自己的發光插槽。這樣做的好處是什麼？",
+        en: "This tutorial uses two entirely separate Principled BSDF nodes (one for the base paint, one purely for the emissive flakes) fed into an Add Shader, instead of wiring the sparkle mask directly into the paint material's own Emission input. What's the benefit?",
+      },
+      options: [
+        {
+          zh: "兩個材質的其他屬性（金屬度、粗糙度、底色）可以完全獨立設定，不會因為调整亮片而牽動底漆本身的質感，反之亦然",
+          en: "Each material's other properties (metallic, roughness, base color) can be tuned completely independently — adjusting the flakes never disturbs the base paint's own look, and vice versa",
+        },
+        { zh: "因為原理化 BSDF 一個節點只能有一個發光插槽，沒辦法讓底漆材質同時處理底色又發光", en: "Because a single Principled BSDF can only have one emission slot, so the base paint material can't handle both base color and emission" },
+        { zh: "這樣寫法效能比較好，兩個材質分開算比較快", en: "It's simply more performant to compute two separate materials than one combined one" },
+        { zh: "加法著色器只能接受兩個完全獨立的材質，不能接受同一個材質的不同插槽", en: "Add Shader can only accept two fully separate materials, never different sockets of the same material" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "如果把遮罩直接接進車漆材質自己的 Emission Color，車漆的底色、金屬度、粗糙度都跟發光共用同一個節點，之後想單獨微調亮片的顏色/強度而不影響底漆質感會綁在一起、互相牽扯。分成兩個獨立材質＋加法著色器疊加，兩邊的參數各自獨立，這是材質圖裡「模組化」的實用技巧，不是效能或插槽數量的限制。",
+        en: "If the mask were wired directly into the paint material's own Emission Color, the base color, metallic, and roughness would all live on the same node as the emission, so tuning the flakes' color/intensity without disturbing the paint's own look would be entangled. Splitting into two independent materials summed via Add Shader keeps both sets of parameters fully independent — a practical modularity technique in material graphs, not a performance or socket-count limitation.",
+      },
+    },
+  ],
 };

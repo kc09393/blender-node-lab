@@ -85,4 +85,23 @@ export default {
       check: (graph) => hasLinkBetweenTypes(graph, "converter_color_ramp", "alpha", "shader_mix_shader", "fac"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "顏色漸變的兩個停駐點，左邊（黑）Alpha 要設成 0、右邊（白）Alpha 要設成 1，而不是兩個都維持預設的 1。如果兩個停駐點的 Alpha 一樣，會發生什麼事？",
+        en: "The Color Ramp's two stops need different Alpha values — left (black) at 0, right (white) at 1 — not both left at the default 1. What happens if both stops have the same Alpha?",
+      },
+      options: [
+        { zh: "Alpha 輸出會變成全圖固定的同一個數字，完全沒有遮罩效果，Mix Shader 只會均勻混合", en: "The Alpha output becomes one constant number everywhere, with zero masking effect — Mix Shader just blends uniformly" },
+        { zh: "顏色漸變會直接編譯失敗，跳出錯誤訊息", en: "The Color Ramp fails to compile and throws an error" },
+        { zh: "Alpha 值不管怎麼設都不影響 Mix Shader 的效果", en: "The Alpha value has no effect on Mix Shader regardless of how it's set" },
+        { zh: "只有右邊停駐點的 Alpha 有作用，左邊的無論設多少都被忽略", en: "Only the right stop's Alpha matters — the left one is ignored no matter what it's set to" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "Alpha（跟 Color 一樣）也是沿著顏色漸變插值出來的一條獨立資料——如果兩個停駐點的 Alpha 都是 1，插值結果永遠是 1，等於「Alpha 輸出」變成一個跟雜訊完全無關的固定常數，接到 Mix Shader 的 Fac 就會讓整個表面均勻混合成同一個比例，鏽斑完全不會依雜訊圖案分布。要讓 Alpha 真的帶有遮罩資訊，兩個停駐點必須設成不同值，讓插值真的隨 Fac 產生變化。",
+        en: "Alpha (just like Color) is a separate channel that's interpolated along the Color Ramp — if both stops are set to 1, the interpolated result is always 1, meaning the 'Alpha output' becomes a constant totally disconnected from the noise pattern. Wired into Mix Shader's Fac, that gives a uniform blend ratio across the whole surface, with the rust never following the noise shape at all. For Alpha to actually carry mask information, the two stops must differ so the interpolation genuinely varies with Fac.",
+      },
+    },
+  ],
 };

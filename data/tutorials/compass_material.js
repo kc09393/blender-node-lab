@@ -90,4 +90,23 @@ export default {
         hasNodeOfType(graph, "shader_add_shader"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "用向量數學的內積（表面法線 · 一個手動指定的固定方向）驅動的發光斑點，跟菲涅爾驅動的邊緣反光相比，最大的差異是什麼？",
+        en: "How does a glow spot driven by Vector Math's Dot Product (surface normal · a manually fixed direction) fundamentally differ from a Fresnel-driven edge glow?",
+      },
+      options: [
+        { zh: "位置固定在物體本身，旋轉攝影機時斑點不會跟著移動；菲涅爾的亮邊則永遠跟著攝影機角度跑", en: "It stays fixed to the object itself — orbiting the camera doesn't move the spot — while Fresnel's bright edge always follows the camera angle" },
+        { zh: "兩者其實效果完全一樣，只是換了不同節點達成同一件事", en: "They're functionally identical, just two different nodes for the same effect" },
+        { zh: "內積驅動的效果只能用在球體上，菲涅爾可以用在任何形狀", en: "Dot-product-driven effects only work on spheres, while Fresnel works on any shape" },
+        { zh: "內積永遠輸出正值，菲涅爾永遠輸出負值", en: "Dot product always outputs positive values, Fresnel always outputs negative values" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "菲涅爾算的是「表面法線」跟「攝影機方向」的關係，攝影機一轉，亮邊就跟著換位置；內積算的是「表面法線」跟一個寫死在節點裡、不隨攝影機變化的固定方向的關係，所以亮點永遠出現在物體上同一個地方，是物體本身的屬性，不是視角的產物。",
+        en: "Fresnel measures the relationship between the surface normal and the camera direction, so the bright edge relocates as the camera orbits. Dot product measures the surface normal against a fixed direction hard-coded in the node, unaffected by the camera — so the glow spot always stays at the same place on the object, a property of the object itself rather than of the viewing angle.",
+      },
+    },
+  ],
 };

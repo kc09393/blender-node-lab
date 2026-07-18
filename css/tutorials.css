@@ -1,4 +1,4 @@
-.tutorial-list-view { flex: 1; overflow-y: auto; padding: 30px 30px 60px; max-width: 900px; margin: 0 auto; width: 100%; }
+.tutorial-list-view { flex: 1; overflow-y: auto; padding: 30px 30px 60px; max-width: 1400px; margin: 0 auto; width: 100%; }
 .tutorial-list-view h1 { font-size: 22px; margin-bottom: 20px; }
 
 /* ---------- 建議學習路徑 ---------- */
@@ -41,6 +41,7 @@
 .level-filter-btn {
   background: var(--bg-1); border: 1px solid var(--border); color: var(--text-1);
   border-radius: var(--radius); padding: 6px 12px; font-size: 12.5px; cursor: pointer;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease;
 }
 .level-filter-btn:hover { border-color: var(--accent-2); color: var(--text-0); }
 .level-filter-btn.active { background: var(--accent); border-color: var(--accent); color: #1b1200; font-weight: 600; }
@@ -51,6 +52,7 @@
 .tutorial-card {
   background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius);
   overflow: hidden; cursor: pointer; position: relative;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 .t-completed-badge {
   position: absolute; top: 8px; right: 8px; z-index: 2;
@@ -59,7 +61,10 @@
   display: flex; align-items: center; justify-content: center;
   box-shadow: 0 2px 6px rgba(0,0,0,.4);
 }
-.tutorial-card:hover { border-color: var(--accent-2); }
+.tutorial-card:hover {
+  border-color: var(--accent-2); transform: translateY(-3px);
+  box-shadow: 0 10px 26px rgba(0,0,0,.4);
+}
 .tutorial-card .t-body { padding: 16px; }
 .tutorial-card .t-level { font-size: 11px; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
 .tutorial-card h3 { margin: 0 0 6px; font-size: 15px; }
@@ -106,6 +111,7 @@
 .quiz-option {
   text-align: left; padding: 8px 10px; font-size: 12.5px; line-height: 1.5;
   background: var(--bg-2); border: 1px solid var(--border); border-radius: 6px; color: var(--text-0);
+  transition: background-color .15s ease, border-color .15s ease;
 }
 .quiz-option:hover:not(:disabled) { border-color: var(--accent-2); background: var(--bg-3); }
 .quiz-option:disabled { cursor: default; }

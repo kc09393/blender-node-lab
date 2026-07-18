@@ -65,4 +65,26 @@ export default {
       check: (graph) => anyNodeParamMatches(graph, "texture_noise", "scale", (v) => v >= 15),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "為什麼要在雜訊紋理跟玻璃 BSDF 的粗糙度之間插入映射範圍（Map Range），把範圍收窄到 0.15~0.35，而不是讓雜訊 0-1 直接接上去？",
+        en: "Why insert a Map Range between Noise Texture and Glass BSDF's Roughness, narrowing the range to 0.15–0.35, instead of wiring the noise's 0-1 output straight in?",
+      },
+      options: [
+        {
+          zh: "避免粗糙度衝到 1（完全霧化、幾乎不透光），讓效果維持在「有點霧到中度霧」之間，更接近真實毛玻璃",
+          en: "To keep Roughness from spiking to 1 (fully frosted, nearly opaque), keeping the look between 'slightly hazy' and 'moderately hazy' — closer to real frosted glass",
+        },
+        { zh: "因為玻璃 BSDF 的粗糙度插槽本來就只接受 0.15~0.35 這個範圍的數值", en: "Because Glass BSDF's Roughness socket technically only accepts values in 0.15–0.35" },
+        { zh: "因為雜訊紋理本身的輸出範圍不是 0-1，需要換算", en: "Because Noise Texture's output isn't actually 0-1 and needs rescaling" },
+        { zh: "只是為了讓畫面看起來色調偏藍", en: "Just to give the image a bluish tint" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "雜訊輸出本來就是 0-1，跟粗糙度插槽的範圍原本就相容，直接接上去技術上沒問題——但那樣粗糙度偶爾會衝到接近 1，讓局部完全霧化到看不透。插入 Map Range 是美術上的控制，把效果收在寫實的區間內，不是為了修正型別不相容。",
+        en: "Noise output is already 0-1 and technically compatible with the Roughness socket — wiring it directly works fine. But that lets Roughness occasionally spike near 1, turning spots fully opaque. Map Range is an artistic control to keep the effect in a realistic range, not a fix for a type mismatch.",
+      },
+    },
+  ],
 };

@@ -36,8 +36,10 @@
   </header>
 
   <div class="app-body sandbox-body">
-    <div class="editor-mobile-notice">
-      <p data-i18n="sandbox.mobileNotice">節點編輯器需要滑鼠拖曳操作，畫面空間也比較吃緊，建議改用桌面電腦或平板橫向以取得完整體驗。</p>
+    <div class="mobile-panel-tabs">
+      <button type="button" class="mobile-panel-tab" data-panel="nodes" data-i18n="sandbox.tabNodes">節點</button>
+      <button type="button" class="mobile-panel-tab" data-panel="canvas" data-i18n="sandbox.tabCanvas">畫布</button>
+      <button type="button" class="mobile-panel-tab" data-panel="props" data-i18n="sandbox.tabProps">預覽/屬性</button>
     </div>
     <aside class="panel palette-panel">
       <div class="panel-title" data-i18n="sandbox.palette">節點面板</div>
@@ -54,6 +56,9 @@
         <select id="preset-select">
           <option value="" data-i18n="sandbox.loadPreset">載入預設材質…</option>
         </select>
+        <button id="btn-duplicate" type="button" title="Shift+D" data-i18n="sandbox.duplicate">⧉ 複製</button>
+        <button id="btn-delete" type="button" title="Delete" data-i18n="sandbox.delete">🗑 刪除</button>
+        <button id="btn-frame-all" type="button" title="Home" data-i18n="sandbox.frameAll">⤢ 縮放至全部</button>
         <div class="toolbar-spacer"></div>
         <button id="btn-export" type="button" data-i18n="sandbox.export">匯出 JSON</button>
         <button id="btn-import" type="button" data-i18n="sandbox.import">匯入 JSON</button>

@@ -73,4 +73,23 @@ export default {
         }),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "把數值曲線（Float Curve）的控制點從「左低右高」拖成「左高右低」之後，雜訊裡原本比較亮的區域，粗糙度會怎麼變化？",
+        en: "After dragging Float Curve's control points from 'low-left, high-right' to 'high-left, low-right', what happens to roughness in areas that were brighter in the noise?",
+      },
+      options: [
+        { zh: "變低（更光滑）——輸入值愈大，曲線輸出反而愈小，映射關係整個反過來了", en: "It goes lower (smoother) — larger input values now map to smaller outputs; the mapping is flipped" },
+        { zh: "變高（更粗糙）——因為拖曳控制點只會讓整體數值往上平移", en: "It goes higher (rougher) — dragging control points just shifts everything upward" },
+        { zh: "完全不變——因為 Float Curve 只影響顏色，不影響數值型插槽", en: "No change — Float Curve only affects colors, not numeric sockets" },
+        { zh: "變成 0 或 1 的極端值——因為曲線只能輸出整數", en: "It snaps to 0 or 1 — the curve can only output integers" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "曲線的形狀（不只是端點的絕對值）決定輸入到輸出的映射關係；把曲線從上升改成下降，輸入愈大反而對應愈小的輸出，這就是「反轉」的本質，跟整體加減或縮放完全不同。",
+        en: "The curve's shape (not just its endpoint values) determines the input-to-output mapping. Flipping it from rising to falling means larger inputs now map to smaller outputs — that's what 'inversion' actually is, distinct from a flat offset or scale.",
+      },
+    },
+  ],
 };

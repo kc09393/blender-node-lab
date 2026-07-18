@@ -71,4 +71,23 @@ export default {
       check: (graph) => nodeHasIncomingFromType(graph, "shader_principled_bsdf", "converter_math"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學先用相乘（Multiply，×0.3）再用相加（Add，+0.2），把雜訊的 0-1 輸出換算成 0.2-0.5。如果順序反過來，先加 0.2 再乘 0.3，結果範圍會是多少？",
+        en: "This tutorial multiplies by 0.3 first, then adds 0.2, turning noise's 0-1 output into 0.2-0.5. If you reversed the order — add 0.2 first, then multiply by 0.3 — what range would you get?",
+      },
+      options: [
+        { zh: "0.06-0.36（範圍寬度變了，因為乘法在加法之後，連加上去的 0.2 也被乘小了）", en: "0.06-0.36 (the width changes too, because multiplying after adding also shrinks the +0.2 you just added)" },
+        { zh: "還是 0.2-0.5，順序不影響結果", en: "Still 0.2-0.5 — order doesn't matter" },
+        { zh: "0-0.3，因為加法被乘法完全蓋過去了", en: "0-0.3, because the addition gets completely overridden by the multiplication" },
+        { zh: "會導致編譯錯誤，因為 Math 節點不能連續使用不同運算", en: "It would cause a compile error — Math nodes can't chain different operations" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "原始範圍 0-1；先加 0.2 變成 0.2-1.2；再乘 0.3 變成 0.06-0.36（精確算：0.2×0.3=0.06、1.2×0.3=0.36）。順序真的會影響結果，因為乘法會把「已經加上去的常數」也一起等比例縮小——這也是為什麼映射範圍（Map Range）這種內建工具通常會把「先縮放、後平移」的順序固定下來，手動兩個 Math 節點疊加時務必自己注意順序。",
+        en: "Original range 0-1; adding 0.2 first gives 0.2-1.2; multiplying by 0.3 gives 0.06-0.36 (precisely: 0.2×0.3=0.06, 1.2×0.3=0.36). Order genuinely matters, because multiplying afterward also proportionally shrinks whatever constant was just added — which is exactly why a built-in tool like Map Range fixes the order to 'scale first, then shift'. When manually stacking two Math nodes, you have to track the order yourself.",
+      },
+    },
+  ],
 };

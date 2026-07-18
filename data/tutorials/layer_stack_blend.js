@@ -78,4 +78,26 @@ export default {
         anyNodeParamMatches(graph, "color_mix", "fac", (v) => typeof v === "number" && v > 0 && v < 1),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學先用正片疊底疊上污漬圖案，再用濾色疊上磨損高光，兩個混合節點串接在一起。為什麼最後畫面會「同時」看到暗色污漬跟亮色高光，而不是其中一種蓋掉另一種？",
+        en: "This tutorial chains Multiply (grime) then Screen (worn highlights). Why does the final image show both dark grime AND bright highlights at once, instead of one overwriting the other?",
+      },
+      options: [
+        {
+          zh: "因為兩層各自處理不同方向的亮度變化（正片疊底只變暗、濾色只變亮），且第二層接在第一層的輸出之後串接，是疊加在彼此的結果上，不是互相取代",
+          en: "Each layer handles a different direction of brightness change (Multiply only darkens, Screen only brightens), and the second layer is chained onto the first layer's output — building on it, not replacing it",
+        },
+        { zh: "因為 Mix Color 節點會自動把兩張圖各取一半疊在一起", en: "Because Mix Color automatically averages the two images 50/50" },
+        { zh: "因為正片疊底跟濾色其實是同一種運算，只是換了名字", en: "Because Multiply and Screen are actually the same operation under different names" },
+        { zh: "因為污漬圖案跟磨損圖案剛好畫在畫面不同的區域，彼此沒有重疊", en: "Because the grime and highlight patterns happen to occupy non-overlapping areas" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "正片疊底的結果只會比原本暗（或不變）、濾色的結果只會比原本亮（或不變）。把兩者串接（不是並排、也不是取代），污漬造成的暗部保留在第一層的輸出裡，再被第二層疊加上亮部，兩種效果因此能同時共存在同一張圖上——這正是圖層疊加技法的核心。",
+        en: "Multiply's result is always darker (or unchanged), Screen's is always brighter (or unchanged). Chaining them — not placing side by side, not replacing — means the first layer's darkened grime survives into the second layer's input, which then adds highlights on top. Both effects coexist. That's the core of layer stacking.",
+      },
+    },
+  ],
 };

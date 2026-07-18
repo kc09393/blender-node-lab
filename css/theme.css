@@ -60,6 +60,7 @@ button {
   border-radius: var(--radius);
   padding: 6px 12px;
   font-size: 13px;
+  transition: background-color .15s ease, border-color .15s ease, color .15s ease, filter .15s ease;
 }
 button:hover { background: var(--bg-2); border-color: var(--accent-2); }
 button.primary { background: var(--accent); border-color: var(--accent); color: #1b1b1e; font-weight: 600; }
@@ -74,6 +75,17 @@ select, input[type="text"], input[type="number"] {
   border-radius: 6px;
   padding: 5px 8px;
   font-size: 13px;
+  transition: border-color .15s ease;
+}
+select:hover, input[type="text"]:hover, input[type="number"]:hover { border-color: var(--text-2); }
+
+/* 鍵盤 focus 用比較顯眼、跟全站強調色一致的外框取代瀏覽器預設藍框；滑鼠點擊不觸發
+   （:focus-visible 只在鍵盤導覽等瀏覽器判定「使用者需要看到焦點在哪」時顯示），
+   跟這次幫顏色選取器補鍵盤可及性同一個精神——外框看得到，鍵盤操作才找得到自己在哪。 */
+a:focus-visible, button:focus-visible, select:focus-visible,
+input:focus-visible, [tabindex]:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
 }
 
 ::-webkit-scrollbar { width: 10px; height: 10px; }
@@ -138,7 +150,14 @@ select, input[type="text"], input[type="number"] {
   min-width: 200px;
   box-shadow: 0 4px 14px rgba(0,0,0,.35);
   font-size: 12.5px;
+  transition: box-shadow .15s ease;
 }
+/* 拖曳中的節點卡片陰影加深、變得更立體——比照 Blender 抓起節點的手感，
+   跟 left/top 分開處理（那兩個要維持每影格立即跟隨游標，不能有過渡延遲，
+   否則拖曳會感覺黏滯）。class 的掛/拔見 js/ui/nodeEditor.js 的
+   _onNodeHeaderPointerDown／_onPointerUp。 */
+.node-card.dragging { box-shadow: 0 16px 38px rgba(0,0,0,.6); cursor: grabbing; }
+.node-card.dragging .node-header { cursor: grabbing; }
 .node-card .node-header {
   padding: 7px 10px;
   font-weight: 600;
@@ -178,6 +197,7 @@ select, input[type="text"], input[type="number"] {
   border: 1.5px solid rgba(0,0,0,.4);
   flex-shrink: 0;
   cursor: crosshair;
+  transition: box-shadow .12s ease;
 }
 .socket.type-shader { background: var(--sock-shader); }
 .socket.type-color  { background: var(--sock-color); }
@@ -192,7 +212,13 @@ select, input[type="text"], input[type="number"] {
   width: 58px; padding: 2px 5px; font-size: 12px;
   cursor: ew-resize; /* 比照 Blender：數值欄位可以左右拖曳調整，用箭頭游標提示 */
 }
-.node-row input[type="color"] { width: 28px; height: 18px; padding: 0; border: none; background: none; }
+/* 自訂色塊按鈕（取代原生 input[type=color]，彈出視窗是自己畫的 HSV 選色器，見 js/ui/colorPicker.js）。 */
+.color-swatch {
+  width: 28px; height: 18px; padding: 0; border: 1px solid var(--border); border-radius: 3px;
+  cursor: pointer; flex-shrink: 0;
+  transition: border-color .15s ease;
+}
+.color-swatch:hover { border-color: var(--accent-2); }
 
 /* 拿掉瀏覽器原生的上下箭頭：跟 Blender 一樣改成用拖曳調整數值，原生箭頭反而會跟數字疊在一起。 */
 input[type="number"] {

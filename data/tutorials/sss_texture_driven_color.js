@@ -73,4 +73,26 @@ export default {
         anyNodeParamMatches(graph, "shader_subsurface_scattering", "radius", (v) => Array.isArray(v) && v[1] > v[0] && v[1] > v[2]),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學把顏色漸變（Color Ramp）接進次表面散射（SSS）的顏色（Color）插槽，而不是填一個固定色票，主要想證明什麼原則？",
+        en: "This tutorial wires a Color Ramp into Subsurface Scattering's Color socket instead of a flat swatch. What general principle is it demonstrating?",
+      },
+      options: [
+        {
+          zh: "材質圖裡標示為「顏色」的輸入插槽，幾乎都能改接紋理/節點鏈，不是只能填寫死的色票",
+          en: "Almost any input socket labeled 'color' in a material graph can be driven by a texture/node chain, not just a fixed swatch",
+        },
+        { zh: "次表面散射節點只能接紋理，不能直接填固定顏色", en: "Subsurface Scattering can only take a texture, never a flat color" },
+        { zh: "顏色漸變是唯一能驅動次表面散射的節點", en: "Color Ramp is the only node that can drive Subsurface Scattering" },
+        { zh: "只有次表面散射的顏色插槽有這個特性，其他著色器的顏色插槽不行", en: "Only SSS's Color socket has this property — other shaders' color sockets don't" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "這個原則可以推廣到全站幾乎每個節點——材質圖裡任何寫著「顏色」的輸入，底層都只是一個接受數值/顏色的插槽，不管是原理化 BSDF 的底色、Glass 的顏色，還是這裡的 SSS 顏色，全部都能改接紋理鏈，不是 SSS 特有的例外。",
+        en: "This generalizes to nearly every node on the site — any input labeled 'color' is just a socket that accepts a value/color, whether it's Principled BSDF's Base Color, Glass's Color, or SSS's Color here. All of them accept texture chains; it's not an SSS-specific exception.",
+      },
+    },
+  ],
 };

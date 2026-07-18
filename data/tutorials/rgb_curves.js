@@ -62,4 +62,23 @@ export default {
       check: (graph) => hasNodeOfType(graph, "color_rgb_curves"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "在 RGB 曲線中段新增一個控制點並往上拖曳，跟直接調高亮度/對比度（Bright/Contrast）相比，關鍵差異是什麼？",
+        en: "Adding a midpoint control point to RGB Curves and dragging it up — how is that fundamentally different from raising Brightness/Contrast?",
+      },
+      options: [
+        { zh: "只有中間調被拉亮，最暗跟最亮兩端維持不變——是局部調整，不是整體平移", en: "Only midtones get brighter; the darkest and brightest ends stay fixed — a local adjustment, not a global shift" },
+        { zh: "效果完全一樣，只是操作方式不同", en: "The effect is identical, just a different way to operate it" },
+        { zh: "只影響 Alpha 透明度，不影響 RGB 本身", en: "It only affects Alpha transparency, not RGB itself" },
+        { zh: "只能整體拉亮或整體拉暗，無法只調中間", en: "It can only brighten or darken everything at once, never just the middle" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "曲線工具的威力在於可以只針對特定亮度區間（例如中間調）調整，同時保留兩端不動；Bright/Contrast 是套用同一個公式到整張圖的每個亮度，沒辦法只挑中間調處理。",
+        en: "The power of a curve tool is targeting a specific brightness range (like midtones) while leaving the ends untouched. Bright/Contrast applies the same formula to every brightness level uniformly — it can't isolate just the midtones.",
+      },
+    },
+  ],
 };

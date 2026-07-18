@@ -76,6 +76,7 @@ import voronoiNsphereBumpClusters from "./voronoi_nsphere_bump_clusters.js";
 import checkerColorVsFac from "./checker_color_vs_fac.js";
 import waveRingsMultiLook from "./wave_rings_multi_look.js";
 import pbrMetalVsDielectric from "./pbr_metal_vs_dielectric.js";
+import pbrRoughnessMicrofacets from "./pbr_roughness_microfacets.js";
 import fresnelInvertCoreGlow from "./fresnel_invert_core_glow.js";
 import anyFacAsBumpHeight from "./any_fac_as_bump_height.js";
 import voronoiColorSubtleBlend from "./voronoi_color_subtle_blend.js";
@@ -159,6 +160,7 @@ export default [
   checkerColorVsFac,
   waveRingsMultiLook,
   pbrMetalVsDielectric,
+  pbrRoughnessMicrofacets,
   fresnelInvertCoreGlow,
   anyFacAsBumpHeight,
   voronoiColorSubtleBlend,

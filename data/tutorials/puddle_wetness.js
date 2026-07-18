@@ -97,4 +97,26 @@ export default {
       check: (graph) => hasLinkBetweenTypes(graph, "converter_color_ramp", "color", "shader_mix_shader", "fac"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學特別選沃羅諾伊的「平滑 F1（Smooth F1）」特徵做積水形狀，而不是一般的「F1」或「到邊緣的距離（Distance to Edge）」。為什麼？",
+        en: "This tutorial specifically picks Voronoi's Smooth F1 feature for the puddle shape, instead of plain F1 or Distance to Edge. Why?",
+      },
+      options: [
+        {
+          zh: "Smooth F1 在細胞邊界的過渡是平滑圓潤的，很像水窪自然聚集、邊界不死板的形狀；F1／到邊緣距離的細胞邊界比較銳利分明",
+          en: "Smooth F1's transitions at cell boundaries are smooth and rounded, resembling how puddles naturally pool with soft irregular edges; F1 / Distance to Edge produce sharper, more clearly defined cell boundaries",
+        },
+        { zh: "因為本沙盒只有 Smooth F1 這個特徵支援即時預覽，其他特徵都不支援", en: "Because this sandbox only supports live preview for Smooth F1 — the other features aren't supported" },
+        { zh: "Smooth F1 的運算比較快，純粹是效能考量", en: "Smooth F1 is computationally faster — it's purely a performance choice" },
+        { zh: "其實效果跟 F1 一模一樣，這篇教學選哪個都沒差", en: "It actually looks identical to F1 — the tutorial's choice doesn't matter" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "Voronoi 的每種特徵都有自己的形狀個性：F1 產生的細胞邊界是清楚的直線交界（像石板拼接），Smooth F1 特地把交界處用一個平滑係數揉開，變成圓潤過渡的斑塊——正好符合水窪那種不規則、邊緣柔和聚攏的自然形狀，這是美術選型上的判斷，不是效能或支援度的限制。",
+        en: "Each Voronoi feature has its own shape personality: F1 produces cell boundaries as clean straight seams (like paving slabs), while Smooth F1 deliberately blurs those seams with a smoothing factor into rounded, blob-like transitions — a good match for how puddles naturally pool with irregular, softly-gathered edges. This is an artistic shape choice, not a performance or support-level limitation.",
+      },
+    },
+  ],
 };

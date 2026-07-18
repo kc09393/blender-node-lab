@@ -40,6 +40,13 @@ export class NodeEditor {
     this.placingTypeId = null;
     this._spacePressed = false;
 
+    // 觸控手勢：追蹤目前畫布範圍內按著的每一根手指（pointerId -> {x,y}），只在
+    // pointerType === "touch" 時記錄，滑鼠/觸控筆完全不受影響。兩指同時按著＝縮放＋平移
+    // （比照大多數觸控畫布 App，如 Figma），單指則沿用桌面滑鼠原本的語意（拖節點/框選/拉線），
+    // 因為 Pointer Events 本身就統一了滑鼠與觸控，單指互動不需要另外寫一套。
+    this._touchPoints = new Map();
+    this._pinchStart = null;
+
     // 復原/重做：存整份 graph 的 JSON 快照字串（不是 diff），實作簡單、不用擔心
     // 漏記某種變動類型；缺點是每步都存整份圖，但材質圖規模小（通常 <50 節點），
     // 100 步歷史紀錄的記憶體成本可忽略不計。
@@ -63,7 +70,18 @@ export class NodeEditor {
     container.addEventListener("pointerdown", (e) => this._onCanvasPointerDown(e));
     window.addEventListener("pointermove", (e) => this._onPointerMove(e));
     window.addEventListener("pointerup", (e) => this._onPointerUp(e));
+    // pointercancel（瀏覽器把這個手勢判給別的用途搶走，觸控裝置常見）沒有另外接住的話，
+    // 拖節點/框選/剪線/平移/待完成連線這幾個狀態會卡住不清除，下一次操作行為會亂掉——
+    // 跟下面兩指手勢的 _onTouchEnd 一樣，直接拿 _onPointerUp 同一套收尾邏輯處理即可。
+    window.addEventListener("pointercancel", (e) => this._onPointerUp(e));
     container.addEventListener("wheel", (e) => this._onWheel(e), { passive: false });
+    // 兩指手勢用捕獲階段（第 3 個參數 true）掛在 window 上，保證比任何節點卡片/socket
+    // 自己的 pointerdown（很多會 e.stopPropagation()，見 nodeCard.js）都先看到這個事件，
+    // 這樣不管第二根手指是按在空白處還是節點卡片上，都能正確被記錄成「兩指手勢開始」。
+    window.addEventListener("pointerdown", (e) => this._onTouchStart(e), true);
+    window.addEventListener("pointermove", (e) => this._onTouchMove(e));
+    window.addEventListener("pointerup", (e) => this._onTouchEnd(e));
+    window.addEventListener("pointercancel", (e) => this._onTouchEnd(e));
     container.addEventListener("contextmenu", (e) => {
       // 右鍵在這個畫布上永遠用來取消放置節點／剪電線手勢，不要跳出瀏覽器的右鍵選單。
       e.preventDefault();
@@ -371,6 +389,7 @@ export class NodeEditor {
   // ---------- interaction ----------
 
   _onCanvasPointerDown(e) {
+    if (this._touchPoints.size >= 2) return; // 兩指手勢進行中，不要同時啟動框選/剪線
     const isBackground = e.target === this.container || e.target === this.layer || e.target === this.svg;
     if (!isBackground) return;
 
@@ -411,6 +430,7 @@ export class NodeEditor {
 
   _onNodeHeaderPointerDown(e, nodeId) {
     if (this.placingTypeId) return;
+    if (this._touchPoints.size >= 2) return; // 兩指手勢進行中，不要同時啟動節點拖曳
     const alreadySelected = this.selectedNodeIds.has(nodeId);
     if (e.shiftKey) {
       if (alreadySelected) this.selectedNodeIds.delete(nodeId);
@@ -434,9 +454,18 @@ export class NodeEditor {
     // （見 _onPointerUp），避免「點一下選取節點」這種零位移的操作也占用一步復原。
     this._dragHistorySnapshot = JSON.stringify(this.graph.toJSON());
     this.render();
+    // 拖曳中的節點卡片加一個「浮起」的陰影效果（比照 Blender 抓取節點的手感），
+    // 只在放開滑鼠時才拿掉——render() 剛把 DOM 重建過，要在這之後才查得到新元素；
+    // 拖曳過程中 _onPointerMove 只是直接改 style.left/top，不會再整個重繪，
+    // 這個 class 會一路留到 _onPointerUp 清乾淨為止，不會被拖曳中的重繪意外洗掉。
+    for (const id of startPositions.keys()) {
+      const el = this.layer.querySelector(`.node-card[data-node-id="${id}"]`);
+      if (el) el.classList.add("dragging");
+    }
   }
 
   _onSocketPointerDown(e, nodeId, socketKey, dir, type) {
+    if (this._touchPoints.size >= 2) return; // 兩指手勢進行中，不要同時啟動拉線
     // 比照 Blender：從「已經接著電線的輸入插槽」拖曳，是抓住那條電線本身，
     // 一開始拖曳就立刻斷開舊連線，讓電線跟著游標走（而不是等放開滑鼠才決定要不要換線）。
     if (dir === "in") {
@@ -642,6 +671,7 @@ export class NodeEditor {
       }
       this._dragHistorySnapshot = null;
       this.draggingNodes = null;
+      this.layer.querySelectorAll(".node-card.dragging").forEach((el) => el.classList.remove("dragging"));
     }
     if (this.isPanning) {
       this.isPanning = false;
@@ -686,6 +716,77 @@ export class NodeEditor {
     this.scale = newScale;
     this._applyTransform();
     this._drawWires();
+  }
+
+  // 這根手指是不是按在這個畫布容器範圍內——用來避免記錄到按在旁邊面板（節點面板/
+  // 屬性欄）上的手指，那些不該算進這個畫布的兩指手勢裡。
+  _isInsideContainer(clientX, clientY) {
+    const rect = this.container.getBoundingClientRect();
+    return clientX >= rect.left && clientX <= rect.right && clientY >= rect.top && clientY <= rect.bottom;
+  }
+
+  _onTouchStart(e) {
+    if (e.pointerType !== "touch") return;
+    // 這是用 window 捕獲階段掛的全域監聽器（見建構子註解），會看到畫布範圍內的任何觸控，
+    // 包含視覺上疊在畫布上方、但實際掛在 document.body 底下的浮動視窗（例如顏色選取器彈出
+    // 視窗，見 js/ui/colorPicker.js）——那些不是「畫布本身的觸控」，只是剛好位置重疊，
+    // 用邊界框（_isInsideContainer）量不出來，要另外用 DOM 歸屬排除。
+    if (e.target?.closest?.(".color-picker-popover")) return;
+    if (!this._isInsideContainer(e.clientX, e.clientY)) return;
+    this._touchPoints.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (this._touchPoints.size === 2) {
+      // 第二根手指按下的當下，先把單指手勢可能已經啟動的狀態全部清掉（例如第一根手指
+      // 剛好按在節點卡片上，已經被判定成「開始拖曳節點」）——兩指手勢優先，不能讓
+      // 單指的拖曳/框選/拉線/剪線同時跟兩指縮放平移互相打架。
+      this.draggingNodes = null;
+      this._dragHistorySnapshot = null;
+      this.boxSelectStart = null;
+      if (this._selectionBoxEl) {
+        this._selectionBoxEl.remove();
+        this._selectionBoxEl = null;
+      }
+      this.pendingLink = null;
+      this.isPanning = false;
+      this.cutStart = null;
+      this.cutCurrent = null;
+      this._drawWires();
+      const pts = [...this._touchPoints.values()];
+      this._pinchStart = {
+        dist: Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1,
+        mid: { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 },
+        pan: { x: this.pan.x, y: this.pan.y },
+        scale: this.scale,
+      };
+    }
+  }
+
+  _onTouchMove(e) {
+    if (e.pointerType !== "touch" || !this._touchPoints.has(e.pointerId)) return;
+    this._touchPoints.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (this._touchPoints.size !== 2 || !this._pinchStart) return;
+    const pts = [...this._touchPoints.values()];
+    const dist = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
+    const mid = { x: (pts[0].x + pts[1].x) / 2, y: (pts[0].y + pts[1].y) / 2 };
+    const newScale = Math.min(2.5, Math.max(0.3, this._pinchStart.scale * (dist / this._pinchStart.dist)));
+    // 跟 _onWheel 同一套「錨點縮放」數學，差別是錨點本身也會跟著兩指中點移動（平移＋
+    // 縮放同時做），世界座標裡「一開始在兩指中點下方的那個點」縮放/平移後要留在
+    // （移動後的）兩指中點下方，不能跳來跳去。
+    const rect = this.container.getBoundingClientRect();
+    const midLocal = { x: mid.x - rect.left, y: mid.y - rect.top };
+    const startMidLocal = { x: this._pinchStart.mid.x - rect.left, y: this._pinchStart.mid.y - rect.top };
+    const worldX = (startMidLocal.x - this._pinchStart.pan.x) / this._pinchStart.scale;
+    const worldY = (startMidLocal.y - this._pinchStart.pan.y) / this._pinchStart.scale;
+    this.pan.x = midLocal.x - worldX * newScale;
+    this.pan.y = midLocal.y - worldY * newScale;
+    this.scale = newScale;
+    this._applyTransform();
+    this._drawWires();
+  }
+
+  _onTouchEnd(e) {
+    if (e.pointerType !== "touch") return;
+    this._touchPoints.delete(e.pointerId);
+    if (this._touchPoints.size < 2) this._pinchStart = null;
   }
 
   _onKeyDown(e) {

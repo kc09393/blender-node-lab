@@ -87,4 +87,26 @@ export default {
       check: (graph) => hasLinkBetweenTypes(graph, "converter_color_ramp", "color", "shader_principled_bsdf", "baseColor"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學用「菲涅爾＋硬邊顏色漸變」仿卡通分色，教學最後誠實指出這個做法跟真正的 Toon BSDF 有什麼關鍵差異？",
+        en: "This tutorial fakes cel shading with Fresnel + a hard-edge Color Ramp. What key difference does the tutorial honestly point out compared to a real Toon BSDF?",
+      },
+      options: [
+        {
+          zh: "這裡的色塊是依「視角」分布，攝影機一轉色塊就跟著換；真正的 Toon BSDF 是依「光照結果」分色，色塊固定不受攝影機角度影響",
+          en: "Here the bands are arranged by viewing angle and shift as the camera orbits; a real Toon BSDF bands the actual lit result, so the bands stay fixed regardless of camera angle",
+        },
+        { zh: "這裡的做法完全等同真正的 Toon BSDF，沒有任何差異", en: "This approach is fully equivalent to a real Toon BSDF, with no difference at all" },
+        { zh: "色塊的顏色數量這裡固定只能有 2 種，Toon BSDF 可以無限多種", en: "The number of color bands here is capped at 2, while Toon BSDF supports unlimited bands" },
+        { zh: "這個做法只能用在球體上，Toon BSDF 可以用在任何形狀", en: "This technique only works on spheres, while Toon BSDF works on any shape" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "菲涅爾本質上是「攝影機角度」的函式，所以這個替代做法的色塊分布會隨攝影機旋轉而跟著移動；真正的 Toon BSDF／Shader to RGB 是在光照計算「之後」才把已經算好的明暗結果分色，色塊完全鎖定在光源方向上，不受攝影機怎麼看影響。兩者視覺上可能相似，但物理機制完全不同，這篇教學特別在最後一步誠實點出這個差異，不宣稱是等價的替代方案。",
+        en: "Fresnel is fundamentally a function of camera angle, so this workaround's bands shift as the camera orbits. A real Toon BSDF / Shader to RGB bands the already-lit result *after* lighting is computed, so the bands stay locked to the light direction regardless of camera view. The two can look visually similar, but the underlying mechanism is completely different — this tutorial's final step is upfront about that distinction rather than claiming equivalence.",
+      },
+    },
+  ],
 };

@@ -80,4 +80,23 @@ export default {
       check: (graph) => findNodesOfType(graph, "texture_wave").some((n) => n.params.waveType === "rings"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學做出木頭年輪、水波、陶土拉坯痕三種材質，過程中真正被改動的是什麼？",
+        en: "This tutorial produces wood grain, water ripples, and pottery grooves. What actually changes between the three?",
+      },
+      options: [
+        { zh: "只有顏色漸變的配色跟波浪紋理的扭曲程度，節點結構（誰接誰）從頭到尾沒變過", en: "Only the Color Ramp's palette and the Wave Texture's distortion amount — the node structure (what connects to what) never changes" },
+        { zh: "每種材質都換了完全不同的節點組合，只是外觀恰好相似", en: "Each material uses an entirely different node combination that just happens to look similar" },
+        { zh: "波浪紋理的波形（Wave Type）在三者之間各自不同", en: "Wave Texture's Wave Type is different for each of the three" },
+        { zh: "三種材質其實用的是三個不同的紋理節點，不是同一個波浪紋理", en: "The three materials actually use three different texture nodes, not the same Wave Texture" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "波浪紋理（Type 維持 Rings）→ 顏色漸變 → 底色，這條接線從頭到尾一次都沒變過；三種截然不同的材質完全是靠調整顏色漸變的配色（棕色系/藍白色系/陶土橘紅）跟波浪的扭曲程度（Distortion 大/中/小）做出來的。這說明材質設計很多時候的重點不是發明新的節點組合，而是想清楚數值該填多少——接線邏輯對了之後，光靠參數就能做出大量變化。",
+        en: "The Wave Texture (Type kept at Rings) → Color Ramp → Base Color wiring never changes once across all three. The three distinct materials come purely from adjusting the Color Ramp's palette (brown / blue-white / terracotta) and the Wave's Distortion amount (high / mid / low). This illustrates that material design is often less about inventing new node combinations and more about deciding what values to plug in — once the wiring logic is right, parameters alone unlock a lot of variety.",
+      },
+    },
+  ],
 };

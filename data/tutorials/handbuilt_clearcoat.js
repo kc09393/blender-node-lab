@@ -70,4 +70,23 @@ export default {
         hasLinkBetweenTypes(graph, "shader_mix_shader", "bsdf", "output_material", "surface"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學用 3 個原始節點手工組出「清漆」效果，用的是哪一套組合？",
+        en: "This tutorial hand-builds a 'clearcoat' effect from 3 primitive nodes. Which combination does it use?",
+      },
+      options: [
+        { zh: "菲涅爾（Fresnel）驅動混合著色器（Mix Shader），依比例混合漫射 BSDF（底漆）跟光澤 BSDF（清漆）", en: "Fresnel drives a Mix Shader that blends a Diffuse BSDF (base paint) with a Glossy BSDF (clearcoat)" },
+        { zh: "菲涅爾直接接到底色（Base Color），不需要混合著色器", en: "Fresnel connects directly to Base Color, no Mix Shader needed" },
+        { zh: "用加法著色器（Add Shader）把漫射跟光澤的光線直接加總，不用菲涅爾", en: "An Add Shader sums the Diffuse and Glossy light directly, without Fresnel" },
+        { zh: "用顏色漸變（Color Ramp）取代菲涅爾來決定清漆的分布", en: "A Color Ramp replaces Fresnel to decide where the clearcoat shows" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "Principled BSDF 的 Clearcoat 插槽本質上就是這篇教學手工組出來的東西：菲涅爾算出「越靠邊緣越該看到清漆」的比例，接到混合著色器的 Fac，正面主要看到底漆（漫射 BSDF）、邊緣逐漸露出接近鏡面的清漆層（光澤 BSDF）——理解這個底層機制，之後遇到「Clearcoat 到底在做什麼」就不會只是背一個滑桿名字。",
+        en: "Principled BSDF's Clearcoat socket is essentially what this tutorial builds by hand: Fresnel computes 'more clearcoat visibility toward the edges', feeding Mix Shader's Fac so the front mostly shows the base paint (Diffuse BSDF) while edges progressively reveal the near-mirror clearcoat (Glossy BSDF). Understanding this underlying mechanism means 'what does Clearcoat actually do' stops being just a slider name to memorize.",
+      },
+    },
+  ],
 };

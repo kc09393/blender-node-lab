@@ -74,4 +74,26 @@ export default {
         anyNodeParamMatches(graph, "converter_combine_color", "mode", (v) => v === "hsv"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "用分離顏色（HSV 模式）拆開沃羅諾伊紋理的顏色、只把飽和度（S）乘以 2.5 後再合併回去，畫面的「花紋分布」（哪個細胞屬於哪個顏色區域）會怎麼變化？",
+        en: "After splitting Voronoi's color with Separate Color (HSV), boosting only Saturation ×2.5, then recombining — how does the 'pattern' (which cell belongs to which color region) change?",
+      },
+      options: [
+        {
+          zh: "花紋分布完全不變，因為色相（H）沒有被動到，只有每個細胞原本的顏色變得更鮮豔",
+          en: "The pattern is unchanged — Hue (H) was never touched, only each cell's existing color became more vivid",
+        },
+        { zh: "花紋分布會被打亂，因為調整飽和度連帶讓每個細胞重新隨機選色", en: "The pattern gets scrambled — adjusting saturation re-randomizes each cell's color" },
+        { zh: "花紋會整個消失，變成單一顏色", en: "The pattern disappears entirely into a single flat color" },
+        { zh: "花紋分布會反轉（原本亮的細胞變暗，暗的變亮）", en: "The pattern inverts — cells that were bright become dark and vice versa" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "HSV 三個分量互相獨立——色相（H）決定「是哪個顏色」、飽和度（S）決定「顏色多鮮豔」。只調整 S 並重新合併，H 完全原封不動，所以哪個細胞屬於哪種色系的花紋分布不會改變，只有整體變得更飽和鮮豔。",
+        en: "HSV's three components are independent — Hue (H) decides 'which color', Saturation (S) decides 'how vivid'. Adjusting only S and recombining leaves H completely untouched, so which cell belongs to which hue never changes — only the overall vividness increases.",
+      },
+    },
+  ],
 };

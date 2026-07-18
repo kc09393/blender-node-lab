@@ -72,8 +72,10 @@
     <div id="thumb-render-container" class="thumb-render-container"></div>
 
     <div id="tutorial-run-view" class="tutorial-run-view sandbox-body">
-      <div class="editor-mobile-notice">
-        <p data-i18n="sandbox.mobileNotice">節點編輯器需要滑鼠拖曳操作，畫面空間也比較吃緊，建議改用桌面電腦或平板橫向以取得完整體驗。</p>
+      <div class="mobile-panel-tabs">
+        <button type="button" class="mobile-panel-tab" data-panel="nodes" data-i18n="sandbox.tabNodes">節點</button>
+        <button type="button" class="mobile-panel-tab" data-panel="canvas" data-i18n="sandbox.tabCanvas">畫布</button>
+        <button type="button" class="mobile-panel-tab" data-panel="props" data-i18n="sandbox.tabProps">預覽/屬性</button>
       </div>
       <aside class="panel palette-panel">
         <div class="panel-title">節點面板</div>
@@ -86,6 +88,9 @@
           <button id="t-back-to-list" type="button">← 返回教學列表</button>
           <button id="t-undo" type="button" title="Ctrl+Z" data-i18n="sandbox.undo">↶ 復原</button>
           <button id="t-redo" type="button" title="Ctrl+Y" data-i18n="sandbox.redo">↷ 重做</button>
+          <button id="t-duplicate" type="button" title="Shift+D" data-i18n="sandbox.duplicate">⧉ 複製</button>
+          <button id="t-delete" type="button" title="Delete" data-i18n="sandbox.delete">🗑 刪除</button>
+          <button id="t-frame-all" type="button" title="Home" data-i18n="sandbox.frameAll">⤢ 縮放至全部</button>
           <div class="toolbar-spacer"></div>
           <button id="t-restart" type="button">重新開始這個教學</button>
         </div>

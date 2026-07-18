@@ -18,6 +18,10 @@ export default [
         note: { zh: "搞懂 Metallic 背後的物理原因，不是只會轉滑桿。", en: "Understand the physics behind Metallic, not just which way to turn the slider." },
       },
       {
+        tutorialId: "tutorial_pbr_roughness_microfacets",
+        note: { zh: "粗糙度才是「材質手感」的關鍵，搞懂微表面理論。", en: "Roughness is the real key to material feel — understand microfacet theory." },
+      },
+      {
         tutorialId: "tutorial_glass",
         note: { zh: "最簡單的「加節點→接線→完成」完整範例，練習基本操作。", en: "The simplest complete 'add node → wire it → done' example." },
       },

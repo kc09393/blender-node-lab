@@ -79,4 +79,23 @@ export default {
         hasLinkBetweenTypes(graph, "shader_mix_shader", "bsdf", "output_material", "surface"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "混合著色器（Mix Shader）的第一個著色器輸入接葉子材質、第二個接透明 BSDF，色彩帶接到 Fac。Fac 為 0 跟為 1 時分別代表什麼？",
+        en: "Mix Shader's first Shader input is the leaf material, the second is Transparent BSDF, and Color Ramp drives Fac. What do Fac = 0 and Fac = 1 each mean?",
+      },
+      options: [
+        { zh: "Fac=0 時完全使用葉子材質（不透明），Fac=1 時完全使用透明 BSDF（變成洞）", en: "Fac=0 is fully the leaf material (opaque); Fac=1 is fully Transparent BSDF (a hole)" },
+        { zh: "Fac=0 跟 Fac=1 效果完全相同，都是半透明", en: "Fac=0 and Fac=1 look identical — both are semi-transparent" },
+        { zh: "Fac=0 時是洞，Fac=1 時是不透明的葉子", en: "Fac=0 is a hole; Fac=1 is the opaque leaf" },
+        { zh: "Fac 只影響顏色深淺，跟透明與否無關", en: "Fac only affects color depth, unrelated to transparency" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "混合著色器的 Fac 決定「兩個著色器輸入各佔多少比例」：0＝完全用第一個輸入（Shader 1，這裡是葉子）、1＝完全用第二個輸入（Shader 2，這裡是透明 BSDF）。這篇教學把色彩帶設計成「大部分黑、只有洞口附近才白」，正是利用這個 0/1 對應，讓大部分表面維持原本材質、只有少數地方變成洞。",
+        en: "Mix Shader's Fac determines the blend ratio between its two Shader inputs: 0 = fully Shader 1 (the leaf here), 1 = fully Shader 2 (Transparent BSDF here). This tutorial's Color Ramp is mostly black with white only near hole centers, using exactly this 0/1 mapping so most of the surface keeps the original material and only a few spots become holes.",
+      },
+    },
+  ],
 };

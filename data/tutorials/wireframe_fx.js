@@ -57,4 +57,23 @@ export default {
       check: (graph) => anyNodeParamMatches(graph, "input_wireframe", "size", (v) => typeof v === "number" && v <= 0.02),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "線框（Wireframe）節點的係數（Fac）輸出，在什麼位置最接近 1？",
+        en: "Where is Wireframe's Fac output closest to 1?",
+      },
+      options: [
+        { zh: "三角面的邊線（多邊形交界處）附近", en: "Near triangle edges (where polygons meet)" },
+        { zh: "每個三角面的正中心", en: "At the center of each triangle" },
+        { zh: "整個表面均勻分布，跟三角面邊線無關", en: "Uniformly everywhere, unrelated to triangle edges" },
+        { zh: "只有攝影機正對著的那一面", en: "Only on the face directly facing the camera" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "Wireframe 偵測的是「目前位置距離最近的多邊形邊線有多近」，愈靠近邊線 Fac 愈接近 1、愈靠近面中心 Fac 愈接近 0。這篇教學正是利用這個特性，把 Fac 接到 Emission 的強度，讓只有邊線附近發光，做出線框全息效果。",
+        en: "Wireframe measures 'how close the current position is to the nearest polygon edge' — closer to an edge means Fac nearer 1, closer to a face's center means Fac nearer 0. This tutorial drives Emission's Strength with that Fac so only edges glow, producing the hologram wireframe look.",
+      },
+    },
+  ],
 };

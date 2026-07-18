@@ -1,4 +1,4 @@
-import { initLangToggle, tBi, getLang } from "./i18n.js";
+import { initLangToggle, tBi, getLang, t } from "./i18n.js";
 import { initGlobalSearch } from "./globalSearch.js";
 import { Preview3D } from "./ui/preview3d.js";
 import { NodeEditor } from "./ui/nodeEditor.js";
@@ -9,9 +9,11 @@ import { Graph } from "./core/graphModel.js";
 import tutorials from "../data/tutorials/index.js";
 import learningPath from "../data/tutorials/learningPath.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
+import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 
 initLangToggle();
 initGlobalSearch();
+initMobilePanelTabs(document.querySelector(".sandbox-body"));
 
 const listView = document.getElementById("tutorial-list-view");
 const runView = document.getElementById("tutorial-run-view");
@@ -101,7 +103,7 @@ function renderLearningPath() {
   pathBody.hidden = collapsed;
 
   // 路徑本身的完成度（跟下面「瀏覽全部教學」的全站進度數字是兩個不同的概念，
-  // 分開顯示——使用者跟著路徑走時關心的是「這條路徑走到哪」，不是全站 81 篇裡完成幾篇，
+  // 分開顯示——使用者跟著路徑走時關心的是「這條路徑走到哪」，不是全站教學總數裡完成幾篇，
   // 兩個數字混在一起容易誤解。放在收合狀態外面，收合時也看得到目前進度。
   const pathDone = learningPathFlatIds.reduce((n, id) => n + (completedSet.has(id) ? 1 : 0), 0);
   const pathProgressEl = document.getElementById("learning-path-progress");
@@ -223,7 +225,7 @@ function renderTutorialCards() {
   if (filtered.length === 0) {
     const hint = document.createElement("div");
     hint.className = "empty-hint";
-    hint.textContent = getLang() === "zh" ? "沒有符合條件的教學" : "No tutorials match your filters";
+    hint.textContent = t("tutorials.noResults");
     cardsContainer.appendChild(hint);
   }
   for (const tut of filtered) {
@@ -259,6 +261,10 @@ renderLearningPath();
 document.addEventListener("langchange", () => {
   renderTutorialCards();
   renderLearningPath();
+  // 已經放進畫布的節點卡片（標籤/插槽名稱/下拉選單文字）是新增/編輯當下就把字串定案進 DOM，
+  // 不會自動跟著切換語言——教學進行中畫布上通常已經有 startGraph 帶進來的節點，不補這行的話
+  // 使用者切語言時，疊加層文字/教學清單都換了，畫布上的節點卡片卻還停在切換前的語言。
+  if (editor) editor.render();
   if (!currentTutorial) return;
   // 教學進行中的疊加層有三種子畫面（一般步驟／結業測驗／學習路徑下一步），語言切換要重繪
   // 「使用者當下真的在看的那個」，不能無條件呼叫 renderOverlay()——不然使用者在測驗或
@@ -338,6 +344,11 @@ function ensureEditorInitialized() {
   btnUndo.addEventListener("click", () => editor.undo());
   btnRedo.addEventListener("click", () => editor.redo());
   refreshUndoRedoButtons();
+
+  // 觸控裝置沒有實體鍵盤按不到 Delete/Shift+D/Home，見 app-sandbox.js 同款按鈕的說明。
+  document.getElementById("t-delete").addEventListener("click", () => editor.removeSelected());
+  document.getElementById("t-duplicate").addEventListener("click", () => editor.duplicateSelected());
+  document.getElementById("t-frame-all").addEventListener("click", () => editor.frameAll());
 
   const paletteList = document.getElementById("t-palette-list");
   const paletteSearch = document.getElementById("t-palette-search");

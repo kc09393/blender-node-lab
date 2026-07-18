@@ -6,6 +6,7 @@ import { tBi, t, getLang } from "../i18n.js";
 import { getTermHint } from "../core/termHints.js";
 import { glossNodeNames } from "../core/glossary.js";
 import { segmentPolyCoeffs } from "../core/colorRampUtil.js";
+import { openColorPicker } from "./colorPicker.js";
 
 // 幫欄位標籤加一個可以點的「ⓘ」小圖示（例如 IOR 是什麼）。用點擊而不是只靠滑鼠懸停，
 // 因為懸停提示很容易被忽略、觸控裝置也用不到，點一下彈出的說明框比較顯眼、容易發現。
@@ -82,46 +83,47 @@ function rgbToHex(rgba) {
   return `#${toHex(r)}${toHex(g)}${toHex(b)}`;
 }
 
-function hexToRgb(hex, alpha = 1) {
-  const n = parseInt(hex.slice(1), 16);
-  return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255, alpha];
-}
-
 // 幫數值輸入框加上「按住拖曳＝滑動調整數值」的手感（比照 Blender 的滑桿數值欄位）。
 // 只是單純點擊（沒有拖曳超過幾個像素）還是會像一般輸入框一樣可以打字。
 function makeScrubbable(input, { min, max, step, getValue, setValue }) {
-  let dragging = false;
-  let moved = false;
-  let startX = 0;
-  let startValue = 0;
-
   input.addEventListener("pointerdown", (e) => {
     e.stopPropagation();
-    dragging = true;
-    moved = false;
-    startX = e.clientX;
-    startValue = getValue();
-    input.setPointerCapture(e.pointerId);
-  });
-  input.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    const dx = e.clientX - startX;
-    if (!moved && Math.abs(dx) < 3) return;
-    if (!moved) {
-      moved = true;
-      input.blur();
-    }
-    e.stopPropagation();
-    const unit = step || 0.01;
-    const sensitivity = unit * (e.shiftKey ? 0.1 : 1); // 比照 Blender：按住 Shift 做精細調整
-    const next = clamp(startValue + dx * sensitivity, min, max);
-    input.value = Number(next.toFixed(4));
-    setValue(next);
-  });
-  input.addEventListener("pointerup", (e) => {
-    e.stopPropagation();
-    dragging = false;
-    if (moved) e.preventDefault(); // 剛拖曳完，別再讓瀏覽器把這次放開當成一般點擊去進入編輯模式
+    let moved = false;
+    const startX = e.clientX;
+    const startValue = getValue();
+    try { input.setPointerCapture(e.pointerId); } catch { /* 沒有有效的 pointer session 可以捕獲，忽略即可 */ }
+
+    // pointermove/pointerup 掛在 window、不是掛在 input 自己身上——跟這個檔案另外兩個拖曳手勢
+    // （顏色漸變把手、曲線控制點）刻意用同一套做法：部分節點型別（Color Ramp／Combine Color，
+    // 判斷條件見 nodeEditor.js 的 _onParamChange 對 hasDynamicLabel／hasConditionalSetting 的
+    // 處理）只要參數一變就會同步整個重畫，這個 input 元素當下就會被換成全新的元素、從文件拔掉。
+    // 如果 move/up 監聽器掛在 input 自己身上，元素被拔掉的瞬間瀏覽器會依 Pointer Events 規範
+    // 自動釋放 pointer capture，之後所有移動事件都不會再送達——拖曳看起來像是「動一下點值就卡住
+    // 不動了」。掛在 window 上就不受這個限制，數值一律用 startValue 加累積位移算，不依賴 input
+    // 元素本身還活著；`getValue`/`setValue` 兩個外部傳入的存取器已經是跟真正的資料來源
+    // （`node.params[key]`）打交道，不是靠這個 DOM 元素本身存值。
+    const onMove = (ev) => {
+      const dx = ev.clientX - startX;
+      if (!moved && Math.abs(dx) < 3) return;
+      if (!moved) {
+        moved = true;
+        input.blur();
+      }
+      const unit = step || 0.01;
+      const sensitivity = unit * (ev.shiftKey ? 0.1 : 1); // 比照 Blender：按住 Shift 做精細調整
+      const next = clamp(startValue + dx * sensitivity, min, max);
+      input.value = Number(next.toFixed(4));
+      setValue(next);
+    };
+    const onUp = (ev) => {
+      window.removeEventListener("pointermove", onMove);
+      window.removeEventListener("pointerup", onUp);
+      window.removeEventListener("pointercancel", onUp);
+      if (moved) ev.preventDefault(); // 剛拖曳完，別再讓瀏覽器把這次放開當成一般點擊去進入編輯模式
+    };
+    window.addEventListener("pointermove", onMove);
+    window.addEventListener("pointerup", onUp);
+    window.addEventListener("pointercancel", onUp);
   });
 }
 
@@ -148,15 +150,21 @@ function buildFloatControl(node, def, onParamChange) {
 }
 
 function buildColorControl(node, def, onParamChange) {
-  const input = document.createElement("input");
-  input.type = "color";
-  input.value = rgbToHex(node.params[def.key]);
-  input.addEventListener("pointerdown", (e) => e.stopPropagation());
-  input.addEventListener("input", () => {
-    const alpha = node.params[def.key][3] ?? 1;
-    onParamChange(node.id, def.key, hexToRgb(input.value, alpha));
+  const swatch = document.createElement("button");
+  swatch.type = "button";
+  swatch.className = "color-swatch";
+  const current = node.params[def.key];
+  swatch.style.background = `rgb(${Math.round(current[0] * 255)},${Math.round(current[1] * 255)},${Math.round(current[2] * 255)})`;
+  swatch.addEventListener("pointerdown", (e) => e.stopPropagation());
+  swatch.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openColorPicker(swatch, node.params[def.key], (rgb) => {
+      swatch.style.background = `rgb(${Math.round(rgb[0] * 255)},${Math.round(rgb[1] * 255)},${Math.round(rgb[2] * 255)})`;
+      const alpha = node.params[def.key][3] ?? 1;
+      onParamChange(node.id, def.key, [rgb[0], rgb[1], rgb[2], alpha]);
+    });
   });
-  return input;
+  return swatch;
 }
 
 function buildVectorControl(node, def, onParamChange) {
@@ -336,7 +344,7 @@ function buildColorRampControl(node, def, onParamChange) {
   addBtn.type = "button";
   addBtn.className = "colorramp-add-btn";
   addBtn.textContent = "+";
-  addBtn.title = "新增停駐點";
+  addBtn.title = t("sandbox.addStop");
 
   function commit(nextStops) {
     const sorted = [...nextStops].sort((a, b) => a.position - b.position);
@@ -387,7 +395,10 @@ function buildColorRampControl(node, def, onParamChange) {
       handle.addEventListener("pointerdown", (e) => {
         e.stopPropagation();
         handle.classList.add("dragging");
-        handle.setPointerCapture(e.pointerId);
+        // setPointerCapture 極少數情況會直接 throw（例如這個 pointer session 已經不存在）；
+        // 沒包 try/catch 的話這行以下（含 onMove/onUp 的事件監聽器註冊）整段都不會執行，
+        // 使用者會覺得「按住把手完全拖不動」，而且畫面上不會有任何錯誤提示。
+        try { handle.setPointerCapture(e.pointerId); } catch { /* 沒有有效的 pointer session 可以捕獲，忽略即可 */ }
         let stopRef = stop; // 拖曳期間用物件參照鎖定同一個停駐點，不受排序影響
         const barRect = gradientBar.getBoundingClientRect();
 
@@ -409,14 +420,19 @@ function buildColorRampControl(node, def, onParamChange) {
             .join(", ")})`;
         };
         const onUp = (ev) => {
-          handle.releasePointerCapture(ev.pointerId);
+          try { handle.releasePointerCapture(ev.pointerId); } catch { /* 沒有捕獲成功過，忽略即可 */ }
           handle.classList.remove("dragging");
           window.removeEventListener("pointermove", onMove);
           window.removeEventListener("pointerup", onUp);
+          window.removeEventListener("pointercancel", onUp);
           render(); // 拖曳結束才重新排序＋重畫，避免拖曳途中把手因排序變動被整個換掉、手勢中斷
         };
+        // pointercancel（瀏覽器把這次手勢判成別的用途搶走，觸控裝置常見，例如被判定成系統手勢）
+        // 沒有另外接住的話，這個 window 監聽器會停留到下一次任何地方的 pointerup 才被清掉——
+        // 拿 onUp 同一個收尾邏輯處理即可，不需要額外分辨兩者的差異。
         window.addEventListener("pointermove", onMove);
         window.addEventListener("pointerup", onUp);
+        window.addEventListener("pointercancel", onUp);
       });
       handleLayer.appendChild(handle);
     });
@@ -438,13 +454,18 @@ function buildColorRampControl(node, def, onParamChange) {
         commit(next);
       });
 
-      const colorInput = document.createElement("input");
-      colorInput.type = "color";
-      colorInput.value = rgbToHex(stop.color);
-      colorInput.addEventListener("pointerdown", (e) => e.stopPropagation());
-      colorInput.addEventListener("input", () => {
-        const next = stops.map((s, i) => (i === idx ? { ...s, color: hexToRgb(colorInput.value, s.color[3] ?? 1) } : s));
-        commit(next);
+      const colorSwatch = document.createElement("button");
+      colorSwatch.type = "button";
+      colorSwatch.className = "color-swatch colorramp-stop-swatch";
+      colorSwatch.style.background = `rgb(${Math.round(stop.color[0] * 255)},${Math.round(stop.color[1] * 255)},${Math.round(stop.color[2] * 255)})`;
+      colorSwatch.addEventListener("pointerdown", (e) => e.stopPropagation());
+      colorSwatch.addEventListener("click", (e) => {
+        e.stopPropagation();
+        openColorPicker(colorSwatch, stop.color, (rgb) => {
+          colorSwatch.style.background = `rgb(${Math.round(rgb[0] * 255)},${Math.round(rgb[1] * 255)},${Math.round(rgb[2] * 255)})`;
+          const next = stops.map((s, i) => (i === idx ? { ...s, color: [rgb[0], rgb[1], rgb[2], s.color[3] ?? 1] } : s));
+          commit(next);
+        });
       });
 
       // Alpha 獨立於 RGB 之外，另外輸出成 Color Ramp 的 Alpha 插槽（跟 Blender 的 Color Ramp 一致）。
@@ -476,7 +497,7 @@ function buildColorRampControl(node, def, onParamChange) {
         commit(stops.filter((_, i) => i !== idx));
       });
 
-      row.append(posInput, colorInput, alphaInput, delBtn);
+      row.append(posInput, colorSwatch, alphaInput, delBtn);
       stopList.appendChild(row);
     });
   }
@@ -551,7 +572,7 @@ function buildCurveControl(node, def, onParamChange) {
   addBtn.type = "button";
   addBtn.className = "curve-add-btn";
   addBtn.textContent = "+";
-  addBtn.title = "新增控制點";
+  addBtn.title = t("sandbox.addControlPoint");
 
   const toSvg = (p) => ({
     sx: ((p.x - domain.xMin) / (domain.xMax - domain.xMin)) * 100,
@@ -622,10 +643,12 @@ function buildCurveControl(node, def, onParamChange) {
         const onUp = () => {
           window.removeEventListener("pointermove", onMove);
           window.removeEventListener("pointerup", onUp);
+          window.removeEventListener("pointercancel", onUp);
           render();
         };
         window.addEventListener("pointermove", onMove);
         window.addEventListener("pointerup", onUp);
+        window.addEventListener("pointercancel", onUp);
       });
       svg.appendChild(dot);
     });

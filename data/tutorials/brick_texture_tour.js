@@ -76,4 +76,26 @@ export default {
         anyNodeParamMatches(graph, "texture_brick", "bias", (v) => Math.abs(v) >= 0.4),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "把磚塊紋理（Brick Texture）的寬度（Brick Width）調低、列高（Row Height）調高之後，磚塊形狀為什麼會從寬扁變成瘦高？",
+        en: "Lowering Brick Width and raising Row Height turns bricks from wide-flat into tall-narrow. Why?",
+      },
+      options: [
+        {
+          zh: "因為寬度跟列高是兩個各自獨立的比例值，不是綁在一起等比例縮放的單一「大小」參數",
+          en: "Because width and row height are two independent ratios, not a single linked 'size' that scales proportionally",
+        },
+        { zh: "因為調整任何一個參數都會觸發整體貼圖的縮放", en: "Because adjusting either parameter rescales the whole texture" },
+        { zh: "因為磚塊紋理只有「大」「小」兩種預設尺寸可以切換", en: "Because Brick Texture only has two preset sizes, 'large' and 'small', to toggle between" },
+        { zh: "這其實不會改變磚塊形狀，只會改變顏色", en: "This doesn't actually change brick shape, only color" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "磚塊寬度控制水平方向、列高控制垂直方向，兩者互不牽動；同時調整才能把磚塊拉瘦拉高，只調其中一個只會單獨變寬變扁或變窄變高，不是等比例縮放。",
+        en: "Brick Width controls the horizontal dimension, Row Height the vertical — they're independent. Adjusting both together stretches bricks tall and narrow; adjusting just one only widens/flattens or narrows/heightens them alone, not a proportional scale.",
+      },
+    },
+  ],
 };

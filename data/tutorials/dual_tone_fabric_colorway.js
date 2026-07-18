@@ -80,4 +80,23 @@ export default {
         anyNodeParamMatches(graph, "color_hsv", "saturation", (v) => v > 1.1),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "把色相/飽和度/明度（HSV）節點接在「雜訊→顏色漸變」產生的雙色織紋圖案後面，轉動 Hue 之後，圖案的深淺對比、雙色交錯的花紋分布會怎麼變化？",
+        en: "With an HSV node inserted after a 'noise → Color Ramp' two-tone weave pattern, what happens to the pattern's contrast and interlocking layout when you turn Hue?",
+      },
+      options: [
+        { zh: "花紋分布跟深淺對比完全不變，只有整體色相統一轉成另一個顏色", en: "The layout and contrast stay completely unchanged — only the overall hue shifts to a different color" },
+        { zh: "花紋分布會被打散重新隨機排列", en: "The layout gets shuffled and re-randomized" },
+        { zh: "深淺對比會被壓平，兩色會變得幾乎一樣亮", en: "The contrast gets flattened, making both tones nearly equally bright" },
+        { zh: "只有顏色漸變裡的第一個停駐點顏色會變，第二個不受影響", en: "Only the Color Ramp's first stop color changes; the second one is unaffected" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "HSV 的 Hue 是對整張圖統一旋轉色相，不會重新計算圖案本身（那是上游雜訊+顏色漸變的工作），也不會動明度/飽和度的相對關係，所以深淺對比、哪裡深哪裡淺（花紋分布）完全保持原樣，只有整體「是哪個顏色系」被整批換掉——這正是「圖案生成」跟「配色」分開處理的好處：換配色不用回頭重新調整顏色漸變的每個停駐點。",
+        en: "HSV's Hue rotates the entire image's hue uniformly — it doesn't recompute the pattern itself (that's the upstream noise + Color Ramp's job), and it doesn't touch the relative relationship between lightness/saturation, so the contrast and which areas are dark vs. light (the pattern layout) stay exactly as they were — only which color family the whole thing belongs to shifts. This is exactly the benefit of separating 'pattern generation' from 'colorway': switching the palette never requires re-tuning every Color Ramp stop.",
+      },
+    },
+  ],
 };

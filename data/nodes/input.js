@@ -211,7 +211,7 @@ export default [
     name: { zh: "環境光遮蔽", en: "Ambient Occlusion" },
     summary: { zh: "偵測凹角、縫隙等光線較難照到的區域，常用來加深髒污/陰影。", en: "Detects crevices and corners that light struggles to reach — often used to darken grime or contact shadows." },
     docBeginner: { zh: "常接到 Mix Color 或 Color Ramp，讓模型凹陷處自然變暗，增加真實感。", en: "Often fed into Mix Color or Color Ramp to naturally darken a model's recesses, adding realism." },
-    docPro: { zh: "正確運算需要對周遭幾何做多方向取樣（螢幕空間 SSAO 或逐光線取樣），計算量較大；本沙盒的即時預覽管線目前沒有這一道多重取樣步驟，先列文件。", en: "Correct computation needs multi-directional sampling of surrounding geometry (screen-space SSAO or per-ray sampling) — fairly expensive. This live-preview pipeline doesn't have that multi-sample pass yet. Documentation only." },
+    docPro: { zh: "正確運算需要對周遭幾何做多方向取樣（螢幕空間 SSAO 或逐光線取樣），計算量較大；本沙盒的即時預覽管線目前沒有這一道多重取樣步驟，先列文件。（曾嘗試用螢幕空間法線曲率（dFdx/dFdy）近似邊角遮蔽，實測即使在方塊的銳利邊緣上，效果也被抗鋸齒/多重取樣稀釋到肉眼幾乎看不出來，判斷不值得為了一個看不見的效果新增節點支援，故維持文件狀態。）", en: "Correct computation needs multi-directional sampling of surrounding geometry (screen-space SSAO or per-ray sampling) — fairly expensive. This live-preview pipeline doesn't have that multi-sample pass yet. Documentation only. (A screen-space normal-curvature approximation via dFdx/dFdy was tried and tested — even on a cube's sharp edges, the effect got diluted by anti-aliasing/MSAA to the point of being visually imperceptible, so it wasn't judged worth shipping for an effect nobody could actually see.)" },
     supported: false,
     inputs: [
       { key: "distance", label: { zh: "距離", en: "Distance" }, type: "float", default: 1 },

@@ -11,6 +11,7 @@ import presets from "../data/presets/index.js";
 import presetCategories from "../data/presets/categories.js";
 import { tBi } from "./i18n.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
+import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 
 initLangToggle();
 initGlobalSearch();
@@ -83,6 +84,15 @@ btnUndo.addEventListener("click", () => editor.undo());
 btnRedo.addEventListener("click", () => editor.redo());
 refreshUndoRedoButtons();
 
+// 觸控裝置沒有實體鍵盤，Delete/Shift+D/Home 這三個鍵盤快捷鍵完全按不到——這三顆按鈕是
+// 對應的滑鼠/觸控可點擊版本，桌面使用者一樣可以用（等於也是滑鼠使用者的額外方便），
+// 內部方法本身在「沒有東西可以刪/複製/縮放」時都已經是安全的無動作，不用額外判斷。
+document.getElementById("btn-delete").addEventListener("click", () => editor.removeSelected());
+document.getElementById("btn-duplicate").addEventListener("click", () => editor.duplicateSelected());
+document.getElementById("btn-frame-all").addEventListener("click", () => editor.frameAll());
+
+initMobilePanelTabs(document.querySelector(".sandbox-body"));
+
 // 起始範例圖：Principled BSDF -> Material Output，跟 Blender 新材質的預設狀態一致。
 function loadStarterGraph() {
   const graph = new Graph();
@@ -149,6 +159,11 @@ function refreshPalette() {
 refreshPalette();
 paletteSearch.addEventListener("input", refreshPalette);
 document.addEventListener("langchange", refreshPalette);
+// 切換語言只會重繪節點面板清單/工具列（靠 data-i18n 或各自的 langchange 監聽），已經放進畫布的
+// 節點卡片本身（標籤/插槽名稱/下拉選單文字）是 createNodeElement() 在新增/編輯當下就把字串定案
+// 進 DOM，不會自動跟著切換語言——沒有這行的話,使用者切語言時只有還沒放進畫布的節點看得到新語言,
+// 已經擺在畫布上的舊節點會維持切換前的語言,兩者不一致。render() 是純重畫、不會動到 undo 歷史。
+document.addEventListener("langchange", () => editor.render());
 
 canvasEl.addEventListener("dragover", (e) => {
   e.preventDefault();

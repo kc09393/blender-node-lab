@@ -69,4 +69,23 @@ export default {
         }),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "把向量曲線（Vector Curves）的控制點拖成斜率較小（較平緩）的線之後，凹凸（Bump）的起伏強度會怎麼變化？",
+        en: "After dragging Vector Curves' control points into a flatter (lower-slope) line, what happens to the Bump effect's intensity?",
+      },
+      options: [
+        { zh: "變得更細膩柔和——輸出範圍被壓縮，同樣的雜訊變化量只能換來較小的高度差", en: "It becomes subtler and softer — the output range is compressed, so the same noise variation yields a smaller height difference" },
+        { zh: "完全不受影響——Bump 只在乎 0/1 兩種極端狀態", en: "No effect at all — Bump only cares about the two extremes, 0 and 1" },
+        { zh: "變得更劇烈——斜率愈小代表變化愈快", en: "It becomes more intense — a smaller slope means faster change" },
+        { zh: "凹凸方向會左右顛倒", en: "The bump direction flips left-right" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "曲線斜率愈平緩，代表輸入的變化被壓縮成更小的輸出變化範圍；同一組雜訊資料接上壓縮過的曲線之後，驅動 Bump 產生的高度落差自然更小、更柔和，跟「劇烈」或「方向顛倒」都無關。",
+        en: "A flatter curve slope compresses input variation into a smaller output range. The same noise data, run through a compressed curve, drives a smaller height difference in Bump — subtler, not more intense or reversed.",
+      },
+    },
+  ],
 };

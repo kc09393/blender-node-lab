@@ -4,11 +4,16 @@
 
 .troubleshoot-search { width: 100%; margin-bottom: 24px; padding: 9px 12px; font-size: 14px; }
 
-.ts-category { margin-bottom: 14px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-1); }
+.ts-category {
+  margin-bottom: 14px; border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; background: var(--bg-1);
+  transition: border-color .15s ease;
+}
+.ts-category:hover { border-color: var(--text-2); }
 .ts-category-symptom {
   padding: 12px 16px; font-size: 15px; font-weight: 600; cursor: pointer;
   display: flex; align-items: center; justify-content: space-between; gap: 10px;
   list-style: none; user-select: none;
+  transition: background-color .15s ease;
 }
 .ts-category-symptom::-webkit-details-marker { display: none; }
 .ts-category-symptom::marker { content: ""; }

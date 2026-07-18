@@ -61,4 +61,26 @@ export default {
       check: (graph) => hasLinkBetweenTypes(graph, "texture_wave", "fac", "shader_emission", "strength"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "這篇教學把波浪紋理的 Fac 接到發光（Emission）的「強度（Strength）」——一個數值插槽，不是顏色插槽。這說明了 Fac 這類 0-1 輸出有什麼特性？",
+        en: "This tutorial connects Wave Texture's Fac into Emission's Strength — a numeric socket, not a color one. What does this reveal about 0-1 outputs like Fac?",
+      },
+      options: [
+        {
+          zh: "Fac 只是一個普通的 0-1 數值，能接到任何接受數值的插槽（強度、粗糙度…），不是只能接顏色相關的插槽",
+          en: "Fac is just a plain 0-1 number that can plug into any socket accepting a number (Strength, Roughness, …) — not limited to color-related sockets",
+        },
+        { zh: "Fac 接到強度插槽時會自動被轉換成顏色再使用", en: "When wired into Strength, Fac gets automatically converted into a color first" },
+        { zh: "只有波浪紋理的 Fac 可以接數值插槽，其他紋理的 Fac 不行", en: "Only Wave Texture's Fac can connect to numeric sockets — other textures' Fac outputs can't" },
+        { zh: "這樣接線其實無效，發光強度不會真的隨圖案變化", en: "This wiring is actually a no-op — Emission Strength won't really vary with the pattern" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "紋理節點的 Fac 輸出本質上就是一個 0-1 的數值，材質圖裡任何寫著「數值」型的輸入插槽（強度、粗糙度、金屬度…）都能接受它，不是只能接到顏色相關的地方——這篇教學把它接進 Emission Strength，讓發光強度依圖案忽亮忽暗；同一個技巧也能接到 Roughness 做出粗糙度變化的效果，是一個能推廣到全部數值插槽的通用原則。",
+        en: "A texture node's Fac output is fundamentally just a 0-1 number — any input socket in a material graph typed as a numeric value (Strength, Roughness, Metallic, …) can accept it, not just color-related ones. This tutorial wires it into Emission Strength for uneven glow; the same trick works equally well into Roughness for varying surface finish — a principle that generalizes to every numeric socket, not something specific to this one hookup.",
+      },
+    },
+  ],
 };

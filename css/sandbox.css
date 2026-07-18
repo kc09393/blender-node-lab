@@ -1,22 +1,58 @@
 /* 沙盒頁面版面配置 */
 .sandbox-body { gap: 1px; background: var(--border); }
 
-.editor-mobile-notice { display: none; }
-/* 節點編輯器假設滑鼠操作（拖曳節點、拖線、框選、拖曳數值欄位微調），
-   觸控裝置沒有對應的手勢，畫面空間也不夠放三個面板；與其硬擠出一個
-   壞掉、操作不了的版面，不如提示使用者換到更大的螢幕。 */
+/* 分頁按鈕：桌面寬度時完全不顯示（三面板本來就並排），只在下面的窄螢幕media query
+   裡才顯示出來，見 js/ui/mobilePanels.js 負責點擊切換邏輯。 */
+.mobile-panel-tabs { display: none; }
+
+/* 窄螢幕（觸控裝置為主，見下方 pointer:coarse 的 socket 觸控熱區調整）：
+   節點面板／畫布／預覽+屬性三個面板改成一次只顯示一個，用頂部分頁按鈕切換，
+   不再是「擠不下就整個擋掉、要求換裝置」——NodeEditor 本身已經支援雙指縮放/平移
+   （見 js/ui/nodeEditor.js 的 _onTouchStart 等），單指拖曳/框選/拉線走 Pointer Events
+   本來就跟滑鼠共用同一套邏輯，觸控裝置這邊真正欠缺的只有「三個面板要放得下」這個
+   版面問題，不是互動能力問題。 */
 @media (max-width: 860px) {
-  .sandbox-body > *:not(.editor-mobile-notice) { display: none; }
-  .editor-mobile-notice {
+  .sandbox-body { flex-direction: column; }
+  .mobile-panel-tabs {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 24px;
-    text-align: center;
-    color: var(--text-1);
-    font-size: 14px;
-    line-height: 1.8;
+    flex-shrink: 0;
+    background: var(--bg-1);
+    border-bottom: 1px solid var(--border);
   }
+  .mobile-panel-tab {
+    flex: 1;
+    padding: 11px 6px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-2);
+    font-size: 13px;
+  }
+  .mobile-panel-tab.active { color: var(--text-0); border-bottom-color: var(--accent-2); }
+
+  /* 用 .sandbox-body 開頭疊高一階選擇器優先度：桌面版的 .palette-panel{width:230px}／
+     .side-panel{width:340px} 這兩條基礎規則定義在檔案後面（見下方桌面版面配置區塊），
+     單純用 media query 包起來、選擇器優先度沒贏過的話，源碼順序在後的桌面規則還是會贏，
+     縮寫寬度不會真的變成 100%——這是實測抓到的真實 bug，不是預防性寫法。 */
+  .sandbox-body .palette-panel, .sandbox-body .editor-panel, .sandbox-body .side-panel {
+    width: 100%; flex: 1; min-height: 0;
+  }
+  .sandbox-body .side-panel { flex-direction: column; overflow-y: auto; }
+  .sandbox-body:not([data-mobile-panel="nodes"]) .palette-panel { display: none; }
+  .sandbox-body:not([data-mobile-panel="canvas"]) .editor-panel { display: none; }
+  .sandbox-body:not([data-mobile-panel="props"]) .side-panel { display: none; }
+
+  /* 工具列按鈕在窄螢幕塞不下一整排，改成可橫向捲動而不是被迫換行擠壓／溢出畫面。 */
+  .editor-toolbar { overflow-x: auto; }
+  .editor-toolbar button, .editor-toolbar select { flex-shrink: 0; }
+}
+
+/* 觸控裝置（不看螢幕寬度，看的是輸入方式本身）：socket 圓點只有 11px，滑鼠點很夠，
+   手指按很容易點歪——比照上次修過的顏色漸變拖曳把手同一套做法：可見大小完全不變，
+   只用一個透明的 ::after 偽元素往外擴一圈「判定區」，桌面滑鼠/觸控筆完全不受影響。 */
+@media (pointer: coarse) {
+  .socket { position: relative; }
+  .socket::after { content: ""; position: absolute; inset: -7px; }
 }
 
 .panel {
@@ -56,6 +92,7 @@
   padding: 5px 10px; margin: 2px 0; border-radius: 5px;
   font-size: 12.5px; cursor: grab; color: var(--text-1);
   display: flex; align-items: center; gap: 6px;
+  transition: background-color .15s ease, color .15s ease;
 }
 .palette-item:hover { background: var(--bg-3); color: var(--text-0); }
 .palette-item .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
@@ -83,6 +120,9 @@
   background-image: radial-gradient(circle, #2a2a30 1px, transparent 1px);
   background-size: 22px 22px;
   cursor: default;
+  /* 兩指縮放/平移是自己在 JS 算的（NodeEditor 的 _onTouchMove），不能讓瀏覽器原生的
+     整頁縮放/滾動手勢搶走這些觸控事件，否則兩指一按就變成放大整個網頁而不是畫布本身。 */
+  touch-action: none;
 }
 .graph-canvas.panning { cursor: grabbing; }
 .graph-canvas.cutting { cursor: crosshair; }
@@ -146,6 +186,7 @@
 .node-delete-btn {
   background: transparent; border: none; color: rgba(255,255,255,.75); padding: 0 4px;
   font-size: 15px; line-height: 1; border-radius: 4px;
+  transition: background-color .15s ease, color .15s ease;
 }
 .node-delete-btn:hover { background: rgba(0,0,0,.25); color: #fff; }
 .vector-control { display: flex; gap: 3px; }
@@ -228,7 +269,7 @@
 .colorramp-stops { display: flex; flex-direction: column; gap: 4px; }
 .colorramp-stop-row { display: flex; align-items: center; gap: 6px; }
 .colorramp-stop-row input[type="number"] { width: 52px; font-size: 11px; padding: 2px 4px; }
-.colorramp-stop-row input[type="color"] { width: 24px; height: 18px; padding: 0; border: none; }
+.colorramp-stop-swatch { width: 24px; height: 18px; }
 .colorramp-del-btn {
   background: transparent; border: none; color: var(--text-2); font-size: 13px; padding: 0 4px; cursor: pointer;
 }
@@ -308,4 +349,56 @@
   color: var(--text-0);
   box-shadow: 0 6px 20px rgba(0,0,0,.5);
 }
+
+/* 自訂顏色選取器（js/ui/colorPicker.js）：取代原生 input[type=color] 那個網站完全無法
+   控制樣式的瀏覽器彈出視窗，改成比照 Blender 風格的 SV 方塊＋色相滑桿＋Hex＋RGB 欄位。 */
+.color-picker-popover {
+  position: fixed;
+  z-index: 10001;
+  width: 200px;
+  background: var(--bg-2);
+  border: 1px solid var(--accent-2);
+  border-radius: 6px;
+  padding: 10px;
+  box-shadow: 0 8px 26px rgba(0,0,0,.55);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.cp-sv-wrap { position: relative; width: 100%; touch-action: none; cursor: crosshair; }
+.cp-sv { width: 100%; height: 130px; display: block; border-radius: 4px; }
+.cp-sv-cursor {
+  position: absolute; width: 10px; height: 10px; margin: -5px;
+  border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+  pointer-events: none;
+}
+.cp-hue {
+  position: relative; width: 100%; height: 14px; border-radius: 4px; touch-action: none; cursor: pointer;
+  background: linear-gradient(to right, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
+}
+.cp-hue-cursor {
+  position: absolute; top: -2px; width: 6px; height: 18px; margin-left: -3px;
+  border-radius: 2px; border: 2px solid #fff; box-shadow: 0 0 0 1px rgba(0,0,0,.6);
+  pointer-events: none; background: transparent;
+}
+.cp-preview-row { display: flex; align-items: center; gap: 6px; }
+.cp-preview { width: 28px; height: 24px; border-radius: 4px; border: 1px solid var(--border); flex-shrink: 0; }
+.cp-hex-row {
+  flex: 1; display: flex; align-items: center; gap: 2px;
+  border: 1px solid var(--border); border-radius: 4px; padding: 2px 6px; background: var(--bg-1);
+}
+.cp-hex-hash { color: var(--text-2); font-size: 12px; }
+.cp-hex-input {
+  border: none; background: transparent; color: var(--text-0); font-size: 12px;
+  font-family: var(--font-mono); width: 100%; padding: 2px 0; text-transform: uppercase;
+}
+.cp-eyedrop {
+  width: 26px; height: 26px; flex-shrink: 0; border-radius: 4px; border: 1px solid var(--border);
+  background: var(--bg-1); color: var(--text-1); font-size: 13px; cursor: pointer;
+}
+.cp-eyedrop:hover { color: var(--text-0); border-color: var(--accent-2); }
+.cp-rgb-row { display: flex; gap: 6px; }
+.cp-rgb-field { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.cp-rgb-field label { font-size: 10px; color: var(--text-2); }
+.cp-rgb-input { width: 100%; text-align: center; padding: 3px 2px; font-size: 12px; }
 

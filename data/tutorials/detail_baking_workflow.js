@@ -87,4 +87,26 @@ export default {
         hasLinkBetweenTypes(graph, "vector_displacement_vec", "displacement", "output_material", "displacement"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "向量位移貼圖存進圖片時，每個色版（R/G/B）的值域是 0-1，但方向需要 -1 到 1；為什麼解碼時要用「乘加（Multiply Add）：×2、－1」這個特定公式，而不是別的算法？",
+        en: "A vector displacement map stores each channel (R/G/B) in the 0-1 range, but direction needs -1 to 1. Why does decoding use the specific formula 'Multiply Add: ×2, −1' rather than some other calculation?",
+      },
+      options: [
+        {
+          zh: "×2 把 0-1 的範圍拉寬成 0-2，再 －1 把整段平移，讓 0 對應到 -1、0.5 對應到 0、1 對應到 1，剛好覆蓋 -1 到 1",
+          en: "×2 stretches the 0-1 range to 0-2, then −1 shifts it down so 0 maps to -1, 0.5 maps to 0, and 1 maps to 1 — exactly covering -1 to 1",
+        },
+        { zh: "這只是慣例寫法，換成 +1、÷2 效果完全一樣", en: "It's just convention — using +1 then ÷2 instead would give the exact same result" },
+        { zh: "因為向量位移節點的輸入插槽規定只能接乘加運算的結果", en: "Because the Vector Displacement node's input socket only accepts the result of a Multiply Add operation" },
+        { zh: "×2 跟 －1 只對顏色資料有效，跟數值範圍轉換無關", en: "×2 and −1 only work on color data and have nothing to do with numeric range conversion" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "這是把「儲存範圍」換算回「實際意義範圍」的標準公式：原始值域 0-1，先乘 2 變成 0-2，再減 1 讓整段往負方向平移 1，得到 -1 到 1——中點 0.5 剛好對應到 0（沒有位移），這樣色版裡「中灰」代表「不動」，偏亮/偏暗才代表往正/負方向位移，是貼圖界儲存方向性資料的通用手法，不是這個節點專屬的規定。",
+        en: "This is the standard formula for converting a storage range back to its real meaning: the raw 0-1 range gets doubled to 0-2, then shifted down by 1 to land on -1 to 1 — with the midpoint 0.5 mapping exactly to 0 (no displacement). That means mid-gray in the channel represents 'no movement', while brighter/darker represents positive/negative displacement — a general technique for storing directional data in textures, not something specific to this one node.",
+      },
+    },
+  ],
 };

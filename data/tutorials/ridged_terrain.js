@@ -80,4 +80,26 @@ export default {
       check: (graph) => hasLinkBetweenTypes(graph, "converter_color_ramp", "color", "shader_principled_bsdf", "baseColor"),
     },
   ],
+  quiz: [
+    {
+      question: {
+        zh: "為什麼切到 Ridged Multifractal 之後，顏色漸變的停駐點要往右移（例如 0.1／0.6／1.3），不能沿用 fBM 習慣的 0-1 範圍？",
+        en: "Why do the Color Ramp stops need to shift right (e.g. 0.1 / 0.6 / 1.3) after switching to Ridged Multifractal, instead of keeping fBM's usual 0-1 range?",
+      },
+      options: [
+        {
+          zh: "Ridged Multifractal 每一疊代都是非負值累加，典型輸出中心明顯高於 0-1，直接沿用 fBM 的停駐點範圍會整片死白",
+          en: "Ridged Multifractal accumulates non-negative amounts every octave, so its typical output sits well above 0-1 — reusing fBM's stop range would blow the whole thing out to white",
+        },
+        { zh: "因為 Ridged Multifractal 這個類型本身有 bug，本沙盒建議不要使用", en: "Because Ridged Multifractal itself is buggy in this sandbox and shouldn't really be used" },
+        { zh: "因為顏色漸變的停駐點位置只對這一種雜訊類型才有效", en: "Because Color Ramp stop positions only work correctly for this one noise type" },
+        { zh: "純粹是美術喜好，跟雜訊的實際輸出範圍無關", en: "It's purely an artistic preference, unrelated to the noise's actual output range" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "fBM 是唯一被標準化到 0-1 的雜訊類型；Multifractal／Hybrid／Ridged／Hetero Terrain 這幾種類型的輸出範圍可能明顯超出 0-1（這是公式本身的特性，Blender 也一樣），Ridged Multifractal 又因為公式是「offset 減去絕對值」，非負值不斷疊代累加，典型輸出中心落在 1.0 附近而不是 0.5——不重新校準顏色漸變的範圍，畫面很容易整片死白，這不是本沙盒特有的限制，是這幾種非 fBM 類型共通的特性。",
+        en: "fBM is the only noise type normalized to 0-1. Multifractal / Hybrid / Ridged / Hetero Terrain can output well beyond that range (inherent to the formulas, true in real Blender too), and Ridged Multifractal specifically — being 'offset minus absolute value' accumulated non-negatively every octave — typically centers around 1.0 rather than 0.5. Without recalibrating the Color Ramp's range, the result easily blows out to solid white. This isn't a sandbox-specific quirk — it's shared behavior across these non-fBM types.",
+      },
+    },
+  ],
 };
