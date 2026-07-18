@@ -88,6 +88,12 @@
   .colorramp-del-btn::after, .curve-del-btn::after, .hint-icon::after {
     content: ""; position: absolute; inset: -8px;
   }
+
+  /* 節點卡片標頭右上角的「×」刪除節點按鈕：本來就有 stopPropagation() 擋掉標頭本身的
+     拖曳手勢（見 js/ui/nodeCard.js），所以判定區往外擴一點不會誤觸「拖曳整張卡片」，
+     點到擴大範圍一樣會正確觸發刪除。 */
+  .node-delete-btn { position: relative; }
+  .node-delete-btn::after { content: ""; position: absolute; inset: -8px; }
 }
 
 .panel {
