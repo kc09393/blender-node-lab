@@ -9,11 +9,12 @@ import { Graph } from "./core/graphModel.js";
 import { getNodeType } from "./core/nodeRegistry.js";
 import presets from "../data/presets/index.js";
 import presetCategories from "../data/presets/categories.js";
-import { tBi } from "./i18n.js";
+import { tBi, t } from "./i18n.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
 import { initMobilePreviewDock } from "./ui/mobilePreviewDock.js";
+import { encodeGraphToShareParam, decodeShareParam } from "./core/shareLink.js";
 
 initLangToggle();
 initMobileNav();
@@ -273,12 +274,55 @@ if (presetParam) {
   history.replaceState(null, "", location.pathname);
 }
 
+// 別人分享過來的節點圖（?g=）。跟 ?preset= 同一套「不可信任外部輸入」防呆，
+// 用非同步 IIFE（不是 top-level await）處理，才不會讓這支 module script 後面
+// 其他初始化（節點面板、教學提示等）等這個解碼跑完才繼續執行。
+const shareParam = new URLSearchParams(location.search).get("g");
+if (shareParam) {
+  history.replaceState(null, "", location.pathname);
+  (async () => {
+    const data = await decodeShareParam(shareParam);
+    if (!data) return; // 解碼失敗（壞連結/舊瀏覽器不支援）就靜靜維持原本的起始畫面，不彈錯誤訊息嚇使用者
+    editor.loadGraph(Graph.fromJSON(data));
+    editor.clearHistory();
+    presetSelect.value = "";
+    currentPreset = null;
+    presetDescriptionBox.hidden = false;
+    presetDescriptionBox.textContent = tBi({
+      zh: "有人跟你分享了這個材質圖，可以直接修改看看！",
+      en: "Someone shared this material graph with you — feel free to tweak it!",
+    });
+  })();
+}
+
 // ---------- 工具列：清空 / 匯出 / 匯入 ----------
 document.getElementById("btn-clear").addEventListener("click", () => {
   if (confirm("清空目前的節點圖？此動作無法復原。")) {
     loadStarterGraph();
     presetSelect.value = "";
     showPresetDescription(null);
+  }
+});
+
+const btnShare = document.getElementById("btn-share");
+btnShare.addEventListener("click", async () => {
+  const encoded = await encodeGraphToShareParam(editor.graph);
+  const url = `${location.origin}${location.pathname}?g=${encoded}`;
+  const showCopiedFeedback = () => {
+    btnShare.textContent = tBi({ zh: "已複製 ✓", en: "Copied ✓" });
+    // 用 t() 現查字典而不是快取一個字串，避免使用者在這 1.5 秒內切換語言時，
+    // 復原回去的文字是切換前那個語言的舊版本（跟 controlsHint.js 同一個已知陷阱）。
+    setTimeout(() => {
+      btnShare.textContent = t("sandbox.share");
+    }, 1500);
+  };
+  try {
+    await navigator.clipboard.writeText(url);
+    showCopiedFeedback();
+  } catch {
+    // Clipboard API 在非 https/不安全來源或使用者未授權時會拒絕——退回瀏覽器原生
+    // prompt() 讓使用者自己手動複製，不讓分享功能整個失效。
+    prompt(tBi({ zh: "複製這個連結分享給朋友：", en: "Copy this link to share:" }), url);
   }
 });
 

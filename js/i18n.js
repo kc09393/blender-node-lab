@@ -12,6 +12,7 @@ const DICT = {
   "sandbox.palette": { zh: "節點面板", en: "Nodes" },
   "sandbox.searchPlaceholder": { zh: "搜尋節點…", en: "Search nodes…" },
   "sandbox.loadPreset": { zh: "載入預設材質…", en: "Load preset…" },
+  "sandbox.share": { zh: "🔗 分享連結", en: "🔗 Share Link" },
   "sandbox.export": { zh: "匯出 JSON", en: "Export JSON" },
   "sandbox.import": { zh: "匯入 JSON", en: "Import JSON" },
   "sandbox.clear": { zh: "清空", en: "Clear" },
