@@ -9,6 +9,7 @@ const DICT = {
   "nav.tutorials": { zh: "引導教學", en: "Tutorials" },
   "nav.reference": { zh: "參考表", en: "Reference" },
   "nav.troubleshoot": { zh: "疑難排解", en: "Troubleshooting" },
+  "nav.github": { zh: "⭐ GitHub", en: "⭐ GitHub" },
   "sandbox.palette": { zh: "節點面板", en: "Nodes" },
   "sandbox.searchPlaceholder": { zh: "搜尋節點…", en: "Search nodes…" },
   "sandbox.loadPreset": { zh: "載入預設材質…", en: "Load preset…" },

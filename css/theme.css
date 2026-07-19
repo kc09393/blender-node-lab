@@ -131,6 +131,20 @@ input:focus-visible, [tabindex]:focus-visible {
   text-decoration: none;
 }
 #lang-toggle { font-size: 12px; flex-shrink: 0; }
+.site-nav .github-link {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--bg-3);
+  color: var(--text-0);
+  font-size: 12px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  transition: background .15s, border-color .15s;
+}
+.site-nav .github-link:hover { background: var(--bg-2); border-color: var(--accent-2); text-decoration: none; }
 
 /* 漢堡選單按鈕（js/ui/mobileNav.js 動態插入），桌面寬度完全不顯示——桌面版六個連結
    本來就排得下一整排，不需要收起來。 */
@@ -152,6 +166,9 @@ input:focus-visible, [tabindex]:focus-visible {
   /* margin-left:auto 把漢堡按鈕（跟它後面的搜尋/語言切換）推到最右邊，品牌名稱留在最左邊——
      nav 一旦變成 position:absolute 就離開了原本靠 flex:1 撐開左右兩側的排版邏輯。 */
   .nav-toggle { display: flex; align-items: center; justify-content: center; margin-left: auto; }
+  /* 手機標頭已經很擠（品牌+漢堡+搜尋+語言切換），GitHub 連結是給桌面訪客/開發者看的
+     附加曝光管道，不是核心功能，比照既有「窄螢幕先藏非必要裝飾」的慣例（Ctrl K 提示 pill）直接藏掉。 */
+  .github-link { display: none; }
   .site-nav nav {
     position: absolute;
     top: 100%;
