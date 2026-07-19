@@ -194,7 +194,7 @@ function renderTutorialThumbnail(tut) {
 }
 
 // 縮圖快取：一份材質圖只需要渲染一次，搜尋/篩選/切換語言都只是重新篩過 DOM，不用重畫縮圖
-// （縮圖渲染要跑一次完整編譯+WebGL render，71 篇全部重畫會在每次打字時卡頓）。
+// （縮圖渲染要跑一次完整編譯+WebGL render，全部重畫會在每次打字時卡頓）。
 const thumbCache = new Map();
 function ensureThumbnailsGenerated() {
   for (const tut of tutorials) {
@@ -219,7 +219,7 @@ function updateProgressLabel() {
 }
 
 function renderTutorialCards() {
-  // 縮圖只在第一次呼叫時真的渲染（71 篇跑一輪 WebGL render 有感但可接受），
+  // 縮圖只在第一次呼叫時真的渲染（跑一輪 WebGL render 有感但可接受），
   // 之後每次重繪（搜尋輸入、切換篩選、切換語言）都直接吃快取，秒級完成。
   ensureThumbnailsGenerated();
 

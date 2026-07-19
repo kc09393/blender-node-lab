@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /dev-regression-test.html
+
+Sitemap: https://kc09393.github.io/blender-node-lab/sitemap.xml
