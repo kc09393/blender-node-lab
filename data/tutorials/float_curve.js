@@ -54,16 +54,16 @@ export default {
     {
       title: { zh: "第三步：接到 Roughness", en: "Step 3: Feed Roughness" },
       instruction: {
-        zh: "把數值曲線（Float Curve）的數值（Value）輸出接到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）。預設曲線是一條對角直線（等於沒有改變原本的值）。",
-        en: "Connect Float Curve's Value output to Principled BSDF's Roughness. The default curve is a diagonal line — it doesn't change the value yet.",
+        zh: "把數值曲線（Float Curve）的數值（Value）輸出接到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）。\n\n預設曲線是一條對角直線（等於沒有改變原本的值）。",
+        en: "Connect Float Curve's Value output to Principled BSDF's Roughness.\n\nThe default curve is a diagonal line — it doesn't change the value yet.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "converter_float_curve", "value", "shader_principled_bsdf", "roughness"),
     },
     {
       title: { zh: "第四步：把曲線拖成反向", en: "Step 4: Drag the Curve Into Reverse" },
       instruction: {
-        zh: "在數值曲線（Float Curve）節點卡片上，把左下角的控制點拖到左上角，右上角的控制點拖到右下角——曲線從「左低右高」變成「左高右低」。雜訊裡原本比較亮的地方，粗糙度反而會變低（更光滑）。",
-        en: "On the Float Curve node card, drag the bottom-left control point to the top-left, and the top-right point to the bottom-right — the curve flips from rising to falling. Areas that were brighter in the noise now get lower roughness (smoother) instead.",
+        zh: "在數值曲線（Float Curve）節點卡片上，把左下角的控制點拖到左上角，右上角的控制點拖到右下角——曲線從「左低右高」變成「左高右低」。\n\n雜訊裡原本比較亮的地方，粗糙度反而會變低（更光滑）。",
+        en: "On the Float Curve node card, drag the bottom-left control point to the top-left, and the top-right point to the bottom-right — the curve flips from rising to falling.\n\nAreas that were brighter in the noise now get lower roughness (smoother) instead.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "converter_float_curve", "points", (pts) => {
