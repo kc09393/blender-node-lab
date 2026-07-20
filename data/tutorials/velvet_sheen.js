@@ -34,16 +34,16 @@ export default {
     {
       title: { zh: "第一步：加入 Sheen BSDF", en: "Step 1: Add a Sheen BSDF" },
       instruction: {
-        zh: "從「著色器 Shader」分類拖入絨光 BSDF（Sheen BSDF），顏色（Color）可以維持接近白色/淡粉色，先不用接線——單獨接到輸出你會發現球體幾乎是全黑的，這是因為它的底色設計成全黑，只靠邊緣光貢獻亮度。",
-        en: "Drag in a Sheen BSDF from the Shader category. Keep Color near white/light pink for now — don't wire it up yet. If you connected it alone to Output you'd see an almost-black sphere, since its base color is designed to be pure black, contributing brightness only through the edge glow.",
+        zh: "從「著色器 Shader」分類拖入絨光 BSDF（Sheen BSDF），顏色（Color）可以維持接近白色/淡粉色，先不用接線。\n\n單獨接到輸出你會發現球體幾乎是全黑的，這是因為它的底色設計成全黑，只靠邊緣光貢獻亮度。",
+        en: "Drag in a Sheen BSDF from the Shader category. Keep Color near white/light pink for now — don't wire it up yet.\n\nIf you connected it alone to Output you'd see an almost-black sphere, since its base color is designed to be pure black, contributing brightness only through the edge glow.",
       },
       check: (graph) => hasNodeOfType(graph, "shader_sheen_bsdf"),
     },
     {
       title: { zh: "第二步：用 Mix Shader 疊在布料底色上", en: "Step 2: Layer It Over the Fabric Base with Mix Shader" },
       instruction: {
-        zh: "拖入混合著色器（Mix Shader），上面接原本的原理化 BSDF（Principled BSDF，布料底色），下面接絨光 BSDF（Sheen BSDF），接到材質輸出（Material Output）取代原本的直接連線。這時候 Fac 固定值就能看到邊緣多了一圈亮光。",
-        en: "Drag in a Mix Shader, connect the existing Principled BSDF (fabric base) to the top and Sheen BSDF to the bottom, then wire it to Material Output, replacing the direct connection. Even with a fixed Fac, you should already see a bright rim appear.",
+        zh: "拖入混合著色器（Mix Shader），上面接原本的原理化 BSDF（Principled BSDF，布料底色），下面接絨光 BSDF（Sheen BSDF），接到材質輸出（Material Output）取代原本的直接連線。\n\n這時候 Fac 固定值就能看到邊緣多了一圈亮光。",
+        en: "Drag in a Mix Shader, connect the existing Principled BSDF (fabric base) to the top and Sheen BSDF to the bottom, then wire it to Material Output, replacing the direct connection.\n\nEven with a fixed Fac, you should already see a bright rim appear.",
       },
       check: (graph) =>
         hasNodeOfType(graph, "shader_mix_shader") &&
@@ -54,16 +54,16 @@ export default {
     {
       title: { zh: "第三步：用 Fresnel 讓絨毛光只出現在邊緣", en: "Step 3: Use Fresnel to Confine the Glow to the Edges" },
       instruction: {
-        zh: "加入菲涅爾（Fresnel）節點（輸入 Input 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac。現在正面看得到布料底色，只有側邊/逆光的邊緣才會透出絨毛光暈——這才是天鵝絨真正的樣子。",
-        en: "Add a Fresnel node (Input category) and connect its Fac output to Mix Shader's Fac. Now the fabric base color shows head-on, and the fuzzy glow only appears at grazing/backlit edges — that's what real velvet looks like.",
+        zh: "加入菲涅爾（Fresnel）節點（輸入 Input 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac。\n\n現在正面看得到布料底色，只有側邊/逆光的邊緣才會透出絨毛光暈——這才是天鵝絨真正的樣子。",
+        en: "Add a Fresnel node (Input category) and connect its Fac output to Mix Shader's Fac.\n\nNow the fabric base color shows head-on, and the fuzzy glow only appears at grazing/backlit edges — that's what real velvet looks like.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "input_fresnel", "fac", "shader_mix_shader", "fac"),
     },
     {
       title: { zh: "第四步：調高 Sheen Roughness 讓光暈更柔和", en: "Step 4: Raise Sheen Roughness for a Softer Glow" },
       instruction: {
-        zh: "把絨光 BSDF（Sheen BSDF）的粗糙度（Roughness）調到 0.7 以上，邊緣光暈會變得更寬、更柔和，比較接近真實絨布蓬鬆的質感，而不是一圈銳利的亮邊。",
-        en: "Raise Sheen BSDF's Roughness above 0.7 — the edge glow becomes wider and softer, closer to the plush look of real velvet instead of a sharp bright rim.",
+        zh: "把絨光 BSDF（Sheen BSDF）的粗糙度（Roughness）調到 0.7 以上。\n\n邊緣光暈會變得更寬、更柔和，比較接近真實絨布蓬鬆的質感，而不是一圈銳利的亮邊。",
+        en: "Raise Sheen BSDF's Roughness above 0.7.\n\nThe edge glow becomes wider and softer, closer to the plush look of real velvet instead of a sharp bright rim.",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_sheen_bsdf", "roughness", (v) => typeof v === "number" && v >= 0.7),
     },

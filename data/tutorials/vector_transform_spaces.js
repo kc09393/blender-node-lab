@@ -58,8 +58,8 @@ export default {
     {
       title: { zh: "第四步：接到底色看數值變化", en: "Step 4: Feed Base Color to See the Values Change" },
       instruction: {
-        zh: "把向量變換的輸出接到原理化 BSDF（Principled BSDF）的底色（Base Color），用顏色來視覺化這個向量。用滑鼠拖曳旋轉預覽球體——顏色應該會即時改變，因為「世界座標的正上方」換算到攝影機座標的數值，會隨著鏡頭角度而不同。",
-        en: "Connect Vector Transform's output to Principled BSDF's Base Color to visualize the vector as a color. Drag to orbit the preview — the color should change live, since 'world-space up' converted into camera space depends on the camera's current angle.",
+        zh: "把向量變換的輸出接到原理化 BSDF（Principled BSDF）的底色（Base Color），用顏色來視覺化這個向量。\n\n用滑鼠拖曳旋轉預覽球體——顏色應該會即時改變，因為「世界座標的正上方」換算到攝影機座標的數值，會隨著鏡頭角度而不同。",
+        en: "Connect Vector Transform's output to Principled BSDF's Base Color to visualize the vector as a color.\n\nDrag to orbit the preview — the color should change live, since 'world-space up' converted into camera space depends on the camera's current angle.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "vector_transform", "vector", "shader_principled_bsdf", "baseColor"),
     },
