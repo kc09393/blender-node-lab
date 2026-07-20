@@ -48,24 +48,24 @@ export default {
     {
       title: { zh: "第二步：旋轉球體，注意反光的顏色", en: "Step 2: Rotate the Sphere and Watch the Highlight Color" },
       instruction: {
-        zh: "拖曳旋轉球體，找到打光形成的亮點（高光）。仔細看：不管底色是什麼顏色，這個亮點幾乎都是白色/淺灰色的，不會被底色染色——這不是本沙盒的簡化，是真實物理：塑膠、木頭、皮膚這類「非金屬」（dielectric）材質，表面直接反射的光只占入射光的一小部分（大約 4%），而且這一小部分反射對所有顏色的光都一視同仁（不挑色），所以反光永遠接近白色。你平常看到的底色，其實是光「鑽進材質、被內部色素吸收/散射、再跑出來」的顏色，是完全不同的一條路徑。",
-        en: "Drag to rotate the sphere and find the bright specular highlight. Look closely: no matter what Base Color you picked, that highlight is nearly white/light gray — never tinted by the base color. This isn't a sandbox simplification, it's real physics: for dielectrics (non-metals) like plastic, wood, or skin, only a small fraction of incoming light (~4%) reflects directly off the surface, and that fraction doesn't discriminate by wavelength — so the highlight is always close to white. The color you normally see comes from an entirely different path: light entering the material, bouncing around pigments, and re-emerging.",
+        zh: "拖曳旋轉球體，找到打光形成的亮點（高光）。仔細看：不管底色是什麼顏色，這個亮點幾乎都是白色/淺灰色的，不會被底色染色。\n\n這不是本沙盒的簡化，是真實物理：塑膠、木頭、皮膚這類「非金屬」（dielectric）材質，表面直接反射的光只占入射光的一小部分（大約 4%），而且這一小部分反射對所有顏色的光都一視同仁（不挑色），所以反光永遠接近白色。\n\n你平常看到的底色，其實是光「鑽進材質、被內部色素吸收/散射、再跑出來」的顏色，是完全不同的一條路徑。",
+        en: "Drag to rotate the sphere and find the bright specular highlight. Look closely: no matter what Base Color you picked, that highlight is nearly white/light gray — never tinted by the base color.\n\nThis isn't a sandbox simplification, it's real physics: for dielectrics (non-metals) like plastic, wood, or skin, only a small fraction of incoming light (~4%) reflects directly off the surface, and that fraction doesn't discriminate by wavelength — so the highlight is always close to white.\n\nThe color you normally see comes from an entirely different path: light entering the material, bouncing around pigments, and re-emerging.",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_principled_bsdf", "metallic", (v) => v <= 0.1),
     },
     {
       title: { zh: "第三步：切成金屬，同樣的顏色現在染到反光上了", en: "Step 3: Switch to Metal — Now the Same Color Tints the Reflection" },
       instruction: {
-        zh: "把金屬度（Metallic）調到 1（其他都不要動）。畫面會馬上明顯變暗——先不用緊張，這是預期的：金屬完全沒有「鑽進材質再出來」這條路徑（金屬內部的自由電子幾乎立刻就把光吸收掉），所以底色不再代表散射出來的顏色，而是直接變成反射光本身的顏色。旋轉球體看反光的地方：現在應該會帶著明顯的藍色調，不再是白色。",
-        en: "Set Metallic to 1 (leave everything else alone). The sphere should get noticeably darker overall — that's expected, not a bug: metals have no 'light enters and re-emerges' path at all (free electrons inside the metal absorb the light almost instantly), so Base Color no longer represents scattered light — it directly becomes the color of the reflection itself. Rotate again and look at the highlights: they should now carry an obvious blue tint instead of being white.",
+        zh: "把金屬度（Metallic）調到 1（其他都不要動）。畫面會馬上明顯變暗。\n\n⚠️ 先不用緊張，這是預期的：金屬完全沒有「鑽進材質再出來」這條路徑（金屬內部的自由電子幾乎立刻就把光吸收掉），所以底色不再代表散射出來的顏色，而是直接變成反射光本身的顏色。\n\n旋轉球體看反光的地方：現在應該會帶著明顯的藍色調，不再是白色。",
+        en: "Set Metallic to 1 (leave everything else alone). The sphere should get noticeably darker overall.\n\n⚠️ That's expected, not a bug: metals have no 'light enters and re-emerges' path at all (free electrons inside the metal absorb the light almost instantly), so Base Color no longer represents scattered light — it directly becomes the color of the reflection itself.\n\nRotate again and look at the highlights: they should now carry an obvious blue tint instead of being white.",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_principled_bsdf", "metallic", (v) => v >= 0.9),
     },
     {
       title: { zh: "第四步：為什麼 Metallic 幾乎不該填中間值", en: "Step 4: Why Metallic Almost Never Belongs Between 0 and 1" },
       instruction: {
-        zh: "現實中一個表面要嘛是金屬、要嘛不是，沒有「一半金屬」這種材料——所以正式製作材質時，Metallic 幾乎永遠是精確的 0 或精確的 1，很少填 0.5 這種中間值。中間值只有兩種合理用途：(1) 兩種材質交界處的過渡遮罩（例如油漆剝落露出底下金屬，就是這次教學系列另一篇「邊緣磨損」在做的事）；(2) 材質本身有一層極薄的非金屬塗層蓋在金屬上（例如烤漆車身、指甲油）。如果你發現自己在某個材質上把 Metallic 固定填 0.3、0.6 這種數字（不是由紋理/遮罩驅動），通常代表要嘛應該乾脆是 0 或 1、要嘛該用兩層材質疊加而不是硬調一個中間值。",
-        en: "In reality a surface is either metal or it isn't — there's no such thing as 'half metal' material. So in real production, Metallic is almost always exactly 0 or exactly 1, rarely a middle value. A fractional value only makes sense in two situations: (1) a transition mask between two materials (like paint chipping to reveal metal underneath — exactly what the 'Edge Wear' tutorial in this series does), or (2) a very thin non-metal coating over a metal (car paint clear coat, nail polish). If you find yourself hard-coding Metallic to 0.3 or 0.6 on a material (not driven by a texture/mask), that's usually a sign it should just be 0 or 1, or that you need two layered materials instead of one fudged middle value.",
+        zh: "現實中一個表面要嘛是金屬、要嘛不是，沒有「一半金屬」這種材料——所以正式製作材質時，Metallic 幾乎永遠是精確的 0 或精確的 1，很少填 0.5 這種中間值。\n\n中間值只有兩種合理用途：(1) 兩種材質交界處的過渡遮罩（例如油漆剝落露出底下金屬，就是這次教學系列另一篇「邊緣磨損」在做的事）；(2) 材質本身有一層極薄的非金屬塗層蓋在金屬上（例如烤漆車身、指甲油）。\n\n如果你發現自己在某個材質上把 Metallic 固定填 0.3、0.6 這種數字（不是由紋理/遮罩驅動），通常代表要嘛應該乾脆是 0 或 1、要嘛該用兩層材質疊加而不是硬調一個中間值。",
+        en: "In reality a surface is either metal or it isn't — there's no such thing as 'half metal' material. So in real production, Metallic is almost always exactly 0 or exactly 1, rarely a middle value.\n\nA fractional value only makes sense in two situations: (1) a transition mask between two materials (like paint chipping to reveal metal underneath — exactly what the 'Edge Wear' tutorial in this series does), or (2) a very thin non-metal coating over a metal (car paint clear coat, nail polish).\n\nIf you find yourself hard-coding Metallic to 0.3 or 0.6 on a material (not driven by a texture/mask), that's usually a sign it should just be 0 or 1, or that you need two layered materials instead of one fudged middle value.",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_principled_bsdf", "metallic", (v) => v >= 0.9),
     },
