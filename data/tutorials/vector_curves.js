@@ -56,8 +56,8 @@ export default {
     {
       title: { zh: "第三步：壓縮曲線範圍", en: "Step 3: Compress the Curve's Range" },
       instruction: {
-        zh: "把向量曲線的控制點拖成一條比較平緩（斜率較小）的線，例如兩端從 (-1,-1)/(1,1) 改成 (-1,-0.3)/(1,0.3)。凹凸的起伏程度應該會變得更細膩、更柔和，而不是死板的線性強度。",
-        en: "Drag the Vector Curves control points into a flatter (lower-slope) line, e.g. from (-1,-1)/(1,1) to (-1,-0.3)/(1,0.3). The bump's relief should become subtler and softer instead of a rigid linear intensity.",
+        zh: "把向量曲線的控制點拖成一條比較平緩（斜率較小）的線，例如兩端從 (-1,-1)/(1,1) 改成 (-1,-0.3)/(1,0.3)。\n\n凹凸的起伏程度應該會變得更細膩、更柔和，而不是死板的線性強度。",
+        en: "Drag the Vector Curves control points into a flatter (lower-slope) line, e.g. from (-1,-1)/(1,1) to (-1,-0.3)/(1,0.3).\n\nThe bump's relief should become subtler and softer instead of a rigid linear intensity.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "vector_curves", "points", (pts) => {

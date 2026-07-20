@@ -57,8 +57,8 @@ export default {
     {
       title: { zh: "第三步：用 Color Ramp 上色", en: "Step 3: Color It with Color Ramp" },
       instruction: {
-        zh: "加入顏色漸變（Color Ramp，轉換器 Converter 分類），把沃羅諾伊紋理（Voronoi）的距離（Distance）輸出接到顏色漸變的係數（Fac）——細胞中心距離的深淺就會變成顏色深淺，做出石頭的斑駁色調。",
-        en: "Add a Color Ramp (Converter category) and connect Voronoi's Distance output to Color Ramp's Fac — the cell-center distance becomes color variation, creating a mottled stone tone.",
+        zh: "加入顏色漸變（Color Ramp，轉換器 Converter 分類），把沃羅諾伊紋理（Voronoi）的距離（Distance）輸出接到顏色漸變的係數（Fac）。\n\n細胞中心距離的深淺就會變成顏色深淺，做出石頭的斑駁色調。",
+        en: "Add a Color Ramp (Converter category) and connect Voronoi's Distance output to Color Ramp's Fac.\n\nThe cell-center distance becomes color variation, creating a mottled stone tone.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_voronoi", "distance", "converter_color_ramp", "fac"),
     },
@@ -73,8 +73,8 @@ export default {
     {
       title: { zh: "第五步：讓縫隙處反光不同", en: "Step 5: Vary Reflectivity at the Cracks" },
       instruction: {
-        zh: "把沃羅諾伊紋理（Voronoi）的距離（Distance）輸出「再接一條線」到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）（一個輸出可以同時接到好幾個地方）。這樣細胞縫隙處的粗糙度會跟著變化，比整個表面用同一個粗糙度更接近真實石頭。",
-        en: "Connect Voronoi's Distance output with a second wire to Principled BSDF's Roughness (one output can feed multiple destinations). Now roughness varies at the cell cracks too — closer to real stone than a single uniform roughness value.",
+        zh: "把沃羅諾伊紋理（Voronoi）的距離（Distance）輸出「再接一條線」到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）（一個輸出可以同時接到好幾個地方）。\n\n這樣細胞縫隙處的粗糙度會跟著變化，比整個表面用同一個粗糙度更接近真實石頭。",
+        en: "Connect Voronoi's Distance output with a second wire to Principled BSDF's Roughness (one output can feed multiple destinations).\n\nNow roughness varies at the cell cracks too — closer to real stone than a single uniform roughness value.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_voronoi", "distance", "shader_principled_bsdf", "roughness"),
     },
