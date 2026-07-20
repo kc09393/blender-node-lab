@@ -30,16 +30,16 @@ export default {
     {
       title: { zh: "第一步：加入法線節點", en: "Step 1: Add a Normal Node" },
       instruction: {
-        zh: "從「向量 Vector」分類拖入法線（Normal）節點。它有一組 X/Y/Z 數字欄位可以手動指定方向（本沙盒沒有 Blender 的 3D 方向球元件，改用數字輸入達到一樣的效果）。",
-        en: "Drag in a Normal node from the Vector category. It has X/Y/Z number fields for manually specifying a direction (this sandbox doesn't have Blender's 3D direction-ball widget, so numeric input achieves the same effect).",
+        zh: "從「向量 Vector」分類拖入法線（Normal）節點。\n\n它有一組 X/Y/Z 數字欄位可以手動指定方向（本沙盒沒有 Blender 的 3D 方向球元件，改用數字輸入達到一樣的效果）。",
+        en: "Drag in a Normal node from the Vector category.\n\nIt has X/Y/Z number fields for manually specifying a direction (this sandbox doesn't have Blender's 3D direction-ball widget, so numeric input achieves the same effect).",
       },
       check: (graph) => hasNodeOfType(graph, "vector_normal"),
     },
     {
       title: { zh: "第二步：把 Dot 接到發光強度", en: "Step 2: Feed Dot Into Emission Strength" },
       instruction: {
-        zh: "把法線節點的 Dot 輸出接到原理化 BSDF（Principled BSDF）的發光強度（Emission Strength）。正對著你指定方向的表面應該會發亮，背對的地方是暗的。",
-        en: "Connect the Normal node's Dot output to Principled BSDF's Emission Strength. Surfaces facing your specified direction should glow, while surfaces facing away stay dark.",
+        zh: "把法線節點的 Dot 輸出接到原理化 BSDF（Principled BSDF）的發光強度（Emission Strength）。\n\n正對著你指定方向的表面應該會發亮，背對的地方是暗的。",
+        en: "Connect the Normal node's Dot output to Principled BSDF's Emission Strength.\n\nSurfaces facing your specified direction should glow, while surfaces facing away stay dark.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "vector_normal", "dot", "shader_principled_bsdf", "emissionStrength"),
     },

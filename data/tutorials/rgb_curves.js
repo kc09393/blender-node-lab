@@ -44,8 +44,8 @@ export default {
     {
       title: { zh: "第二步：把中間點往上拖", en: "Step 2: Drag the Midpoint Upward" },
       instruction: {
-        zh: "在節點卡片上點一下曲線中段新增一個控制點，往上拖曳——這樣中間調會被整體拉亮，同時保留最暗跟最亮兩端不變，是修圖時常用的「提升中間調」手法。",
-        en: "Click the middle of the curve on the node card to add a control point, then drag it upward — midtones brighten while the darkest and brightest ends stay put. A common photo-editing move: 'lift the midtones'.",
+        zh: "在節點卡片上點一下曲線中段新增一個控制點，往上拖曳。\n\n這樣中間調會被整體拉亮，同時保留最暗跟最亮兩端不變，是修圖時常用的「提升中間調」手法。",
+        en: "Click the middle of the curve on the node card to add a control point, then drag it upward.\n\nMidtones brighten while the darkest and brightest ends stay put — a common photo-editing move: 'lift the midtones'.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "color_rgb_curves", "points", (pts) => {
@@ -56,8 +56,8 @@ export default {
     {
       title: { zh: "第三步：確認效果", en: "Step 3: Confirm the Effect" },
       instruction: {
-        zh: "看看即時預覽，球體整體應該比原本的灰色更亮一些，但沒有整個變成死白——這就是曲線工具「局部調整」的威力，比單純調 Bright/Contrast 更精細。",
-        en: "Check the live preview — the sphere should look brighter overall than the plain gray, without blowing out to solid white. That's the power of curve-based 'local adjustment', more refined than a flat Brightness/Contrast slider.",
+        zh: "看看即時預覽，球體整體應該比原本的灰色更亮一些，但沒有整個變成死白。\n\n這就是曲線工具「局部調整」的威力，比單純調 Bright/Contrast 更精細。",
+        en: "Check the live preview — the sphere should look brighter overall than the plain gray, without blowing out to solid white.\n\nThat's the power of curve-based 'local adjustment', more refined than a flat Brightness/Contrast slider.",
       },
       check: (graph) => hasNodeOfType(graph, "color_rgb_curves"),
     },
