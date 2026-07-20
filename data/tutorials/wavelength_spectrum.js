@@ -51,8 +51,8 @@ export default {
     {
       title: { zh: "第四步：調到紅色雷射的波長", en: "Step 4: Dial In a Red Laser's Wavelength" },
       instruction: {
-        zh: "把波長（Wavelength）調到 630-700nm 之間——常見紅光雷射筆的波長範圍。顏色應該會變成飽和的紅色。試著調到 450nm 看看藍光、580nm 看看黃光。",
-        en: "Set Wavelength between 630-700nm — the range of a common red laser pointer. The color should turn a saturated red. Try 450nm for blue or 580nm for yellow.",
+        zh: "把波長（Wavelength）調到 630-700nm 之間——常見紅光雷射筆的波長範圍。顏色應該會變成飽和的紅色。\n\n試著調到 450nm 看看藍光、580nm 看看黃光。",
+        en: "Set Wavelength between 630-700nm — the range of a common red laser pointer. The color should turn a saturated red.\n\nTry 450nm for blue or 580nm for yellow.",
       },
       check: (graph) => anyNodeParamMatches(graph, "converter_wavelength", "wavelength", (v) => typeof v === "number" && v >= 620 && v <= 700),
     },

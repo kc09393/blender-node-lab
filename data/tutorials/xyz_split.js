@@ -55,8 +55,8 @@ export default {
     {
       title: { zh: "第三步：用合併 XYZ 接回去", en: "Step 3: Rejoin with Combine XYZ" },
       instruction: {
-        zh: "加入合併 XYZ（Combine XYZ），把分離 XYZ 的 x 輸出接到它的 x，把剛剛數學節點的結果接到它的 y。這樣就做出「x 不變、y 放大 3 倍」的座標。",
-        en: "Add a Combine XYZ, connect Separate XYZ's x output to its x, and the Math node's result to its y. This produces a coordinate where x is unchanged but y is scaled 3x.",
+        zh: "加入合併 XYZ（Combine XYZ），把分離 XYZ 的 x 輸出接到它的 x，把剛剛數學節點的結果接到它的 y。\n\n這樣就做出「x 不變、y 放大 3 倍」的座標。",
+        en: "Add a Combine XYZ, connect Separate XYZ's x output to its x, and the Math node's result to its y.\n\nThis produces a coordinate where x is unchanged but y is scaled 3x.",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "converter_separate_xyz", "x", "converter_combine_xyz", "x") &&
@@ -65,8 +65,8 @@ export default {
     {
       title: { zh: "第四步：接到棋盤格紋理看效果", en: "Step 4: Feed a Checker Texture to See the Effect" },
       instruction: {
-        zh: "加入棋盤格紋理（Checker Texture），把合併 XYZ 的向量（Vector）輸出接到它的向量輸入，再接到原理化 BSDF（Principled BSDF）的底色（Base Color）。格紋應該會在 Y 方向被拉長成長方形，而不是正方形——證明只有 Y 軸被放大了。",
-        en: "Add a Checker Texture, connect Combine XYZ's Vector output to its Vector input, then feed it to Principled BSDF's Base Color. The checker cells should stretch into rectangles along Y, not squares — proof that only the Y axis was scaled.",
+        zh: "加入棋盤格紋理（Checker Texture），把合併 XYZ 的向量（Vector）輸出接到它的向量輸入，再接到原理化 BSDF（Principled BSDF）的底色（Base Color）。\n\n格紋應該會在 Y 方向被拉長成長方形，而不是正方形——證明只有 Y 軸被放大了。",
+        en: "Add a Checker Texture, connect Combine XYZ's Vector output to its Vector input, then feed it to Principled BSDF's Base Color.\n\nThe checker cells should stretch into rectangles along Y, not squares — proof that only the Y axis was scaled.",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "converter_combine_xyz", "vector", "texture_checker", "vector") &&
