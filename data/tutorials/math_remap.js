@@ -42,8 +42,8 @@ export default {
     {
       title: { zh: "第二步：用 Math 節點縮小範圍", en: "Step 2: Shrink the Range with Math" },
       instruction: {
-        zh: "加入一個數學（Math）節點（轉換器 Converter 分類），運算選相乘（Multiply），把雜訊紋理的係數（Fac）接到它的第一個數值，第二個數值設成 0.3。這樣輸出範圍就從 0-1 縮小成 0-0.3。",
-        en: "Add a Math node (Converter category), set its operation to Multiply, connect Noise's Fac to its first value, and set the second value to 0.3. This shrinks the output range from 0-1 down to 0-0.3.",
+        zh: "加入一個數學（Math）節點（轉換器 Converter 分類），運算選相乘（Multiply），把雜訊紋理的係數（Fac）接到它的第一個數值，第二個數值設成 0.3。\n\n這樣輸出範圍就從 0-1 縮小成 0-0.3。",
+        en: "Add a Math node (Converter category), set its operation to Multiply, connect Noise's Fac to its first value, and set the second value to 0.3.\n\nThis shrinks the output range from 0-1 down to 0-0.3.",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "texture_noise", "fac", "converter_math", "value1") &&
@@ -52,8 +52,8 @@ export default {
     {
       title: { zh: "第三步：再用一個 Math 節點平移範圍", en: "Step 3: Shift the Range with Another Math" },
       instruction: {
-        zh: "再加入第二個數學（Math）節點，運算選相加（Add），把剛剛那個相乘（Multiply）節點的結果接進去，第二個數值設成 0.2。現在整個範圍變成 0.2-0.5，不會再有死黑（0）的部分。",
-        en: "Add a second Math node, set its operation to Add, feed in the result from the Multiply node, and set the second value to 0.2. The range is now 0.2-0.5 — no more pure-black (0) areas.",
+        zh: "再加入第二個數學（Math）節點，運算選相加（Add），把剛剛那個相乘（Multiply）節點的結果接進去，第二個數值設成 0.2。\n\n現在整個範圍變成 0.2-0.5，不會再有死黑（0）的部分。",
+        en: "Add a second Math node, set its operation to Add, feed in the result from the Multiply node, and set the second value to 0.2.\n\nThe range is now 0.2-0.5 — no more pure-black (0) areas.",
       },
       check: (graph) => {
         const mathNodes = findNodesOfType(graph, "converter_math");
@@ -65,8 +65,8 @@ export default {
     {
       title: { zh: "第四步：接到 Roughness", en: "Step 4: Feed Roughness" },
       instruction: {
-        zh: "把第二個數學（Math）節點的結果接到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）。跟直接接雜訊紋理（Noise Texture）比起來，現在粗糙度的變化範圍更可控、不會忽然全黑或全白。",
-        en: "Connect the second Math node's result to Principled BSDF's Roughness. Compared to wiring Noise Texture directly, the roughness variation is now more controlled and won't suddenly hit pure black or white.",
+        zh: "把第二個數學（Math）節點的結果接到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）。\n\n跟直接接雜訊紋理（Noise Texture）比起來，現在粗糙度的變化範圍更可控、不會忽然全黑或全白。",
+        en: "Connect the second Math node's result to Principled BSDF's Roughness.\n\nCompared to wiring Noise Texture directly, the roughness variation is now more controlled and won't suddenly hit pure black or white.",
       },
       check: (graph) => nodeHasIncomingFromType(graph, "shader_principled_bsdf", "converter_math"),
     },

@@ -52,8 +52,8 @@ export default {
     {
       title: { zh: "第三步：切換成相乘模式", en: "Step 3: Switch to Multiply Mode" },
       instruction: {
-        zh: "把混合模式改成相乘（Multiply）。這個模式的特性是「只會變暗、不會變亮」——不管 B 輸入的顏色多亮，結果都不會比原本的底色更亮，很適合做污漬、髒污。",
-        en: "Change the blend mode to Multiply. Its defining trait is 'can only darken, never brighten' — no matter how bright the B input is, the result never exceeds the original base color. Perfect for grime and dirt.",
+        zh: "把混合模式改成相乘（Multiply）。這個模式的特性是「只會變暗、不會變亮」。\n\n不管 B 輸入的顏色多亮，結果都不會比原本的底色更亮，很適合做污漬、髒污。",
+        en: "Change the blend mode to Multiply. Its defining trait is 'can only darken, never brighten'.\n\nNo matter how bright the B input is, the result never exceeds the original base color. Perfect for grime and dirt.",
       },
       check: (graph) => anyNodeParamMatches(graph, "color_mix", "mode", (v) => v === "multiply"),
     },
