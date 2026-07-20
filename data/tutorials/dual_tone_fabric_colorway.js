@@ -40,8 +40,8 @@ export default {
     {
       title: { zh: "第一步：用雜訊＋硬邊漸變做出雙色織紋", en: "Step 1: Build a Two-Tone Weave with Noise + Hard-Edge Ramp" },
       instruction: {
-        zh: "加入雜訊紋理（Noise Texture），縮放（Scale）調高（例如 22）做出細密的紋理。加入顏色漸變（Color Ramp），插值方式切換成常量（Constant），兩個停駐點：位置 0 深藍、位置 0.5 接近白色——硬邊過渡會產生清楚的深/淺兩色交錯圖案，很像織布的經緯紋理。",
-        en: "Add a Noise Texture with a higher Scale (e.g. 22) for a fine texture. Add a Color Ramp, switch Interpolation to Constant, with two stops: position 0 dark blue, position 0.5 near-white — the hard transition creates a clear dark/light interlocking pattern, like woven fabric threads.",
+        zh: "加入雜訊紋理（Noise Texture），縮放（Scale）調高（例如 22）做出細密的紋理。加入顏色漸變（Color Ramp），插值方式切換成常量（Constant），兩個停駐點：位置 0 深藍、位置 0.5 接近白色。\n\n硬邊過渡會產生清楚的深/淺兩色交錯圖案，很像織布的經緯紋理。",
+        en: "Add a Noise Texture with a higher Scale (e.g. 22) for a fine texture. Add a Color Ramp, switch Interpolation to Constant, with two stops: position 0 dark blue, position 0.5 near-white.\n\nThe hard transition creates a clear dark/light interlocking pattern, like woven fabric threads.",
       },
       check: (graph) => {
         const ramps = findNodesOfType(graph, "converter_color_ramp");
@@ -72,8 +72,8 @@ export default {
     {
       title: { zh: "第四步：轉 Hue 換配色，調 Saturation 換飽和度", en: "Step 4: Turn Hue for a New Colorway, Saturation for Vividness" },
       instruction: {
-        zh: "把 Hue 從預設的 0.5 調開（例如 0.15），深藍會整組轉成另一個色相（例如綠色），但兩色之間的明暗對比、圖案本身完全不變——因為 Hue 是對整張圖統一旋轉色相，不是重新調整某一個停駐點。再把 Saturation 調高（例如 1.3），顏色會更加鮮豔飽和，適合做出「亮色系」款式而不用回頭改顏色漸變。",
-        en: "Move Hue away from the default 0.5 (e.g. to 0.15) — the dark blue shifts to a different hue (e.g. green) as a set, while the contrast between the two tones and the pattern itself stay completely unchanged, because Hue rotates the whole image's hue uniformly rather than re-tuning any single stop. Then raise Saturation (e.g. to 1.3) for a more vivid, saturated variant — no need to go back and edit the Color Ramp at all.",
+        zh: "把 Hue 從預設的 0.5 調開（例如 0.15），深藍會整組轉成另一個色相（例如綠色），但兩色之間的明暗對比、圖案本身完全不變。\n\n因為 Hue 是對整張圖統一旋轉色相，不是重新調整某一個停駐點。\n\n再把 Saturation 調高（例如 1.3），顏色會更加鮮豔飽和，適合做出「亮色系」款式而不用回頭改顏色漸變。",
+        en: "Move Hue away from the default 0.5 (e.g. to 0.15) — the dark blue shifts to a different hue (e.g. green) as a set, while the contrast between the two tones and the pattern itself stay completely unchanged.\n\nBecause Hue rotates the whole image's hue uniformly rather than re-tuning any single stop.\n\nThen raise Saturation (e.g. to 1.3) for a more vivid, saturated variant — no need to go back and edit the Color Ramp at all.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "color_hsv", "hue", (v) => Math.abs(v - 0.5) > 0.2) &&
