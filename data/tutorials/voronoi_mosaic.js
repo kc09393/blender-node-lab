@@ -48,8 +48,8 @@ export default {
     {
       title: { zh: "第三步：接 Color 而不是 Distance", en: "Step 3: Use Color, Not Distance" },
       instruction: {
-        zh: "這次把沃羅諾伊紋理的顏色（Color）輸出（不是距離 Distance）接到原理化 BSDF（Principled BSDF）的底色（Base Color）。每一格細胞現在應該各自是一個隨機的純色。",
-        en: "This time connect Voronoi Texture's Color output (not Distance) to Principled BSDF's Base Color. Each cell should now be its own random solid color.",
+        zh: "這次把沃羅諾伊紋理的顏色（Color）輸出（不是距離 Distance）接到原理化 BSDF（Principled BSDF）的底色（Base Color）。\n\n每一格細胞現在應該各自是一個隨機的純色。",
+        en: "This time connect Voronoi Texture's Color output (not Distance) to Principled BSDF's Base Color.\n\nEach cell should now be its own random solid color.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_voronoi", "color", "shader_principled_bsdf", "baseColor"),
     },
