@@ -38,16 +38,16 @@ export default {
     {
       title: { zh: "第二步：調低伽瑪值變亮", en: "Step 2: Lower Gamma to Brighten" },
       instruction: {
-        zh: "把伽瑪（Gamma）調到 0.5 以下（例如 0.35）。中灰色應該會明顯變亮，因為指數小於 1 會把 0-1 範圍內的數值整體往上抬。",
-        en: "Set Gamma below 0.5 (e.g. 0.35). The mid-gray should visibly brighten, since an exponent below 1 lifts values within the 0-1 range upward overall.",
+        zh: "把伽瑪（Gamma）調到 0.5 以下（例如 0.35）。中灰色應該會明顯變亮。\n\n因為指數小於 1 會把 0-1 範圍內的數值整體往上抬。",
+        en: "Set Gamma below 0.5 (e.g. 0.35). The mid-gray should visibly brighten.\n\nAn exponent below 1 lifts values within the 0-1 range upward overall.",
       },
       check: (graph) => anyNodeParamMatches(graph, "color_gamma", "gamma", (v) => v <= 0.5),
     },
     {
       title: { zh: "第三步：換成大於 1 的伽瑪值", en: "Step 3: Try a Gamma Above 1" },
       instruction: {
-        zh: "再把伽瑪調到 2 以上，顏色應該會變得比中灰暗很多——這證明伽瑪是「次方」而不是「加減」，越極端的值效果越劇烈。",
-        en: "Now set Gamma above 2 — the color should become much darker than mid-gray. This confirms Gamma is a power operation, not addition/subtraction — more extreme values have a stronger effect.",
+        zh: "再把伽瑪調到 2 以上，顏色應該會變得比中灰暗很多。\n\n這證明伽瑪是「次方」而不是「加減」，越極端的值效果越劇烈。",
+        en: "Now set Gamma above 2 — the color should become much darker than mid-gray.\n\nThis confirms Gamma is a power operation, not addition/subtraction — more extreme values have a stronger effect.",
       },
       check: (graph) => anyNodeParamMatches(graph, "color_gamma", "gamma", (v) => v >= 2),
     },

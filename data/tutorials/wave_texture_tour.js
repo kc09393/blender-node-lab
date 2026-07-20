@@ -36,32 +36,32 @@ export default {
     {
       title: { zh: "第一步：加入波浪紋理", en: "Step 1: Add a Wave Texture" },
       instruction: {
-        zh: "從「紋理 Texture」分類拖入波浪紋理（Wave Texture），把係數（Fac）輸出接到原理化 BSDF 的底色（Base Color）。預設是條紋（Bands）波形＋正弦（Sine）剖面，畫面會是規律的黑白條紋。",
-        en: "Drag in a Wave Texture from the Texture category and connect its Fac output to Principled BSDF's Base Color. The default is Bands wave type with a Sine profile, giving regular black-and-white stripes.",
+        zh: "從「紋理 Texture」分類拖入波浪紋理（Wave Texture），把係數（Fac）輸出接到原理化 BSDF 的底色（Base Color）。\n\n預設是條紋（Bands）波形＋正弦（Sine）剖面，畫面會是規律的黑白條紋。",
+        en: "Drag in a Wave Texture from the Texture category and connect its Fac output to Principled BSDF's Base Color.\n\nThe default is Bands wave type with a Sine profile, giving regular black-and-white stripes.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_wave", "fac", "shader_principled_bsdf", "baseColor"),
     },
     {
       title: { zh: "第二步：切到「環狀」看波紋變同心圓", en: "Step 2: Switch to Rings for Concentric Circles" },
       instruction: {
-        zh: "把波形（Wave Type）切換成環狀（Rings）。條紋會變成一圈一圈的同心圓，像水面漣漪或年輪——Bands 跟 Rings 差別在於：Bands 沿著一個方向線性排列，Rings 則是以中心點為圓心往外擴散。",
-        en: "Switch Wave Type to Rings. The bands become concentric circles, like ripples on water or tree rings — the difference is Bands lay out linearly along one direction, while Rings radiate outward from a center point.",
+        zh: "把波形（Wave Type）切換成環狀（Rings）。條紋會變成一圈一圈的同心圓，像水面漣漪或年輪。\n\nBands 跟 Rings 差別在於：Bands 沿著一個方向線性排列，Rings 則是以中心點為圓心往外擴散。",
+        en: "Switch Wave Type to Rings. The bands become concentric circles, like ripples on water or tree rings.\n\nThe difference is Bands lay out linearly along one direction, while Rings radiate outward from a center point.",
       },
       check: (graph) => anyNodeParamMatches(graph, "texture_wave", "waveType", (v) => v === "rings"),
     },
     {
       title: { zh: "第三步：切到「鋸齒」剖面看邊緣變銳利", en: "Step 3: Switch to Saw Profile for Sharp Edges" },
       instruction: {
-        zh: "把剖面（Profile）切換成鋸齒（Saw）。原本柔和的正弦波紋會變成邊緣銳利的鋸齒狀——Profile 決定每一圈波紋「由暗到亮」的過渡方式：正弦（Sine）平滑、鋸齒（Saw）是直線陡降、三角（Triangle）則是對稱的斜坡。",
-        en: "Switch Profile to Saw. The soft sine wave turns into sharp-edged sawtooth ridges — Profile determines how each wave transitions from dark to light: Sine is smooth, Saw drops off in a straight line, and Triangle is a symmetric ramp.",
+        zh: "把剖面（Profile）切換成鋸齒（Saw）。原本柔和的正弦波紋會變成邊緣銳利的鋸齒狀。\n\nProfile 決定每一圈波紋「由暗到亮」的過渡方式：正弦（Sine）平滑、鋸齒（Saw）是直線陡降、三角（Triangle）則是對稱的斜坡。",
+        en: "Switch Profile to Saw. The soft sine wave turns into sharp-edged sawtooth ridges.\n\nProfile determines how each wave transitions from dark to light: Sine is smooth, Saw drops off in a straight line, and Triangle is a symmetric ramp.",
       },
       check: (graph) => anyNodeParamMatches(graph, "texture_wave", "profile", (v) => v === "saw"),
     },
     {
       title: { zh: "第四步：加上扭曲，模擬木紋年輪", en: "Step 4: Add Distortion for Wood-Grain Rings" },
       instruction: {
-        zh: "把扭曲（Distortion）調到 2 以上。原本工整的圓圈會變得不規則、有機——這正是程序化木紋最常見的做法：環狀波形＋扭曲，模擬樹木年輪自然生長時的歪斜感。",
-        en: "Raise Distortion above 2. The once-perfect circles become irregular and organic — this is the classic recipe for procedural wood grain: Rings wave type plus Distortion, mimicking how tree rings naturally warp as they grow.",
+        zh: "把扭曲（Distortion）調到 2 以上。原本工整的圓圈會變得不規則、有機。\n\n這正是程序化木紋最常見的做法：環狀波形＋扭曲，模擬樹木年輪自然生長時的歪斜感。",
+        en: "Raise Distortion above 2. The once-perfect circles become irregular and organic.\n\nThis is the classic recipe for procedural wood grain: Rings wave type plus Distortion, mimicking how tree rings naturally warp as they grow.",
       },
       check: (graph) => anyNodeParamMatches(graph, "texture_wave", "distortion", (v) => v >= 2),
     },

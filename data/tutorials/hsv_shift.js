@@ -46,8 +46,8 @@ export default {
     {
       title: { zh: "第三步：轉動色相", en: "Step 3: Turn the Hue" },
       instruction: {
-        zh: "把色相（Hue）從預設的 0.5 調成一個不同的值（例如 0.15）。顏色應該會整個轉到色環上不同的位置——這比分別調整 R/G/B 三個色版直覺得多。",
-        en: "Change Hue from the default 0.5 to a different value (e.g. 0.15). The color should shift to a different spot on the color wheel — much more intuitive than adjusting R/G/B separately.",
+        zh: "把色相（Hue）從預設的 0.5 調成一個不同的值（例如 0.15）。顏色應該會整個轉到色環上不同的位置。\n\n這比分別調整 R/G/B 三個色版直覺得多。",
+        en: "Change Hue from the default 0.5 to a different value (e.g. 0.15). The color should shift to a different spot on the color wheel.\n\nMuch more intuitive than adjusting R/G/B separately.",
       },
       check: (graph) => anyNodeParamMatches(graph, "color_hsv", "hue", (v) => Math.abs(v - 0.5) > 0.1),
     },
