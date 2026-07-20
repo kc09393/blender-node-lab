@@ -45,8 +45,8 @@ export default {
     {
       title: { zh: "第二步：調整 Radius 做出紅潤邊緣", en: "Step 2: Tune Radius for a Reddish Edge" },
       instruction: {
-        zh: "各色道半徑（Radius）的三個分量分別對應紅/綠/藍三個色道各自的散射距離。把 R 調得比 G、B 都大（例如 1 / 0.3 / 0.15），球體側邊逆光處就會透出偏紅的光暈——這正是耳朵、鼻尖逆光時會發紅的原因。",
-        en: "Radius's three components are the scattering distance for red/green/blue individually. Set R higher than G and B (e.g. 1 / 0.3 / 0.15) and the sphere's backlit edges will glow reddish — the same reason a backlit ear or nose tip looks red.",
+        zh: "各色道半徑（Radius）的三個分量分別對應紅/綠/藍三個色道各自的散射距離。把 R 調得比 G、B 都大（例如 1 / 0.3 / 0.15），球體側邊逆光處就會透出偏紅的光暈。\n\n這正是耳朵、鼻尖逆光時會發紅的原因。",
+        en: "Radius's three components are the scattering distance for red/green/blue individually. Set R higher than G and B (e.g. 1 / 0.3 / 0.15) and the sphere's backlit edges will glow reddish.\n\nThe same reason a backlit ear or nose tip looks red.",
       },
       check: (graph) =>
         anyNodeParamMatches(
@@ -67,8 +67,8 @@ export default {
     {
       title: { zh: "第四步：用 Mix Shader 疊上少量高光", en: "Step 4: Blend In a Little Highlight with Mix Shader" },
       instruction: {
-        zh: "拖入混合著色器（Mix Shader），上面接次表面散射（Subsurface Scattering）、下面接光澤 BSDF（Glossy BSDF），Fac 調很低（例如 0.08）——高光應該只佔一點點，皮膚看起來才不會像打了蠟。把混合著色器接到材質輸出（Material Output）取代原本的直接連線。",
-        en: "Drag in a Mix Shader, connect Subsurface Scattering to the top and Glossy BSDF to the bottom, and set Fac very low (e.g. 0.08) — the highlight should only be a small amount, or the skin will look waxy. Connect Mix Shader to Material Output, replacing the direct connection.",
+        zh: "拖入混合著色器（Mix Shader），上面接次表面散射（Subsurface Scattering）、下面接光澤 BSDF（Glossy BSDF），Fac 調很低（例如 0.08）。\n\n高光應該只佔一點點，皮膚看起來才不會像打了蠟。\n\n把混合著色器接到材質輸出（Material Output）取代原本的直接連線。",
+        en: "Drag in a Mix Shader, connect Subsurface Scattering to the top and Glossy BSDF to the bottom, and set Fac very low (e.g. 0.08).\n\nThe highlight should only be a small amount, or the skin will look waxy.\n\nConnect Mix Shader to Material Output, replacing the direct connection.",
       },
       check: (graph) =>
         hasNodeOfType(graph, "shader_mix_shader") &&

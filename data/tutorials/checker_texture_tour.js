@@ -62,8 +62,8 @@ export default {
     {
       title: { zh: "第四步：換一個座標來源", en: "Step 4: Swap the Coordinate Source" },
       instruction: {
-        zh: "加入紋理座標（Texture Coordinate，輸入 Input 分類），把它的 Generated 輸出接到棋盤格紋理的向量（Vector）輸入。格子的排列方式可能會跟著改變——這就是棋盤格紋理最重要的用途：只要格子看起來扭曲、接縫不對齊，通常就代表你接的座標系統本身有問題。",
-        en: "Add a Texture Coordinate (Input category) and connect its Generated output to Checker Texture's Vector input. The squares' layout may shift — this is Checker Texture's most important use: whenever the squares look stretched or the seams don't line up, it usually means something's off with the coordinate system feeding it.",
+        zh: "加入紋理座標（Texture Coordinate，輸入 Input 分類），把它的 Generated 輸出接到棋盤格紋理的向量（Vector）輸入。格子的排列方式可能會跟著改變。\n\n這就是棋盤格紋理最重要的用途：只要格子看起來扭曲、接縫不對齊，通常就代表你接的座標系統本身有問題。",
+        en: "Add a Texture Coordinate (Input category) and connect its Generated output to Checker Texture's Vector input. The squares' layout may shift.\n\nThis is Checker Texture's most important use: whenever the squares look stretched or the seams don't line up, it usually means something's off with the coordinate system feeding it.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "input_texture_coordinate", "generated", "texture_checker", "vector"),
     },

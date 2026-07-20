@@ -39,8 +39,8 @@ export default {
     {
       title: { zh: "第一步：換一個底色", en: "Step 1: Change the Base Color" },
       instruction: {
-        zh: "點原理化 BSDF（Principled BSDF）的底色（Base Color）色塊，換成任何不是灰色的顏色（例如藍色）。Base Color 決定材質「本身的顏色」，是幾乎所有材質調整的第一步。",
-        en: "Click Principled BSDF's Base Color swatch and pick any non-gray color (e.g. blue). Base Color sets the material's own color — almost always the first thing you adjust.",
+        zh: "點原理化 BSDF（Principled BSDF）的底色（Base Color）色塊，換成任何不是灰色的顏色（例如藍色）。\n\nBase Color 決定材質「本身的顏色」，是幾乎所有材質調整的第一步。",
+        en: "Click Principled BSDF's Base Color swatch and pick any non-gray color (e.g. blue).\n\nBase Color sets the material's own color — almost always the first thing you adjust.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "shader_principled_bsdf", "baseColor", (v) => {
@@ -52,32 +52,32 @@ export default {
     {
       title: { zh: "第二步：調低粗糙度，看反光變銳利", en: "Step 2: Lower Roughness for a Sharper Reflection" },
       instruction: {
-        zh: "把粗糙度（Roughness）調到 0.1 以下。Roughness 決定表面「散得開還是聚得攏」的反光方式：數值越低，高光越小越銳利（像拋光表面）；數值越高，高光越大越模糊（像霧面）。",
-        en: "Lower Roughness below 0.1. Roughness controls whether reflections stay tight or spread out: lower values give a small, sharp highlight (polished), higher values give a wide, soft one (matte).",
+        zh: "把粗糙度（Roughness）調到 0.1 以下。\n\nRoughness 決定表面「散得開還是聚得攏」的反光方式：數值越低，高光越小越銳利（像拋光表面）；數值越高，高光越大越模糊（像霧面）。",
+        en: "Lower Roughness below 0.1.\n\nRoughness controls whether reflections stay tight or spread out: lower values give a small, sharp highlight (polished), higher values give a wide, soft one (matte).",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_principled_bsdf", "roughness", (v) => v <= 0.1),
     },
     {
       title: { zh: "第三步：打開金屬度，感受材質轉變", en: "Step 3: Turn Up Metallic" },
       instruction: {
-        zh: "把金屬度（Metallic）調到 1。金屬度是「非金屬 vs 金屬」的切換開關：0 代表塑膠、木頭、皮膚這類非金屬材質（反光是白色的）；1 代表真正的金屬（反光會被 Base Color 染色，這也是為什麼金色/銅色金屬看起來會帶顏色）。",
-        en: "Set Metallic to 1. Metallic switches between non-metal and metal response: 0 means plastic/wood/skin-like materials (reflections stay white), 1 means true metal (reflections get tinted by Base Color — why gold or copper metals look colored).",
+        zh: "把金屬度（Metallic）調到 1。\n\n金屬度是「非金屬 vs 金屬」的切換開關：0 代表塑膠、木頭、皮膚這類非金屬材質（反光是白色的）；1 代表真正的金屬（反光會被 Base Color 染色，這也是為什麼金色/銅色金屬看起來會帶顏色）。",
+        en: "Set Metallic to 1.\n\nMetallic switches between non-metal and metal response: 0 means plastic/wood/skin-like materials (reflections stay white), 1 means true metal (reflections get tinted by Base Color — why gold or copper metals look colored).",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_principled_bsdf", "metallic", (v) => v >= 0.9),
     },
     {
       title: { zh: "第四步：加上自發光", en: "Step 4: Add Emission" },
       instruction: {
-        zh: "把發光顏色（Emission Color）換成一個鮮豔的顏色、發光強度（Emission Strength）調到 1 以上。Emission 讓材質「自己發光」，不需要外部光源就能亮起來，常用來做螢幕、燈具、霓虹燈效果。",
-        en: "Change Emission Color to a vivid color and raise Emission Strength above 1. Emission makes the material glow on its own, independent of scene lighting — great for screens, lamps, or neon effects.",
+        zh: "把發光顏色（Emission Color）換成一個鮮豔的顏色、發光強度（Emission Strength）調到 1 以上。\n\nEmission 讓材質「自己發光」，不需要外部光源就能亮起來，常用來做螢幕、燈具、霓虹燈效果。",
+        en: "Change Emission Color to a vivid color and raise Emission Strength above 1.\n\nEmission makes the material glow on its own, independent of scene lighting — great for screens, lamps, or neon effects.",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_principled_bsdf", "emissionStrength", (v) => v >= 1),
     },
     {
       title: { zh: "第五步：調低透明度", en: "Step 5: Lower Alpha" },
       instruction: {
-        zh: "把透明度（Alpha）調到 0.7 以下。Alpha 控制材質整體「穿透多少」：1 完全不透明，數值越低背景越看得透，常搭配 Transparent BSDF 或紋理的 Alpha 輸出做出局部透明的效果（例如玻璃、樹葉、破洞）。",
-        en: "Lower Alpha below 0.7. Alpha controls how see-through the whole material is: 1 is fully opaque, lower values let the background show through — often paired with Transparent BSDF or a texture's Alpha output for effects like glass, leaves, or torn holes.",
+        zh: "把透明度（Alpha）調到 0.7 以下。\n\nAlpha 控制材質整體「穿透多少」：1 完全不透明，數值越低背景越看得透，常搭配 Transparent BSDF 或紋理的 Alpha 輸出做出局部透明的效果（例如玻璃、樹葉、破洞）。",
+        en: "Lower Alpha below 0.7.\n\nAlpha controls how see-through the whole material is: 1 is fully opaque, lower values let the background show through — often paired with Transparent BSDF or a texture's Alpha output for effects like glass, leaves, or torn holes.",
       },
       check: (graph) => anyNodeParamMatches(graph, "shader_principled_bsdf", "alpha", (v) => v <= 0.7),
     },

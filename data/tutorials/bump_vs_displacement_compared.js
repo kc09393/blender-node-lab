@@ -45,16 +45,16 @@ export default {
     {
       title: { zh: "第二步：旋轉觀察，輪廓其實是直的", en: "Step 2: Rotate and Notice the Silhouette Is Still Flat" },
       instruction: {
-        zh: "拖曳旋轉球體，把某個凹凸明顯的地方轉到邊緣輪廓上。你會發現輪廓還是一條平滑的圓弧線——完全沒有真的凹凸進去或凸出來。Bump 只是騙過光影計算，球體的實際形狀（頂點位置）從頭到尾沒有變過。",
-        en: "Drag to rotate the sphere, bringing an obviously bumpy spot to the silhouette edge. You'll find the outline is still a smooth arc — nothing actually pokes in or out. Bump only fools the lighting math; the sphere's real shape (vertex positions) never changed.",
+        zh: "拖曳旋轉球體，把某個凹凸明顯的地方轉到邊緣輪廓上。你會發現輪廓還是一條平滑的圓弧線——完全沒有真的凹凸進去或凸出來。\n\nBump 只是騙過光影計算，球體的實際形狀（頂點位置）從頭到尾沒有變過。",
+        en: "Drag to rotate the sphere, bringing an obviously bumpy spot to the silhouette edge. You'll find the outline is still a smooth arc — nothing actually pokes in or out.\n\nBump only fools the lighting math; the sphere's real shape (vertex positions) never changed.",
       },
       check: (graph) => hasNodeOfType(graph, "vector_bump"),
     },
     {
       title: { zh: "第三步：加入 Displacement，接上同一份高度資料", en: "Step 3: Add Displacement, Fed by the Same Height Data" },
       instruction: {
-        zh: "加入位移（Displacement，向量 Vector 分類），把同一個雜訊紋理的係數（Fac）也接到它的高度（Height）——注意這是「同一份資料，接去兩個地方」，不是換掉 Bump。再把 Displacement 的輸出接到材質輸出（Material Output）的位移（Displacement）插槽（不是 Surface）。",
-        en: "Add a Displacement node (Vector category), and connect the same Noise Texture's Fac to its Height too — note this is 'the same data, wired to two places', not replacing Bump. Then connect Displacement's output to Material Output's Displacement socket (not Surface).",
+        zh: "加入位移（Displacement，向量 Vector 分類），把同一個雜訊紋理的係數（Fac）也接到它的高度（Height）。\n\n⚠️ 注意這是「同一份資料，接去兩個地方」，不是換掉 Bump。\n\n再把 Displacement 的輸出接到材質輸出（Material Output）的位移（Displacement）插槽（不是 Surface）。",
+        en: "Add a Displacement node (Vector category), and connect the same Noise Texture's Fac to its Height too.\n\n⚠️ Note this is 'the same data, wired to two places', not replacing Bump.\n\nThen connect Displacement's output to Material Output's Displacement socket (not Surface).",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "texture_noise", "fac", "vector_displacement", "height") &&
@@ -63,8 +63,8 @@ export default {
     {
       title: { zh: "第四步：調大 Scale，這次輪廓真的變了", en: "Step 4: Raise Scale — This Time the Silhouette Really Changes" },
       instruction: {
-        zh: "把 Displacement 的縮放（Scale）調到 0.15 以上，再一次旋轉球體看邊緣輪廓。這次輪廓會真的凹凸不平——這就是兩者的根本差異：不管把 Bump 的強度（Strength）調多高，輪廓永遠是平滑的；Displacement 哪怕縮放不大，輪廓也一定會跟著改變，因為它動的是真正的頂點位置。",
-        en: "Raise Displacement's Scale above 0.15, and rotate the sphere again to check the edge. This time the silhouette genuinely bumps in and out — the fundamental difference: no matter how high you push Bump's Strength, the silhouette stays perfectly smooth; Displacement, even at a modest scale, always changes the silhouette, because it moves real vertex positions.",
+        zh: "把 Displacement 的縮放（Scale）調到 0.15 以上，再一次旋轉球體看邊緣輪廓。這次輪廓會真的凹凸不平。\n\n這就是兩者的根本差異：不管把 Bump 的強度（Strength）調多高，輪廓永遠是平滑的；Displacement 哪怕縮放不大，輪廓也一定會跟著改變，因為它動的是真正的頂點位置。",
+        en: "Raise Displacement's Scale above 0.15, and rotate the sphere again to check the edge. This time the silhouette genuinely bumps in and out.\n\nThe fundamental difference: no matter how high you push Bump's Strength, the silhouette stays perfectly smooth; Displacement, even at a modest scale, always changes the silhouette, because it moves real vertex positions.",
       },
       check: (graph) => anyNodeParamMatches(graph, "vector_displacement", "scale", (v) => typeof v === "number" && v >= 0.15),
     },
