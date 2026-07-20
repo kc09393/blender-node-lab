@@ -55,8 +55,8 @@ export default {
     {
       title: { zh: "第四步：用 Fac 驅動發光強度", en: "Step 4: Drive Strength with Fac" },
       instruction: {
-        zh: "把波浪紋理（Wave Texture）的係數（Fac）輸出接到發光（Emission）的強度（Strength），取代原本固定的滑桿數值。現在球體表面應該會依波紋圖案呈現忽亮忽暗的霓虹感，而不是整片均勻發光。",
-        en: "Connect Wave Texture's Fac output to Emission's Strength, replacing the fixed slider value. The surface should now glow brighter and dimmer following the wave pattern — a neon look instead of flat uniform light.",
+        zh: "把波浪紋理（Wave Texture）的係數（Fac）輸出接到發光（Emission）的強度（Strength），取代原本固定的滑桿數值。\n\n現在球體表面應該會依波紋圖案呈現忽亮忽暗的霓虹感，而不是整片均勻發光。",
+        en: "Connect Wave Texture's Fac output to Emission's Strength, replacing the fixed slider value.\n\nThe surface should now glow brighter and dimmer following the wave pattern — a neon look instead of flat uniform light.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_wave", "fac", "shader_emission", "strength"),
     },

@@ -61,8 +61,8 @@ export default {
     {
       title: { zh: "第四步：用棋盤格紋理驅動 Fac", en: "Step 4: Drive Fac with a Checker Texture" },
       instruction: {
-        zh: "加入棋盤格紋理（Checker Texture，紋理 Texture 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac。現在穿透的地方會變成規律的格紋，而不是整片均勻的半透明——這就是「用紋理節點來控制混合比例」的概念，跟接一個固定滑桿完全不同。",
-        en: "Add a Checker Texture (Texture category) and connect its Fac output to Mix Shader's Fac. Now the transparent areas form a regular grid pattern instead of uniform semi-transparency — this is the idea of 'driving a blend ratio with a texture node' instead of a fixed slider.",
+        zh: "加入棋盤格紋理（Checker Texture，紋理 Texture 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac。現在穿透的地方會變成規律的格紋，而不是整片均勻的半透明。\n\n這就是「用紋理節點來控制混合比例」的概念，跟接一個固定滑桿完全不同。",
+        en: "Add a Checker Texture (Texture category) and connect its Fac output to Mix Shader's Fac. Now the transparent areas form a regular grid pattern instead of uniform semi-transparency.\n\nThis is the idea of 'driving a blend ratio with a texture node' instead of a fixed slider.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_checker", "fac", "shader_mix_shader", "fac"),
     },
