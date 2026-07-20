@@ -50,8 +50,8 @@ export default {
     {
       title: { zh: "第三步：確認顏色對調了", en: "Step 3: Confirm the Colors Swapped" },
       instruction: {
-        zh: "看看即時預覽，原本黑色的格子現在應該變白色、白色的格子變黑色——完全不用去改棋盤格紋理本身的任何設定，只靠反色節點就對調了。",
-        en: "Check the live preview — squares that were black should now be white, and vice versa, without touching a single setting on the Checker Texture itself. Invert Color alone did the swap.",
+        zh: "看看即時預覽，原本黑色的格子現在應該變白色、白色的格子變黑色。\n\n完全不用去改棋盤格紋理本身的任何設定，只靠反色節點就對調了。",
+        en: "Check the live preview — squares that were black should now be white, and vice versa.\n\nWithout touching a single setting on the Checker Texture itself, Invert Color alone did the swap.",
       },
       check: (graph) => anyNodeParamMatches(graph, "color_invert", "fac", (v) => typeof v === "number" && v >= 0.8),
     },

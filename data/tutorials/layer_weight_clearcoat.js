@@ -54,16 +54,16 @@ export default {
     {
       title: { zh: "第三步：用層權重驅動混合比例", en: "Step 3: Drive the Blend with Layer Weight" },
       instruction: {
-        zh: "加入層權重（Layer Weight）節點（輸入 Input 分類），把它的 Fresnel 輸出接到混合著色器的 Fac，取代固定滑桿——清漆現在只會在邊緣角度顯現。",
-        en: "Add a Layer Weight node (Input category) and connect its Fresnel output to Mix Shader's Fac, replacing the fixed slider — the clearcoat now only shows up at grazing angles.",
+        zh: "加入層權重（Layer Weight）節點（輸入 Input 分類），把它的 Fresnel 輸出接到混合著色器的 Fac，取代固定滑桿。\n\n清漆現在只會在邊緣角度顯現。",
+        en: "Add a Layer Weight node (Input category) and connect its Fresnel output to Mix Shader's Fac, replacing the fixed slider.\n\nThe clearcoat now only shows up at grazing angles.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "input_layer_weight", "fresnel", "shader_mix_shader", "fac"),
     },
     {
       title: { zh: "第四步：調整 Blend 集中程度", en: "Step 4: Adjust How Concentrated the Blend Is" },
       instruction: {
-        zh: "把層權重的 Blend 調離預設的 0.5（例如 0.2），過渡效果集中在邊緣的程度會跟著改變——這是它比純菲涅爾多出來的直覺調整項。",
-        en: "Move Layer Weight's Blend away from the default 0.5 (e.g. 0.2) — how concentrated the transition is at the edges will change. This is the extra intuitive control it has over plain Fresnel.",
+        zh: "把層權重的 Blend 調離預設的 0.5（例如 0.2），過渡效果集中在邊緣的程度會跟著改變。\n\n這是它比純菲涅爾多出來的直覺調整項。",
+        en: "Move Layer Weight's Blend away from the default 0.5 (e.g. 0.2) — how concentrated the transition is at the edges will change.\n\nThis is the extra intuitive control it has over plain Fresnel.",
       },
       check: (graph) => anyNodeParamMatches(graph, "input_layer_weight", "blend", (v) => Math.abs(v - 0.5) > 0.15),
     },
