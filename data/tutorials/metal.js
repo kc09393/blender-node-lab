@@ -53,8 +53,8 @@ export default {
     {
       title: { zh: "第三步：用 Map Range 調整範圍", en: "Step 3: Rescale with Map Range" },
       instruction: {
-        zh: "雜訊紋理（Noise Texture）的係數（Fac）是 0-1，直接接粗糙度（Roughness）會太誇張。加入一個映射範圍（Map Range，轉換器 Converter 分類），把雜訊的係數接進去，再把映射範圍的輸出接到原理化 BSDF（Principled BSDF）的粗糙度。",
-        en: "Noise Texture's Fac output is 0-1 — too extreme for Roughness directly. Add a Map Range (Converter category), feed Noise's Fac into it, and connect its output to Principled BSDF's Roughness.",
+        zh: "雜訊紋理（Noise Texture）的係數（Fac）是 0-1，直接接粗糙度（Roughness）會太誇張。\n\n加入一個映射範圍（Map Range，轉換器 Converter 分類），把雜訊的係數接進去，再把映射範圍的輸出接到原理化 BSDF（Principled BSDF）的粗糙度。",
+        en: "Noise Texture's Fac output is 0-1 — too extreme for Roughness directly.\n\nAdd a Map Range (Converter category), feed Noise's Fac into it, and connect its output to Principled BSDF's Roughness.",
       },
       check: (graph) =>
         hasNodeOfType(graph, "converter_map_range") &&

@@ -61,8 +61,8 @@ export default {
     {
       title: { zh: "第四步：用 Fresnel 做出邊緣反光", en: "Step 4: Edge Highlights with Fresnel" },
       instruction: {
-        zh: "真正的車漆是「正面看得到底漆、側邊會反光」。加入菲涅爾（Fresnel）節點（輸入 Input 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac，取代原本固定的滑桿數值——這樣反光比例會依角度自動變化。",
-        en: "Real car paint shows the base coat head-on but reflects more at grazing angles. Add a Fresnel node (Input category) and connect its Fac output to Mix Shader's Fac, replacing the fixed slider — now the reflection ratio changes automatically with viewing angle.",
+        zh: "真正的車漆是「正面看得到底漆、側邊會反光」。\n\n加入菲涅爾（Fresnel）節點（輸入 Input 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac，取代原本固定的滑桿數值。這樣反光比例會依角度自動變化。",
+        en: "Real car paint shows the base coat head-on but reflects more at grazing angles.\n\nAdd a Fresnel node (Input category) and connect its Fac output to Mix Shader's Fac, replacing the fixed slider. Now the reflection ratio changes automatically with viewing angle.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "input_fresnel", "fac", "shader_mix_shader", "fac"),
     },

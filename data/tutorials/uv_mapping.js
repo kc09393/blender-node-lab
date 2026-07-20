@@ -42,16 +42,16 @@ export default {
     {
       title: { zh: "第二步：接上 Texture Coordinate", en: "Step 2: Wire Up Texture Coordinate" },
       instruction: {
-        zh: "加入紋理座標（Texture Coordinate，輸入分類），把它的 Generated 輸出接到棋盤格紋理（Checker Texture）的向量（Vector）輸入。Generated 座標會跟著物體形狀走，即使物體移動旋轉，花紋也不會跑掉——這是它跟 UV 最大的差異。",
-        en: "Add a Texture Coordinate (Input category) and connect its Generated output to Checker Texture's Vector input. Generated coordinates follow the object's shape — even if the object moves or rotates, the pattern won't shift. That's its key difference from UV.",
+        zh: "加入紋理座標（Texture Coordinate，輸入分類），把它的 Generated 輸出接到棋盤格紋理（Checker Texture）的向量（Vector）輸入。\n\nGenerated 座標會跟著物體形狀走，即使物體移動旋轉，花紋也不會跑掉——這是它跟 UV 最大的差異。",
+        en: "Add a Texture Coordinate (Input category) and connect its Generated output to Checker Texture's Vector input.\n\nGenerated coordinates follow the object's shape — even if the object moves or rotates, the pattern won't shift. That's its key difference from UV.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "input_texture_coordinate", "generated", "texture_checker", "vector"),
     },
     {
       title: { zh: "第三步：加入 Mapping 調整密度", en: "Step 3: Add Mapping to Control Density" },
       instruction: {
-        zh: "在紋理座標（Texture Coordinate）跟棋盤格紋理（Checker Texture）中間插入一個映射（Mapping）節點，把縮放（Scale）的三個軸都調到 3 以上——格紋應該會變得更密集。縮放越大，代表同樣的貼圖在同一塊表面上重複越多次。",
-        en: "Insert a Mapping node between Texture Coordinate and Checker Texture, and set all three Scale axes to 3 or higher — the checker pattern should get noticeably denser. Higher Scale means the texture repeats more times across the same surface.",
+        zh: "在紋理座標（Texture Coordinate）跟棋盤格紋理（Checker Texture）中間插入一個映射（Mapping）節點，把縮放（Scale）的三個軸都調到 3 以上——格紋應該會變得更密集。\n\n縮放越大，代表同樣的貼圖在同一塊表面上重複越多次。",
+        en: "Insert a Mapping node between Texture Coordinate and Checker Texture, and set all three Scale axes to 3 or higher — the checker pattern should get noticeably denser.\n\nHigher Scale means the texture repeats more times across the same surface.",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "input_texture_coordinate", "generated", "vector_mapping", "vector") &&
