@@ -38,8 +38,8 @@ export default {
     {
       title: { zh: "第一步：接好磚塊紋理", en: "Step 1: Wire Up Brick Texture" },
       instruction: {
-        zh: "加入紋理座標（Texture Coordinate）與磚塊紋理（Brick Texture），把 Generated 接到磚塊紋理的向量（Vector），再把磚塊紋理的顏色（Color）接到原理化 BSDF 的底色（Base Color）。應該會看到預設比例的磚牆。",
-        en: "Add a Texture Coordinate and a Brick Texture, connect Generated to Brick Texture's Vector, then connect Brick Texture's Color to Principled BSDF's Base Color. You should see the default brick proportions.",
+        zh: "加入紋理座標（Texture Coordinate）與磚塊紋理（Brick Texture），把 Generated 接到磚塊紋理的向量（Vector），再把磚塊紋理的顏色（Color）接到原理化 BSDF 的底色（Base Color）。\n\n應該會看到預設比例的磚牆。",
+        en: "Add a Texture Coordinate and a Brick Texture, connect Generated to Brick Texture's Vector, then connect Brick Texture's Color to Principled BSDF's Base Color.\n\nYou should see the default brick proportions.",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "input_texture_coordinate", "generated", "texture_brick", "vector") &&
@@ -48,8 +48,8 @@ export default {
     {
       title: { zh: "第二步：調整寬高比，做出瘦高磚", en: "Step 2: Adjust Aspect Ratio for Tall Narrow Bricks" },
       instruction: {
-        zh: "把磚塊寬度（Brick Width）調低（例如 0.3）、列高（Row Height）調高（例如 0.45）。磚塊會從一般的寬扁比例變成瘦高的長條——這兩個參數是各自獨立的比例值，不是連動的縮放。",
-        en: "Lower Brick Width (e.g. 0.3) and raise Row Height (e.g. 0.45). Bricks go from the usual wide-flat proportion to tall narrow columns — these two parameters are independent ratios, not a linked scale.",
+        zh: "把磚塊寬度（Brick Width）調低（例如 0.3）、列高（Row Height）調高（例如 0.45）。磚塊會從一般的寬扁比例變成瘦高的長條。\n\n這兩個參數是各自獨立的比例值，不是連動的縮放。",
+        en: "Lower Brick Width (e.g. 0.3) and raise Row Height (e.g. 0.45). Bricks go from the usual wide-flat proportion to tall narrow columns.\n\nThese two parameters are independent ratios, not a linked scale.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "texture_brick", "brickWidth", (v) => v <= 0.35) &&
@@ -58,8 +58,8 @@ export default {
     {
       title: { zh: "第三步：改變位移週期，做出跑道式砌法", en: "Step 3: Change Offset Frequency for a Running Bond" },
       instruction: {
-        zh: "把位移量（Offset）設成 0.33、位移週期（Offset Frequency）設成 3——代表每 3 列才整體橫向位移一次，而不是預設的『每列都交錯』。磚縫看起來會呈現每 3 排重複一次的節奏，而不是逐排交錯的傳統排法。",
-        en: "Set Offset to 0.33 and Offset Frequency to 3 — meaning the whole pattern shifts horizontally only once every 3 rows, instead of the default 'every row staggers'. The mortar lines now repeat their rhythm every 3 rows instead of the traditional row-by-row stagger.",
+        zh: "把位移量（Offset）設成 0.33、位移週期（Offset Frequency）設成 3——代表每 3 列才整體橫向位移一次，而不是預設的『每列都交錯』。\n\n磚縫看起來會呈現每 3 排重複一次的節奏，而不是逐排交錯的傳統排法。",
+        en: "Set Offset to 0.33 and Offset Frequency to 3 — meaning the whole pattern shifts horizontally only once every 3 rows, instead of the default 'every row staggers'.\n\nThe mortar lines now repeat their rhythm every 3 rows instead of the traditional row-by-row stagger.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "texture_brick", "offsetFrequency", (v) => v >= 3) &&
@@ -68,8 +68,8 @@ export default {
     {
       title: { zh: "第四步：加上壓縮週期與顏色偏向，做出風化不規則感", en: "Step 4: Add Squash Frequency and Color Bias for a Weathered Look" },
       instruction: {
-        zh: "把壓縮量（Squash）設成 0.7、壓縮週期（Squash Frequency）設成 4——每 4 列磚塊寬度會被壓縮成 0.7 倍，打破完全規律的網格感。再把偏向（Bias）調到 0.6 附近，讓磚塊隨機挑選顏色 1／顏色 2 時明顯偏向其中一種，模擬長期日曬風化、顏色不均勻的老牆。",
-        en: "Set Squash to 0.7 and Squash Frequency to 4 — every 4 rows, brick width compresses to 0.7×, breaking the perfectly regular grid feel. Then set Bias near 0.6 so the random Color 1/Color 2 pick leans noticeably toward one tone, mimicking a sun-weathered, unevenly colored old wall.",
+        zh: "把壓縮量（Squash）設成 0.7、壓縮週期（Squash Frequency）設成 4——每 4 列磚塊寬度會被壓縮成 0.7 倍，打破完全規律的網格感。\n\n再把偏向（Bias）調到 0.6 附近，讓磚塊隨機挑選顏色 1／顏色 2 時明顯偏向其中一種，模擬長期日曬風化、顏色不均勻的老牆。",
+        en: "Set Squash to 0.7 and Squash Frequency to 4 — every 4 rows, brick width compresses to 0.7×, breaking the perfectly regular grid feel.\n\nThen set Bias near 0.6 so the random Color 1/Color 2 pick leans noticeably toward one tone, mimicking a sun-weathered, unevenly colored old wall.",
       },
       check: (graph) =>
         anyNodeParamMatches(graph, "texture_brick", "squashFrequency", (v) => v >= 3) &&

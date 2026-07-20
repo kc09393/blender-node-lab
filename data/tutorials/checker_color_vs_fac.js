@@ -36,8 +36,8 @@ export default {
     {
       title: { zh: "第一步：準備塑膠跟金屬兩種材質", en: "Step 1: Prepare a Plastic and a Metal Material" },
       instruction: {
-        zh: "現有的原理化 BSDF 就是塑膠：金屬度（Metallic）0、粗糙度（Roughness）0.3。再拖入一個新的原理化 BSDF 當金屬：底色（Base Color）改淺灰、金屬度調到 1、粗糙度調低（例如 0.2），先不用接線。",
-        en: "The existing Principled BSDF is the plastic: Metallic 0, Roughness 0.3. Drag in a new Principled BSDF for the metal: light gray Base Color, Metallic set to 1, lower Roughness (e.g. 0.2). Don't wire it up yet.",
+        zh: "現有的原理化 BSDF 就是塑膠：金屬度（Metallic）0、粗糙度（Roughness）0.3。\n\n再拖入一個新的原理化 BSDF 當金屬：底色（Base Color）改淺灰、金屬度調到 1、粗糙度調低（例如 0.2），先不用接線。",
+        en: "The existing Principled BSDF is the plastic: Metallic 0, Roughness 0.3.\n\nDrag in a new Principled BSDF for the metal: light gray Base Color, Metallic set to 1, lower Roughness (e.g. 0.2). Don't wire it up yet.",
       },
       check: (graph) => {
         const principled = findNodesOfType(graph, "shader_principled_bsdf");
@@ -57,16 +57,16 @@ export default {
     {
       title: { zh: "第三步：加入棋盤格，這次接 Fac 而不是 Color", en: "Step 3: Add Checker — This Time Wire Fac, Not Color" },
       instruction: {
-        zh: "加入紋理座標（Texture Coordinate）跟棋盤格紋理（Checker Texture），把紋理座標的 Generated 接到棋盤格的向量（Vector）。⚠️ 關鍵的一步：把棋盤格的係數（Fac，不是 Color！）接到混合著色器的 Fac。Fac 是乾淨的 0 或 1，剛好可以直接當混合開關用。",
-        en: "Add a Texture Coordinate and a Checker Texture, connect Texture Coordinate's Generated to Checker's Vector. ⚠️ The key step: connect Checker's Fac output (not Color!) to Mix Shader's Fac. Fac is a clean 0 or 1 — exactly what a mix switch needs.",
+        zh: "加入紋理座標（Texture Coordinate）跟棋盤格紋理（Checker Texture），把紋理座標的 Generated 接到棋盤格的向量（Vector）。\n\n⚠️ 關鍵的一步：把棋盤格的係數（Fac，不是 Color！）接到混合著色器的 Fac。Fac 是乾淨的 0 或 1，剛好可以直接當混合開關用。",
+        en: "Add a Texture Coordinate and a Checker Texture, connect Texture Coordinate's Generated to Checker's Vector.\n\n⚠️ The key step: connect Checker's Fac output (not Color!) to Mix Shader's Fac. Fac is a clean 0 or 1 — exactly what a mix switch needs.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_checker", "fac", "shader_mix_shader", "fac"),
     },
     {
       title: { zh: "第四步：觀察結果，理解兩個輸出的差異", en: "Step 4: Observe the Result and Understand the Difference" },
       instruction: {
-        zh: "畫面應該會出現真的一半塑膠、一半金屬的棋盤格——不是同一種材質換顏色，是材質本身（連粗糙度、金屬度都不同）在切換。如果剛剛接的是 Color 而不是 Fac，系統雖然還是能運作（Color 會自動依亮度換算成 0-1），但語意上會很奇怪：你等於是拿「兩個顏色」硬套進「應該是開關」的插槽——Fac 才是設計給這種用途的正確輸出。",
-        en: "The result should be a checkerboard that's genuinely half plastic, half metal — not one material recoloring, but the material itself (roughness, metallic, everything) switching. If you'd wired Color instead of Fac, it would technically still work (Color auto-converts to 0-1 via luminance), but semantically that's odd — you'd be forcing 'two colors' into a socket meant to be a switch. Fac is the output actually designed for this purpose.",
+        zh: "畫面應該會出現真的一半塑膠、一半金屬的棋盤格——不是同一種材質換顏色，是材質本身（連粗糙度、金屬度都不同）在切換。\n\n如果剛剛接的是 Color 而不是 Fac，系統雖然還是能運作（Color 會自動依亮度換算成 0-1），但語意上會很奇怪：你等於是拿「兩個顏色」硬套進「應該是開關」的插槽。\n\nFac 才是設計給這種用途的正確輸出。",
+        en: "The result should be a checkerboard that's genuinely half plastic, half metal — not one material recoloring, but the material itself (roughness, metallic, everything) switching.\n\nIf you'd wired Color instead of Fac, it would technically still work (Color auto-converts to 0-1 via luminance), but semantically that's odd — you'd be forcing 'two colors' into a socket meant to be a switch.\n\nFac is the output actually designed for this purpose.",
       },
       check: (graph) => hasLinkBetweenTypes(graph, "texture_checker", "fac", "shader_mix_shader", "fac"),
     },
