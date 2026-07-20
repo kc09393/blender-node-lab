@@ -46,8 +46,8 @@ export default {
     {
       title: { zh: "第二步：用分離顏色拆開 HSV", en: "Step 2: Split HSV with Separate Color" },
       instruction: {
-        zh: "加入分離顏色（Separate Color，轉換器 Converter 分類），把模式（Mode）切換成 HSV，然後把沃羅諾伊紋理的顏色（Color）接到它的顏色輸入。三個輸出的標籤會自動變成「色相 H／飽和度 S／明度 V」。",
-        en: "Add a Separate Color (Converter category), switch its Mode to HSV, and connect Voronoi Texture's Color to its Color input. The three outputs will relabel themselves to Hue (H)/Saturation (S)/Value (V).",
+        zh: "加入分離顏色（Separate Color，轉換器 Converter 分類），把模式（Mode）切換成 HSV，然後把沃羅諾伊紋理的顏色（Color）接到它的顏色輸入。\n\n三個輸出的標籤會自動變成「色相 H／飽和度 S／明度 V」。",
+        en: "Add a Separate Color (Converter category), switch its Mode to HSV, and connect Voronoi Texture's Color to its Color input.\n\nThe three outputs will relabel themselves to Hue (H)/Saturation (S)/Value (V).",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "texture_voronoi", "color", "converter_separate_color", "color") &&
@@ -56,8 +56,8 @@ export default {
     {
       title: { zh: "第三步：用 Math 節點放大飽和度", en: "Step 3: Boost Saturation with a Math Node" },
       instruction: {
-        zh: "加入數學（Math，轉換器 Converter 分類），運算選「相乘 Multiply」，把分離顏色的飽和度 S 輸出接到它的第一個數值，第二個數值改成 2 以上（例如 2.5），並打開夾值（Clamp）避免超出範圍。這樣飽和度會被放大，但色相跟明度完全不受影響。",
-        en: "Add a Math node (Converter category), set its operation to Multiply, connect Separate Color's Saturation (S) output to its first value, and set the second value to 2 or higher (e.g. 2.5). Turn on Clamp to keep it in range. This amplifies saturation while leaving hue and value completely untouched.",
+        zh: "加入數學（Math，轉換器 Converter 分類），運算選「相乘 Multiply」，把分離顏色的飽和度 S 輸出接到它的第一個數值，第二個數值改成 2 以上（例如 2.5），並打開夾值（Clamp）避免超出範圍。\n\n這樣飽和度會被放大，但色相跟明度完全不受影響。",
+        en: "Add a Math node (Converter category), set its operation to Multiply, connect Separate Color's Saturation (S) output to its first value, and set the second value to 2 or higher (e.g. 2.5). Turn on Clamp to keep it in range.\n\nThis amplifies saturation while leaving hue and value completely untouched.",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "converter_separate_color", "g", "converter_math", "value1") &&
@@ -66,8 +66,8 @@ export default {
     {
       title: { zh: "第四步：用合併顏色接回去", en: "Step 4: Reassemble with Combine Color" },
       instruction: {
-        zh: "加入合併顏色（Combine Color），模式也切換成 HSV。把分離顏色的色相 H 接到它的第一個輸入、放大後的飽和度接到第二個輸入、分離顏色的明度 V 接到第三個輸入，再把合併顏色的顏色（Color）輸出接到原理化 BSDF 的底色（Base Color）。畫面應該會變得比原本鮮豔很多，但花紋（色相分布）看起來完全一樣。",
-        en: "Add a Combine Color, also set to HSV mode. Connect Separate Color's Hue to its first input, the boosted saturation to its second input, and Separate Color's Value to its third input — then connect Combine Color's Color output to Principled BSDF's Base Color. The result should look noticeably more vivid, while the pattern (hue distribution) looks exactly the same.",
+        zh: "加入合併顏色（Combine Color），模式也切換成 HSV。把分離顏色的色相 H 接到它的第一個輸入、放大後的飽和度接到第二個輸入、分離顏色的明度 V 接到第三個輸入，再把合併顏色的顏色（Color）輸出接到原理化 BSDF 的底色（Base Color）。\n\n畫面應該會變得比原本鮮豔很多，但花紋（色相分布）看起來完全一樣。",
+        en: "Add a Combine Color, also set to HSV mode. Connect Separate Color's Hue to its first input, the boosted saturation to its second input, and Separate Color's Value to its third input — then connect Combine Color's Color output to Principled BSDF's Base Color.\n\nThe result should look noticeably more vivid, while the pattern (hue distribution) looks exactly the same.",
       },
       check: (graph) =>
         hasLinkBetweenTypes(graph, "converter_combine_color", "color", "shader_principled_bsdf", "baseColor") &&
