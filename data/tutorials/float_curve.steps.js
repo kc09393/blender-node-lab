@@ -1,0 +1,62 @@
+import { hasNodeOfType, hasLinkBetweenTypes, anyNodeParamMatches } from "../../js/core/tutorialChecks.js";
+
+export default {
+  steps: [
+    {
+      title: { zh: "第一步：加入 Noise Texture", en: "Step 1: Add a Noise Texture" },
+      instruction: {
+        zh: "從「紋理 Texture」分類拖入雜訊紋理（Noise Texture），等一下用它的雜訊當作曲線的輸入來源。",
+        en: "Drag in a Noise Texture from the Texture category — we'll feed its noise into the curve.",
+      },
+      check: (graph) => hasNodeOfType(graph, "texture_noise"),
+    },
+    {
+      title: { zh: "第二步：加入 Float Curve", en: "Step 2: Add a Float Curve" },
+      instruction: {
+        zh: "從「轉換器 Converter」分類拖入數值曲線（Float Curve），把雜訊紋理（Noise Texture）的係數（Fac）接到它的數值（Value）輸入。",
+        en: "Drag in a Float Curve from the Converter category and connect Noise Texture's Fac to its Value input.",
+      },
+      check: (graph) => hasLinkBetweenTypes(graph, "texture_noise", "fac", "converter_float_curve", "value"),
+    },
+    {
+      title: { zh: "第三步：接到 Roughness", en: "Step 3: Feed Roughness" },
+      instruction: {
+        zh: "把數值曲線（Float Curve）的數值（Value）輸出接到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）。\n\n預設曲線是一條對角直線（等於沒有改變原本的值）。",
+        en: "Connect Float Curve's Value output to Principled BSDF's Roughness.\n\nThe default curve is a diagonal line — it doesn't change the value yet.",
+      },
+      check: (graph) => hasLinkBetweenTypes(graph, "converter_float_curve", "value", "shader_principled_bsdf", "roughness"),
+    },
+    {
+      title: { zh: "第四步：把曲線拖成反向", en: "Step 4: Drag the Curve Into Reverse" },
+      instruction: {
+        zh: "在數值曲線（Float Curve）節點卡片上，把左下角的控制點拖到左上角，右上角的控制點拖到右下角——曲線從「左低右高」變成「左高右低」。\n\n雜訊裡原本比較亮的地方，粗糙度反而會變低（更光滑）。",
+        en: "On the Float Curve node card, drag the bottom-left control point to the top-left, and the top-right point to the bottom-right — the curve flips from rising to falling.\n\nAreas that were brighter in the noise now get lower roughness (smoother) instead.",
+      },
+      check: (graph) =>
+        anyNodeParamMatches(graph, "converter_float_curve", "points", (pts) => {
+          if (!Array.isArray(pts) || pts.length < 2) return false;
+          const sorted = [...pts].sort((a, b) => a.x - b.x);
+          return sorted[0].y - sorted[sorted.length - 1].y > 0.4;
+        }),
+    },
+  ],
+  quiz: [
+    {
+      question: {
+        zh: "把數值曲線（Float Curve）的控制點從「左低右高」拖成「左高右低」之後，雜訊裡原本比較亮的區域，粗糙度會怎麼變化？",
+        en: "After dragging Float Curve's control points from 'low-left, high-right' to 'high-left, low-right', what happens to roughness in areas that were brighter in the noise?",
+      },
+      options: [
+        { zh: "變低（更光滑）——輸入值愈大，曲線輸出反而愈小，映射關係整個反過來了", en: "It goes lower (smoother) — larger input values now map to smaller outputs; the mapping is flipped" },
+        { zh: "變高（更粗糙）——因為拖曳控制點只會讓整體數值往上平移", en: "It goes higher (rougher) — dragging control points just shifts everything upward" },
+        { zh: "完全不變——因為 Float Curve 只影響顏色，不影響數值型插槽", en: "No change — Float Curve only affects colors, not numeric sockets" },
+        { zh: "變成 0 或 1 的極端值——因為曲線只能輸出整數", en: "It snaps to 0 or 1 — the curve can only output integers" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "曲線的形狀（不只是端點的絕對值）決定輸入到輸出的映射關係；把曲線從上升改成下降，輸入愈大反而對應愈小的輸出，這就是「反轉」的本質，跟整體加減或縮放完全不同。",
+        en: "The curve's shape (not just its endpoint values) determines the input-to-output mapping. Flipping it from rising to falling means larger inputs now map to smaller outputs — that's what 'inversion' actually is, distinct from a flat offset or scale.",
+      },
+    },
+  ],
+};

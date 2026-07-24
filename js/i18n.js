@@ -48,6 +48,7 @@ const DICT = {
   "tutorials.filterIntermediate": { zh: "中階", en: "Intermediate" },
   "tutorials.filterAdvanced": { zh: "進階", en: "Advanced" },
   "tutorials.noResults": { zh: "沒有符合條件的教學", en: "No tutorials match your filters" },
+  "tutorials.stepsLoading": { zh: "步驟載入中…", en: "Loading steps…" },
   "tutorials.pathTitle": { zh: "建議學習路徑", en: "Suggested Learning Path" },
   "tutorials.pathSub": {
     zh: "不知道從哪裡開始？照這條主線走一輪，從材質圖基礎到綜合實戰，一步一步循序漸進。",
