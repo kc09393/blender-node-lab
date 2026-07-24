@@ -1,5 +1,3 @@
-import { hasNodeOfType, hasLinkBetweenTypes, nodeHasIncomingFromType, anyNodeParamMatches } from "../../js/core/tutorialChecks.js";
-
 export default {
   id: "tutorial_wireframe_fx",
   level: { zh: "入門", en: "Beginner" },
@@ -23,57 +21,5 @@ export default {
       { id: "te_wf_l2", fromNode: "te_wf_wire", fromSocket: "fac", toNode: "te_wf_emission", toSocket: "strength" },
     ],
   },
-  steps: [
-    {
-      title: { zh: "第一步：加入 Wireframe 節點", en: "Step 1: Add a Wireframe Node" },
-      instruction: {
-        zh: "從「輸入 Input」分類拖入線框（Wireframe）節點——它的係數（Fac）輸出在三角面邊線附近會接近 1，其餘地方接近 0。",
-        en: "Drag in a Wireframe node from the Input category — its Fac output is near 1 close to triangle edges and near 0 elsewhere.",
-      },
-      check: (graph) => hasNodeOfType(graph, "input_wireframe"),
-    },
-    {
-      title: { zh: "第二步：加入 Emission 並接到輸出", en: "Step 2: Add Emission and Connect to Output" },
-      instruction: {
-        zh: "拖入發光（Emission）節點，接到材質輸出（Material Output）的表面（Surface）。顏色（Color）可以先改成喜歡的螢光色（例如青色）。",
-        en: "Drag in an Emission node and connect it to Material Output's Surface. Set Color to a glowing tone you like (e.g. cyan).",
-      },
-      check: (graph) => nodeHasIncomingFromType(graph, "output_material", "shader_emission"),
-    },
-    {
-      title: { zh: "第三步：用 Fac 驅動發光強度", en: "Step 3: Drive Strength with Fac" },
-      instruction: {
-        zh: "把線框（Wireframe）的係數（Fac）輸出接到發光（Emission）的強度（Strength）。現在應該只有三角面邊線在發光，其餘表面是黑的。",
-        en: "Connect Wireframe's Fac output to Emission's Strength. Now only the triangle edges should glow, with the rest of the surface dark.",
-      },
-      check: (graph) => hasLinkBetweenTypes(graph, "input_wireframe", "fac", "shader_emission", "strength"),
-    },
-    {
-      title: { zh: "第四步：調細線框", en: "Step 4: Thin Out the Lines" },
-      instruction: {
-        zh: "把線框（Wireframe）的粗細（Size）調到 0.02 以下，線條會變得更細緻銳利，比較像精密的全息投影，而不是粗糙的網格線。",
-        en: "Set Wireframe's Size below 0.02 — the lines become thinner and crisper, closer to a precise hologram than a chunky mesh overlay.",
-      },
-      check: (graph) => anyNodeParamMatches(graph, "input_wireframe", "size", (v) => typeof v === "number" && v <= 0.02),
-    },
-  ],
-  quiz: [
-    {
-      question: {
-        zh: "線框（Wireframe）節點的係數（Fac）輸出，在什麼位置最接近 1？",
-        en: "Where is Wireframe's Fac output closest to 1?",
-      },
-      options: [
-        { zh: "三角面的邊線（多邊形交界處）附近", en: "Near triangle edges (where polygons meet)" },
-        { zh: "每個三角面的正中心", en: "At the center of each triangle" },
-        { zh: "整個表面均勻分布，跟三角面邊線無關", en: "Uniformly everywhere, unrelated to triangle edges" },
-        { zh: "只有攝影機正對著的那一面", en: "Only on the face directly facing the camera" },
-      ],
-      correctIndex: 0,
-      explanation: {
-        zh: "Wireframe 偵測的是「目前位置距離最近的多邊形邊線有多近」，愈靠近邊線 Fac 愈接近 1、愈靠近面中心 Fac 愈接近 0。這篇教學正是利用這個特性，把 Fac 接到 Emission 的強度，讓只有邊線附近發光，做出線框全息效果。",
-        en: "Wireframe measures 'how close the current position is to the nearest polygon edge' — closer to an edge means Fac nearer 1, closer to a face's center means Fac nearer 0. This tutorial drives Emission's Strength with that Fac so only edges glow, producing the hologram wireframe look.",
-      },
-    },
-  ],
+  loadSteps: () => import("./wireframe_fx.steps.js").then((m) => m.default),
 };

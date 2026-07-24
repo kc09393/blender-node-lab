@@ -4,6 +4,7 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
+import { t } from "../i18n.js";
 
 // Wireframe 節點需要每個頂點的重心座標（barycentric coordinates）才能判斷片元離三角形
 // 的哪條邊比較近；這個資料只能逐三角形指定（同一個頂點在不同三角形裡的重心座標不同），
@@ -32,6 +33,8 @@ const GEOMETRIES = {
 export class Preview3D {
   constructor(container) {
     this.container = container;
+    container.setAttribute("role", "img");
+    container.setAttribute("aria-label", t("a11y.livePreview"));
 
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
@@ -39,6 +42,8 @@ export class Preview3D {
     this.renderer.toneMappingExposure = 1.05;
     this.renderer.shadowMap.enabled = true;
     this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+    this.renderer.domElement.setAttribute("aria-hidden", "true");
+    this.renderer.domElement.tabIndex = -1;
     container.appendChild(this.renderer.domElement);
 
     this.scene = new THREE.Scene();

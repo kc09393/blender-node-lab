@@ -103,7 +103,7 @@ function tryCompile(graph) {
   }
 }
 
-function runAll() {
+async function runAll() {
   const results = [];
 
   for (const preset of presets) {
@@ -120,7 +120,21 @@ function runAll() {
     });
   }
 
-  for (const tut of tutorials) {
+  for (const tutMeta of tutorials) {
+    // steps/quiz 現在是各教學檔案裡動態 import() 進來的（見 data/tutorials/*.steps.js），
+    // 減少 tutorials.html 列表畫面的初始下載量；這裡是唯一需要「完整」教學資料的地方，
+    // 所以載入時就等它 resolve，不用像正式頁面那樣延到使用者真的打開某篇教學才載入。
+    let detail;
+    try {
+      detail = await tutMeta.loadSteps();
+    } catch (e) {
+      results.push({
+        kind: "教學", id: tutMeta.id, name: tutMeta.name?.zh || tutMeta.id,
+        status: "err", detail: `loadSteps() 載入失敗：${e.message}`,
+      });
+      continue;
+    }
+    const tut = { ...tutMeta, ...detail };
     const startAudit = auditRawGraph(tut.startGraph);
     const endAudit = auditRawGraph(tut.endGraph);
     const startCompile = tryCompile(startAudit.graph);

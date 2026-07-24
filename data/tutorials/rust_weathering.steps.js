@@ -1,0 +1,67 @@
+import {
+  hasNodeOfType,
+  hasLinkBetweenTypes,
+  nodeHasIncomingFromType,
+  anyNodeParamMatches,
+} from "../../js/core/tutorialChecks.js";
+
+export default {
+  steps: [
+    {
+      title: { zh: "第一步：用 Mix Shader 混合兩種金屬材質", en: "Step 1: Blend the Two Materials with Mix Shader" },
+      instruction: {
+        zh: "拖入混合著色器（Mix Shader）。\n\n把乾淨金屬（上面那個）接到它的第一個著色器（Shader）插槽，鏽蝕材質（下面那個）接到第二個。\n\n再把混合著色器的輸出，接到材質輸出（Material Output）。\n\n目前 Fac 還是固定滑桿，整個表面會是均勻混合的顏色，還看不出鏽斑的形狀，這是正常的，下一步才會處理形狀。",
+        en: "Drag in a Mix Shader, connect the clean metal (top) and rusty material (bottom) to its two Shader sockets, then wire it to Material Output. With a fixed Fac slider, the surface blends uniformly — no rust shape yet.",
+      },
+      check: (graph) =>
+        hasNodeOfType(graph, "shader_mix_shader") &&
+        nodeHasIncomingFromType(graph, "shader_mix_shader", "shader_principled_bsdf") &&
+        nodeHasIncomingFromType(graph, "output_material", "shader_mix_shader"),
+    },
+    {
+      title: { zh: "第二步：加入 Noise Texture 當作風化來源", en: "Step 2: Add Noise Texture as the Weathering Source" },
+      instruction: {
+        zh: "加入紋理座標（Texture Coordinate，在「輸入 Input」分類裡）。\n\n加入雜訊紋理（Noise Texture，在「紋理 Texture」分類裡）。\n\n把紋理座標的 Generated 輸出，接到雜訊紋理的向量（Vector）輸入。\n\n把雜訊紋理的縮放（Scale）調到 3～6 之間，斑塊大小會比較適中。",
+        en: "Add a Texture Coordinate (Input category) and a Noise Texture (Texture category), and connect Texture Coordinate's Generated to Noise Texture's Vector. Set Noise Texture's Scale between 3-6 for medium-sized patches.",
+      },
+      check: (graph) =>
+        hasLinkBetweenTypes(graph, "input_texture_coordinate", "generated", "texture_noise", "vector") &&
+        anyNodeParamMatches(graph, "texture_noise", "scale", (v) => typeof v === "number" && v >= 3 && v <= 6),
+    },
+    {
+      title: { zh: "第三步：用 Color Ramp 把雜訊變成黑白遮罩", en: "Step 3: Turn Noise into a Black/White Mask with Color Ramp" },
+      instruction: {
+        zh: "加入顏色漸變（Color Ramp，在「轉換器 Converter」分類裡）。\n\n把雜訊紋理的係數（Fac）輸出，接到顏色漸變的係數（Fac）輸入。\n\n把兩個停駐點的位置調得很接近，例如 0.45 跟 0.55。左邊停駐點設成黑色、右邊設成白色。這樣雜訊會變成邊界清楚的黑白色塊，不是模糊的灰階漸層。\n\n⚠️ 重要：把左邊（黑色）停駐點的 Alpha 數值欄位調成 0，右邊（白色）維持 1。下一步要用 Alpha 輸出當作混合遮罩——如果兩個停駐點的 Alpha 一樣，Alpha 輸出就會是全圖固定的一個數字，完全沒有遮罩效果。",
+        en: "Add a Color Ramp (Converter category) and connect Noise Texture's Fac to its Fac. Move the two stops close together (e.g. 0.45 and 0.55), with the left stop black and the right stop white — this turns the noise into sharp-edged black/white patches instead of a blurry gray gradient. Also set the left (black) stop's Alpha number field to 0, keeping the right (white) stop at 1 — the next step uses the Alpha output as a blend mask, and if both stops have the same Alpha, the output would be a constant value everywhere with no masking effect.",
+      },
+      check: (graph) => hasLinkBetweenTypes(graph, "texture_noise", "fac", "converter_color_ramp", "fac"),
+    },
+    {
+      title: { zh: "第四步：用遮罩驅動 Mix Shader 的 Fac", en: "Step 4: Drive Mix Shader's Fac with the Mask" },
+      instruction: {
+        zh: "把顏色漸變的 Alpha 輸出，接到混合著色器的 Fac 輸入，取代原本固定的滑桿。\n\n現在球體表面應該會變成「大部分是乾淨金屬、局部隨機冒出鏽斑」的效果——這就是遊戲資產常見的風化材質做法。",
+        en: "Connect Color Ramp's Alpha output to Mix Shader's Fac, replacing the fixed slider. The sphere should now show mostly clean metal with random rust patches breaking through — the same technique used for weathered game assets.",
+      },
+      check: (graph) => hasLinkBetweenTypes(graph, "converter_color_ramp", "alpha", "shader_mix_shader", "fac"),
+    },
+  ],
+  quiz: [
+    {
+      question: {
+        zh: "顏色漸變的兩個停駐點，左邊（黑）Alpha 要設成 0、右邊（白）Alpha 要設成 1，而不是兩個都維持預設的 1。如果兩個停駐點的 Alpha 一樣，會發生什麼事？",
+        en: "The Color Ramp's two stops need different Alpha values — left (black) at 0, right (white) at 1 — not both left at the default 1. What happens if both stops have the same Alpha?",
+      },
+      options: [
+        { zh: "Alpha 輸出會變成全圖固定的同一個數字，完全沒有遮罩效果，Mix Shader 只會均勻混合", en: "The Alpha output becomes one constant number everywhere, with zero masking effect — Mix Shader just blends uniformly" },
+        { zh: "顏色漸變會直接編譯失敗，跳出錯誤訊息", en: "The Color Ramp fails to compile and throws an error" },
+        { zh: "Alpha 值不管怎麼設都不影響 Mix Shader 的效果", en: "The Alpha value has no effect on Mix Shader regardless of how it's set" },
+        { zh: "只有右邊停駐點的 Alpha 有作用，左邊的無論設多少都被忽略", en: "Only the right stop's Alpha matters — the left one is ignored no matter what it's set to" },
+      ],
+      correctIndex: 0,
+      explanation: {
+        zh: "Alpha（跟 Color 一樣）也是沿著顏色漸變插值出來的一條獨立資料——如果兩個停駐點的 Alpha 都是 1，插值結果永遠是 1，等於「Alpha 輸出」變成一個跟雜訊完全無關的固定常數，接到 Mix Shader 的 Fac 就會讓整個表面均勻混合成同一個比例，鏽斑完全不會依雜訊圖案分布。要讓 Alpha 真的帶有遮罩資訊，兩個停駐點必須設成不同值，讓插值真的隨 Fac 產生變化。",
+        en: "Alpha (just like Color) is a separate channel that's interpolated along the Color Ramp — if both stops are set to 1, the interpolated result is always 1, meaning the 'Alpha output' becomes a constant totally disconnected from the noise pattern. Wired into Mix Shader's Fac, that gives a uniform blend ratio across the whole surface, with the rust never following the noise shape at all. For Alpha to actually carry mask information, the two stops must differ so the interpolation genuinely varies with Fac.",
+      },
+    },
+  ],
+};

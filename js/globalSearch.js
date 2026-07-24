@@ -1,16 +1,25 @@
 // 全站統一搜尋（Ctrl/Cmd+K）：跨節點百科／預設材質／引導教學／疑難排解四種內容一起搜，
 // 點結果或按 Enter 直接跳轉到對應頁面的深連結（沿用各頁面既有的 ?node=/?preset=/?tutorial=/?category= 慣例）。
 // 每個頁面的 app-*.js 只需要呼叫一次 initGlobalSearch()，索引資料在這個模組內部組好、跨頁共用同一份邏輯。
-import { listNodeTypes } from "./core/nodeRegistry.js";
+//
+// 索引用到的四份資料（節點百科／預設材質／引導教學／疑難排解）加起來超過 1MB，用動態 import()
+// 延到「使用者第一次真的打開搜尋」才載入，而不是跟著這個模組一起在每一頁的首次載入就強制抓下來——
+// 像材質參考表（reference.html）這種頁面本來完全不需要教學/預設材質資料，卻會因為引用了
+// initGlobalSearch() 而被迫多下載這一大包。已經因為其他理由載入過這幾份資料的頁面（沙盒、教學、
+// 百科）不會因此變慢：dynamic import() 對同一個模組只會抓一次，之後都是直接從模組快取拿。
 import { tBi, t, getLang } from "./i18n.js";
-import presets from "../data/presets/index.js";
-import tutorials from "../data/tutorials/index.js";
-import troubleshootGuide from "../data/troubleshootGuide.js";
 
 const MAX_PER_GROUP = 6;
 
-function buildIndex() {
-  return [
+let indexPromise = null;
+
+function loadIndex() {
+  indexPromise ??= Promise.all([
+    import("./core/nodeRegistry.js"),
+    import("../data/presets/index.js"),
+    import("../data/tutorials/index.js"),
+    import("../data/troubleshootGuide.js"),
+  ]).then(([{ listNodeTypes }, { default: presets }, { default: tutorials }, { default: troubleshootGuide }]) => [
     ...listNodeTypes().map((n) => ({
       group: "node", name: n.name, sub: n.summary,
       dot: `var(--cat-${n.category})`, href: `encyclopedia.html?node=${encodeURIComponent(n.id)}`,
@@ -27,7 +36,8 @@ function buildIndex() {
       group: "troubleshoot", name: cat.symptom, sub: null,
       dot: "var(--danger)", href: `troubleshoot.html?category=${encodeURIComponent(cat.id)}`,
     })),
-  ];
+  ]);
+  return indexPromise;
 }
 
 const GROUP_LABEL_KEY = {
@@ -46,7 +56,7 @@ export function initGlobalSearch() {
   const trigger = document.getElementById("global-search-btn");
   if (!trigger) return;
 
-  const index = buildIndex();
+  let index = null;
 
   const overlay = document.createElement("div");
   overlay.className = "gs-overlay";
@@ -80,8 +90,16 @@ export function initGlobalSearch() {
     overlay.setAttribute("aria-label", t("search.placeholder"));
     input.placeholder = t("search.placeholder");
     input.setAttribute("aria-label", t("search.placeholder"));
-    render();
     input.focus();
+    if (index) {
+      render();
+      return;
+    }
+    resultsEl.innerHTML = `<div class="gs-idle-hint">${t("search.loading")}</div>`;
+    loadIndex().then((built) => {
+      index = built;
+      if (!overlay.hidden) render();
+    });
   }
 
   function render() {
@@ -89,6 +107,11 @@ export function initGlobalSearch() {
     resultsEl.innerHTML = "";
     activeIndex = -1;
     visibleItems = [];
+
+    if (!index) {
+      resultsEl.innerHTML = `<div class="gs-idle-hint">${t("search.loading")}</div>`;
+      return;
+    }
 
     if (!query) {
       resultsEl.innerHTML = `<div class="gs-idle-hint">${t("search.idleHint")}</div>`;

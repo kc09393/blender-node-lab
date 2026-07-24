@@ -381,7 +381,11 @@ function ensureEditorInitialized() {
   });
 }
 
-function startTutorial(tut) {
+// steps/quiz 是動態 import() 進來的（見 data/tutorials/*.steps.js，減少 tutorials.html 列表畫面
+// 的初始下載量），所以這裡要 await 一下才能拿到完整資料。startGraph 本身不用等——直接把圖載進
+// 畫布，讓使用者馬上看到東西，步驟提示晚一點點出現不影響體驗；loadSteps() 解析前用一段輕量的
+// 載入提示卡著畫面，避免步驟提示區看起來像壞掉。
+async function startTutorial(tut) {
   currentTutorial = tut;
   currentStepIndex = 0;
   ensureEditorInitialized();
@@ -392,11 +396,16 @@ function startTutorial(tut) {
   runView.classList.add("active");
   editor.loadGraph(Graph.fromJSON(tut.startGraph));
   editor.clearHistory();
+  const overlay = document.getElementById("tutorial-overlay");
+  overlay.innerHTML = `<div class="step-count">${t("tutorials.stepsLoading")}</div>`;
+  const detail = await tut.loadSteps();
+  if (currentTutorial !== tut) return; // 載入中使用者已經離開/切到別篇，不要覆蓋新狀態
+  currentTutorial = { ...tut, ...detail };
   renderOverlay();
 }
 
 function checkCurrentStep() {
-  if (!currentTutorial || !editor) return;
+  if (!currentTutorial?.steps || !editor) return;
   const step = currentTutorial.steps[currentStepIndex];
   if (!step) return;
   const passed = step.check(editor.graph);
@@ -605,7 +614,7 @@ window.__bmlTutorial = {
 
 document.getElementById("t-back-to-list").addEventListener("click", exitTutorial);
 document.getElementById("t-restart").addEventListener("click", () => {
-  if (!currentTutorial) return;
+  if (!currentTutorial?.steps) return;
   currentStepIndex = 0;
   editor.loadGraph(Graph.fromJSON(currentTutorial.startGraph));
   editor.clearHistory();

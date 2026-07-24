@@ -31,4 +31,10 @@ python -m http.server 5173
 
 然後打開 `http://localhost:5173/index.html`。改完 `data/presets/*.js` 或 `data/tutorials/*.js` 記得整頁重新整理（巢狀 import 不會被強制重抓）。
 
-`dev-regression-test.html` 是內部的資料完整性回歸測試頁（結構檢查＋編譯檢查），不在導覽列裡，直接開網址存取。
+`dev-regression-test.html` 是內部的資料完整性回歸測試頁（結構檢查＋編譯檢查），不在導覽列裡，直接開網址存取；同一份檢查也會在 CI（`.github/workflows/regression-test.yml`）用 headless 瀏覽器自動跑一次。
+
+想貢獻節點／教學／預設材質，請看 [CONTRIBUTING.md](CONTRIBUTING.md)。
+
+## License
+
+[MIT](LICENSE)

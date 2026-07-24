@@ -1,0 +1,11 @@
+{
+  "name": "blender-node-lab",
+  "private": true,
+  "description": "純靜態網站，本身沒有 build step；這個 package.json 只用來裝 CI 測試工具（Playwright）。",
+  "scripts": {
+    "test": "node scripts/run-regression-test.mjs"
+  },
+  "devDependencies": {
+    "playwright": "^1.56.1"
+  }
+}
