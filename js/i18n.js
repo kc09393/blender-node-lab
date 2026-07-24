@@ -127,6 +127,7 @@ const DICT = {
   "search.button": { zh: "搜尋", en: "Search" },
   "search.placeholder": { zh: "搜尋節點、預設材質、教學、疑難排解…", en: "Search nodes, presets, tutorials, troubleshooting…" },
   "search.idleHint": { zh: "輸入關鍵字，跨全站四種內容一起搜。", en: "Type to search across nodes, presets, tutorials, and troubleshooting all at once." },
+  "search.loading": { zh: "搜尋索引載入中…", en: "Loading search index…" },
   "search.noResults": { zh: "找不到符合的結果", en: "No matching results" },
   "search.groupNode": { zh: "節點百科", en: "Encyclopedia" },
   "search.groupPreset": { zh: "預設材質", en: "Presets" },
