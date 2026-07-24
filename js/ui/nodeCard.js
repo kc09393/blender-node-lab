@@ -42,8 +42,17 @@ function applyTermHint(labelEl, key) {
   const icon = document.createElement("span");
   icon.className = "hint-icon";
   icon.textContent = "?";
+  icon.setAttribute("role", "button");
+  icon.setAttribute("tabindex", "0");
+  icon.setAttribute("aria-label", t("a11y.hintIcon"));
   icon.addEventListener("pointerdown", (e) => e.stopPropagation());
   icon.addEventListener("click", (e) => {
+    e.stopPropagation();
+    showHintPopover(icon, hint);
+  });
+  icon.addEventListener("keydown", (e) => {
+    if (e.key !== "Enter" && e.key !== " ") return;
+    e.preventDefault();
     e.stopPropagation();
     showHintPopover(icon, hint);
   });
@@ -160,6 +169,7 @@ function buildColorControl(node, def, onParamChange) {
   const swatch = document.createElement("button");
   swatch.type = "button";
   swatch.className = "color-swatch";
+  swatch.setAttribute("aria-label", `${t("a11y.colorSwatch")}${def.label ? `：${tBi(def.label)}` : ""}`);
   const current = node.params[def.key];
   swatch.style.background = `rgb(${Math.round(current[0] * 255)},${Math.round(current[1] * 255)},${Math.round(current[2] * 255)})`;
   swatch.addEventListener("pointerdown", (e) => e.stopPropagation());
@@ -352,6 +362,7 @@ function buildColorRampControl(node, def, onParamChange) {
   addBtn.className = "colorramp-add-btn";
   addBtn.textContent = "+";
   addBtn.title = t("sandbox.addStop");
+  addBtn.setAttribute("aria-label", t("sandbox.addStop"));
 
   function commit(nextStops) {
     const sorted = [...nextStops].sort((a, b) => a.position - b.position);
@@ -472,6 +483,7 @@ function buildColorRampControl(node, def, onParamChange) {
       const colorSwatch = document.createElement("button");
       colorSwatch.type = "button";
       colorSwatch.className = "color-swatch colorramp-stop-swatch";
+      colorSwatch.setAttribute("aria-label", t("a11y.colorSwatch"));
       colorSwatch.style.background = `rgb(${Math.round(stop.color[0] * 255)},${Math.round(stop.color[1] * 255)},${Math.round(stop.color[2] * 255)})`;
       colorSwatch.addEventListener("pointerdown", (e) => e.stopPropagation());
       colorSwatch.addEventListener("click", (e) => {
@@ -504,6 +516,7 @@ function buildColorRampControl(node, def, onParamChange) {
       delBtn.type = "button";
       delBtn.textContent = "×";
       delBtn.className = "colorramp-del-btn";
+      delBtn.setAttribute("aria-label", t("a11y.deleteStop"));
       delBtn.disabled = stops.length <= 2;
       delBtn.addEventListener("pointerdown", (e) => e.stopPropagation());
       delBtn.addEventListener("click", (e) => {
@@ -588,6 +601,7 @@ function buildCurveControl(node, def, onParamChange) {
   addBtn.className = "curve-add-btn";
   addBtn.textContent = "+";
   addBtn.title = t("sandbox.addControlPoint");
+  addBtn.setAttribute("aria-label", t("sandbox.addControlPoint"));
 
   const toSvg = (p) => ({
     sx: ((p.x - domain.xMin) / (domain.xMax - domain.xMin)) * 100,
@@ -713,6 +727,7 @@ function buildCurveControl(node, def, onParamChange) {
       delBtn.type = "button";
       delBtn.textContent = "×";
       delBtn.className = "curve-del-btn";
+      delBtn.setAttribute("aria-label", t("a11y.deleteCurvePoint"));
       delBtn.disabled = points.length <= 2;
       delBtn.addEventListener("pointerdown", (e) => e.stopPropagation());
       delBtn.addEventListener("click", (e) => {
@@ -780,6 +795,7 @@ export function createNodeElement(node, opts) {
     delBtn.type = "button";
     delBtn.className = "node-delete-btn";
     delBtn.textContent = "×";
+    delBtn.setAttribute("aria-label", `${t("a11y.deleteNode")}：${tBi(typeDef.name)}`);
     delBtn.addEventListener("pointerdown", (e) => e.stopPropagation());
     delBtn.addEventListener("click", (e) => {
       e.stopPropagation();
