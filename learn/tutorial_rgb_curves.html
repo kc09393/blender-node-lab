@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RGB 曲線：像 Photoshop 一樣調色調 · Blender 5.0 引導教學</title>
+<meta name="description" content="RGB 曲線（RGB Curves）節點可以直接對一張顏色的明暗對應關係拖出一條自訂曲線——比亮度/對比度更自由，可以只拉暗部或只拉亮部，概念上跟 Photoshop 的曲線工具完全一樣。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="RGB 曲線：像 Photoshop 一樣調色調 · Blender 5.0 引導教學" />
+<meta property="og:description" content="RGB 曲線（RGB Curves）節點可以直接對一張顏色的明暗對應關係拖出一條自訂曲線——比亮度/對比度更自由，可以只拉暗部或只拉亮部，概念上跟 Photoshop 的曲線工具完全一樣。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"RGB 曲線：像 Photoshop 一樣調色調","description":"RGB 曲線（RGB Curves）節點可以直接對一張顏色的明暗對應關係拖出一條自訂曲線——比亮度/對比度更自由，可以只拉暗部或只拉亮部，概念上跟 Photoshop 的曲線工具完全一樣。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>RGB 曲線：像 Photoshop 一樣調色調</h1>
+    <p class="content-lead">RGB 曲線（RGB Curves）節點可以直接對一張顏色的明暗對應關係拖出一條自訂曲線——比亮度/對比度更自由，可以只拉暗部或只拉亮部，概念上跟 Photoshop 的曲線工具完全一樣。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_rgb_curves">開啟互動教學</a>
+      <a href="tutorial_rgb_curves.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>3 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：加入 RGB 曲線</h2>
+      <p>從「顏色 Color」分類拖入 RGB 曲線（RGB Curves），接到原理化 BSDF（Principled BSDF）的底色（Base Color）。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：把中間點往上拖</h2>
+      <p>在節點卡片上點一下曲線中段新增一個控制點，往上拖曳。<br /><br />這樣中間調會被整體拉亮，同時保留最暗跟最亮兩端不變，是修圖時常用的「提升中間調」手法。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：確認效果</h2>
+      <p>看看即時預覽，球體整體應該比原本的灰色更亮一些，但沒有整個變成死白。<br /><br />這就是曲線工具「局部調整」的威力，比單純調 Bright/Contrast 更精細。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

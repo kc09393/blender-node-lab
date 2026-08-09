@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>細節烘焙工作流：法線貼圖＋向量位移 · Blender 5.0 引導教學</title>
+<meta name="description" content="遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="細節烘焙工作流：法線貼圖＋向量位移 · Blender 5.0 引導教學" />
+<meta property="og:description" content="遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"細節烘焙工作流：法線貼圖＋向量位移","description":"遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>細節烘焙工作流：法線貼圖＋向量位移</h1>
+    <p class="content-lead">遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_detail_baking_workflow">開啟互動教學</a>
+      <a href="tutorial_detail_baking_workflow.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：用 UV 貼圖節點指定座標，讀取法線貼圖</h2>
+      <p>加入 UV 貼圖（UV Map，輸入 Input 分類）。本沙盒的預覽物件只有一組 UV，效果跟紋理座標（Texture Coordinate）的 UV 一樣，但當一個模型有多組 UV 時，就是靠這個節點指定要用哪一組。<br /><br />加入圖像紋理（Image Texture），把 UV 貼圖接到它的向量（Vector）輸入。<br /><br />點圖像紋理節點上的「選擇圖片」，上傳一張法線貼圖（通常是偏紫藍色的圖）——如果手邊沒有，先跳過，之後可以用任何一張圖片測試接線流程。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用法線貼圖節點解出光影方向</h2>
+      <p>加入法線貼圖（Normal Map）節點，把圖像紋理的顏色（Color）輸出接到它的顏色輸入。<br /><br />加入原理化 BSDF（Principled BSDF），把法線貼圖的法線（Normal）輸出接到它的法線輸入。<br /><br />這樣圖片上編碼的方向資訊，就會變成表面真正的光影凹凸細節——只影響光影，不會改變輪廓。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：讀取第二張貼圖，準備解碼向量位移方向</h2>
+      <p>再加入一個圖像紋理（Image Texture，這是新的一個，跟法線貼圖用的不是同一個）——一樣可以上傳任何圖片先測試接線。<br /><br />⚠️ 這一個先不要接 UV 貼圖：向量位移最後會即時改變頂點位置（在「頂點著色器」裡運算），但 UV 貼圖節點在本沙盒只能在「畫面著色器」用，兩者不相容。向量輸入留空不接，會自動改用相容的內建 UV 座標，效果一樣。<br /><br />加入分離顏色（Separate Color），把這張圖的顏色輸出接到它的顏色輸入，拆成 R、G、B 三個獨立數值。<br /><br />向量位移貼圖把方向存成顏色：因為顏色只能存 0 到 1，但方向需要 -1 到 1，所以貼圖裡的顏色其實是「真正方向」平移縮放過的結果——下一步要把它解碼回來。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：解碼方向、驅動真正的向量位移</h2>
+      <p>加入 3 個數學（Math）節點，運算都選乘加（Multiply Add），第二個數值填 2、第三個數值填 -1（也就是「原始值 × 2 － 1」，把 0-1 換算回 -1 到 1）。<br /><br />把分離顏色的 R、G、B 分別接到這 3 個數學節點的第一個數值。<br /><br />加入合併 XYZ（Combine XYZ），把 3 個數學節點的結果分別接到 X、Y、Z。<br /><br />加入向量位移（Vector Displacement），把合併 XYZ 的結果接到它的向量輸入，輸出接到材質輸出的位移（Displacement）插槽。<br /><br />這樣貼圖裡編碼的每一個方向，就會變成頂點真正往那個方向移動的位移——跟法線貼圖不同，這次輪廓會真的改變。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

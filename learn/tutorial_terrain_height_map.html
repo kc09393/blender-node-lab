@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>地形上色：多停駐點顏色漸變＋細節疊圖 · Blender 5.0 引導教學</title>
+<meta name="description" content="遊戲美術很常用一條「高度→顏色」的顏色漸變幫地形自動上色：低處是水、中間是草地、高處是雪。這篇教學用雜訊紋理（Noise Texture）模擬高度，接上一條 6 個停駐點的顏色漸變做出水／沙／草／岩／雪的分層配色，再疊一層濾色模式的細節紋理增加表面變化，示範「大範圍色彩分區」跟「小範圍表面細節」怎麼同時存在。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="地形上色：多停駐點顏色漸變＋細節疊圖 · Blender 5.0 引導教學" />
+<meta property="og:description" content="遊戲美術很常用一條「高度→顏色」的顏色漸變幫地形自動上色：低處是水、中間是草地、高處是雪。這篇教學用雜訊紋理（Noise Texture）模擬高度，接上一條 6 個停駐點的顏色漸變做出水／沙／草／岩／雪的分層配色，再疊一層濾色模式的細節紋理增加表面變化，示範「大範圍色彩分區」跟「小範圍表面細節」怎麼同時存在。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"地形上色：多停駐點顏色漸變＋細節疊圖","description":"遊戲美術很常用一條「高度→顏色」的顏色漸變幫地形自動上色：低處是水、中間是草地、高處是雪。這篇教學用雜訊紋理（Noise Texture）模擬高度，接上一條 6 個停駐點的顏色漸變做出水／沙／草／岩／雪的分層配色，再疊一層濾色模式的細節紋理增加表面變化，示範「大範圍色彩分區」跟「小範圍表面細節」怎麼同時存在。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>地形上色：多停駐點顏色漸變＋細節疊圖</h1>
+    <p class="content-lead">遊戲美術很常用一條「高度→顏色」的顏色漸變幫地形自動上色：低處是水、中間是草地、高處是雪。這篇教學用雜訊紋理（Noise Texture）模擬高度，接上一條 6 個停駐點的顏色漸變做出水／沙／草／岩／雪的分層配色，再疊一層濾色模式的細節紋理增加表面變化，示範「大範圍色彩分區」跟「小範圍表面細節」怎麼同時存在。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_terrain_height_map">開啟互動教學</a>
+      <a href="tutorial_terrain_height_map.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：用雜訊紋理模擬高度</h2>
+      <p>加入雜訊紋理（Noise Texture）。<br /><br />把縮放（Scale）調低，例如 2.5，這樣變化會比較平緩，比較像大範圍的地形起伏，而不是細碎的雜點。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：建立至少 5 個停駐點的地形顏色漸變</h2>
+      <p>加入顏色漸變（Color Ramp）。<br /><br />把雜訊的係數（Fac）輸出，接到顏色漸變的係數（Fac）輸入。<br /><br />建立至少 5 個停駐點，由低到高排列：深藍（水）→淺藍（淺水）→沙黃→草綠→岩灰→雪白。<br /><br />這種「用一條顏色漸變做地形分層」的技巧，在遊戲美術裡非常普遍。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：疊一層濾色模式的表面細節</h2>
+      <p>再加入一個雜訊紋理，當作細節圖案。把縮放調高，例如 18，讓它變化得又小又密。<br /><br />加入混合顏色（Mix Color）節點。A 接顏色漸變的顏色、B 接這個細節雜訊的顏色。<br /><br />混合模式選濾色（Screen），Fac 調低，例如 0.25。<br /><br />濾色只會讓顏色變亮，不會變暗，所以可以在不破壞地形色彩分區的前提下，幫地形表面加一點細碎的明暗變化。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：接到底色完成地形材質</h2>
+      <p>把混合顏色節點的輸出接到原理化 BSDF 的底色（Base Color）。應該能同時看到大範圍的水／沙／草／岩／雪分層，跟小範圍、細碎的表面明暗變化——兩種尺度的細節同時存在，而不是只有其中一種。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

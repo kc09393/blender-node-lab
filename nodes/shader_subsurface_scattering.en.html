@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Subsurface Scattering · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Simulates light entering beneath the surface and scattering back out — key for skin, wax, milk." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Subsurface Scattering · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Simulates light entering beneath the surface and scattering back out — key for skin, wax, milk." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Subsurface Scattering","description":"Simulates light entering beneath the surface and scattering back out — key for skin, wax, milk.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Subsurface Scattering</h1>
+    <p class="content-lead">Simulates light entering beneath the surface and scattering back out — key for skin, wax, milk.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_subsurface_scattering&amp;lang=en">Try it in the sandbox</a>
+      <a href="shader_subsurface_scattering.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Without subsurface scattering, skin looks plasticky. This node lets edges (like a backlit ear or nose) glow faintly red.</p></section>
+    <section><h2>Technical notes</h2><p>Real SSS needs multi-sample blurring beneath the surface (screen-space or a Burley diffusion profile) — a full ray-tracing/post-process job. This sandbox uses a simplified approximation instead: a Fresnel term drives an edge-tinted glow using the Radius vector&#39;s R/G/B ratios (the default has red traveling further than blue, which is why backlit ears/noses glow reddish), scaled by Scale. It isn&#39;t true subsurface diffusion, but the direction and look are right.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Radius</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

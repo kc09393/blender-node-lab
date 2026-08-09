@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識顏色漸變：材質上色的核心工具 · Blender 5.0 引導教學</title>
+<meta name="description" content="顏色漸變（Color Ramp）幾乎是所有程序化材質上色的樞紐——把 Noise、Voronoi 這類紋理輸出的 0-1 數值，轉換成你想要的任何配色。這篇帶你從最基本的黑白漸層開始，學會新增停駐點、切換色彩空間、切換插值方式，建立完整的操作直覺。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識顏色漸變：材質上色的核心工具 · Blender 5.0 引導教學" />
+<meta property="og:description" content="顏色漸變（Color Ramp）幾乎是所有程序化材質上色的樞紐——把 Noise、Voronoi 這類紋理輸出的 0-1 數值，轉換成你想要的任何配色。這篇帶你從最基本的黑白漸層開始，學會新增停駐點、切換色彩空間、切換插值方式，建立完整的操作直覺。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_color_ramp_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_color_ramp_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_color_ramp_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_color_ramp_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識顏色漸變：材質上色的核心工具","description":"顏色漸變（Color Ramp）幾乎是所有程序化材質上色的樞紐——把 Noise、Voronoi 這類紋理輸出的 0-1 數值，轉換成你想要的任何配色。這篇帶你從最基本的黑白漸層開始，學會新增停駐點、切換色彩空間、切換插值方式，建立完整的操作直覺。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_color_ramp_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識顏色漸變：材質上色的核心工具</h1>
+    <p class="content-lead">顏色漸變（Color Ramp）幾乎是所有程序化材質上色的樞紐——把 Noise、Voronoi 這類紋理輸出的 0-1 數值，轉換成你想要的任何配色。這篇帶你從最基本的黑白漸層開始，學會新增停駐點、切換色彩空間、切換插值方式，建立完整的操作直覺。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_color_ramp_tour">開啟互動教學</a>
+      <a href="tutorial_color_ramp_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：接上雜訊紋理當作輸入</h2>
+      <p>加入雜訊紋理（Noise Texture）跟顏色漸變（Color Ramp，轉換器 Converter 分類），把雜訊紋理的係數（Fac）接到顏色漸變的係數（Fac），再把顏色漸變的顏色（Color）接到原理化 BSDF 的底色（Base Color）。<br /><br />預設是黑到白的漸層——這就是 Color Ramp 最基本的功能：把一個數值換算成顏色。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：新增一個停駐點</h2>
+      <p>點漸層條下方的「+」新增一個停駐點，把它拖到中間位置（約 0.5），改成第三種顏色。現在漸層從兩色變成三色。<br /><br />停駐點（Stop）就是漸層上的「顏色關鍵格」，越多停駐點能做出越複雜的配色。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：切換色彩空間到 HSV</h2>
+      <p>把色彩空間（Color Mode）切換成 HSV。<br /><br />差別在於「插值是在哪個色彩空間裡算的」：RGB 模式跨色相過渡時，中間常會不小心經過灰色/濁色；HSV 模式繞著色相環走，過渡通常更鮮豔、更符合直覺（例如紅到藍會經過紫色，而不是變灰）。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：切換插值方式到常量</h2>
+      <p>把插值方式（Interpolation）切換成常量（Constant）。<br /><br />前面幾種模式都是「平滑過渡」，Constant 完全不過渡——每個停駐點的顏色會硬切換到下一個停駐點，做出邊界分明的色塊，很適合卡通風格或分區上色。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

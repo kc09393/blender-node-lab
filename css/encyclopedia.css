@@ -6,6 +6,7 @@
 .category-item {
   padding: 7px 10px; margin: 2px 0; border-radius: 6px; font-size: 13px;
   color: var(--text-1); cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  width: 100%; border: 0; background: transparent; text-align: left;
   transition: background-color .15s ease, color .15s ease;
 }
 .category-item .count { font-size: 11px; color: var(--text-2); }
@@ -18,12 +19,13 @@
 }
 .node-grid-item {
   background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius);
-  padding: 12px; cursor: pointer;
+  padding: 12px; cursor: pointer; color: var(--text-0); text-decoration: none;
   transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
-.node-grid-item:hover {
+.node-grid-item:hover, .node-grid-item.active {
   border-color: var(--accent-2); transform: translateY(-2px);
   box-shadow: 0 8px 20px rgba(0,0,0,.35);
+  text-decoration: none;
 }
 .node-grid-item .n-name { font-weight: 600; font-size: 13.5px; margin-bottom: 4px; }
 .node-grid-item .n-name-sub { font-size: 11.5px; color: var(--text-2); margin-bottom: 6px; }
@@ -41,6 +43,7 @@
 }
 .try-sandbox-btn:hover { text-decoration: none; filter: brightness(1.08); }
 .try-sandbox-btn.learn-tutorial-btn { background: var(--accent-2); color: #0d1b2a; }
+.node-permalink { display: inline-block; margin-top: 12px; font-size: 12px; }
 
 .used-in-presets { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); }
 .preset-chip-list { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }

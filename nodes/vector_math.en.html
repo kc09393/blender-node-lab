@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vector Math · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Performs add/subtract/multiply/divide, dot/cross product, normalize, and more on vectors." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Vector Math · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Performs add/subtract/multiply/divide, dot/cross product, normalize, and more on vectors." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/vector_math.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/vector_math.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/vector_math.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/vector_math.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Vector Math","description":"Performs add/subtract/multiply/divide, dot/cross product, normalize, and more on vectors.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_math.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Vector Math</h1>
+    <p class="content-lead">Performs add/subtract/multiply/divide, dot/cross product, normalize, and more on vectors.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=vector_math&amp;lang=en">Try it in the sandbox</a>
+      <a href="vector_math.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Similar to the Math node, but operates on 3D vectors (like coordinates or normals) instead of single values. Often used to manually adjust coordinates or normal directions.</p></section>
+    <section><h2>Technical notes</h2><p>The operation list closely mirrors full Blender. Difference from Blender: Blender dynamically hides sockets based on the operation; this sandbox always shows 3 vector inputs plus a Scale value (used by Scale/Refract) — unused ones are simply ignored. Both Vector and Value outputs are always available, matching Blender.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>OUT</td><td>Vector</td><td>vector</td></tr><tr><td>OUT</td><td>Value</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

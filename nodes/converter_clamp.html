@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>夾值 · Blender 5.0 節點百科</title>
+<meta name="description" content="把數值限制在指定的最小/最大範圍內，避免數值跑出合理區間。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="夾值 · Blender 5.0 節點百科" />
+<meta property="og:description" content="把數值限制在指定的最小/最大範圍內，避免數值跑出合理區間。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_clamp.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_clamp.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/converter_clamp.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_clamp.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"夾值","description":"把數值限制在指定的最小/最大範圍內，避免數值跑出合理區間。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_clamp.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>夾值</h1>
+    <p class="content-lead">把數值限制在指定的最小/最大範圍內，避免數值跑出合理區間。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=converter_clamp">在沙盒中試用</a>
+      <a href="converter_clamp.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>很多插槽（例如 Roughness）本來就只接受 0-1，但接上其他運算後可能超出範圍。Clamp 可以強制把數值夾回你要的範圍內。</p></section>
+    <section><h2>進階說明</h2><p>模式（Type）有 2 種，跟 Blender 一致：最小最大（Min Max，預設，直接把數值夾在 Min 跟 Max 之間，假設 Min ≤ Max）、範圍（Range，如果 Min 比 Max 大會自動把兩者對調再夾值，適合 Min/Max 由上游節點動態算出來、不保證誰大誰小的情況）。公式對照 Blender GPU 著色器原始碼（`gpu_shader_material_clamp.glsl`）核對過一致。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>數值</td><td>float</td></tr><tr><td>IN</td><td>最小</td><td>float</td></tr><tr><td>IN</td><td>最大</td><td>float</td></tr><tr><td>OUT</td><td>數值</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

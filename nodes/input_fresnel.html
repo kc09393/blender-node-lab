@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>菲涅爾 · Blender 5.0 節點百科</title>
+<meta name="description" content="算出「表面正對鏡頭 vs 側面掠過」的比例，做出邊緣反光更強的效果。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="菲涅爾 · Blender 5.0 節點百科" />
+<meta property="og:description" content="算出「表面正對鏡頭 vs 側面掠過」的比例，做出邊緣反光更強的效果。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"菲涅爾","description":"算出「表面正對鏡頭 vs 側面掠過」的比例，做出邊緣反光更強的效果。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>菲涅爾</h1>
+    <p class="content-lead">算出「表面正對鏡頭 vs 側面掠過」的比例，做出邊緣反光更強的效果。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=input_fresnel">在沙盒中試用</a>
+      <a href="input_fresnel.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>現實中幾乎所有材質都是「正面看較不反光、側邊掠視角度反光更強」，這就是菲涅爾效應（想想看池水正上方看得到底、斜看只看到反光）。把 Fresnel 接到 Mix Shader 的 Fac，就能做出這種邊緣增亮的效果。</p></section>
+    <section><h2>進階說明</h2><p>IOR 插槽控制反光增強的強度曲線（數值越大，效果越明顯）。本沙盒用視角方向與『幾何法線』（未套用 Bump）計算，這是簡化：真實情況應該用套用 Bump 後的最終法線。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

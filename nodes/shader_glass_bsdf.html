@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>玻璃 BSDF · Blender 5.0 節點百科</title>
+<meta name="description" content="同時具有反射與折射穿透的表面，做玻璃、水、寶石的基礎。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="玻璃 BSDF · Blender 5.0 節點百科" />
+<meta property="og:description" content="同時具有反射與折射穿透的表面，做玻璃、水、寶石的基礎。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"玻璃 BSDF","description":"同時具有反射與折射穿透的表面，做玻璃、水、寶石的基礎。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>玻璃 BSDF</h1>
+    <p class="content-lead">同時具有反射與折射穿透的表面，做玻璃、水、寶石的基礎。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_glass_bsdf">在沙盒中試用</a>
+      <a href="shader_glass_bsdf.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>Glass BSDF 讓表面既會反光、又會透光，Roughness 控制模糊程度、IOR（折射率）決定反光強不強、透明感夠不夠明顯（玻璃約 1.45、水約 1.33、鑽石約 2.42——數字越大，邊緣反光越明顯、整體看起來越像寶石而不是單純的窗玻璃）。正面看比較透、側邊/邊緣比較容易看到反光，這是玻璃的典型特徵。</p></section>
+    <section><h2>進階說明</h2><p>真正的折射需要對背後場景做逐光線彎曲取樣，屬於路徑追蹤渲染器的強項（我們也試過直接用 Three.js MeshPhysicalMaterial 內建的 transmission 物理透射功能，但在這個渲染環境下沒有正確顯現透射效果，所以改用下面這個更可控的做法）。本沙盒把 Glass BSDF 實作成：用 Fresnel 公式依 IOR 算出「側邊反光強度」，讓透明度隨著視角與 IOR 變化——正面看比較透明、側邊/IOR 越高越不透明越反光，方向是對的，但不會真的讓背後景物彎曲變形。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

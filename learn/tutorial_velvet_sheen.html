@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sheen BSDF：天鵝絨布料 · Blender 5.0 引導教學</title>
+<meta name="description" content="絨光 BSDF（Sheen BSDF）單獨使用看不出效果，一定要疊在別的材質上面才有意義。用菲涅爾（Fresnel）控制疊加比例，做出布料逆光時邊緣才會出現的絨毛微光。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Sheen BSDF：天鵝絨布料 · Blender 5.0 引導教學" />
+<meta property="og:description" content="絨光 BSDF（Sheen BSDF）單獨使用看不出效果，一定要疊在別的材質上面才有意義。用菲涅爾（Fresnel）控制疊加比例，做出布料逆光時邊緣才會出現的絨毛微光。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Sheen BSDF：天鵝絨布料","description":"絨光 BSDF（Sheen BSDF）單獨使用看不出效果，一定要疊在別的材質上面才有意義。用菲涅爾（Fresnel）控制疊加比例，做出布料逆光時邊緣才會出現的絨毛微光。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>Sheen BSDF：天鵝絨布料</h1>
+    <p class="content-lead">絨光 BSDF（Sheen BSDF）單獨使用看不出效果，一定要疊在別的材質上面才有意義。用菲涅爾（Fresnel）控制疊加比例，做出布料逆光時邊緣才會出現的絨毛微光。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_velvet_sheen">開啟互動教學</a>
+      <a href="tutorial_velvet_sheen.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：加入 Sheen BSDF</h2>
+      <p>從「著色器 Shader」分類拖入絨光 BSDF（Sheen BSDF），顏色（Color）可以維持接近白色/淡粉色，先不用接線。<br /><br />單獨接到輸出你會發現球體幾乎是全黑的，這是因為它的底色設計成全黑，只靠邊緣光貢獻亮度。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用 Mix Shader 疊在布料底色上</h2>
+      <p>拖入混合著色器（Mix Shader），上面接原本的原理化 BSDF（Principled BSDF，布料底色），下面接絨光 BSDF（Sheen BSDF），接到材質輸出（Material Output）取代原本的直接連線。<br /><br />這時候 Fac 固定值就能看到邊緣多了一圈亮光。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用 Fresnel 讓絨毛光只出現在邊緣</h2>
+      <p>加入菲涅爾（Fresnel）節點（輸入 Input 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac。<br /><br />現在正面看得到布料底色，只有側邊/逆光的邊緣才會透出絨毛光暈——這才是天鵝絨真正的樣子。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調高 Sheen Roughness 讓光暈更柔和</h2>
+      <p>把絨光 BSDF（Sheen BSDF）的粗糙度（Roughness）調到 0.7 以上。<br /><br />邊緣光暈會變得更寬、更柔和，比較接近真實絨布蓬鬆的質感，而不是一圈銳利的亮邊。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

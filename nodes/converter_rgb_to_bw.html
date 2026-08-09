@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RGB 轉黑白 · Blender 5.0 節點百科</title>
+<meta name="description" content="把彩色依人眼感知的亮度公式轉成一個灰階數值。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="RGB 轉黑白 · Blender 5.0 節點百科" />
+<meta property="og:description" content="把彩色依人眼感知的亮度公式轉成一個灰階數值。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_rgb_to_bw.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_rgb_to_bw.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/converter_rgb_to_bw.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_rgb_to_bw.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"RGB 轉黑白","description":"把彩色依人眼感知的亮度公式轉成一個灰階數值。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_rgb_to_bw.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>RGB 轉黑白</h1>
+    <p class="content-lead">把彩色依人眼感知的亮度公式轉成一個灰階數值。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=converter_rgb_to_bw">在沙盒中試用</a>
+      <a href="converter_rgb_to_bw.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>跟直接把三色平均不同，這裡用的是符合人眼感知的加權公式（綠色感覺比較亮，佔比較高）。</p></section>
+    <section><h2>進階說明</h2><p>公式為 dot(rgb, vec3(0.2126, 0.7152, 0.0722))，跟本網站型別系統裡 color→float 的隱式轉換公式完全一致。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>數值</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gamma: A Power-Curve Midtone Adjustment · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="The Gamma node simply computes pow(color, gamma) — values above 1 darken midtones, below 1 brighten them. Commonly used to correct texture data or quickly reshape a material&#39;s tonal curve." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Gamma: A Power-Curve Midtone Adjustment · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="The Gamma node simply computes pow(color, gamma) — values above 1 darken midtones, below 1 brighten them. Commonly used to correct texture data or quickly reshape a material&#39;s tonal curve." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_gamma_correction.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_gamma_correction.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_gamma_correction.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_gamma_correction.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Gamma: A Power-Curve Midtone Adjustment","description":"The Gamma node simply computes pow(color, gamma) — values above 1 darken midtones, below 1 brighten them. Commonly used to correct texture data or quickly reshape a material's tonal curve.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_gamma_correction.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Gamma: A Power-Curve Midtone Adjustment</h1>
+    <p class="content-lead">The Gamma node simply computes pow(color, gamma) — values above 1 darken midtones, below 1 brighten them. Commonly used to correct texture data or quickly reshape a material&#39;s tonal curve.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_gamma_correction&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_gamma_correction.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>3 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Add a Gamma Node</h2>
+      <p>Drag in a Gamma from the Color category and connect it to Principled BSDF&#39;s Base Color. Keep Color at mid-gray (0.5, 0.5, 0.5).</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Lower Gamma to Brighten</h2>
+      <p>Set Gamma below 0.5 (e.g. 0.35). The mid-gray should visibly brighten.<br /><br />An exponent below 1 lifts values within the 0-1 range upward overall.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Try a Gamma Above 1</h2>
+      <p>Now set Gamma above 2 — the color should become much darker than mid-gray.<br /><br />This confirms Gamma is a power operation, not addition/subtraction — more extreme values have a stronger effect.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

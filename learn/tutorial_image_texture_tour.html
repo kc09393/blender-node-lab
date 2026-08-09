@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識圖像紋理：貼上你自己的圖片 · Blender 5.0 引導教學</title>
+<meta name="description" content="圖像紋理（Image Texture）是最常用的紋理節點——直接讀取你上傳的照片或素材圖當材質。這篇帶你認識三個關鍵設定：延展模式（Extension）、插值（Interpolation）、色彩空間（Color Space），尤其色彩空間選錯會讓法線貼圖、粗糙度圖整個跑掉，是很多初學者會踩的坑。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識圖像紋理：貼上你自己的圖片 · Blender 5.0 引導教學" />
+<meta property="og:description" content="圖像紋理（Image Texture）是最常用的紋理節點——直接讀取你上傳的照片或素材圖當材質。這篇帶你認識三個關鍵設定：延展模式（Extension）、插值（Interpolation）、色彩空間（Color Space），尤其色彩空間選錯會讓法線貼圖、粗糙度圖整個跑掉，是很多初學者會踩的坑。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_image_texture_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_image_texture_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_image_texture_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_image_texture_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識圖像紋理：貼上你自己的圖片","description":"圖像紋理（Image Texture）是最常用的紋理節點——直接讀取你上傳的照片或素材圖當材質。這篇帶你認識三個關鍵設定：延展模式（Extension）、插值（Interpolation）、色彩空間（Color Space），尤其色彩空間選錯會讓法線貼圖、粗糙度圖整個跑掉，是很多初學者會踩的坑。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_image_texture_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識圖像紋理：貼上你自己的圖片</h1>
+    <p class="content-lead">圖像紋理（Image Texture）是最常用的紋理節點——直接讀取你上傳的照片或素材圖當材質。這篇帶你認識三個關鍵設定：延展模式（Extension）、插值（Interpolation）、色彩空間（Color Space），尤其色彩空間選錯會讓法線貼圖、粗糙度圖整個跑掉，是很多初學者會踩的坑。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_image_texture_tour">開啟互動教學</a>
+      <a href="tutorial_image_texture_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：上傳一張圖片</h2>
+      <p>從「紋理 Texture」分類拖入圖像紋理（Image Texture），點節點上的「選擇圖片」上傳任何一張照片或素材圖，再把它的顏色（Color）輸出接到原理化 BSDF 的底色（Base Color）。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：接上 Mapping 放大貼圖</h2>
+      <p>加入映射（Mapping，向量 Vector 分類），把它接在圖像紋理的向量（Vector）輸入前面，把縮放（Scale）的三個軸都調到 3 以上。貼圖會重複貼好幾次。<br /><br />這是為下一步的延展模式（Extension）鋪路。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：切換延展模式看邊界怎麼接</h2>
+      <p>把延展模式（Extension）切換成鏡像（Mirror）。<br /><br />跟預設的重複（Repeat）比起來，Mirror 每次重複都會左右/上下翻轉一次，圖片邊界會無縫接起來，適合用在不想看到明顯重複接縫的場合。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：切換插值看像素感</h2>
+      <p>把插值（Interpolation）切換成最近（Closest）。<br /><br />預設的線性（Linear）會把相鄰像素的顏色平滑混合；Closest 直接取最近的那個像素，放大後會看到清楚的方塊邊界，適合像素風格素材或需要保留銳利邊緣的資料圖。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

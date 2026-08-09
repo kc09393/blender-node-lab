@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Inverting Fresnel: Glowing Core, Glassy Edge · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Fresnel is naturally high at grazing angles and low head-on — exactly backwards from what you want when the glowing core should show head-on and the glassy reflection should appear at the edges. This tutorial teaches a simple, reusable trick: use a Math node&#39;s Subtract operation to compute &#39;1 minus Fresnel,&#39; flipping the curve upside down. This is exactly how the Neon Glass Tube preset works." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Inverting Fresnel: Glowing Core, Glassy Edge · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Fresnel is naturally high at grazing angles and low head-on — exactly backwards from what you want when the glowing core should show head-on and the glassy reflection should appear at the edges. This tutorial teaches a simple, reusable trick: use a Math node&#39;s Subtract operation to compute &#39;1 minus Fresnel,&#39; flipping the curve upside down. This is exactly how the Neon Glass Tube preset works." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Inverting Fresnel: Glowing Core, Glassy Edge","description":"Fresnel is naturally high at grazing angles and low head-on — exactly backwards from what you want when the glowing core should show head-on and the glassy reflection should appear at the edges. This tutorial teaches a simple, reusable trick: use a Math node's Subtract operation to compute '1 minus Fresnel,' flipping the curve upside down. This is exactly how the Neon Glass Tube preset works.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Inverting Fresnel: Glowing Core, Glassy Edge</h1>
+    <p class="content-lead">Fresnel is naturally high at grazing angles and low head-on — exactly backwards from what you want when the glowing core should show head-on and the glassy reflection should appear at the edges. This tutorial teaches a simple, reusable trick: use a Math node&#39;s Subtract operation to compute &#39;1 minus Fresnel,&#39; flipping the curve upside down. This is exactly how the Neon Glass Tube preset works.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_fresnel_invert_core_glow&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_fresnel_invert_core_glow.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Layer in a Glow, Blend at a Fixed Ratio First</h2>
+      <p>Add an Emission node (bright magenta or cyan, strength around 3) and a Mix Shader. Wire the existing Glass BSDF into Mix Shader&#39;s first Shader input, Emission into the second, and Mix Shader into Material Output (replacing Glass&#39;s direct connection).<br /><br />Leave Fac alone for now and see what a fixed 50/50 blend looks like — the whole sphere is uniformly half-transparent, half-glowing, with no distinction between a &#39;core&#39; and an &#39;edge.&#39;</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Wire In Fresnel — See That the Direction Is Backwards</h2>
+      <p>Add a Fresnel node (IOR at its default 1.45) and connect its Fac directly to Mix Shader&#39;s Fac.<br /><br />⚠️ Don&#39;t fix anything yet — rotate the preview sphere and notice: the head-on core area shows glass, while the grazing edges glow — the opposite of the &#39;glowing core, glassy edge&#39; look we want. That&#39;s because Fresnel itself is low head-on and high at grazing angles, while Fac=0 picks the first Shader (Glass) and Fac=1 picks the second (Emission).</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Insert a Math Node to Compute &#39;1 Minus&#39; — Flip It</h2>
+      <p>Insert a Math node between Fresnel and Mix Shader, set to Subtract, with the first value set to 1 and the second value wired from Fresnel&#39;s Fac. Reconnect the Math node&#39;s output into Mix Shader&#39;s Fac (replacing Fresnel&#39;s direct connection).<br /><br />Now &#39;1 minus Fresnel&#39; is high head-on (picking Emission) and low at grazing angles (picking Glass) — the direction is correct. Rotate the preview again to confirm: the core glows steadily, while the silhouette edge shows glassy reflections.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Where Else This Trick Applies</h2>
+      <p>&#39;Compute 1 minus a value with a Math node&#39; is a general-purpose trick, not just for inverting Fresnel — any 0-1 mask can be flipped the same way whenever you need its opposite (what was bright should go dark, and vice versa), which is simpler than redesigning the whole masking logic from scratch.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

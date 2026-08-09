@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>沃羅諾伊紋理 · Blender 5.0 節點百科</title>
+<meta name="description" content="自然的細胞/裂紋圖案，做石頭、龜裂地面、生物細胞紋理必備。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="沃羅諾伊紋理 · Blender 5.0 節點百科" />
+<meta property="og:description" content="自然的細胞/裂紋圖案，做石頭、龜裂地面、生物細胞紋理必備。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"沃羅諾伊紋理","description":"自然的細胞/裂紋圖案，做石頭、龜裂地面、生物細胞紋理必備。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>沃羅諾伊紋理</h1>
+    <p class="content-lead">自然的細胞/裂紋圖案，做石頭、龜裂地面、生物細胞紋理必備。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=texture_voronoi">在沙盒中試用</a>
+      <a href="texture_voronoi.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>Voronoi 會把空間切成一塊塊不規則的『細胞』。Distance 輸出離最近細胞中心的距離（可以做出裂紋邊界），Color 輸出每個細胞一個隨機顏色（可以做出石頭的斑駁感）。</p></section>
+    <section><h2>進階說明</h2><p>Randomness 是真的可調參數（0＝細胞中心退化成完美網格、1＝完全隨機跳動，Blender 預設 1）。特徵（Feature）跟距離度量（Distance Metric）現在都跟 Blender 一致：F1（離最近細胞多遠）、F2（離第二近細胞多遠）、平滑 F1（用平滑最小值把 F1/F2 融合，邊界更柔和）、到邊緣的距離（離兩個細胞交界處多遠，做裂縫特別適合）、N-球半徑（細胞點本身能塞進去、不跟鄰居重疊的最大球半徑，做圓潤的鵝卵石顆粒特別適合）；距離度量支援歐式（Euclidean，一般直線距離）、曼哈頓（Manhattan，只能走格線）、切比雪夫（Chebychev，取最大分量，切出方形細胞）、閔可夫斯基（Minkowski，用 Exponent 插槽的次方廣義化前面幾種——Exponent=1 等於曼哈頓、Exponent=2 等於歐式、Exponent 越大越接近切比雪夫）。Exponent 預設 0.5、範圍 0-32，跟 Blender 原始碼（`node_shader_tex_voronoi.cc`）的插槽定義一致；只有 Distance Metric 選 Minkowski 時才會用到。差異：平滑 F1 用 Smooth Min 對 F1/F2 做平滑（方向正確，但不是 Blender 內部真正逐點加權平滑的演算法）。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>隨機度</td><td>float</td></tr><tr><td>IN</td><td>平滑度</td><td>float</td></tr><tr><td>IN</td><td>指數 Exponent</td><td>float</td></tr><tr><td>OUT</td><td>距離</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>位置</td><td>vector</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

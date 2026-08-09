@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Separate/Combine XYZ: Stretch Just One Axis · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Use Separate XYZ to split a coordinate into three independent values, operate on just one axis, then rejoin with Combine XYZ — the standard pattern when you only want to adjust one direction." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Separate/Combine XYZ: Stretch Just One Axis · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Use Separate XYZ to split a coordinate into three independent values, operate on just one axis, then rejoin with Combine XYZ — the standard pattern when you only want to adjust one direction." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_xyz_split.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_xyz_split.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_xyz_split.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_xyz_split.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Separate/Combine XYZ: Stretch Just One Axis","description":"Use Separate XYZ to split a coordinate into three independent values, operate on just one axis, then rejoin with Combine XYZ — the standard pattern when you only want to adjust one direction.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_xyz_split.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Separate/Combine XYZ: Stretch Just One Axis</h1>
+    <p class="content-lead">Use Separate XYZ to split a coordinate into three independent values, operate on just one axis, then rejoin with Combine XYZ — the standard pattern when you only want to adjust one direction.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_xyz_split&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_xyz_split.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Add Texture Coordinate and Separate XYZ</h2>
+      <p>Drag in a Texture Coordinate (Input category) and a Separate XYZ (Converter category), then connect Texture Coordinate&#39;s Generated output to Separate XYZ&#39;s Vector input.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Scale Up the Y Component with Math</h2>
+      <p>Add a Math node, set its operation to Multiply, connect Separate XYZ&#39;s y output to its first value, and set the second value to 3.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Rejoin with Combine XYZ</h2>
+      <p>Add a Combine XYZ, connect Separate XYZ&#39;s x output to its x, and the Math node&#39;s result to its y.<br /><br />This produces a coordinate where x is unchanged but y is scaled 3x.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Feed a Checker Texture to See the Effect</h2>
+      <p>Add a Checker Texture, connect Combine XYZ&#39;s Vector output to its Vector input, then feed it to Principled BSDF&#39;s Base Color.<br /><br />The checker cells should stretch into rectangles along Y, not squares — proof that only the Y axis was scaled.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ambient Occlusion · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Detects crevices and corners that light struggles to reach — often used to darken grime or contact shadows." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Ambient Occlusion · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Detects crevices and corners that light struggles to reach — often used to darken grime or contact shadows." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Ambient Occlusion","description":"Detects crevices and corners that light struggles to reach — often used to darken grime or contact shadows.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Ambient Occlusion</h1>
+    <p class="content-lead">Detects crevices and corners that light struggles to reach — often used to darken grime or contact shadows.</p>
+    <div class="content-actions">
+      
+      <a href="input_ambient_occlusion.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Often fed into Mix Color or Color Ramp to naturally darken a model&#39;s recesses, adding realism.</p></section>
+    <section><h2>Technical notes</h2><p>Correct computation needs multi-directional sampling of surrounding geometry (screen-space SSAO or per-ray sampling) — fairly expensive. This live-preview pipeline doesn&#39;t have that multi-sample pass yet. Documentation only. (A screen-space normal-curvature approximation via dFdx/dFdy was tried and tested — even on a cube&#39;s sharp edges, the effect got diluted by anti-aliasing/MSAA to the point of being visually imperceptible, so it wasn&#39;t judged worth shipping for an effect nobody could actually see.)</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Distance</td><td>float</td></tr><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>AO</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

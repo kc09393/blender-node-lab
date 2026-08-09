@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Edge Wear: Paint Chipping to Bare Metal · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="A classic game-art technique: edge wear — flat surfaces keep their paint, while edges/corners show bare metal from repeated impact. The trick: Fresnel measures &#39;how close to an edge this is&#39;, a hard-edged Color Ramp (Constant interpolation) turns that into an all-or-nothing mask, and the mask drives a Mix Shader to swap between two completely different materials." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Edge Wear: Paint Chipping to Bare Metal · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="A classic game-art technique: edge wear — flat surfaces keep their paint, while edges/corners show bare metal from repeated impact. The trick: Fresnel measures &#39;how close to an edge this is&#39;, a hard-edged Color Ramp (Constant interpolation) turns that into an all-or-nothing mask, and the mask drives a Mix Shader to swap between two completely different materials." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Edge Wear: Paint Chipping to Bare Metal","description":"A classic game-art technique: edge wear — flat surfaces keep their paint, while edges/corners show bare metal from repeated impact. The trick: Fresnel measures 'how close to an edge this is', a hard-edged Color Ramp (Constant interpolation) turns that into an all-or-nothing mask, and the mask drives a Mix Shader to swap between two completely different materials.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Edge Wear: Paint Chipping to Bare Metal</h1>
+    <p class="content-lead">A classic game-art technique: edge wear — flat surfaces keep their paint, while edges/corners show bare metal from repeated impact. The trick: Fresnel measures &#39;how close to an edge this is&#39;, a hard-edged Color Ramp (Constant interpolation) turns that into an all-or-nothing mask, and the mask drives a Mix Shader to swap between two completely different materials.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_edge_wear_mask&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_edge_wear_mask.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Prepare a Painted Material and a Bare-Metal Material</h2>
+      <p>The existing Principled BSDF is the paint: Metallic 0, Roughness around 0.4, a normal painted look.<br /><br />Drag in a new Principled BSDF for bare metal: light gray Base Color, Metallic set to 1, lower Roughness (e.g. 0.2). Don&#39;t wire it up yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Wire Both Together with Mix Shader</h2>
+      <p>Add a Mix Shader (Shader category), connect the painted and bare-metal Principled nodes to its two Shader inputs, then wire it to Material Output&#39;s Surface, replacing the original direct connection.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Build a Hard-Edge Mask with Fresnel + Color Ramp</h2>
+      <p>Add a Fresnel node (Input category), raising IOR a bit (e.g. 2.2) to concentrate the edge zone.<br /><br />Add a Color Ramp, switch Interpolation to Constant, and set stops: position 0 black, position 0.6 white — no transition zone at all, only pure black (fully painted) or pure white (fully bare) with a razor-sharp wear boundary instead of a soft blend.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Drive the Blend with the Mask</h2>
+      <p>Connect Color Ramp&#39;s Color output to Mix Shader&#39;s Fac, replacing the fixed slider.<br /><br />The front-facing area should stay fully painted, with only the grazing edges suddenly flipping to bare metal — that&#39;s edge wear: a hard, decisive switch rather than a soft gradient like typical dirt masks.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

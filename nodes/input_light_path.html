@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>光程 · Blender 5.0 節點百科</title>
+<meta name="description" content="判斷目前這道光線是反射、折射、陰影等哪一種路徑，只在路徑追蹤渲染器中有意義。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="光程 · Blender 5.0 節點百科" />
+<meta property="og:description" content="判斷目前這道光線是反射、折射、陰影等哪一種路徑，只在路徑追蹤渲染器中有意義。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"光程","description":"判斷目前這道光線是反射、折射、陰影等哪一種路徑，只在路徑追蹤渲染器中有意義。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_light_path.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>光程</h1>
+    <p class="content-lead">判斷目前這道光線是反射、折射、陰影等哪一種路徑，只在路徑追蹤渲染器中有意義。</p>
+    <div class="content-actions">
+      
+      <a href="input_light_path.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>常用來讓材質『只在被攝影機直接看到時』顯示某個效果、但反射中不顯示（例如讓某些效果不在鏡子倒影裡出現）。</p></section>
+    <section><h2>進階說明</h2><p>這個節點的意義建立在『逐光線追蹤』的渲染架構上；本沙盒用的是即時光柵化（rasterization）預覽，沒有『這是第幾次反彈的光線』這個概念，先列文件。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>OUT</td><td>Is Camera Ray</td><td>float</td></tr><tr><td>OUT</td><td>Is Shadow Ray</td><td>float</td></tr><tr><td>OUT</td><td>Is Reflection Ray</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

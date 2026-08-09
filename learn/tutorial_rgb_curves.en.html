@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RGB Curves: Tone-Mapping Like Photoshop · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="The RGB Curves node lets you drag out a custom tone-mapping curve for a color — more flexible than Brightness/Contrast, letting you pull just the shadows or just the highlights. The exact same concept as Photoshop&#39;s Curves tool." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="RGB Curves: Tone-Mapping Like Photoshop · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="The RGB Curves node lets you drag out a custom tone-mapping curve for a color — more flexible than Brightness/Contrast, letting you pull just the shadows or just the highlights. The exact same concept as Photoshop&#39;s Curves tool." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"RGB Curves: Tone-Mapping Like Photoshop","description":"The RGB Curves node lets you drag out a custom tone-mapping curve for a color — more flexible than Brightness/Contrast, letting you pull just the shadows or just the highlights. The exact same concept as Photoshop's Curves tool.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_rgb_curves.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>RGB Curves: Tone-Mapping Like Photoshop</h1>
+    <p class="content-lead">The RGB Curves node lets you drag out a custom tone-mapping curve for a color — more flexible than Brightness/Contrast, letting you pull just the shadows or just the highlights. The exact same concept as Photoshop&#39;s Curves tool.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_rgb_curves&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_rgb_curves.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>3 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Add RGB Curves</h2>
+      <p>Drag in RGB Curves from the Color category and connect it to Principled BSDF&#39;s Base Color.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Drag the Midpoint Upward</h2>
+      <p>Click the middle of the curve on the node card to add a control point, then drag it upward.<br /><br />Midtones brighten while the darkest and brightest ends stay put — a common photo-editing move: &#39;lift the midtones&#39;.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Confirm the Effect</h2>
+      <p>Check the live preview — the sphere should look brighter overall than the plain gray, without blowing out to solid white.<br /><br />That&#39;s the power of curve-based &#39;local adjustment&#39;, more refined than a flat Brightness/Contrast slider.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

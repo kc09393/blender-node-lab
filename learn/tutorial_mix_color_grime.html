@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>混合顏色：疊一層污漬 · Blender 5.0 引導教學</title>
+<meta name="description" content="混合顏色（Mix Color）節點的相乘（Multiply）模式只會讓顏色變暗、不會變亮——這正是疊加污漬、陰影貼圖的標準做法，概念上跟 Photoshop 圖層的「色彩增值」模式一樣。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="混合顏色：疊一層污漬 · Blender 5.0 引導教學" />
+<meta property="og:description" content="混合顏色（Mix Color）節點的相乘（Multiply）模式只會讓顏色變暗、不會變亮——這正是疊加污漬、陰影貼圖的標準做法，概念上跟 Photoshop 圖層的「色彩增值」模式一樣。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"混合顏色：疊一層污漬","description":"混合顏色（Mix Color）節點的相乘（Multiply）模式只會讓顏色變暗、不會變亮——這正是疊加污漬、陰影貼圖的標準做法，概念上跟 Photoshop 圖層的「色彩增值」模式一樣。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>混合顏色：疊一層污漬</h1>
+    <p class="content-lead">混合顏色（Mix Color）節點的相乘（Multiply）模式只會讓顏色變暗、不會變亮——這正是疊加污漬、陰影貼圖的標準做法，概念上跟 Photoshop 圖層的「色彩增值」模式一樣。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_mix_color_grime">開啟互動教學</a>
+      <a href="tutorial_mix_color_grime.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：加入沃羅諾伊紋理當作污漬圖案</h2>
+      <p>加入紋理座標（Texture Coordinate）跟沃羅諾伊紋理（Voronoi Texture），把 Generated 接到向量（Vector），縮放（Scale）調高一點（例如 8）做出細碎的斑點。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入混合顏色節點</h2>
+      <p>從「顏色 Color」分類拖入混合顏色（Mix Color），把 A 輸入先留著原本的底色，把沃羅諾伊的顏色（Color）輸出接到 B 輸入。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：切換成相乘模式</h2>
+      <p>把混合模式改成相乘（Multiply）。這個模式的特性是「只會變暗、不會變亮」。<br /><br />不管 B 輸入的顏色多亮，結果都不會比原本的底色更亮，很適合做污漬、髒污。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：接到底色並調整比例</h2>
+      <p>把混合顏色的輸出接到原理化 BSDF（Principled BSDF）的底色（Base Color），把 Fac 調到 0.5 以上，讓污漬效果更明顯。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

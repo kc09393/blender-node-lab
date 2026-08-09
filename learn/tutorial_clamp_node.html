@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>夾值：防止數值跑出合理範圍 · Blender 5.0 引導教學</title>
+<meta name="description" content="很多插槽（例如 Roughness）只接受 0-1，但接上其他運算節點後很容易跑出這個範圍。夾值（Clamp）節點強制把數值鎖在你指定的最小/最大之間，避免材質忽然全黑或全白。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="夾值：防止數值跑出合理範圍 · Blender 5.0 引導教學" />
+<meta property="og:description" content="很多插槽（例如 Roughness）只接受 0-1，但接上其他運算節點後很容易跑出這個範圍。夾值（Clamp）節點強制把數值鎖在你指定的最小/最大之間，避免材質忽然全黑或全白。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_clamp_node.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_clamp_node.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_clamp_node.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_clamp_node.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"夾值：防止數值跑出合理範圍","description":"很多插槽（例如 Roughness）只接受 0-1，但接上其他運算節點後很容易跑出這個範圍。夾值（Clamp）節點強制把數值鎖在你指定的最小/最大之間，避免材質忽然全黑或全白。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_clamp_node.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>夾值：防止數值跑出合理範圍</h1>
+    <p class="content-lead">很多插槽（例如 Roughness）只接受 0-1，但接上其他運算節點後很容易跑出這個範圍。夾值（Clamp）節點強制把數值鎖在你指定的最小/最大之間，避免材質忽然全黑或全白。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_clamp_node">開啟互動教學</a>
+      <a href="tutorial_clamp_node.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：用 Math 把雜訊誇張放大</h2>
+      <p>加入雜訊紋理（Noise Texture）跟一個數學（Math）節點（運算選相乘 Multiply），把雜訊的係數（Fac）接到 Math 的第一個數值，第二個數值設成 3。<br /><br />這樣範圍會從 0-1 誇張放大成 0-3，遠遠超出 Roughness 能接受的 0-1。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入夾值節點</h2>
+      <p>從「轉換器 Converter」分類拖入夾值（Clamp），把 Math 節點的結果接到它的數值（Value）輸入。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：設定合理的上下限</h2>
+      <p>把最小（Min）設成 0.2、最大（Max）設成 0.6。<br /><br />不管前面算出來的數值多誇張，輸出都會被鎖在這個範圍內。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：接到粗糙度</h2>
+      <p>把夾值節點的輸出接到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）。反光應該會有變化，但不會出現完全的鏡面或完全的霧面。<br /><br />這就是 Clamp 的保護作用。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

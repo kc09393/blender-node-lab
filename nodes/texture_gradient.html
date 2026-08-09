@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>漸變紋理 · Blender 5.0 節點百科</title>
+<meta name="description" content="沿某個方向或形狀由黑到白的平滑漸層。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="漸變紋理 · Blender 5.0 節點百科" />
+<meta property="og:description" content="沿某個方向或形狀由黑到白的平滑漸層。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"漸變紋理","description":"沿某個方向或形狀由黑到白的平滑漸層。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>漸變紋理</h1>
+    <p class="content-lead">沿某個方向或形狀由黑到白的平滑漸層。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=texture_gradient">在沙盒中試用</a>
+      <a href="texture_gradient.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>最簡單的紋理節點：輸出從 0 到 1 平滑變化的灰階值，常接到 Color Ramp 做出漸層上色，或接到 Mix Shader 的 Fac 做出材質的漸變過渡。</p></section>
+    <section><h2>進階說明</h2><p>全部 6 種類型都跟 Blender 一致：線性（X 分量）、二次方（X 分量平方，中段變化更快）、緩動（3x²-2x³ 平滑曲線）、對角（X、Y 分量平均）、放射狀（繞中心點的角度掃描，像時鐘指針）、球狀（到中心點的距離，向外圈狀擴散）。跟 Blender 的差異：Blender 的放射狀／球狀公式直接對原始座標取值（座標本身就以物體中心為原點）；本沙盒的預設向量是 0-1 的 UV，所以先減去 (0.5,0.5) 把中心平移到畫面正中央，效果一致、只是座標系統不同。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

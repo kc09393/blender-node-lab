@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Translucent BSDF · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Lets light pass through from the back — like light shining through a leaf or paper." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Translucent BSDF · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Lets light pass through from the back — like light shining through a leaf or paper." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Translucent BSDF","description":"Lets light pass through from the back — like light shining through a leaf or paper.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Translucent BSDF</h1>
+    <p class="content-lead">Lets light pass through from the back — like light shining through a leaf or paper.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_translucent_bsdf&amp;lang=en">Try it in the sandbox</a>
+      <a href="shader_translucent_bsdf.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Often mixed with Diffuse BSDF via Mix Shader to simulate light passing through thin objects.</p></section>
+    <section><h2>Technical notes</h2><p>Real translucency needs lighting and thickness info from the back face, unavailable in this single-surface live preview architecture (Blender&#39;s own node source only has Color/Normal inputs too — no thickness or radius parameter). This sandbox uses a simplification similar to Subsurface Scattering: a Fresnel term drives an edge/back-facing glow using the Color itself — directionally correct (brighter at edges/backlit areas, mimicking light bleeding through from behind), but not a real sample of back-face lighting. Difference from Subsurface Scattering: SSS has a Radius vector giving each color channel a different falloff (producing a reddish edge tint); Translucent has no such per-channel dispersion — its edge glow is just the Color itself.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

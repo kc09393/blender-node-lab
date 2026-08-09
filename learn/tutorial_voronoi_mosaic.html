@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>沃羅諾伊馬賽克：隨機色塊拼貼 · Blender 5.0 引導教學</title>
+<meta name="description" content="沃羅諾伊紋理（Voronoi Texture）的 Color 輸出會給每個細胞一個獨立的隨機顏色，很適合做馬賽克磁磚、卵石地板這種「每一塊顏色都不太一樣」的效果——這跟石頭教學用 Distance 做斑駁色調是完全不同的技巧。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="沃羅諾伊馬賽克：隨機色塊拼貼 · Blender 5.0 引導教學" />
+<meta property="og:description" content="沃羅諾伊紋理（Voronoi Texture）的 Color 輸出會給每個細胞一個獨立的隨機顏色，很適合做馬賽克磁磚、卵石地板這種「每一塊顏色都不太一樣」的效果——這跟石頭教學用 Distance 做斑駁色調是完全不同的技巧。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"沃羅諾伊馬賽克：隨機色塊拼貼","description":"沃羅諾伊紋理（Voronoi Texture）的 Color 輸出會給每個細胞一個獨立的隨機顏色，很適合做馬賽克磁磚、卵石地板這種「每一塊顏色都不太一樣」的效果——這跟石頭教學用 Distance 做斑駁色調是完全不同的技巧。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>沃羅諾伊馬賽克：隨機色塊拼貼</h1>
+    <p class="content-lead">沃羅諾伊紋理（Voronoi Texture）的 Color 輸出會給每個細胞一個獨立的隨機顏色，很適合做馬賽克磁磚、卵石地板這種「每一塊顏色都不太一樣」的效果——這跟石頭教學用 Distance 做斑駁色調是完全不同的技巧。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_voronoi_mosaic">開啟互動教學</a>
+      <a href="tutorial_voronoi_mosaic.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：加入沃羅諾伊紋理</h2>
+      <p>從「紋理 Texture」分類拖入沃羅諾伊紋理（Voronoi Texture）。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：接上座標</h2>
+      <p>加入紋理座標（Texture Coordinate，輸入 Input 分類），把它的 Generated 輸出接到沃羅諾伊紋理的向量（Vector）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：接 Color 而不是 Distance</h2>
+      <p>這次把沃羅諾伊紋理的顏色（Color）輸出（不是距離 Distance）接到原理化 BSDF（Principled BSDF）的底色（Base Color）。<br /><br />每一格細胞現在應該各自是一個隨機的純色。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調高縮放做出更多小磁磚</h2>
+      <p>把縮放（Scale）調到 8 以上，磁磚會變得更小更密集，更像真的馬賽克拼貼。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

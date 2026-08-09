@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Opal Gem: A Gradient Driven by Two Sources · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="The best-looking gradients rarely come from a single input — an opal&#39;s play-of-color depends on both viewing angle and its internal noise structure. This tutorial combines Fresnel and Noise Texture with a Math node into one driving value, feeding a Color Ramp for a more organic, irregular multicolor gradient than either input alone could produce." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Opal Gem: A Gradient Driven by Two Sources · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="The best-looking gradients rarely come from a single input — an opal&#39;s play-of-color depends on both viewing angle and its internal noise structure. This tutorial combines Fresnel and Noise Texture with a Math node into one driving value, feeding a Color Ramp for a more organic, irregular multicolor gradient than either input alone could produce." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Opal Gem: A Gradient Driven by Two Sources","description":"The best-looking gradients rarely come from a single input — an opal's play-of-color depends on both viewing angle and its internal noise structure. This tutorial combines Fresnel and Noise Texture with a Math node into one driving value, feeding a Color Ramp for a more organic, irregular multicolor gradient than either input alone could produce.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Opal Gem: A Gradient Driven by Two Sources</h1>
+    <p class="content-lead">The best-looking gradients rarely come from a single input — an opal&#39;s play-of-color depends on both viewing angle and its internal noise structure. This tutorial combines Fresnel and Noise Texture with a Math node into one driving value, feeding a Color Ramp for a more organic, irregular multicolor gradient than either input alone could produce.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_opal_gem_gradient&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_opal_gem_gradient.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Add Fresnel and Noise Texture</h2>
+      <p>Add a Fresnel node and a Noise Texture — these will jointly drive the Color Ramp: Fresnel contributes angle-dependent variation, Noise Texture contributes internal-structure variation.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add Them Together with Math</h2>
+      <p>Add a Math node with operation Add, connect Fresnel&#39;s Fac to the first value and Noise Texture&#39;s Fac to the second — combining both sources of variation instead of using just one.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Add a Color Ramp for the Multicolor Gradient</h2>
+      <p>Add a Color Ramp, connect the Math node&#39;s result to its Fac, and set up at least 4 stops for a white → blue → green → orange → pink gradient — a common opal play-of-color sequence.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Feed a Principled BSDF for the Gem Look</h2>
+      <p>Connect Color Ramp&#39;s Color output to Principled BSDF&#39;s Base Color, with Roughness near 0. Real opals are actually opaque gems — their play-of-color comes from internal structural diffraction, not light transmission — so an opaque Principled BSDF is a more accurate (and more visible) choice than a transmissive Glass BSDF. Orbit the preview sphere — since Fresnel changes with viewing angle, the Color Ramp&#39;s sampled position shifts too, producing the &#39;colors shift as you turn it&#39; opal effect.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Make a Glass Material · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Use the Glass BSDF node to create a clear glass sphere, learning the Roughness and IOR parameters along the way." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Make a Glass Material · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Use the Glass BSDF node to create a clear glass sphere, learning the Roughness and IOR parameters along the way." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_glass.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_glass.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_glass.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_glass.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Make a Glass Material","description":"Use the Glass BSDF node to create a clear glass sphere, learning the Roughness and IOR parameters along the way.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_glass.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Make a Glass Material</h1>
+    <p class="content-lead">Use the Glass BSDF node to create a clear glass sphere, learning the Roughness and IOR parameters along the way.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_glass&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_glass.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Add a Glass BSDF</h2>
+      <p>The graph currently has the default Principled BSDF. Find the Glass BSDF under the Shader category in the left panel and drag it onto the canvas.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Connect to Material Output</h2>
+      <p>Drag from Glass BSDF&#39;s BSDF output (right dot) to Material Output&#39;s Surface input (left dot).</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Lower the Roughness</h2>
+      <p>On the Glass BSDF node, set Roughness below 0.05 so the glass looks clear instead of frosted.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Set a Realistic IOR</h2>
+      <p>Set IOR (index of refraction) to around 1.45 — real glass&#39;s IOR. Try 1.0 or 2.4 too, and check the docs to understand what IOR represents.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

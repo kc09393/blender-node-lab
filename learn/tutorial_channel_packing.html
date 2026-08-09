@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>色彩通道打包：一張貼圖塞三個遮罩 · Blender 5.0 引導教學</title>
+<meta name="description" content="遊戲美術常把三個各自獨立的黑白遮罩（例如粗糙度、金屬度、AO）分別塞進一張貼圖的 R、G、B 三個色版，存成一張圖而不是三張，省空間也省讀取次數——這叫做「通道打包」。這篇教學用合併顏色（Combine Color）把三個不相關的紋理各自塞進一個顏色的 R/G/B，再用分離顏色（Separate Color）把它們各自拆回來、分別驅動材質的不同參數，示範打包前後資訊完全沒有遺失。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="色彩通道打包：一張貼圖塞三個遮罩 · Blender 5.0 引導教學" />
+<meta property="og:description" content="遊戲美術常把三個各自獨立的黑白遮罩（例如粗糙度、金屬度、AO）分別塞進一張貼圖的 R、G、B 三個色版，存成一張圖而不是三張，省空間也省讀取次數——這叫做「通道打包」。這篇教學用合併顏色（Combine Color）把三個不相關的紋理各自塞進一個顏色的 R/G/B，再用分離顏色（Separate Color）把它們各自拆回來、分別驅動材質的不同參數，示範打包前後資訊完全沒有遺失。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"色彩通道打包：一張貼圖塞三個遮罩","description":"遊戲美術常把三個各自獨立的黑白遮罩（例如粗糙度、金屬度、AO）分別塞進一張貼圖的 R、G、B 三個色版，存成一張圖而不是三張，省空間也省讀取次數——這叫做「通道打包」。這篇教學用合併顏色（Combine Color）把三個不相關的紋理各自塞進一個顏色的 R/G/B，再用分離顏色（Separate Color）把它們各自拆回來、分別驅動材質的不同參數，示範打包前後資訊完全沒有遺失。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>色彩通道打包：一張貼圖塞三個遮罩</h1>
+    <p class="content-lead">遊戲美術常把三個各自獨立的黑白遮罩（例如粗糙度、金屬度、AO）分別塞進一張貼圖的 R、G、B 三個色版，存成一張圖而不是三張，省空間也省讀取次數——這叫做「通道打包」。這篇教學用合併顏色（Combine Color）把三個不相關的紋理各自塞進一個顏色的 R/G/B，再用分離顏色（Separate Color）把它們各自拆回來、分別驅動材質的不同參數，示範打包前後資訊完全沒有遺失。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_channel_packing">開啟互動教學</a>
+      <a href="tutorial_channel_packing.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：準備三個各自獨立的遮罩</h2>
+      <p>加入沃羅諾伊紋理（Voronoi Texture）、雜訊紋理（Noise Texture）、棋盤格紋理（Checker Texture）各一個。<br /><br />這三個節點完全不相關，之後會分別代表三種不同的遮罩用途（例如粗糙度、金屬度、AO）。<br /><br />先不用接到任何地方，下一步才會用到。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用合併顏色把三個遮罩塞進一個顏色</h2>
+      <p>加入合併顏色（Combine Color）節點。<br /><br />把沃羅諾伊的距離（Distance）輸出，接到合併顏色的 R 輸入。<br /><br />把雜訊紋理的係數（Fac）輸出，接到 G 輸入。<br /><br />把棋盤格紋理的係數（Fac）輸出，接到 B 輸入。<br /><br />現在這一個顏色節點裡，同時裝著三個完全不相關的遮罩——這就是「通道打包」。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用分離顏色把遮罩拆回來</h2>
+      <p>加入分離顏色（Separate Color）節點。<br /><br />把合併顏色的顏色（Color）輸出，接到分離顏色的顏色輸入。<br /><br />分離顏色會輸出 R、G、B、A 四個獨立數值——這正好是剛剛打包進去的沃羅諾伊、雜訊、棋盤格三個遮罩，一個都沒有混在一起或遺失。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：用拆出來的兩個通道各自驅動不同參數</h2>
+      <p>把分離顏色的 R 輸出，接到原理化 BSDF 的粗糙度（Roughness）。<br /><br />把分離顏色的 G 輸出，接到原理化 BSDF 的金屬度（Metallic）。<br /><br />看看即時預覽：球體表面應該同時出現沃羅諾伊細胞形狀的粗糙度變化、跟雜訊形狀的金屬度變化，兩者互不干擾——證明打包、拆開的整個過程完全沒有把資訊搞混。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

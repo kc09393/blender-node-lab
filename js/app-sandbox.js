@@ -146,9 +146,6 @@ refreshUndoRedoButtons();
 const addNodeParam = new URLSearchParams(location.search).get("addNode");
 if (addNodeParam && getNodeType(addNodeParam)) {
   addNodeNearCenter(addNodeParam);
-  history.replaceState(null, "", location.pathname);
-} else if (addNodeParam) {
-  history.replaceState(null, "", location.pathname);
 }
 
 // ---------- 節點面板（搜尋 + 拖放 / 點擊新增） ----------
@@ -254,6 +251,11 @@ presetSelect.addEventListener("change", () => {
   if (!preset) return;
   editor.loadGraph(Graph.fromJSON(preset.graph));
   showPresetDescription(preset);
+  const url = new URL(location.href);
+  url.searchParams.delete("g");
+  url.searchParams.delete("addNode");
+  url.searchParams.set("preset", preset.id);
+  history.replaceState({ preset: preset.id }, "", `${url.pathname}${url.search}${url.hash}`);
 });
 
 // 從首頁的材質畫廊點縮圖跳轉過來時，直接載入該預設材質。網址參數是不可信任的外部輸入，
@@ -271,7 +273,6 @@ if (presetParam) {
     // 但畫布跟說明文字卻已經是正確的材質，兩者對不上。
     presetSelect.value = preset.id;
   }
-  history.replaceState(null, "", location.pathname);
 }
 
 // 別人分享過來的節點圖（?g=）。跟 ?preset= 同一套「不可信任外部輸入」防呆，
@@ -279,7 +280,6 @@ if (presetParam) {
 // 其他初始化（節點面板、教學提示等）等這個解碼跑完才繼續執行。
 const shareParam = new URLSearchParams(location.search).get("g");
 if (shareParam) {
-  history.replaceState(null, "", location.pathname);
   (async () => {
     const data = await decodeShareParam(shareParam);
     if (!data) return; // 解碼失敗（壞連結/舊瀏覽器不支援）就靜靜維持原本的起始畫面，不彈錯誤訊息嚇使用者

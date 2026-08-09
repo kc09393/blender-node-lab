@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>三種穿透著色器比一比：Glass、Refraction、Translucent · Blender 5.0 引導教學</title>
+<meta name="description" content="玻璃 BSDF（Glass BSDF）、折射 BSDF（Refraction BSDF）、半透射 BSDF（Translucent BSDF）都跟「光線穿透」有關，很容易搞混。這篇用同一顆球依序切換三者，直接感受差異：Glass 有菲涅爾（Fresnel）驅動的反射，側邊角度會明顯變亮/更不透明；Refraction 只有純折射穿透、完全沒有反射，透明度只跟粗糙度有關、不會隨視角變化；Translucent 則完全不是「看穿過去」，而是像葉子一樣讓光在物體內部散開、邊緣透出微光。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="三種穿透著色器比一比：Glass、Refraction、Translucent · Blender 5.0 引導教學" />
+<meta property="og:description" content="玻璃 BSDF（Glass BSDF）、折射 BSDF（Refraction BSDF）、半透射 BSDF（Translucent BSDF）都跟「光線穿透」有關，很容易搞混。這篇用同一顆球依序切換三者，直接感受差異：Glass 有菲涅爾（Fresnel）驅動的反射，側邊角度會明顯變亮/更不透明；Refraction 只有純折射穿透、完全沒有反射，透明度只跟粗糙度有關、不會隨視角變化；Translucent 則完全不是「看穿過去」，而是像葉子一樣讓光在物體內部散開、邊緣透出微光。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_transmission_shaders_compared.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_transmission_shaders_compared.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_transmission_shaders_compared.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_transmission_shaders_compared.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"三種穿透著色器比一比：Glass、Refraction、Translucent","description":"玻璃 BSDF（Glass BSDF）、折射 BSDF（Refraction BSDF）、半透射 BSDF（Translucent BSDF）都跟「光線穿透」有關，很容易搞混。這篇用同一顆球依序切換三者，直接感受差異：Glass 有菲涅爾（Fresnel）驅動的反射，側邊角度會明顯變亮/更不透明；Refraction 只有純折射穿透、完全沒有反射，透明度只跟粗糙度有關、不會隨視角變化；Translucent 則完全不是「看穿過去」，而是像葉子一樣讓光在物體內部散開、邊緣透出微光。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_transmission_shaders_compared.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>三種穿透著色器比一比：Glass、Refraction、Translucent</h1>
+    <p class="content-lead">玻璃 BSDF（Glass BSDF）、折射 BSDF（Refraction BSDF）、半透射 BSDF（Translucent BSDF）都跟「光線穿透」有關，很容易搞混。這篇用同一顆球依序切換三者，直接感受差異：Glass 有菲涅爾（Fresnel）驅動的反射，側邊角度會明顯變亮/更不透明；Refraction 只有純折射穿透、完全沒有反射，透明度只跟粗糙度有關、不會隨視角變化；Translucent 則完全不是「看穿過去」，而是像葉子一樣讓光在物體內部散開、邊緣透出微光。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_transmission_shaders_compared">開啟互動教學</a>
+      <a href="tutorial_transmission_shaders_compared.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：先看 Glass BSDF 的反光邊緣</h2>
+      <p>從「著色器 Shader」分類拖入玻璃 BSDF（Glass BSDF），接到材質輸出（Material Output）。粗糙度（Roughness）調到接近 0。旋轉觀察一下：側邊角度應該會比正面看起來更亮、更不透明——這就是 Fresnel 驅動的反射在起作用。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：換成 Refraction BSDF，注意側邊不再變亮</h2>
+      <p>把材質輸出改接折射 BSDF（Refraction BSDF），粗糙度一樣調到接近 0。這次不管怎麼旋轉，透明度都不會隨角度變化——因為 Refraction BSDF 只有純折射穿透，完全沒有反射分量。試著把粗糙度調高（例如 0.8），會看到整顆球變得比較不透明，證明這裡是 Roughness 在控制透明度，不是視角。<br /><br />⚠️ IOR 插槽在這裡調了不會有任何畫面變化——因為真正的折射彎曲需要對背景做逐光線取樣，本沙盒做不到，保留這個插槽只是為了跟 Blender 介面一致。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：換成 Translucent BSDF，感受完全不同的效果</h2>
+      <p>把材質輸出改接半透射 BSDF（Translucent BSDF），顏色（Color）改成綠色（例如葉子的顏色）。畫面不會有任何「看穿過去」的感覺——整顆球呈現柔和的散射色調，邊緣（越靠近輪廓的地方）會透出比中央更亮一點的光暈，很像光線從葉子背後穿出來的感覺。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：總結三者的關鍵差異</h2>
+      <p>三種都跟「光」有關，但用途完全不同：<br /><br />・Glass BSDF：想做出玻璃、水、寶石這種「會反光也會透光」的完整效果，選這個。<br />・Refraction BSDF：只想要純折射、不要額外反光（通常會自己另外接一個 Glossy BSDF 手動控制反光比例）的進階用法才用得到。<br />・Translucent BSDF：物體本身不透明，但很薄、光線會從內部透出來（葉子、紙張、蠟燭），選這個，不要跟前兩者混淆。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

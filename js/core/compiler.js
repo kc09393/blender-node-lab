@@ -192,7 +192,49 @@ struct BmlBsdf {
   float metallic;
   vec3 emission;
   float alpha;
+  float ior;
+  float transmission;
+  float coatWeight;
+  float coatRoughness;
+  float coatIor;
+  vec3 coatTint;
+  vec3 coatNormal;
+  vec3 sheenColor;
+  float sheenRoughness;
+  float anisotropy;
+  float anisotropyRotation;
+  float specularIorLevel;
+  vec3 specularTint;
+  float thinFilmWeight;
+  float thinFilmIor;
+  float thinFilmThickness;
 };
+
+BmlBsdf bml_makeBsdf(vec3 baseColor, float roughness, float metallic, vec3 emission, float alpha) {
+  BmlBsdf r;
+  r.baseColor = baseColor;
+  r.roughness = roughness;
+  r.metallic = metallic;
+  r.emission = emission;
+  r.alpha = alpha;
+  r.ior = 1.5;
+  r.transmission = 0.0;
+  r.coatWeight = 0.0;
+  r.coatRoughness = 0.03;
+  r.coatIor = 1.5;
+  r.coatTint = vec3(1.0);
+  r.coatNormal = vec3(0.0, 0.0, 1.0);
+  r.sheenColor = vec3(0.0);
+  r.sheenRoughness = 0.5;
+  r.anisotropy = 0.0;
+  r.anisotropyRotation = 0.0;
+  r.specularIorLevel = 0.5;
+  r.specularTint = vec3(1.0);
+  r.thinFilmWeight = 0.0;
+  r.thinFilmIor = 1.3;
+  r.thinFilmThickness = 0.0;
+  return r;
+}
 
 BmlBsdf bml_mixShader(BmlBsdf a, BmlBsdf b, float fac) {
   BmlBsdf r;
@@ -201,6 +243,22 @@ BmlBsdf bml_mixShader(BmlBsdf a, BmlBsdf b, float fac) {
   r.metallic  = mix(a.metallic, b.metallic, fac);
   r.emission  = mix(a.emission, b.emission, fac);
   r.alpha     = mix(a.alpha, b.alpha, fac);
+  r.ior = mix(a.ior, b.ior, fac);
+  r.transmission = mix(a.transmission, b.transmission, fac);
+  r.coatWeight = mix(a.coatWeight, b.coatWeight, fac);
+  r.coatRoughness = mix(a.coatRoughness, b.coatRoughness, fac);
+  r.coatIor = mix(a.coatIor, b.coatIor, fac);
+  r.coatTint = mix(a.coatTint, b.coatTint, fac);
+  r.coatNormal = normalize(mix(a.coatNormal, b.coatNormal, fac));
+  r.sheenColor = mix(a.sheenColor, b.sheenColor, fac);
+  r.sheenRoughness = mix(a.sheenRoughness, b.sheenRoughness, fac);
+  r.anisotropy = mix(a.anisotropy, b.anisotropy, fac);
+  r.anisotropyRotation = mix(a.anisotropyRotation, b.anisotropyRotation, fac);
+  r.specularIorLevel = mix(a.specularIorLevel, b.specularIorLevel, fac);
+  r.specularTint = mix(a.specularTint, b.specularTint, fac);
+  r.thinFilmWeight = mix(a.thinFilmWeight, b.thinFilmWeight, fac);
+  r.thinFilmIor = mix(a.thinFilmIor, b.thinFilmIor, fac);
+  r.thinFilmThickness = mix(a.thinFilmThickness, b.thinFilmThickness, fac);
   return r;
 }
 
@@ -211,6 +269,22 @@ BmlBsdf bml_addShader(BmlBsdf a, BmlBsdf b) {
   r.metallic  = (a.metallic + b.metallic) * 0.5;
   r.emission  = a.emission + b.emission;
   r.alpha     = max(a.alpha, b.alpha);
+  r.ior = (a.ior + b.ior) * 0.5;
+  r.transmission = max(a.transmission, b.transmission);
+  r.coatWeight = max(a.coatWeight, b.coatWeight);
+  r.coatRoughness = (a.coatRoughness + b.coatRoughness) * 0.5;
+  r.coatIor = (a.coatIor + b.coatIor) * 0.5;
+  r.coatTint = (a.coatTint + b.coatTint) * 0.5;
+  r.coatNormal = normalize(a.coatNormal + b.coatNormal);
+  r.sheenColor = a.sheenColor + b.sheenColor;
+  r.sheenRoughness = (a.sheenRoughness + b.sheenRoughness) * 0.5;
+  r.anisotropy = (a.anisotropy + b.anisotropy) * 0.5;
+  r.anisotropyRotation = (a.anisotropyRotation + b.anisotropyRotation) * 0.5;
+  r.specularIorLevel = (a.specularIorLevel + b.specularIorLevel) * 0.5;
+  r.specularTint = (a.specularTint + b.specularTint) * 0.5;
+  r.thinFilmWeight = max(a.thinFilmWeight, b.thinFilmWeight);
+  r.thinFilmIor = (a.thinFilmIor + b.thinFilmIor) * 0.5;
+  r.thinFilmThickness = (a.thinFilmThickness + b.thinFilmThickness) * 0.5;
   return r;
 }
 
@@ -617,7 +691,7 @@ function freshVar(prefix) {
 }
 
 function shaderDefaultExpr() {
-  return "BmlBsdf(vec3(0.0), 0.5, 0.0, vec3(0.0), 1.0)";
+  return "bml_makeBsdf(vec3(0.0), 0.5, 0.0, vec3(0.0), 1.0)";
 }
 
 function resolveInputExpr(graph, node, inputDef, nodeOutputVars, ctxTarget = "fragment") {
@@ -756,6 +830,7 @@ export function compileGraph(graph) {
   roughnessFactor = clamp(bml_final.roughness, 0.035, 1.0);
   metalnessFactor = clamp(bml_final.metallic, 0.0, 1.0);
   totalEmissiveRadiance += bml_final.emission;
+  clearcoatNormal = normalize(bml_final.coatNormal);
   // ---- 節點圖產生結束 ----
 `;
 
@@ -782,7 +857,23 @@ export function compileGraph(graph) {
 }
 
 export function createPreviewMaterial() {
-  const material = new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.5, metalness: 0 });
+  const material = new THREE.MeshPhysicalMaterial({
+    color: 0xffffff,
+    roughness: 0.5,
+    metalness: 0,
+    ior: 1.5,
+    transmission: 1,
+    thickness: 0.01,
+    clearcoat: 1,
+    clearcoatRoughness: 0.03,
+    sheen: 1,
+    sheenColor: 0xffffff,
+    sheenRoughness: 0.5,
+    anisotropy: 1,
+    iridescence: 1,
+    iridescenceIOR: 1.3,
+    iridescenceThicknessRange: [0, 1000],
+  });
   material.transparent = true;
   return material;
 }
@@ -810,9 +901,33 @@ export function applyFragmentChunk(material, graph, compileResult) {
       "void main() {",
       `${NOISE_GLSL}\n${HELPERS_SHARED_GLSL}\n${HELPERS_FRAGMENT_ONLY_GLSL}\n${uniformDecls}\n${needsBarycentric ? "varying vec3 vBmlBarycentric;" : ""}\nvoid main() {`
     );
+    // onBeforeCompile 收到的原始碼仍保留 #include；必須先取出 Three.js 的實際 ShaderChunk、
+    // 在區塊內替換物理參數，再把整段塞回去。若直接在 fragmentShader 上找 material.ior
+    // 等內容，因為 include 尚未展開，所有 replace 都會靜默失敗。
+    const physicalChunk = THREE.ShaderChunk.lights_physical_fragment
+      .replace("material.ior = ior;", "material.ior = clamp(bml_final.ior, 1.0, 4.0);")
+      .replace("float specularIntensityFactor = specularIntensity;", "float specularIntensityFactor = clamp(bml_final.specularIorLevel * 2.0, 0.0, 2.0);")
+      .replace("vec3 specularColorFactor = specularColor;", "vec3 specularColorFactor = clamp(bml_final.specularTint, 0.0, 1.0);")
+      .replace("material.clearcoat = clearcoat;", "material.clearcoat = clamp(bml_final.coatWeight, 0.0, 1.0);")
+      .replace("material.clearcoatRoughness = clearcoatRoughness;", "material.clearcoatRoughness = clamp(bml_final.coatRoughness, 0.0, 1.0);")
+      .replace("material.clearcoatF0 = vec3( 0.04 );", "material.clearcoatF0 = min(pow2((clamp(bml_final.coatIor, 1.0, 4.0) - 1.0) / (clamp(bml_final.coatIor, 1.0, 4.0) + 1.0)) * clamp(bml_final.coatTint, 0.0, 1.0), vec3(1.0));")
+      .replace("material.sheenColor = sheenColor;", "material.sheenColor = max(bml_final.sheenColor, vec3(0.0));")
+      .replace("material.sheenRoughness = clamp( sheenRoughness, 0.07, 1.0 );", "material.sheenRoughness = clamp(bml_final.sheenRoughness, 0.07, 1.0);")
+      .replace("vec2 anisotropyV = anisotropyVector;", "vec2 anisotropyV = vec2(cos(bml_final.anisotropyRotation * 6.28318530718), sin(bml_final.anisotropyRotation * 6.28318530718)) * clamp(abs(bml_final.anisotropy), 0.0, 1.0);")
+      .replace("material.iridescence = iridescence;", "material.iridescence = clamp(bml_final.thinFilmWeight, 0.0, 1.0);")
+      .replace("material.iridescenceIOR = iridescenceIOR;", "material.iridescenceIOR = clamp(bml_final.thinFilmIor, 1.0, 4.0);")
+      .replace("material.iridescenceThickness = iridescenceThicknessMaximum;", "material.iridescenceThickness = clamp(bml_final.thinFilmThickness, 0.0, 1000.0);");
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <lights_physical_fragment>",
-      `${fragmentBody}\n  #include <lights_physical_fragment>`
+      `${fragmentBody}\n${physicalChunk}`
+    );
+    const transmissionChunk = THREE.ShaderChunk.transmission_fragment.replace(
+      "material.transmission = transmission;",
+      "material.transmission = clamp(bml_final.transmission, 0.0, 1.0);"
+    );
+    shader.fragmentShader = shader.fragmentShader.replace(
+      "#include <transmission_fragment>",
+      transmissionChunk
     );
     if (needsBarycentric) {
       // Wireframe 節點需要每個頂點的重心座標——這個自訂 attribute 是 preview3d.js 在建立

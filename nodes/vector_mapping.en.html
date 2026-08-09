@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mapping · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Translate, rotate, and scale coordinates — commonly used to reposition or tile textures." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Mapping · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Translate, rotate, and scale coordinates — commonly used to reposition or tile textures." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/vector_mapping.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/vector_mapping.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/vector_mapping.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/vector_mapping.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Mapping","description":"Translate, rotate, and scale coordinates — commonly used to reposition or tile textures.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_mapping.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Mapping</h1>
+    <p class="content-lead">Translate, rotate, and scale coordinates — commonly used to reposition or tile textures.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=vector_mapping&amp;lang=en">Try it in the sandbox</a>
+      <a href="vector_mapping.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>The Mapping node adjusts the coordinate itself, not color. Common use: feed in Texture Coordinate (or default UV), use Scale to control texture tiling and Location to shift its position.</p></section>
+    <section><h2>Technical notes</h2><p>Type now has 4 options matching Blender: Point (default, ordinary coordinate translate/rotate/scale — scale, then rotate, then add location), Texture (Point&#39;s inverse transform, used to convert a world position back into texture space — applies the inverse rotation then divides by scale), Vector (same as Point but without location — directions shouldn&#39;t be affected by translation), and Normal (divides by scale instead of multiplying, then rotates and normalizes — correctly handles normal directions under non-uniform scale; also skips location). All 4 formulas were verified against Blender&#39;s GPU shader source (`mapping_point`/`mapping_texture`/`mapping_vector`/`mapping_normal` in `gpu_shader_material_mapping.glsl`).</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Location</td><td>vector</td></tr><tr><td>IN</td><td>Rotation (deg)</td><td>vector</td></tr><tr><td>IN</td><td>Scale</td><td>vector</td></tr><tr><td>OUT</td><td>Vector</td><td>vector</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

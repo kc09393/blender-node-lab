@@ -1,0 +1,36 @@
+.content-page { min-height: 100%; overflow-y: auto; }
+.content-nav {
+  position: sticky; top: 0; z-index: 5; display: flex; gap: 18px; align-items: center;
+  padding: 12px max(18px, calc((100vw - 860px) / 2)); background: rgba(35,35,39,.96);
+  border-bottom: 1px solid var(--border); backdrop-filter: blur(10px);
+}
+.content-nav a { color: var(--text-1); }
+.content-nav span { margin-left: auto; color: var(--accent); font-size: 12px; font-weight: 700; }
+.content-main { width: min(860px, calc(100% - 32px)); margin: 0 auto; padding: 52px 0 72px; }
+.content-kicker { color: var(--accent); font-size: 12px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase; }
+.content-main h1 { margin: 10px 0 14px; font-size: clamp(30px, 6vw, 52px); line-height: 1.15; }
+.content-main h2 { margin: 34px 0 10px; font-size: 20px; }
+.content-main p { color: var(--text-1); line-height: 1.8; }
+.content-lead { max-width: 720px; font-size: 17px; }
+.content-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin: 26px 0; }
+.content-actions a { padding: 10px 15px; border: 1px solid var(--border); border-radius: 8px; }
+.content-actions .content-primary { background: var(--accent); border-color: var(--accent); color: #1b1b1e; font-weight: 700; }
+.content-facts { display: flex; gap: 10px; margin-bottom: 32px; }
+.content-facts span { padding: 5px 10px; border-radius: 999px; background: var(--bg-2); color: var(--text-1); font-size: 12px; }
+.content-step, .content-main section { margin-top: 18px; padding: 18px 20px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg-1); }
+.content-step h2, .content-main section h2 { margin-top: 0; }
+.content-main table { width: 100%; border-collapse: collapse; color: var(--text-1); }
+.content-main th, .content-main td { padding: 9px; border-bottom: 1px solid var(--border); text-align: left; }
+.content-main .socket-section th {
+  padding-top: 18px;
+  color: var(--accent-2);
+  font-size: 12px;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.content-footer { padding: 24px; border-top: 1px solid var(--border); color: var(--text-2); text-align: center; font-size: 12px; }
+@media (max-width: 600px) {
+  .content-nav { gap: 10px; font-size: 12px; }
+  .content-main { padding-top: 34px; }
+  .content-step, .content-main section { padding: 15px; }
+}

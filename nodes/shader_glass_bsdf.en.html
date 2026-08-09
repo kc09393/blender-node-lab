@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Glass BSDF · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="A surface with both reflection and refraction — the basis for glass, water, gems." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Glass BSDF · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="A surface with both reflection and refraction — the basis for glass, water, gems." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Glass BSDF","description":"A surface with both reflection and refraction — the basis for glass, water, gems.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_glass_bsdf.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Glass BSDF</h1>
+    <p class="content-lead">A surface with both reflection and refraction — the basis for glass, water, gems.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_glass_bsdf&amp;lang=en">Try it in the sandbox</a>
+      <a href="shader_glass_bsdf.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Glass BSDF both reflects and lets light through. Roughness blurs it, and IOR (index of refraction) controls how strong the reflections are and how transparent it looks overall (glass ≈1.45, water ≈1.33, diamond ≈2.42 — higher numbers give stronger edge reflections and a gem-like look rather than plain window glass). It looks through more head-on and reflects more at the edges — the classic glass &#39;rim&#39; look.</p></section>
+    <section><h2>Technical notes</h2><p>True refraction requires bending rays per-sample against the scene behind — a path tracer&#39;s specialty (we also tried Three.js MeshPhysicalMaterial&#39;s built-in physical transmission feature directly, but it didn&#39;t render the transmission effect correctly in this rendering setup, so we switched to the more controllable approach below). This sandbox implements Glass BSDF by computing an edge-reflection strength from IOR via the Fresnel equation, varying transparency with viewing angle and IOR — more see-through head-on, more opaque/reflective at grazing angles or with higher IOR. The direction is physically correct, but it won&#39;t actually bend or distort what&#39;s behind it.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Roughness</td><td>float</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

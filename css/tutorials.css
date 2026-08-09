@@ -17,9 +17,10 @@
 .path-step {
   display: flex; gap: 10px; padding: 10px 12px; border-radius: 6px;
   background: var(--bg-2); border: 1px solid var(--border); cursor: pointer;
+  color: var(--text-0); text-decoration: none;
   transition: border-color .15s ease, transform .15s ease;
 }
-.path-step:hover { border-color: var(--accent-2); transform: translateY(-2px); }
+.path-step:hover { border-color: var(--accent-2); transform: translateY(-2px); text-decoration: none; }
 .path-step.done { border-color: rgba(76,175,106,.4); background: rgba(76,175,106,.08); }
 .path-step.next-up { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent); }
 .path-step.next-up .path-step-num { background: var(--accent); color: #1b1b1e; }
@@ -52,6 +53,7 @@
 .tutorial-card {
   background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius);
   overflow: hidden; cursor: pointer; position: relative;
+  color: var(--text-0); text-decoration: none;
   transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
 }
 .t-completed-badge {
@@ -64,6 +66,7 @@
 .tutorial-card:hover {
   border-color: var(--accent-2); transform: translateY(-3px);
   box-shadow: 0 10px 26px rgba(0,0,0,.4);
+  text-decoration: none;
 }
 .tutorial-card .t-body { padding: 16px; }
 .tutorial-card .t-level { font-size: 11px; color: var(--accent); text-transform: uppercase; margin-bottom: 6px; }
@@ -78,6 +81,7 @@
   background-size: 200% 100%;
   animation: thumb-shimmer 1.2s ease-in-out infinite;
 }
+.tutorial-card .t-thumb.failed { background: var(--bg-0); }
 @keyframes thumb-shimmer {
   0% { background-position: 150% 0; }
   100% { background-position: -50% 0; }

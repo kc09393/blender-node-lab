@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>座標與 Mapping 入門 · Blender 5.0 引導教學</title>
+<meta name="description" content="用棋盤格紋理認識 UV 座標，學會用紋理座標（Texture Coordinate）跟映射（Mapping）節點控制貼圖怎麼貼、貼幾次、貼在哪裡。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="座標與 Mapping 入門 · Blender 5.0 引導教學" />
+<meta property="og:description" content="用棋盤格紋理認識 UV 座標，學會用紋理座標（Texture Coordinate）跟映射（Mapping）節點控制貼圖怎麼貼、貼幾次、貼在哪裡。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"座標與 Mapping 入門","description":"用棋盤格紋理認識 UV 座標，學會用紋理座標（Texture Coordinate）跟映射（Mapping）節點控制貼圖怎麼貼、貼幾次、貼在哪裡。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>座標與 Mapping 入門</h1>
+    <p class="content-lead">用棋盤格紋理認識 UV 座標，學會用紋理座標（Texture Coordinate）跟映射（Mapping）節點控制貼圖怎麼貼、貼幾次、貼在哪裡。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_uv_mapping">開啟互動教學</a>
+      <a href="tutorial_uv_mapping.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：加入 Checker Texture</h2>
+      <p>從「紋理」分類拖入棋盤格紋理（Checker Texture），把它的顏色（Color）輸出接到原理化 BSDF（Principled BSDF）的底色（Base Color）。這時候貼圖預設用物體的 UV，還沒有經過任何座標調整。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：接上 Texture Coordinate</h2>
+      <p>加入紋理座標（Texture Coordinate，輸入分類），把它的 Generated 輸出接到棋盤格紋理（Checker Texture）的向量（Vector）輸入。<br /><br />Generated 座標會跟著物體形狀走，即使物體移動旋轉，花紋也不會跑掉——這是它跟 UV 最大的差異。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：加入 Mapping 調整密度</h2>
+      <p>在紋理座標（Texture Coordinate）跟棋盤格紋理（Checker Texture）中間插入一個映射（Mapping）節點，把縮放（Scale）的三個軸都調到 3 以上——格紋應該會變得更密集。<br /><br />縮放越大，代表同樣的貼圖在同一塊表面上重複越多次。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：用 Location 平移貼圖</h2>
+      <p>把映射（Mapping）節點的位置（Location）X 調成不是 0 的數值（例如 0.3），花紋應該會整個平移。位置用來微調貼圖的起始位置，常用在需要對齊貼圖細節的時候。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

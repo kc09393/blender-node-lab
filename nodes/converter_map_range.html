@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>映射範圍 · Blender 5.0 節點百科</title>
+<meta name="description" content="把數值從一個範圍等比例換算到另一個範圍。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="映射範圍 · Blender 5.0 節點百科" />
+<meta property="og:description" content="把數值從一個範圍等比例換算到另一個範圍。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_map_range.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_map_range.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/converter_map_range.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_map_range.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"映射範圍","description":"把數值從一個範圍等比例換算到另一個範圍。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_map_range.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>映射範圍</h1>
+    <p class="content-lead">把數值從一個範圍等比例換算到另一個範圍。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=converter_map_range">在沙盒中試用</a>
+      <a href="converter_map_range.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>例如 Noise Texture 輸出通常在 0-1 之間，如果你想要它變成 -1 到 1，就可以用 Map Range 把 From 0-1、To -1-1 設好，數值就會自動等比例換算。</p></section>
+    <section><h2>進階說明</h2><p>插值方式（Interpolation）有 4 種，跟 Blender 一致：線性（Linear，預設）、階梯（Stepped，用 Steps 插槽控制把換算結果量化成幾個階層，公式 `floor(t*(steps+1))/steps` 對照 Blender GPU 著色器原始碼一致）、平滑（Smoothstep，經典的 3t²-2t³ 緩動曲線，兩端速度為零）、更平滑（Smootherstep，Perlin 的 6t⁵-15t⁴+10t³，連二階導數都為零、過渡更柔）。夾值（Clamp）開關把最終結果夾在 To Min 與 To Max 之間（兩者顛倒時自動對調）。跟 Blender 的差異：Blender 的 Clamp 預設開啟，本沙盒為了跟既有存檔的行為 100% 相容，預設關閉。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>數值</td><td>float</td></tr><tr><td>IN</td><td>來源最小</td><td>float</td></tr><tr><td>IN</td><td>來源最大</td><td>float</td></tr><tr><td>IN</td><td>目標最小</td><td>float</td></tr><tr><td>IN</td><td>目標最大</td><td>float</td></tr><tr><td>IN</td><td>階數 Steps</td><td>float</td></tr><tr><td>OUT</td><td>數值</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

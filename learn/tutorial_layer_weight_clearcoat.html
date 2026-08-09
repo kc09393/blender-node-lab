@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>層權重：清漆塗層 · Blender 5.0 引導教學</title>
+<meta name="description" content="層權重（Layer Weight）節點跟菲涅爾（Fresnel）很像，但多了一個更直覺的 Blend 滑桿，常用來在原本的材質上疊一層清漆/光澤塗層。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="層權重：清漆塗層 · Blender 5.0 引導教學" />
+<meta property="og:description" content="層權重（Layer Weight）節點跟菲涅爾（Fresnel）很像，但多了一個更直覺的 Blend 滑桿，常用來在原本的材質上疊一層清漆/光澤塗層。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_weight_clearcoat.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_weight_clearcoat.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_weight_clearcoat.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_weight_clearcoat.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"層權重：清漆塗層","description":"層權重（Layer Weight）節點跟菲涅爾（Fresnel）很像，但多了一個更直覺的 Blend 滑桿，常用來在原本的材質上疊一層清漆/光澤塗層。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_weight_clearcoat.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>層權重：清漆塗層</h1>
+    <p class="content-lead">層權重（Layer Weight）節點跟菲涅爾（Fresnel）很像，但多了一個更直覺的 Blend 滑桿，常用來在原本的材質上疊一層清漆/光澤塗層。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_layer_weight_clearcoat">開啟互動教學</a>
+      <a href="tutorial_layer_weight_clearcoat.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：加入光澤 BSDF 當作清漆層</h2>
+      <p>從「著色器 Shader」分類拖入光澤 BSDF（Glossy BSDF），粗糙度（Roughness）調到接近 0（例如 0.05）——清漆通常非常光滑。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用混合著色器疊上底漆</h2>
+      <p>拖入混合著色器（Mix Shader），把原本的原理化 BSDF（Principled BSDF，車身底色）跟光澤 BSDF 分別接到兩個著色器（Shader）插槽，再接到材質輸出（Material Output）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用層權重驅動混合比例</h2>
+      <p>加入層權重（Layer Weight）節點（輸入 Input 分類），把它的 Fresnel 輸出接到混合著色器的 Fac，取代固定滑桿。<br /><br />清漆現在只會在邊緣角度顯現。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調整 Blend 集中程度</h2>
+      <p>把層權重的 Blend 調離預設的 0.5（例如 0.2），過渡效果集中在邊緣的程度會跟著改變。<br /><br />這是它比純菲涅爾多出來的直覺調整項。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

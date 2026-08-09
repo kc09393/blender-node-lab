@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識凹凸節點：假造出來的立體感 · Blender 5.0 引導教學</title>
+<meta name="description" content="凹凸（Bump）幾乎出現在所有有質感的材質裡——用一個灰階高度值假造出表面凹凸的光影效果，不會真的改變幾何形狀。這篇帶你認識 Height、Strength 兩個插槽，還有初學者最常忘記的一件事：Bump 的輸出一定要接到法線（Normal）插槽才會有效果。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識凹凸節點：假造出來的立體感 · Blender 5.0 引導教學" />
+<meta property="og:description" content="凹凸（Bump）幾乎出現在所有有質感的材質裡——用一個灰階高度值假造出表面凹凸的光影效果，不會真的改變幾何形狀。這篇帶你認識 Height、Strength 兩個插槽，還有初學者最常忘記的一件事：Bump 的輸出一定要接到法線（Normal）插槽才會有效果。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識凹凸節點：假造出來的立體感","description":"凹凸（Bump）幾乎出現在所有有質感的材質裡——用一個灰階高度值假造出表面凹凸的光影效果，不會真的改變幾何形狀。這篇帶你認識 Height、Strength 兩個插槽，還有初學者最常忘記的一件事：Bump 的輸出一定要接到法線（Normal）插槽才會有效果。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識凹凸節點：假造出來的立體感</h1>
+    <p class="content-lead">凹凸（Bump）幾乎出現在所有有質感的材質裡——用一個灰階高度值假造出表面凹凸的光影效果，不會真的改變幾何形狀。這篇帶你認識 Height、Strength 兩個插槽，還有初學者最常忘記的一件事：Bump 的輸出一定要接到法線（Normal）插槽才會有效果。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_bump_tour">開啟互動教學</a>
+      <a href="tutorial_bump_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>3 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：雜訊接 Bump 接法線</h2>
+      <p>加入雜訊紋理（Noise Texture）跟凹凸（Bump，向量 Vector 分類），把雜訊的係數（Fac）接到 Bump 的高度（Height），再把 Bump 的法線（Normal）輸出接到原理化 BSDF 的法線（Normal）插槽。<br /><br />⚠️ 一定要接到 Normal 插槽——接到 Base Color 或其他插槽完全不會有凹凸效果，這是最常見的誤區。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：調高強度，感受凹凸變明顯</h2>
+      <p>把強度（Strength）調到 2 以上。凹凸感會變得更明顯、更誇張。<br /><br />Strength 直接放大高度值換算成法線偏移的幅度，數值越高，表面看起來起伏越劇烈。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：換一個高度來源，看不同的凹凸圖案</h2>
+      <p>把雜訊紋理換成沃羅諾伊紋理（Voronoi Texture），距離（Distance）輸出接到 Bump 的高度（Height）。凹凸的圖案完全變了。<br /><br />Bump 本身沒有任何花紋，它只是把「接進來的任何數值」轉換成凹凸感，花紋長什麼樣子完全取決於 Height 接的是哪個紋理節點。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

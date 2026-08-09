@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Why Roughness Spreads Out Highlights Instead of Just Dimming Them · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="This isn&#39;t &#39;turn up Roughness and the surface looks foggier&#39; — a single drag shows you that. This one explains why: a surface is made of countless tiny mirror-like facets (microfacets), and Roughness controls how scattered their tilt is — it doesn&#39;t directly dim anything. Understand this and you&#39;ll know that a metal &#39;looking plastic-y&#39; is almost always a roughness problem, not a base color problem." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Why Roughness Spreads Out Highlights Instead of Just Dimming Them · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="This isn&#39;t &#39;turn up Roughness and the surface looks foggier&#39; — a single drag shows you that. This one explains why: a surface is made of countless tiny mirror-like facets (microfacets), and Roughness controls how scattered their tilt is — it doesn&#39;t directly dim anything. Understand this and you&#39;ll know that a metal &#39;looking plastic-y&#39; is almost always a roughness problem, not a base color problem." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Why Roughness Spreads Out Highlights Instead of Just Dimming Them","description":"This isn't 'turn up Roughness and the surface looks foggier' — a single drag shows you that. This one explains why: a surface is made of countless tiny mirror-like facets (microfacets), and Roughness controls how scattered their tilt is — it doesn't directly dim anything. Understand this and you'll know that a metal 'looking plastic-y' is almost always a roughness problem, not a base color problem.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Why Roughness Spreads Out Highlights Instead of Just Dimming Them</h1>
+    <p class="content-lead">This isn&#39;t &#39;turn up Roughness and the surface looks foggier&#39; — a single drag shows you that. This one explains why: a surface is made of countless tiny mirror-like facets (microfacets), and Roughness controls how scattered their tilt is — it doesn&#39;t directly dim anything. Understand this and you&#39;ll know that a metal &#39;looking plastic-y&#39; is almost always a roughness problem, not a base color problem.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_pbr_roughness_microfacets&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_pbr_roughness_microfacets.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Start with a Polished Metal Sphere</h2>
+      <p>Change Principled BSDF&#39;s Base Color to a saturated color (e.g. red 0.85/0.15/0.1), set Metallic to 1, and set Roughness very low (e.g. 0.03, near-mirror).</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Rotate — Notice the Highlight Is a Tiny, Intense Spot</h2>
+      <p>Drag to rotate the sphere. The highlight is small and blinding (nearly pure white), while most of the rest of the surface stays dark — and if you look closely near the highlight, you can faintly make out shapes from the reflected environment (not just flat black).<br /><br />Why: the surface isn&#39;t actually smooth — it&#39;s made of countless microscopic mirror-like facets (microfacets), and Roughness is how far those facets&#39; tilts deviate from the average surface normal. At low roughness, nearly all facets point the same way, so a whole batch of incoming light gets reflected into almost the same outgoing direction — that&#39;s the small, intense mirror highlight. Everywhere else stays dark because there are no facets there to bounce light toward your eye.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Raise Roughness — the Highlight Blooms into a Soft Glow</h2>
+      <p>Set Roughness to 0.85 (leave everything else alone). The tiny blinding highlight disappears, replaced by a large, soft glow covering a much bigger area of the sphere, and the crisp reflected environment shapes turn into a blur.<br /><br />⚠️ Look at the overall picture: even though no single point is as blinding as before, the sphere as a whole now reads brighter and more evenly lit — that&#39;s not &#39;roughness dimmed the color&#39;, it&#39;s the same batch of incoming light being redistributed. At high roughness, microfacet tilts are scattered widely, so each incoming ray bounces off in a slightly different direction — the same light energy gets spread across a much wider range of angles. Each pixel gets less (so nothing blinds you), but the total lit area grows a lot.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Roughness Is the Real Key to &#39;Material Feel&#39;, Not Base Color</h2>
+      <p>When making a metal material, most people&#39;s first instinct is to tweak Base Color — but Base Color only decides what color the reflection gets tinted (see the companion tutorial &#39;Why Metal Reflections Are Colored&#39;). What actually determines whether a surface reads as polished or matte is Roughness. Going from 0.03 to 0.85 on the same sphere changes the visual feel far more than swapping the base color ever would.<br /><br />If you&#39;re unsure what roughness value a material should use, don&#39;t guess — the Reference page has a table of typical roughness ranges for mirror/polished metal, matte plastic, rubber, and more, ready to look up.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gradient Texture · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="A smooth black-to-white gradient along a direction or shape." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Gradient Texture · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="A smooth black-to-white gradient along a direction or shape." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Gradient Texture","description":"A smooth black-to-white gradient along a direction or shape.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_gradient.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Gradient Texture</h1>
+    <p class="content-lead">A smooth black-to-white gradient along a direction or shape.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=texture_gradient&amp;lang=en">Try it in the sandbox</a>
+      <a href="texture_gradient.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>The simplest texture node: outputs a smooth 0-to-1 grayscale value. Often feeds a Color Ramp for gradient coloring, or a Mix Shader&#39;s Fac for a smooth material transition.</p></section>
+    <section><h2>Technical notes</h2><p>All 6 types match Blender exactly: Linear (X component), Quadratic (X squared, faster falloff mid-range), Easing (3x²-2x³ smooth curve), Diagonal (average of X and Y), Radial (angular sweep around the center, like a clock hand), and Spherical (distance from center, expanding outward in rings). Difference from Blender: Blender&#39;s Radial/Spherical formulas operate on raw coordinates already centered at the object&#39;s origin; this sandbox&#39;s default vector is 0-1 UV, so it first subtracts (0.5, 0.5) to recenter — same effect, different coordinate convention.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Fac</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

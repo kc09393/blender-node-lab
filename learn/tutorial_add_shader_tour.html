@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識加法著色器：跟 Mix Shader 差在哪 · Blender 5.0 引導教學</title>
+<meta name="description" content="加法著色器（Add Shader）長得跟混合著色器（Mix Shader）很像，都是把兩個材質接在一起，但 Add 沒有 Fac 比例——兩個輸入是直接相加，不是內插。這篇用兩個發光（Emission）節點直接示範這個差異：同樣兩個輸入，Add 出來的畫面會比 Mix（50/50）明顯更亮。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識加法著色器：跟 Mix Shader 差在哪 · Blender 5.0 引導教學" />
+<meta property="og:description" content="加法著色器（Add Shader）長得跟混合著色器（Mix Shader）很像，都是把兩個材質接在一起，但 Add 沒有 Fac 比例——兩個輸入是直接相加，不是內插。這篇用兩個發光（Emission）節點直接示範這個差異：同樣兩個輸入，Add 出來的畫面會比 Mix（50/50）明顯更亮。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_add_shader_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_add_shader_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_add_shader_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_add_shader_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識加法著色器：跟 Mix Shader 差在哪","description":"加法著色器（Add Shader）長得跟混合著色器（Mix Shader）很像，都是把兩個材質接在一起，但 Add 沒有 Fac 比例——兩個輸入是直接相加，不是內插。這篇用兩個發光（Emission）節點直接示範這個差異：同樣兩個輸入，Add 出來的畫面會比 Mix（50/50）明顯更亮。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_add_shader_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識加法著色器：跟 Mix Shader 差在哪</h1>
+    <p class="content-lead">加法著色器（Add Shader）長得跟混合著色器（Mix Shader）很像，都是把兩個材質接在一起，但 Add 沒有 Fac 比例——兩個輸入是直接相加，不是內插。這篇用兩個發光（Emission）節點直接示範這個差異：同樣兩個輸入，Add 出來的畫面會比 Mix（50/50）明顯更亮。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_add_shader_tour">開啟互動教學</a>
+      <a href="tutorial_add_shader_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：兩個發光節點，用 Add Shader 合併</h2>
+      <p>加入兩個發光（Emission）節點：一個顏色改成紅色、一個改成綠色，強度（Strength）都先設成 1。加入加法著色器（Add Shader，著色器 Shader 分類），把兩個發光節點分別接到它的兩個輸入，再接到材質輸出（Material Output）的表面（Surface）。<br /><br />因為 Emission 沒有底色（Base Color），Add Shader 這裡就是單純把紅色跟綠色的發光直接加起來——你應該會看到黃色（紅+綠）。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：提高其中一個強度，看比例跟著變</h2>
+      <p>把紅色發光節點的強度（Strength）調到 2 以上。畫面的顏色會明顯偏向橘紅色。<br /><br />因為 Add Shader 是真的把兩份光「加總」，哪一份強度更高，最終顏色就會更偏向那一份，不是像 Mix Shader 那樣固定切一半一半。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：接一份 Mix Shader 版本做對比</h2>
+      <p>加入混合著色器（Mix Shader），把同樣的紅色、綠色發光節點也各接到它的兩個輸入（Fac 保持預設 0.5）。<br /><br />⚠️ 先不要接到 Material Output——這一步只是把 Mix 版本接好，放在旁邊，下一步再切換過去比較。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：切到 Mix Shader，比較亮度差異</h2>
+      <p>把 Material Output 的表面（Surface）改接到混合著色器（Mix Shader）的輸出。畫面會明顯變暗。<br /><br />Mix Shader 在 Fac=0.5 時是「各半」（兩份光的平均值），Add Shader 卻是「全部加總」，所以同樣的輸入，Add 版本會是 Mix 版本的兩倍亮。<br /><br />這也是為什麼 Add Shader 常用來在材質上面「疊加」一層額外反光（例如 Sheen），而不是拿來混合兩個完整的材質。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

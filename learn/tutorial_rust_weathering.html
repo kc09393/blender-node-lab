@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>程序化風化：生鏽金屬 · Blender 5.0 引導教學</title>
+<meta name="description" content="用雜訊紋理（Noise Texture）產生的雜訊、經過顏色漸變（Color Ramp）轉成黑白遮罩，驅動混合著色器（Mix Shader）在同一個表面上混合「乾淨金屬」跟「鏽蝕」兩種材質——這是遊戲/影視資產最常用的程序化風化技巧。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="程序化風化：生鏽金屬 · Blender 5.0 引導教學" />
+<meta property="og:description" content="用雜訊紋理（Noise Texture）產生的雜訊、經過顏色漸變（Color Ramp）轉成黑白遮罩，驅動混合著色器（Mix Shader）在同一個表面上混合「乾淨金屬」跟「鏽蝕」兩種材質——這是遊戲/影視資產最常用的程序化風化技巧。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"程序化風化：生鏽金屬","description":"用雜訊紋理（Noise Texture）產生的雜訊、經過顏色漸變（Color Ramp）轉成黑白遮罩，驅動混合著色器（Mix Shader）在同一個表面上混合「乾淨金屬」跟「鏽蝕」兩種材質——這是遊戲/影視資產最常用的程序化風化技巧。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>程序化風化：生鏽金屬</h1>
+    <p class="content-lead">用雜訊紋理（Noise Texture）產生的雜訊、經過顏色漸變（Color Ramp）轉成黑白遮罩，驅動混合著色器（Mix Shader）在同一個表面上混合「乾淨金屬」跟「鏽蝕」兩種材質——這是遊戲/影視資產最常用的程序化風化技巧。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_rust_weathering">開啟互動教學</a>
+      <a href="tutorial_rust_weathering.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：用 Mix Shader 混合兩種金屬材質</h2>
+      <p>拖入混合著色器（Mix Shader）。<br /><br />把乾淨金屬（上面那個）接到它的第一個著色器（Shader）插槽，鏽蝕材質（下面那個）接到第二個。<br /><br />再把混合著色器的輸出，接到材質輸出（Material Output）。<br /><br />目前 Fac 還是固定滑桿，整個表面會是均勻混合的顏色，還看不出鏽斑的形狀，這是正常的，下一步才會處理形狀。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入 Noise Texture 當作風化來源</h2>
+      <p>加入紋理座標（Texture Coordinate，在「輸入 Input」分類裡）。<br /><br />加入雜訊紋理（Noise Texture，在「紋理 Texture」分類裡）。<br /><br />把紋理座標的 Generated 輸出，接到雜訊紋理的向量（Vector）輸入。<br /><br />把雜訊紋理的縮放（Scale）調到 3～6 之間，斑塊大小會比較適中。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用 Color Ramp 把雜訊變成黑白遮罩</h2>
+      <p>加入顏色漸變（Color Ramp，在「轉換器 Converter」分類裡）。<br /><br />把雜訊紋理的係數（Fac）輸出，接到顏色漸變的係數（Fac）輸入。<br /><br />把兩個停駐點的位置調得很接近，例如 0.45 跟 0.55。左邊停駐點設成黑色、右邊設成白色。這樣雜訊會變成邊界清楚的黑白色塊，不是模糊的灰階漸層。<br /><br />⚠️ 重要：把左邊（黑色）停駐點的 Alpha 數值欄位調成 0，右邊（白色）維持 1。下一步要用 Alpha 輸出當作混合遮罩——如果兩個停駐點的 Alpha 一樣，Alpha 輸出就會是全圖固定的一個數字，完全沒有遮罩效果。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：用遮罩驅動 Mix Shader 的 Fac</h2>
+      <p>把顏色漸變的 Alpha 輸出，接到混合著色器的 Fac 輸入，取代原本固定的滑桿。<br /><br />現在球體表面應該會變成「大部分是乾淨金屬、局部隨機冒出鏽斑」的效果——這就是遊戲資產常見的風化材質做法。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

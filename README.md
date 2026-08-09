@@ -1,7 +1,9 @@
-# Blender 材質節點
+# Blender 5.0 材質節點學習站
 
 **Bilingual, interactive Blender shader-node learning site** — encyclopedia, live sandbox, guided tutorials.
 免費、雙語（繁中／英文）的 Blender 材質節點互動學習網站，不是看影片，是真的拖節點、接線、即時看 3D 預覽反應。
+
+目前內容與原理化 BSDF（Principled BSDF）的分組、名稱和教學基準以 **Blender 5.0／OpenPBR** 為準。瀏覽器預覽會盡量對應物理材質行為，但不等同於 Cycles 的完整路徑追蹤。
 
 **🌐 [kc09393.github.io/blender-node-lab](https://kc09393.github.io/blender-node-lab/)**
 
@@ -17,7 +19,13 @@
 
 ## 技術架構
 
-純靜態網站，**沒有 build step、沒有框架**，ES modules 加瀏覽器原生 `<script type="importmap">` 直接載入 [Three.js](https://threejs.org/)（CDN）。GLSL 著色器透過 `MeshPhysicalMaterial.onBeforeCompile` 動態注入到既有的 fragment/vertex shader，重用 Three.js 內建的 PBR／IBL／色調映射管線，而不是自己刻一套渲染器。節點編輯器（拖拉/接線/縮放/復原重做）也是自己刻的，沒有用 Rete.js／React Flow 之類的既有函式庫。
+互動網站本身是純靜態網站，**沒有框架**，ES modules 加瀏覽器原生 `<script type="importmap">` 直接載入 [Three.js](https://threejs.org/)（CDN）。GLSL 著色器透過 `MeshPhysicalMaterial.onBeforeCompile` 動態注入到既有的 fragment/vertex shader，重用 Three.js 內建的 PBR／IBL／色調映射管線，而不是自己刻一套渲染器。節點編輯器（拖拉/接線/縮放/復原重做）也是自己刻的，沒有用 Rete.js／React Flow 之類的既有函式庫。
+
+搜尋引擎用的雙語教學／節點靜態頁與 `sitemap.xml` 由 Node.js 腳本產生；修改教學或節點資料後請執行：
+
+```bash
+node scripts/generate-seo-pages.mjs
+```
 
 新增一個節點＝在 `data/nodes/*.js` 加一筆資料定義（雙語文件＋`glsl.emit()`），不用動編輯器或編譯器核心。
 

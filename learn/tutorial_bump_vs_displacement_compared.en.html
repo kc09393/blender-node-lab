@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bump vs Displacement: Same Height Data, Direct Comparison · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Bump and Displacement each have their own tutorial, but nobody&#39;s put them side by side on the same graph. This one feeds the same noise height data into both — first Bump, then Displacement too — so you can see with your own eyes that one is pure lighting trickery (silhouette unchanged) while the other genuinely deforms the surface, instead of just reading about the difference." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Bump vs Displacement: Same Height Data, Direct Comparison · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Bump and Displacement each have their own tutorial, but nobody&#39;s put them side by side on the same graph. This one feeds the same noise height data into both — first Bump, then Displacement too — so you can see with your own eyes that one is pure lighting trickery (silhouette unchanged) while the other genuinely deforms the surface, instead of just reading about the difference." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Bump vs Displacement: Same Height Data, Direct Comparison","description":"Bump and Displacement each have their own tutorial, but nobody's put them side by side on the same graph. This one feeds the same noise height data into both — first Bump, then Displacement too — so you can see with your own eyes that one is pure lighting trickery (silhouette unchanged) while the other genuinely deforms the surface, instead of just reading about the difference.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Bump vs Displacement: Same Height Data, Direct Comparison</h1>
+    <p class="content-lead">Bump and Displacement each have their own tutorial, but nobody&#39;s put them side by side on the same graph. This one feeds the same noise height data into both — first Bump, then Displacement too — so you can see with your own eyes that one is pure lighting trickery (silhouette unchanged) while the other genuinely deforms the surface, instead of just reading about the difference.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_bump_vs_displacement_compared&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_bump_vs_displacement_compared.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Fake It First with Bump</h2>
+      <p>Add a Noise Texture and a Bump node, connect Noise&#39;s Fac to Bump&#39;s Height, and Bump&#39;s output to Principled BSDF&#39;s Normal. The surface should now show pitted, uneven-looking shading.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Rotate and Notice the Silhouette Is Still Flat</h2>
+      <p>Drag to rotate the sphere, bringing an obviously bumpy spot to the silhouette edge. You&#39;ll find the outline is still a smooth arc — nothing actually pokes in or out.<br /><br />Bump only fools the lighting math; the sphere&#39;s real shape (vertex positions) never changed.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Add Displacement, Fed by the Same Height Data</h2>
+      <p>Add a Displacement node (Vector category), and connect the same Noise Texture&#39;s Fac to its Height too.<br /><br />⚠️ Note this is &#39;the same data, wired to two places&#39;, not replacing Bump.<br /><br />Then connect Displacement&#39;s output to Material Output&#39;s Displacement socket (not Surface).</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Raise Scale — This Time the Silhouette Really Changes</h2>
+      <p>Raise Displacement&#39;s Scale above 0.15, and rotate the sphere again to check the edge. This time the silhouette genuinely bumps in and out.<br /><br />The fundamental difference: no matter how high you push Bump&#39;s Strength, the silhouette stays perfectly smooth; Displacement, even at a modest scale, always changes the silhouette, because it moves real vertex positions.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

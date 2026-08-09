@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Channel Packing: Three Masks in One Texture · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture&#39;s R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color&#39;s R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Channel Packing: Three Masks in One Texture · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture&#39;s R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color&#39;s R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Channel Packing: Three Masks in One Texture","description":"Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture's R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color's R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Channel Packing: Three Masks in One Texture</h1>
+    <p class="content-lead">Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture&#39;s R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color&#39;s R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_channel_packing&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_channel_packing.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Prepare Three Independent Masks</h2>
+      <p>Add one each of Voronoi Texture, Noise Texture, and Checker Texture.<br /><br />These three nodes are completely unrelated — they&#39;ll each stand in for a different mask (e.g. roughness, metallic, AO).<br /><br />Don&#39;t connect them anywhere yet — the next step needs them.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Pack the Three Masks with Combine Color</h2>
+      <p>Add a Combine Color node.<br /><br />Connect Voronoi&#39;s Distance output to Combine Color&#39;s R input.<br /><br />Connect Noise Texture&#39;s Fac output to G.<br /><br />Connect Checker Texture&#39;s Fac output to B.<br /><br />Now this single color node carries three completely unrelated masks at once — that&#39;s channel packing.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Unpack with Separate Color</h2>
+      <p>Add a Separate Color node.<br /><br />Connect Combine Color&#39;s Color output to Separate Color&#39;s color input.<br /><br />Separate Color outputs four independent values, R/G/B/A — these are exactly the Voronoi, Noise, and Checker masks you packed in, none mixed together or lost.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Drive Different Parameters from Different Channels</h2>
+      <p>Connect Separate Color&#39;s R output to Principled BSDF&#39;s Roughness.<br /><br />Connect Separate Color&#39;s G output to Principled BSDF&#39;s Metallic.<br /><br />Check the live preview: the sphere should show both Voronoi-cell-shaped roughness variation and Noise-shaped metallic variation, independent of each other — proof that packing and unpacking didn&#39;t scramble anything.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

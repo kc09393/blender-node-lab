@@ -1,6 +1,6 @@
 export default {
   id: "holographic_foil",
-  name: { zh: "雷射鐳射膜", en: "Holographic Foil" },
+  name: { zh: "全像箔膜", en: "Holographic Foil" },
   description: {
     zh: "波浪紋理的環狀波紋跟菲涅爾值直接相加，讓彩虹條紋隨著視角旋轉滾動；接 HSV 色彩空間的顏色漸變上色，餵給金屬層跟光澤層做 50/50 混合。",
     en: "Wave Texture's ring pattern is added directly to the Fresnel value, so the rainbow bands roll and shift as the viewing angle changes; an HSV Color Ramp colors the result, fed into a 50/50 mix of a metal layer and a glossy layer.",

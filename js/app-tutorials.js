@@ -12,6 +12,7 @@ import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
 import { initMobilePreviewDock } from "./ui/mobilePreviewDock.js";
+import { setPageSeo, tutorialSeo } from "./seo.js";
 
 initLangToggle();
 initMobileNav();
@@ -139,8 +140,9 @@ function renderLearningPath() {
       if (!tut) return; // 資料打錯字或教學被移除時直接跳過，不讓整條路徑掛掉
       const done = completedSet.has(tut.id);
       const isNextUp = tut.id === nextUpId;
-      const item = document.createElement("div");
+      const item = document.createElement("a");
       item.className = `path-step${done ? " done" : ""}${isNextUp ? " next-up" : ""}`;
+      item.href = `learn/${encodeURIComponent(tut.id)}${getLang() === "en" ? ".en" : ""}.html`;
       item.innerHTML = `
         <div class="path-step-num">${done ? "✓" : i + 1}</div>
         <div class="path-step-body">
@@ -149,7 +151,10 @@ function renderLearningPath() {
           <div class="path-step-note">${tBi(step.note)}</div>
         </div>
       `;
-      item.addEventListener("click", () => startTutorial(tut));
+      item.addEventListener("click", (event) => {
+        event.preventDefault();
+        startTutorial(tut);
+      });
       list.appendChild(item);
     });
     stageEl.appendChild(list);
@@ -196,11 +201,68 @@ function renderTutorialThumbnail(tut) {
 // 縮圖快取：一份材質圖只需要渲染一次，搜尋/篩選/切換語言都只是重新篩過 DOM，不用重畫縮圖
 // （縮圖渲染要跑一次完整編譯+WebGL render，全部重畫會在每次打字時卡頓）。
 const thumbCache = new Map();
-function ensureThumbnailsGenerated() {
-  for (const tut of tutorials) {
-    if (!thumbCache.has(tut.id)) thumbCache.set(tut.id, renderTutorialThumbnail(tut));
+const tutorialById = new Map(tutorials.map((tutorial) => [tutorial.id, tutorial]));
+const pendingThumbnailIds = [];
+const queuedThumbnailIds = new Set();
+let thumbnailWorkScheduled = false;
+
+function applyCachedThumbnail(tutorialId) {
+  const cached = thumbCache.get(tutorialId);
+  document.querySelectorAll(`.t-thumb[data-tutorial-id="${CSS.escape(tutorialId)}"]`).forEach((img) => {
+    if (cached) {
+      img.src = cached;
+      img.classList.remove("loading");
+    } else if (thumbCache.has(tutorialId)) {
+      img.classList.remove("loading");
+      img.classList.add("failed");
+    }
+  });
+}
+
+function processNextThumbnail() {
+  thumbnailWorkScheduled = false;
+  const tutorialId = pendingThumbnailIds.shift();
+  if (!tutorialId) return;
+  queuedThumbnailIds.delete(tutorialId);
+  if (!thumbCache.has(tutorialId)) {
+    const tutorial = tutorialById.get(tutorialId);
+    thumbCache.set(tutorialId, tutorial ? renderTutorialThumbnail(tutorial) : null);
+  }
+  applyCachedThumbnail(tutorialId);
+  scheduleThumbnailWork();
+}
+
+function scheduleThumbnailWork() {
+  if (thumbnailWorkScheduled || pendingThumbnailIds.length === 0) return;
+  thumbnailWorkScheduled = true;
+  if (typeof requestIdleCallback === "function") {
+    requestIdleCallback(processNextThumbnail, { timeout: 350 });
+  } else {
+    setTimeout(processNextThumbnail, 16);
   }
 }
+
+function queueThumbnail(tutorialId) {
+  if (thumbCache.has(tutorialId)) {
+    applyCachedThumbnail(tutorialId);
+    return;
+  }
+  if (!queuedThumbnailIds.has(tutorialId)) {
+    queuedThumbnailIds.add(tutorialId);
+    pendingThumbnailIds.push(tutorialId);
+  }
+  scheduleThumbnailWork();
+}
+
+const thumbnailObserver = typeof IntersectionObserver === "function"
+  ? new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting) continue;
+        thumbnailObserver.unobserve(entry.target);
+        queueThumbnail(entry.target.dataset.tutorialId);
+      }
+    }, { root: listView, rootMargin: "500px 0px" })
+  : null;
 
 function getFilteredTutorials() {
   const query = searchInput.value.trim().toLowerCase();
@@ -219,10 +281,6 @@ function updateProgressLabel() {
 }
 
 function renderTutorialCards() {
-  // 縮圖只在第一次呼叫時真的渲染（跑一輪 WebGL render 有感但可接受），
-  // 之後每次重繪（搜尋輸入、切換篩選、切換語言）都直接吃快取，秒級完成。
-  ensureThumbnailsGenerated();
-
   const filtered = getFilteredTutorials();
   cardsContainer.innerHTML = "";
   if (filtered.length === 0) {
@@ -232,12 +290,14 @@ function renderTutorialCards() {
     cardsContainer.appendChild(hint);
   }
   for (const tut of filtered) {
-    const card = document.createElement("div");
+    const card = document.createElement("a");
     card.className = "tutorial-card";
+    card.href = `learn/${encodeURIComponent(tut.id)}${getLang() === "en" ? ".en" : ""}.html`;
     const thumb = document.createElement("img");
     const cached = thumbCache.get(tut.id);
     thumb.className = cached ? "t-thumb" : "t-thumb loading";
     if (cached) thumb.src = cached;
+    thumb.dataset.tutorialId = tut.id;
     thumb.alt = tBi(tut.name);
     card.appendChild(thumb);
     if (completedSet.has(tut.id)) {
@@ -254,16 +314,23 @@ function renderTutorialCards() {
       <p>${tBi(tut.description)}</p>
     `;
     card.appendChild(body);
-    card.addEventListener("click", () => startTutorial(tut));
+    card.addEventListener("click", (event) => {
+      event.preventDefault();
+      startTutorial(tut);
+    });
     cardsContainer.appendChild(card);
+    if (!cached) {
+      if (thumbnailObserver) thumbnailObserver.observe(thumb);
+      else queueThumbnail(tut.id);
+    }
   }
   updateProgressLabel();
 }
-renderTutorialCards();
-renderLearningPath();
 document.addEventListener("langchange", () => {
   renderTutorialCards();
   renderLearningPath();
+  if (currentTutorial) tutorialSeo(currentTutorial);
+  else resetTutorialSeo();
   // 已經放進畫布的節點卡片（標籤/插槽名稱/下拉選單文字）是新增/編輯當下就把字串定案進 DOM，
   // 不會自動跟著切換語言——教學進行中畫布上通常已經有 startGraph 帶進來的節點，不補這行的話
   // 使用者切語言時，疊加層文字/教學清單都換了，畫布上的節點卡片卻還停在切換前的語言。
@@ -393,6 +460,10 @@ function startTutorial(tut) {
   editor.loadGraph(Graph.fromJSON(tut.startGraph));
   editor.clearHistory();
   renderOverlay();
+  const url = new URL(location.href);
+  url.searchParams.set("tutorial", tut.id);
+  history.replaceState({ tutorial: tut.id }, "", `${url.pathname}${url.search}${url.hash}`);
+  tutorialSeo(tut);
 }
 
 function checkCurrentStep() {
@@ -589,6 +660,18 @@ function exitTutorial() {
   // 縮圖已經快取過，這次重繪不會重新跑 WebGL render。
   renderTutorialCards();
   renderLearningPath();
+  const url = new URL(location.href);
+  url.searchParams.delete("tutorial");
+  history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+  resetTutorialSeo();
+}
+
+function resetTutorialSeo() {
+  setPageSeo({
+    title: t("meta.tutorials.title"),
+    description: t("meta.tutorials.description"),
+    path: `tutorials.html${getLang() === "en" ? "?lang=en" : ""}`,
+  });
 }
 
 window.__bmlTutorial = {
@@ -617,8 +700,10 @@ document.getElementById("t-restart").addEventListener("click", () => {
 // 輸入（使用者可能手動改網址、或連結指向之後版本已改名/移除的教學 id），找不到就當作
 // 沒帶參數，正常顯示教學列表，不讓整支 module script 因此掛掉。
 const tutorialParam = new URLSearchParams(location.search).get("tutorial");
-if (tutorialParam) {
-  const target = tutorials.find((t) => t.id === tutorialParam);
-  if (target) startTutorial(target);
-  history.replaceState(null, "", location.pathname);
+const targetTutorial = tutorialParam ? tutorials.find((t) => t.id === tutorialParam) : null;
+renderLearningPath();
+if (targetTutorial) startTutorial(targetTutorial);
+else {
+  renderTutorialCards();
+  resetTutorialSeo();
 }

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mix Shader: Sheer Pattern · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Use a texture node&#39;s output (instead of a fixed slider) as Mix Shader&#39;s Fac to create a regularly-patterned sheer fabric / curtain material." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Mix Shader: Sheer Pattern · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Use a texture node&#39;s output (instead of a fixed slider) as Mix Shader&#39;s Fac to create a regularly-patterned sheer fabric / curtain material." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_sheer.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_sheer.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_sheer.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_sheer.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Mix Shader: Sheer Pattern","description":"Use a texture node's output (instead of a fixed slider) as Mix Shader's Fac to create a regularly-patterned sheer fabric / curtain material.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_sheer.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Mix Shader: Sheer Pattern</h1>
+    <p class="content-lead">Use a texture node&#39;s output (instead of a fixed slider) as Mix Shader&#39;s Fac to create a regularly-patterned sheer fabric / curtain material.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_mix_sheer&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_mix_sheer.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Add a Transparent BSDF</h2>
+      <p>Drag in a Transparent BSDF from the Shader category — we&#39;ll mix it with Principled BSDF to make some areas see-through and others opaque.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add Mix Shader and Connect Both</h2>
+      <p>Drag in a Mix Shader and connect Principled BSDF and Transparent BSDF to its two Shader sockets.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Connect to Material Output</h2>
+      <p>Connect Mix Shader to Material Output&#39;s Surface. With a fixed Fac, the whole surface will be uniformly semi-transparent for now.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Drive Fac with a Checker Texture</h2>
+      <p>Add a Checker Texture (Texture category) and connect its Fac output to Mix Shader&#39;s Fac. Now the transparent areas form a regular grid pattern instead of uniform semi-transparency.<br /><br />This is the idea of &#39;driving a blend ratio with a texture node&#39; instead of a fixed slider.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

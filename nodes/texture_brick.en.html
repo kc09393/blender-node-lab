@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Brick Texture · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Offset brick blocks with mortar lines — the classic wall pattern." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Brick Texture · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Offset brick blocks with mortar lines — the classic wall pattern." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_brick.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/texture_brick.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/texture_brick.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_brick.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Brick Texture","description":"Offset brick blocks with mortar lines — the classic wall pattern.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_brick.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Brick Texture</h1>
+    <p class="content-lead">Offset brick blocks with mortar lines — the classic wall pattern.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=texture_brick&amp;lang=en">Try it in the sandbox</a>
+      <a href="texture_brick.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Brick Texture generates rows of offset brick blocks with mortar lines between them. Mortar Size controls the gap thickness, Color 1/2 are two brick tones picked randomly per brick, and Mortar Color is the gap color.</p></section>
+    <section><h2>Technical notes</h2><p>Brick Width/Row Height (the brick&#39;s own aspect ratio), Offset/Offset Frequency (how many rows before a horizontal shift repeats), Squash/Squash Frequency (how many rows before brick width compresses), and Bias (skew toward Color 1 or 2) are all genuinely adjustable sockets now, matching full Blender — formulas ported directly from `node_shader_tex_brick.cc`&#39;s `brick()` function. Difference from Blender: mortar edges use `smoothstep` (controlled by the Mortar Smooth socket) — not identical to Blender&#39;s internal distance-field algorithm, but directionally consistent.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Color 1</td><td>color</td></tr><tr><td>IN</td><td>Color 2</td><td>color</td></tr><tr><td>IN</td><td>Mortar Color</td><td>color</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Mortar Size</td><td>float</td></tr><tr><td>IN</td><td>Mortar Smooth</td><td>float</td></tr><tr><td>IN</td><td>Bias</td><td>float</td></tr><tr><td>IN</td><td>Brick Width</td><td>float</td></tr><tr><td>IN</td><td>Row Height</td><td>float</td></tr><tr><td>IN</td><td>Offset</td><td>float</td></tr><tr><td>IN</td><td>Offset Frequency</td><td>float</td></tr><tr><td>IN</td><td>Squash</td><td>float</td></tr><tr><td>IN</td><td>Squash Frequency</td><td>float</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Fac</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

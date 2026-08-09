@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>圖像紋理 · Blender 5.0 節點百科</title>
+<meta name="description" content="讀取一張你上傳的圖片當作貼圖，最常見的材質來源。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="圖像紋理 · Blender 5.0 節點百科" />
+<meta property="og:description" content="讀取一張你上傳的圖片當作貼圖，最常見的材質來源。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_image.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/texture_image.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/texture_image.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_image.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"圖像紋理","description":"讀取一張你上傳的圖片當作貼圖，最常見的材質來源。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_image.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>圖像紋理</h1>
+    <p class="content-lead">讀取一張你上傳的圖片當作貼圖，最常見的材質來源。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=texture_image">在沙盒中試用</a>
+      <a href="texture_image.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>Image Texture 是最常用的紋理節點：點節點上的「選擇圖片」上傳一張照片或素材圖，就能把它貼在物體表面。Vector 輸入決定貼圖怎麼對應到表面座標，預設用物體的 UV。</p></section>
+    <section><h2>進階說明</h2><p>延展模式（Extension：Repeat／Extend／Clip／Mirror）、插值（Interpolation：Linear／Closest／Cubic）與色彩空間（Color Space：sRGB／Non-Color）現在都是真的可調設定，跟 Blender 一致（`js/core/textureCache.js` 依這些設定即時設定 Three.js Texture；Clip 沒有原生對應的 wrap 模式，改在 GLSL 端判斷 UV 是否落在 0-1 之外，超出範圍就讓 Alpha 直接歸零）。**色彩空間很重要**：一般照片/顏色貼圖用 sRGB（會做 gamma 解碼）；法線貼圖、粗糙度圖、高度圖這類「數值資料」貼圖一定要選 Non-Color（原樣讀取、不解碼），選錯會讓法線方向偏移、粗糙度整體變暗。Cubic 用經典的「4 次雙線性取樣模擬雙三次 B-Spline」技巧實作（Sigg &amp; Hadwiger 2005，遊戲/著色器業界常用手法），不是逐像素真的采 16 個點的卷積，但平滑方向與效果一致。跟 Blender 的差異：Smart 插值（依縮放程度自動切換 Cubic/Linear）還沒實作。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>透明度</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

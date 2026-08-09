@@ -7,6 +7,7 @@ import { glossNodeNames } from "./core/glossary.js";
 import tutorials from "../data/tutorials/index.js";
 import nodeTutorialIndex from "../data/tutorials/nodeIndex.js";
 import presets from "../data/presets/index.js";
+import { nodeSeo, setPageSeo } from "./seo.js";
 
 initLangToggle();
 initMobileNav();
@@ -25,7 +26,8 @@ function renderCategoryList() {
   const byCategory = listByCategory();
   const totalCount = [...byCategory.values()].reduce((sum, list) => sum + list.length, 0);
 
-  const allItem = document.createElement("div");
+  const allItem = document.createElement("button");
+  allItem.type = "button";
   allItem.className = `category-item${activeCategory === "all" ? " active" : ""}`;
   allItem.innerHTML = `<span>${getLang() === "zh" ? "全部節點" : "All Nodes"}</span><span class="count">${totalCount}</span>`;
   allItem.addEventListener("click", () => {
@@ -37,7 +39,8 @@ function renderCategoryList() {
 
   for (const category of CATEGORY_ORDER) {
     const list = byCategory.get(category) || [];
-    const item = document.createElement("div");
+    const item = document.createElement("button");
+    item.type = "button";
     item.className = `category-item${activeCategory === category ? " active" : ""}`;
     item.innerHTML = `<span><span class="dot" style="background:var(--cat-${category})"></span>${tBi(CATEGORY_LABELS[category])}</span><span class="count">${list.length}</span>`;
     item.addEventListener("click", () => {
@@ -70,16 +73,22 @@ function renderGrid() {
     return;
   }
   for (const typeDef of list) {
-    const card = document.createElement("div");
-    card.className = "node-grid-item";
+    const card = document.createElement("a");
+    card.className = `node-grid-item${selectedNodeId === typeDef.id ? " active" : ""}`;
+    card.href = `nodes/${encodeURIComponent(typeDef.id)}${getLang() === "en" ? ".en" : ""}.html`;
     card.innerHTML = `
       <div class="n-name">${tBi(typeDef.name)}</div>
       <div class="n-name-sub">${typeDef.name.zh} · ${typeDef.name.en}</div>
       <div class="n-desc">${glossNodeNames(tBi(typeDef.summary), getLang())}</div>
       ${typeDef.supported === false ? `<span class="badge-unsupported">${t("encyclopedia.notSupportedYet") || "沙盒尚未支援即時預覽"}</span>` : ""}
     `;
-    card.addEventListener("click", () => {
+    card.addEventListener("click", (event) => {
+      event.preventDefault();
       selectedNodeId = typeDef.id;
+      const url = new URL(location.href);
+      url.searchParams.set("node", typeDef.id);
+      history.replaceState({ node: typeDef.id }, "", `${url.pathname}${url.search}${url.hash}`);
+      renderGrid();
       renderDetail();
       // 窄螢幕下三個面板（分類/節點格/詳解）是上下堆疊，詳解面板在節點格下方、通常還在
       // 螢幕外——點了節點卡片卻「畫面上什麼都沒變」，使用者容易以為沒點到。桌面版三欄
@@ -96,9 +105,11 @@ function renderDetail() {
   detailPanel.innerHTML = "";
   if (!selectedNodeId) {
     detailPanel.innerHTML = '<div class="empty-hint">點選左方節點以查看詳解</div>';
+    resetEncyclopediaSeo();
     return;
   }
   const typeDef = getNodeType(selectedNodeId);
+  nodeSeo(typeDef);
   const wrap = document.createElement("div");
   wrap.className = "node-doc";
   renderNodeDoc(typeDef, getLang(), wrap);
@@ -107,6 +118,11 @@ function renderDetail() {
   tryBtn.href = `sandbox.html?addNode=${encodeURIComponent(typeDef.id)}`;
   tryBtn.textContent = t("encyclopedia.tryInSandbox");
   wrap.appendChild(tryBtn);
+  const permalink = document.createElement("a");
+  permalink.className = "node-permalink";
+  permalink.href = `nodes/${encodeURIComponent(typeDef.id)}${getLang() === "en" ? ".en" : ""}.html`;
+  permalink.textContent = getLang() === "en" ? "Permanent reference page ↗" : "永久參考頁 ↗";
+  wrap.appendChild(permalink);
 
   // 這個節點如果有對應的引導教學（見 data/tutorials/nodeIndex.js），額外顯示一個直達連結——
   // 只有真的找得到教學（id 沒對不上，例如教學被移除改名）才顯示，不留一個點了沒反應的死連結。
@@ -162,8 +178,14 @@ if (nodeParamType) {
   activeCategory = nodeParamType.category;
   selectedNodeId = nodeParamType.id;
 }
-if (nodeParam) history.replaceState(null, "", location.pathname);
-
 renderCategoryList();
 renderGrid();
 renderDetail();
+
+function resetEncyclopediaSeo() {
+  setPageSeo({
+    title: t("meta.encyclopedia.title"),
+    description: t("meta.encyclopedia.description"),
+    path: `encyclopedia.html${getLang() === "en" ? "?lang=en" : ""}`,
+  });
+}

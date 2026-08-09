@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>同一張圖，三種長相：波浪環狀模式的百變用途 · Blender 5.0 引導教學</title>
+<meta name="description" content="波浪紋理的環狀模式（Rings）長得都一樣（同心圓），但只要換顏色漸變的配色跟扭曲程度，就能從「木頭年輪」變成「水波漣漪」再變成「陶土拉坯痕」——這篇不換任何節點結構，只調參數，讓你體會到「很多材質的差異其實只在數值，不在接線方式」。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="同一張圖，三種長相：波浪環狀模式的百變用途 · Blender 5.0 引導教學" />
+<meta property="og:description" content="波浪紋理的環狀模式（Rings）長得都一樣（同心圓），但只要換顏色漸變的配色跟扭曲程度，就能從「木頭年輪」變成「水波漣漪」再變成「陶土拉坯痕」——這篇不換任何節點結構，只調參數，讓你體會到「很多材質的差異其實只在數值，不在接線方式」。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"同一張圖，三種長相：波浪環狀模式的百變用途","description":"波浪紋理的環狀模式（Rings）長得都一樣（同心圓），但只要換顏色漸變的配色跟扭曲程度，就能從「木頭年輪」變成「水波漣漪」再變成「陶土拉坯痕」——這篇不換任何節點結構，只調參數，讓你體會到「很多材質的差異其實只在數值，不在接線方式」。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>同一張圖，三種長相：波浪環狀模式的百變用途</h1>
+    <p class="content-lead">波浪紋理的環狀模式（Rings）長得都一樣（同心圓），但只要換顏色漸變的配色跟扭曲程度，就能從「木頭年輪」變成「水波漣漪」再變成「陶土拉坯痕」——這篇不換任何節點結構，只調參數，讓你體會到「很多材質的差異其實只在數值，不在接線方式」。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_wave_rings_multi_look">開啟互動教學</a>
+      <a href="tutorial_wave_rings_multi_look.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：接上環狀波浪，先做木頭年輪</h2>
+      <p>加入波浪紋理（Wave Texture，波形 Type 切成環狀 Rings）跟顏色漸變（Color Ramp），把波浪的係數（Fac）接到顏色漸變的係數，再接到原理化 BSDF 的底色（Base Color）。<br /><br />顏色漸變兩個停駐點設成深棕跟淺棕（例如 0.25/0.13/0.05 跟 0.55/0.35/0.15）——這是最基本的木頭年輪配色。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：換成藍白配色＋加大扭曲，變成水波</h2>
+      <p>把顏色漸變的兩個停駐點都改成藍色系（例如深藍 0.05/0.15/0.35 跟淺藍白 0.75/0.85/0.95），再把波浪紋理的扭曲（Distortion）調到 8 以上。同心圓被扭曲得歪七扭八，配上藍白色調，看起來完全像水面的漣漪。<br /><br />節點結構完全沒變，只是換了顏色跟扭曲程度。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：換成陶土橘紅＋降低扭曲，變成拉坯痕</h2>
+      <p>把顏色漸變改成陶土橘紅色系（例如深赭 0.35/0.16/0.08 跟淺陶土 0.68/0.4/0.24），把扭曲（Distortion）調低到 1 以下，讓同心圓變回規律整齊。畫面現在看起來像手工拉坯陶器留下的一圈圈刻痕。<br /><br />同樣的環狀波浪，第三種截然不同的材質。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：回顧：三種材質，同一份接線</h2>
+      <p>從頭到尾，波浪紋理→顏色漸變→底色這條接線一次都沒變過，你只調了顏色漸變的配色跟波浪的扭曲程度，就做出木頭、水波、陶土三種完全不同的材質。<br /><br />這說明了一個很重要的觀念：材質設計很多時候不是「想不同的節點組合」，而是「想清楚數值該填多少」——先確定接線邏輯是對的，之後靠調參數就能有很多變化。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

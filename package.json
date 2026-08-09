@@ -1,0 +1,8 @@
+{
+  "name": "blender-material-node-lab",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:seo": "node scripts/generate-seo-pages.mjs"
+  }
+}

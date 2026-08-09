@@ -3,6 +3,36 @@
 const STORAGE_KEY = "bml_lang";
 
 const DICT = {
+  "meta.index.title": { zh: "Blender 材質節點｜從 0 基礎到專業", en: "Blender Material Nodes | From Beginner to Pro" },
+  "meta.index.description": {
+    zh: "免費的 Blender 5.0 材質節點學習網站：節點百科、互動沙盒與逐步教學，中英雙語，適合從 0 基礎到專業使用者。",
+    en: "A free bilingual Blender 5.0 material-node learning site with a node encyclopedia, interactive sandbox, and guided step-by-step tutorials.",
+  },
+  "meta.tutorials.title": { zh: "引導教學 · Blender 5.0 材質節點", en: "Guided Tutorials · Blender 5.0 Material Nodes" },
+  "meta.tutorials.description": {
+    zh: "跟著步驟做出玻璃、金屬、木紋等 Blender 5.0 材質，每一步都有提示與自動驗證。",
+    en: "Build glass, metal, wood, and more with Blender 5.0 material nodes. Every guided step includes hints and automatic validation.",
+  },
+  "meta.encyclopedia.title": { zh: "節點百科 · Blender 5.0 材質節點", en: "Node Encyclopedia · Blender 5.0 Material Nodes" },
+  "meta.encyclopedia.description": {
+    zh: "Blender 5.0 材質節點百科，提供中英雙語說明、輸入輸出與互動範例。",
+    en: "A bilingual Blender 5.0 material-node encyclopedia with socket references, explanations, and interactive examples.",
+  },
+  "meta.sandbox.title": { zh: "自由沙盒 · Blender 5.0 材質節點", en: "Interactive Sandbox · Blender 5.0 Material Nodes" },
+  "meta.sandbox.description": {
+    zh: "拖拉 Blender 5.0 材質節點、自己接線，並用即時 3D 預覽觀察每一次修改。",
+    en: "Drag, connect, and experiment with Blender 5.0 material nodes while a live 3D preview reacts to every change.",
+  },
+  "meta.reference.title": { zh: "材質參考表 · Blender 5.0 材質節點", en: "Material Reference · Blender 5.0 Material Nodes" },
+  "meta.reference.description": {
+    zh: "Blender 5.0 材質製作常用的 IOR、粗糙度與純金屬反射顏色速查表。",
+    en: "A quick Blender 5.0 material reference for IOR, roughness ranges, and pure-metal reflectance colors.",
+  },
+  "meta.troubleshoot.title": { zh: "疑難排解 · Blender 5.0 材質節點", en: "Troubleshooting · Blender 5.0 Material Nodes" },
+  "meta.troubleshoot.description": {
+    zh: "Blender 5.0 材質節點常見問題的症狀、原因與修法。",
+    en: "Symptoms, causes, and fixes for common Blender 5.0 material-node problems.",
+  },
   "nav.home": { zh: "首頁", en: "Home" },
   "nav.encyclopedia": { zh: "節點百科", en: "Encyclopedia" },
   "nav.sandbox": { zh: "自由沙盒", en: "Sandbox" },
@@ -49,6 +79,7 @@ const DICT = {
   },
   "tutorials.browseAllHeading": { zh: "瀏覽全部教學", en: "Browse All Tutorials" },
   "landing.heroTitle1": { zh: "從 0 基礎到專業，", en: "From absolute beginner to pro —" },
+  "landing.versionBadge": { zh: "依 Blender 5.0 校對", en: "Aligned with Blender 5.0" },
   "landing.heroTitle2": { zh: "看懂 Blender 每一個材質節點", en: "understand every Blender material node" },
   "landing.heroSubtitle": {
     zh: "不知道怎麼開始？跟著建議學習路徑一步步學會材質怎麼連接、怎麼使用；已經有想法的話，也可以直接查節點百科或動手玩沙盒。",
@@ -133,6 +164,11 @@ const DICT = {
 // （t()/tBi() 都靠它），沒有這層防呆的話，一次拋錯就會讓全站所有頁面整個掛掉。
 let inMemoryLang = "zh";
 
+function urlLang() {
+  const value = new URLSearchParams(location.search).get("lang");
+  return value === "en" || value === "zh" ? value : null;
+}
+
 function safeGetItem(key) {
   try {
     return localStorage.getItem(key);
@@ -150,12 +186,16 @@ function safeSetItem(key, value) {
 }
 
 export function getLang() {
-  return safeGetItem(STORAGE_KEY) || inMemoryLang;
+  return urlLang() || safeGetItem(STORAGE_KEY) || inMemoryLang;
 }
 
 export function setLang(lang) {
   inMemoryLang = lang;
   safeSetItem(STORAGE_KEY, lang);
+  const url = new URL(location.href);
+  if (lang === "en") url.searchParams.set("lang", "en");
+  else url.searchParams.delete("lang");
+  history.replaceState(history.state, "", `${url.pathname}${url.search}${url.hash}`);
   applyI18n();
   document.dispatchEvent(new CustomEvent("langchange", { detail: { lang } }));
 }
@@ -182,6 +222,16 @@ export function applyI18n(root = document) {
   root.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
     el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
   });
+  root.querySelectorAll("[data-i18n-content]").forEach((el) => {
+    el.setAttribute("content", t(el.getAttribute("data-i18n-content")));
+  });
+  if (root === document) {
+    const currentUrl = new URL(location.href);
+    const canonical = document.querySelector('link[rel="canonical"]');
+    const ogUrl = document.querySelector('meta[property="og:url"]');
+    if (canonical) canonical.href = currentUrl.href;
+    if (ogUrl) ogUrl.content = currentUrl.href;
+  }
 }
 
 export function initLangToggle() {

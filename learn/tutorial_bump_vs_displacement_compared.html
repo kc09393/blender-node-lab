@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Bump vs Displacement：同一份高度資料，直接比一比 · Blender 5.0 引導教學</title>
+<meta name="description" content="凹凸（Bump）教學跟位移（Displacement）教學分別存在，但沒有人直接把兩者放在同一張圖上比較過。這篇用同一份雜訊高度資料，先接 Bump、再多接一份 Displacement，讓你親眼看到「輪廓完全沒變，只是光影騙術」跟「輪廓真的凹凸」的差異，不用只靠文字想像。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Bump vs Displacement：同一份高度資料，直接比一比 · Blender 5.0 引導教學" />
+<meta property="og:description" content="凹凸（Bump）教學跟位移（Displacement）教學分別存在，但沒有人直接把兩者放在同一張圖上比較過。這篇用同一份雜訊高度資料，先接 Bump、再多接一份 Displacement，讓你親眼看到「輪廓完全沒變，只是光影騙術」跟「輪廓真的凹凸」的差異，不用只靠文字想像。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Bump vs Displacement：同一份高度資料，直接比一比","description":"凹凸（Bump）教學跟位移（Displacement）教學分別存在，但沒有人直接把兩者放在同一張圖上比較過。這篇用同一份雜訊高度資料，先接 Bump、再多接一份 Displacement，讓你親眼看到「輪廓完全沒變，只是光影騙術」跟「輪廓真的凹凸」的差異，不用只靠文字想像。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_vs_displacement_compared.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>Bump vs Displacement：同一份高度資料，直接比一比</h1>
+    <p class="content-lead">凹凸（Bump）教學跟位移（Displacement）教學分別存在，但沒有人直接把兩者放在同一張圖上比較過。這篇用同一份雜訊高度資料，先接 Bump、再多接一份 Displacement，讓你親眼看到「輪廓完全沒變，只是光影騙術」跟「輪廓真的凹凸」的差異，不用只靠文字想像。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_bump_vs_displacement_compared">開啟互動教學</a>
+      <a href="tutorial_bump_vs_displacement_compared.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：先用 Bump 做出光影凹凸</h2>
+      <p>加入雜訊紋理（Noise Texture）跟凹凸（Bump），把雜訊的係數（Fac）接到 Bump 的高度（Height），Bump 的輸出接到原理化 BSDF 的法線（Normal）。畫面應該會出現坑坑洞洞的光影效果。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：旋轉觀察，輪廓其實是直的</h2>
+      <p>拖曳旋轉球體，把某個凹凸明顯的地方轉到邊緣輪廓上。你會發現輪廓還是一條平滑的圓弧線——完全沒有真的凹凸進去或凸出來。<br /><br />Bump 只是騙過光影計算，球體的實際形狀（頂點位置）從頭到尾沒有變過。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：加入 Displacement，接上同一份高度資料</h2>
+      <p>加入位移（Displacement，向量 Vector 分類），把同一個雜訊紋理的係數（Fac）也接到它的高度（Height）。<br /><br />⚠️ 注意這是「同一份資料，接去兩個地方」，不是換掉 Bump。<br /><br />再把 Displacement 的輸出接到材質輸出（Material Output）的位移（Displacement）插槽（不是 Surface）。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調大 Scale，這次輪廓真的變了</h2>
+      <p>把 Displacement 的縮放（Scale）調到 0.15 以上，再一次旋轉球體看邊緣輪廓。這次輪廓會真的凹凸不平。<br /><br />這就是兩者的根本差異：不管把 Bump 的強度（Strength）調多高，輪廓永遠是平滑的；Displacement 哪怕縮放不大，輪廓也一定會跟著改變，因為它動的是真正的頂點位置。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

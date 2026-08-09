@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Taming a Mask: Scale Down Its Overall Influence with Math · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Feeding a raw 0-1 noise straight into a Mix Shader&#39;s Fac often looks too loud — two materials split roughly 50/50, instead of &#39;mostly A, with B subtly peeking through&#39;. This tutorial teaches a simple trick: insert a Math node set to Multiply between the noise and the Fac, compressing the whole 0-1 range down to a small band (e.g. 0-0.15), so the secondary material only shows up sparingly and tastefully." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Taming a Mask: Scale Down Its Overall Influence with Math · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Feeding a raw 0-1 noise straight into a Mix Shader&#39;s Fac often looks too loud — two materials split roughly 50/50, instead of &#39;mostly A, with B subtly peeking through&#39;. This tutorial teaches a simple trick: insert a Math node set to Multiply between the noise and the Fac, compressing the whole 0-1 range down to a small band (e.g. 0-0.15), so the secondary material only shows up sparingly and tastefully." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Taming a Mask: Scale Down Its Overall Influence with Math","description":"Feeding a raw 0-1 noise straight into a Mix Shader's Fac often looks too loud — two materials split roughly 50/50, instead of 'mostly A, with B subtly peeking through'. This tutorial teaches a simple trick: insert a Math node set to Multiply between the noise and the Fac, compressing the whole 0-1 range down to a small band (e.g. 0-0.15), so the secondary material only shows up sparingly and tastefully.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Taming a Mask: Scale Down Its Overall Influence with Math</h1>
+    <p class="content-lead">Feeding a raw 0-1 noise straight into a Mix Shader&#39;s Fac often looks too loud — two materials split roughly 50/50, instead of &#39;mostly A, with B subtly peeking through&#39;. This tutorial teaches a simple trick: insert a Math node set to Multiply between the noise and the Fac, compressing the whole 0-1 range down to a small band (e.g. 0-0.15), so the secondary material only shows up sparingly and tastefully.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_mask_strength_scaling&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_mask_strength_scaling.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Drive the Mix Directly with Noise — See It Overpower</h2>
+      <p>Add a Glossy BSDF (warm white, low roughness — representing a shiny metal-fleck material) and a Mix Shader; connect the existing Principled BSDF (base material) and the Glossy BSDF to its two Shader inputs, and wire Mix Shader to Material Output.<br /><br />Add a Noise Texture and connect its Fac directly to Mix Shader&#39;s Fac. The result splits roughly 50/50 between the two materials — the glossy material dominates far more than a mere &#39;accent&#39; should, looking more like two materials randomly stitched together.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Insert a Math Node Set to Multiply</h2>
+      <p>Insert a Math node between Noise Texture and Mix Shader, with Operation set to Multiply. Don&#39;t change the second value yet — this step just reroutes the wiring to &#39;Noise → Math → Fac&#39;.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Shrink the Second Value to Compress the Whole Range</h2>
+      <p>Set the Math node&#39;s second value to around 0.15. The noise&#39;s original 0-1 range, multiplied by 0.15, all gets compressed into 0-0.15 — meaning Fac stays almost always tiny, with only the noise&#39;s brightest spots letting the glossy material peek through at all. The result should read as &#39;mostly the base material, with a subtle occasional glint&#39; — much more tasteful.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Know Where Else This Trick Applies</h2>
+      <p>This &#39;multiply by a number less than 1 to compress the range&#39; trick isn&#39;t limited to Mix Shader&#39;s Fac — any socket that takes a 0-1 value (Bump&#39;s Strength, Emission&#39;s Strength — and multiplying by a number greater than 1 amplifies it instead) can use the same approach to dial an effect subtler or stronger. It&#39;s a simpler alternative to Map Range for the specific case of &#39;just pull values toward zero, no need to change the ceiling.&#39;</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

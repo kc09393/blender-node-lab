@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Get to Know the Math Node: Four Operations, Four Looks · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="The Math node&#39;s Operation dropdown has 30-some options — hard to picture from the list alone. This tutorial keeps the same &#39;Noise → Math → Emission&#39; wiring and switches through 4 representative operations (Add, Snap, Greater Than, Sine) so you can directly see what the Functions/Rounding/Comparison/Trigonometric categories each look like." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Get to Know the Math Node: Four Operations, Four Looks · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="The Math node&#39;s Operation dropdown has 30-some options — hard to picture from the list alone. This tutorial keeps the same &#39;Noise → Math → Emission&#39; wiring and switches through 4 representative operations (Add, Snap, Greater Than, Sine) so you can directly see what the Functions/Rounding/Comparison/Trigonometric categories each look like." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Get to Know the Math Node: Four Operations, Four Looks","description":"The Math node's Operation dropdown has 30-some options — hard to picture from the list alone. This tutorial keeps the same 'Noise → Math → Emission' wiring and switches through 4 representative operations (Add, Snap, Greater Than, Sine) so you can directly see what the Functions/Rounding/Comparison/Trigonometric categories each look like.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Get to Know the Math Node: Four Operations, Four Looks</h1>
+    <p class="content-lead">The Math node&#39;s Operation dropdown has 30-some options — hard to picture from the list alone. This tutorial keeps the same &#39;Noise → Math → Emission&#39; wiring and switches through 4 representative operations (Add, Snap, Greater Than, Sine) so you can directly see what the Functions/Rounding/Comparison/Trigonometric categories each look like.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_math_operations_tour&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_math_operations_tour.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Wire Up &#39;Noise → Math → Emission&#39;</h2>
+      <p>Set Principled BSDF&#39;s Base Color to black and Emission Strength to 1 (so the screen only shows the Math node&#39;s raw result, unaffected by lighting).<br /><br />Add a Noise Texture and a Math node (Converter category), connect Noise&#39;s Fac to Math&#39;s first value, then use a Combine Color to feed Math&#39;s result into R/G/B, connected to Emission Color.<br /><br />Leave Math at the default Add, and set its second value to 0.15 so the result looks slightly brighter than the raw noise.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Switch to Snap for a Posterized Look</h2>
+      <p>Switch Operation to Snap (in the Rounding category), and set its second value to 0.2. The cloud-like noise snaps into 5 flat gray levels (0, 0.2, 0.4, 0.6, 0.8).<br /><br />Snap forces a value to the nearest multiple of a given increment, great for quantizing a continuous value into distinct steps (a classic &#39;posterize&#39; effect).</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Switch to Greater Than for a Binary Mask</h2>
+      <p>Switch Operation to Greater Than (Comparison category), and set its second value to 0.5. The result becomes pure black-or-white.<br /><br />Comparison operations always output either 0 or 1, making them the fundamental tool for masks (where to show A vs. B), like checking whether a noise value crosses a threshold.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Switch to Sine — and See Its Limits</h2>
+      <p>Switch Operation to Sine (Trigonometric category). The result just looks like a smooth gradient, not obviously &#39;periodic&#39;.<br /><br />That&#39;s because Noise outputs 0 to 1 (only a small slice of a radian), and Sine needs to span several full cycles (roughly 0 to 6 or more) before its up-and-down oscillation becomes visible.<br /><br />⚠️ This is a useful lesson: Sine/Cosine need their input range &#39;widened&#39; first (e.g. with a Math Multiply node, scaling by 10 or so) before they show genuine periodic stripes.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

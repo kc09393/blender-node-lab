@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>加法著色器 · Blender 5.0 節點百科</title>
+<meta name="description" content="把兩個材質的光線效果直接相加（不是平均）。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="加法著色器 · Blender 5.0 節點百科" />
+<meta property="og:description" content="把兩個材質的光線效果直接相加（不是平均）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_add_shader.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_add_shader.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/shader_add_shader.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_add_shader.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"加法著色器","description":"把兩個材質的光線效果直接相加（不是平均）。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_add_shader.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>加法著色器</h1>
+    <p class="content-lead">把兩個材質的光線效果直接相加（不是平均）。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_add_shader">在沙盒中試用</a>
+      <a href="shader_add_shader.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>Add Shader 跟 Mix Shader 很像，但沒有 Fac 比例——兩個輸入會直接疊加，常用來疊加一層額外的反射或發光效果在原本材質上。</p></section>
+    <section><h2>進階說明</h2><p>本沙盒的近似作法：基礎參數取兩者平均、發光直接相加，透射、塗層與薄膜取較強的一側，避免直接相加超出合理範圍。這跟真實的輻射相加不完全相同，但足以示範『疊加』的概念。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>著色器</td><td>shader</td></tr><tr><td>IN</td><td>著色器</td><td>shader</td></tr><tr><td>OUT</td><td>Shader</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

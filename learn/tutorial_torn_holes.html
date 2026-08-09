@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>撕裂破洞：局部穿透效果 · Blender 5.0 引導教學</title>
+<meta name="description" content="破葉子、蟲蛀的布料、生鏽穿孔的鐵皮，這些「大部分完整、局部有洞」的材質，做法都一樣：用透明 BSDF（Transparent BSDF）當作「洞」，用混合著色器（Mix Shader）把它跟原本的材質混合，再用色彩帶（Color Ramp）做出的黑白遮罩控制哪裡有洞、哪裡沒有——這篇教學專門示範 Transparent BSDF 這個之前沒用過的節點。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="撕裂破洞：局部穿透效果 · Blender 5.0 引導教學" />
+<meta property="og:description" content="破葉子、蟲蛀的布料、生鏽穿孔的鐵皮，這些「大部分完整、局部有洞」的材質，做法都一樣：用透明 BSDF（Transparent BSDF）當作「洞」，用混合著色器（Mix Shader）把它跟原本的材質混合，再用色彩帶（Color Ramp）做出的黑白遮罩控制哪裡有洞、哪裡沒有——這篇教學專門示範 Transparent BSDF 這個之前沒用過的節點。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"撕裂破洞：局部穿透效果","description":"破葉子、蟲蛀的布料、生鏽穿孔的鐵皮，這些「大部分完整、局部有洞」的材質，做法都一樣：用透明 BSDF（Transparent BSDF）當作「洞」，用混合著色器（Mix Shader）把它跟原本的材質混合，再用色彩帶（Color Ramp）做出的黑白遮罩控制哪裡有洞、哪裡沒有——這篇教學專門示範 Transparent BSDF 這個之前沒用過的節點。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>撕裂破洞：局部穿透效果</h1>
+    <p class="content-lead">破葉子、蟲蛀的布料、生鏽穿孔的鐵皮，這些「大部分完整、局部有洞」的材質，做法都一樣：用透明 BSDF（Transparent BSDF）當作「洞」，用混合著色器（Mix Shader）把它跟原本的材質混合，再用色彩帶（Color Ramp）做出的黑白遮罩控制哪裡有洞、哪裡沒有——這篇教學專門示範 Transparent BSDF 這個之前沒用過的節點。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_torn_holes">開啟互動教學</a>
+      <a href="tutorial_torn_holes.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>3 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：用沃羅諾伊的距離做破洞遮罩</h2>
+      <p>加入沃羅諾伊紋理（Voronoi Texture）。<br /><br />加入色彩帶（Color Ramp）。<br /><br />把沃羅諾伊的距離（Distance）輸出，接到色彩帶的係數（Fac）輸入。<br /><br />設定成「位置 0 是白色、位置 0.12 是黑色、位置 1 也是黑色」。因為 Distance 在細胞正中心是 0，離開中心後很快變大，這樣只有每個細胞正中心附近會是白色，其餘全黑——白色的地方之後就是「洞」。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入透明 BSDF 當作洞</h2>
+      <p>加入透明 BSDF（Transparent BSDF）。這個節點沒有任何參數，接上去的地方會整個穿透、完全看不到表面。<br /><br />先不用接到任何地方，下一步才會用到。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用混合著色器把兩者接在一起</h2>
+      <p>加入混合著色器（Mix Shader）。<br /><br />把原本的葉子材質，接到第一個著色器（Shader）輸入。<br /><br />把透明 BSDF，接到第二個著色器輸入。<br /><br />把色彩帶的顏色（Color）輸出，接到混合著色器的係數（Fac）。<br /><br />因為色彩帶大部分是黑色（0，完全用第一個材質）、只有洞的地方是白色（1，完全用透明 BSDF），這樣就會變成「大部分正常、局部是洞」的效果。<br /><br />把混合著色器的輸出，接到材質輸出。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

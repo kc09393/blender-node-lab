@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Separate Color: Adjust Only Saturation · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Separate Color and Combine Color now support HSV/HSL modes, letting you split hue, saturation, and value apart and adjust just one. Here we boost only saturation on a Voronoi Texture&#39;s random cell colors, making them more vivid without touching hue or brightness." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Separate Color: Adjust Only Saturation · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Separate Color and Combine Color now support HSV/HSL modes, letting you split hue, saturation, and value apart and adjust just one. Here we boost only saturation on a Voronoi Texture&#39;s random cell colors, making them more vivid without touching hue or brightness." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_channel_pack.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_channel_pack.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_channel_pack.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_channel_pack.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Separate Color: Adjust Only Saturation","description":"Separate Color and Combine Color now support HSV/HSL modes, letting you split hue, saturation, and value apart and adjust just one. Here we boost only saturation on a Voronoi Texture's random cell colors, making them more vivid without touching hue or brightness.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_channel_pack.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Separate Color: Adjust Only Saturation</h1>
+    <p class="content-lead">Separate Color and Combine Color now support HSV/HSL modes, letting you split hue, saturation, and value apart and adjust just one. Here we boost only saturation on a Voronoi Texture&#39;s random cell colors, making them more vivid without touching hue or brightness.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_hsv_channel_pack&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_hsv_channel_pack.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+    
+    <section class="content-step">
+      <h2>1. Step 1: Add a Voronoi Texture</h2>
+      <p>Drag in a Voronoi Texture from the Texture category. Its Color output gives each cell a random color — great for testing a saturation tweak.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Split HSV with Separate Color</h2>
+      <p>Add a Separate Color (Converter category), switch its Mode to HSV, and connect Voronoi Texture&#39;s Color to its Color input.<br /><br />The three outputs will relabel themselves to Hue (H)/Saturation (S)/Value (V).</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Boost Saturation with a Math Node</h2>
+      <p>Add a Math node (Converter category), set its operation to Multiply, connect Separate Color&#39;s Saturation (S) output to its first value, and set the second value to 2 or higher (e.g. 2.5). Turn on Clamp to keep it in range.<br /><br />This amplifies saturation while leaving hue and value completely untouched.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Reassemble with Combine Color</h2>
+      <p>Add a Combine Color, also set to HSV mode. Connect Separate Color&#39;s Hue to its first input, the boosted saturation to its second input, and Separate Color&#39;s Value to its third input — then connect Combine Color&#39;s Color output to Principled BSDF&#39;s Base Color.<br /><br />The result should look noticeably more vivid, while the pattern (hue distribution) looks exactly the same.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

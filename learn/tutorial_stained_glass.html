@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>彩色玻璃窗：用顏色漸變做調色盤化 · Blender 5.0 引導教學</title>
+<meta name="description" content="沃羅諾伊紋理的顏色（Color）輸出，每個細胞都是一個完全隨機的顏色——顏色太雜、不像真正的彩色玻璃窗（通常只用幾種固定色調）。這篇教學示範顏色漸變（Color Ramp）的另一種用法：不是拿來做平滑漸層，而是設很多組「位置很接近、顏色卻不一樣」的停駐點，把連續的隨機值強制«量化»成少數幾種固定色調——這叫做調色盤化（Posterize），是很多风格化渲染的核心技巧。再疊一層黑色縫隙線，做出完整的彩色玻璃窗效果。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="彩色玻璃窗：用顏色漸變做調色盤化 · Blender 5.0 引導教學" />
+<meta property="og:description" content="沃羅諾伊紋理的顏色（Color）輸出，每個細胞都是一個完全隨機的顏色——顏色太雜、不像真正的彩色玻璃窗（通常只用幾種固定色調）。這篇教學示範顏色漸變（Color Ramp）的另一種用法：不是拿來做平滑漸層，而是設很多組「位置很接近、顏色卻不一樣」的停駐點，把連續的隨機值強制«量化»成少數幾種固定色調——這叫做調色盤化（Posterize），是很多风格化渲染的核心技巧。再疊一層黑色縫隙線，做出完整的彩色玻璃窗效果。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_stained_glass.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_stained_glass.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_stained_glass.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_stained_glass.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"彩色玻璃窗：用顏色漸變做調色盤化","description":"沃羅諾伊紋理的顏色（Color）輸出，每個細胞都是一個完全隨機的顏色——顏色太雜、不像真正的彩色玻璃窗（通常只用幾種固定色調）。這篇教學示範顏色漸變（Color Ramp）的另一種用法：不是拿來做平滑漸層，而是設很多組「位置很接近、顏色卻不一樣」的停駐點，把連續的隨機值強制«量化»成少數幾種固定色調——這叫做調色盤化（Posterize），是很多风格化渲染的核心技巧。再疊一層黑色縫隙線，做出完整的彩色玻璃窗效果。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_stained_glass.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>彩色玻璃窗：用顏色漸變做調色盤化</h1>
+    <p class="content-lead">沃羅諾伊紋理的顏色（Color）輸出，每個細胞都是一個完全隨機的顏色——顏色太雜、不像真正的彩色玻璃窗（通常只用幾種固定色調）。這篇教學示範顏色漸變（Color Ramp）的另一種用法：不是拿來做平滑漸層，而是設很多組「位置很接近、顏色卻不一樣」的停駐點，把連續的隨機值強制«量化»成少數幾種固定色調——這叫做調色盤化（Posterize），是很多风格化渲染的核心技巧。再疊一層黑色縫隙線，做出完整的彩色玻璃窗效果。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_stained_glass">開啟互動教學</a>
+      <a href="tutorial_stained_glass.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：把沃羅諾伊的隨機顏色轉成單一數值</h2>
+      <p>加入沃羅諾伊紋理（Voronoi Texture）。<br /><br />加入 RGB 轉黑白（RGB to BW）。<br /><br />把沃羅諾伊的顏色（Color）輸出，接到 RGB 轉黑白的顏色輸入。<br /><br />這一步把「每格一個隨機顏色」轉成「每格一個隨機數值」，才能餵給下一步的顏色漸變。<br /><br />⚠️ RGB 轉黑白的數值（Val）輸出先不要接到任何地方，下一步才會用到。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用顏色漸變把隨機值量化成固定調色盤</h2>
+      <p>加入顏色漸變（Color Ramp）。<br /><br />把 RGB 轉黑白的數值（Val）輸出，接到顏色漸變的係數（Fac）輸入。<br /><br />建立至少 4 組«位置緊鄰、顏色不同»的停駐點，例如：位置 0 跟 0.24 都是深紅、位置 0.26 跟 0.49 都是深藍。<br /><br />這樣一來，連續變化的隨機值只會落在少數幾個固定顏色其中之一，而不是無限多種顏色——這就是「調色盤化」。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用另一條顏色漸變做出黑色縫隙線</h2>
+      <p>再加入一個顏色漸變（這是第二條，跟上一步那條是不同節點）。<br /><br />把沃羅諾伊的距離（Distance）輸出，接到這條顏色漸變的係數（Fac）輸入。<br /><br />設定成「靠近細胞中心是白色，接近邊界快速變黑」。原因：Distance 離開細胞中心後數值會變大，這樣設定就會在每片玻璃靠近邊緣的地方，做出偏黑的縫隙效果。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：用正片疊底合併調色盤跟縫隙線</h2>
+      <p>加入混合顏色（Mix Color）。<br /><br />A 接調色盤顏色漸變的顏色。B 接縫隙線顏色漸變的顏色。<br /><br />混合模式選正片疊底（Multiply）。<br /><br />把輸出接到原理化 BSDF 的底色。<br /><br />原理：縫隙線顏色漸變大部分是白色，正片疊底遇到白色不會有任何影響；只有邊界附近是黑色，正片疊底會把那裡直接蓋成黑色。這樣兩層合併起來，就是完整的彩色玻璃窗效果。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>

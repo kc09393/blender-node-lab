@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>金屬車漆：疊上細小亮片 · Blender 5.0 引導教學</title>
+<meta name="description" content="真正的金屬烤漆不是均勻的一片顏色——漆裡混了無數微小的金屬亮片，只有極少數角度/位置會反出銳利的小亮點。這篇教學用沃羅諾伊紋理（Voronoi Texture）的距離（Distance）輸出配上顏色漸變（Color Ramp）做出「大部分是黑、只有細胞中心是白」的稀疏亮點遮罩，再用加法著色器（Add Shader）把亮點當發光疊在原本的車漆底色上——這是兩個獨立材質相加、而不是取代彼此的疊圖概念。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="金屬車漆：疊上細小亮片 · Blender 5.0 引導教學" />
+<meta property="og:description" content="真正的金屬烤漆不是均勻的一片顏色——漆裡混了無數微小的金屬亮片，只有極少數角度/位置會反出銳利的小亮點。這篇教學用沃羅諾伊紋理（Voronoi Texture）的距離（Distance）輸出配上顏色漸變（Color Ramp）做出「大部分是黑、只有細胞中心是白」的稀疏亮點遮罩，再用加法著色器（Add Shader）把亮點當發光疊在原本的車漆底色上——這是兩個獨立材質相加、而不是取代彼此的疊圖概念。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"金屬車漆：疊上細小亮片","description":"真正的金屬烤漆不是均勻的一片顏色——漆裡混了無數微小的金屬亮片，只有極少數角度/位置會反出銳利的小亮點。這篇教學用沃羅諾伊紋理（Voronoi Texture）的距離（Distance）輸出配上顏色漸變（Color Ramp）做出「大部分是黑、只有細胞中心是白」的稀疏亮點遮罩，再用加法著色器（Add Shader）把亮點當發光疊在原本的車漆底色上——這是兩個獨立材質相加、而不是取代彼此的疊圖概念。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+    
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>金屬車漆：疊上細小亮片</h1>
+    <p class="content-lead">真正的金屬烤漆不是均勻的一片顏色——漆裡混了無數微小的金屬亮片，只有極少數角度/位置會反出銳利的小亮點。這篇教學用沃羅諾伊紋理（Voronoi Texture）的距離（Distance）輸出配上顏色漸變（Color Ramp）做出「大部分是黑、只有細胞中心是白」的稀疏亮點遮罩，再用加法著色器（Add Shader）把亮點當發光疊在原本的車漆底色上——這是兩個獨立材質相加、而不是取代彼此的疊圖概念。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_car_paint_flakes">開啟互動教學</a>
+      <a href="tutorial_car_paint_flakes.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>3 個步驟</span></div>
+    
+    <section class="content-step">
+      <h2>1. 第一步：用沃羅諾伊的距離做亮點遮罩</h2>
+      <p>加入沃羅諾伊紋理（Voronoi Texture）。把縮放（Scale）調高，例如 30，細胞會變小變多。<br /><br />加入顏色漸變（Color Ramp）。把沃羅諾伊的距離（Distance）輸出，接到顏色漸變的係數（Fac）輸入。<br /><br />設定顏色漸變：位置 0 設成白色、位置 0.05 設成黑色、位置 1 也設成黑色。原因：Distance 在每個細胞正中心是 0，離開中心後數值會快速變大。這樣設定之後，畫面只會在每個細胞的正中心留下一個小白點，其餘全部是黑色——這就是亮片的遮罩。<br /><br />⚠️ 顏色漸變的顏色（Color）輸出先不要接到任何地方，下一步才會用到。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：把遮罩接到第二個材質的發光</h2>
+      <p>再加入一個原理化 BSDF（Principled BSDF）。這是一個全新、獨立的材質節點，先不要接到材質輸出。<br /><br />把它的底色（Base Color）設成黑色、金屬度（Metallic）設成 1、粗糙度（Roughness）調到接近 0。<br /><br />把上一步顏色漸變的顏色（Color）輸出，接到這個新節點的發光顏色（Emission Color）輸入。<br /><br />把發光強度（Emission Strength）調高，例如 6。<br /><br />這樣一來，這個材質只有在遮罩是白色的小點上才會發光，其餘地方（遮罩是黑色）完全不發光。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用加法著色器疊加，不是取代</h2>
+      <p>加入加法著色器（Add Shader）。它有兩個著色器輸入插槽。<br /><br />把一開始的車漆底色材質，接到其中一個輸入。<br /><br />把剛剛做的發光材質，接到另一個輸入。<br /><br />把加法著色器的輸出，接到材質輸出。<br /><br />轉動預覽球體看看：應該同時看到深色烤漆底色、跟隨機分布的細小亮點，兩者一起出現，不是只有其中一個。這就是 Add Shader 跟 Mix Shader 最大的不同：Add Shader 是「兩個都要、疊在一起」，Mix Shader 是「只選一個、依比例混合」。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-08-09</footer>
+</body>
+</html>
