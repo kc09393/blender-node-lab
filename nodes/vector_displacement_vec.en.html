@@ -36,8 +36,8 @@
       <a href="vector_displacement_vec.html">繁體中文</a>
     </div>
     <section><h2>Beginner explanation</h2><p>More flexible than Displacement — it can push in any direction, not just outward. Often paired with vector displacement maps baked from sculpting software.</p></section>
-    <section><h2>Technical notes</h2><p>Shares the same vertex-shader compile pass as Displacement. Difference from Blender: Blender defaults to interpreting the vector map in tangent space (needs a tangent basis to convert correctly). This sandbox treats the vector directly as an object-space displacement direction, no tangent-space conversion — the overall scale/feel is consistent, but the map&#39;s direction convention doesn&#39;t exactly match Blender&#39;s.</p></section>
-    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>OUT</td><td>Displacement</td><td>vector</td></tr></tbody></table></section>
+    <section><h2>Technical notes</h2><p>Socket defaults match Blender 5.2.2, including Midlevel 0 and Scale 0.01, with Tangent, Object, and World space modes. Object space maps directly; Tangent space builds a stable orthogonal basis from the vertex normal, while World space rotates the vector back through the model matrix. These live conversions are suitable for teaching previews, but do not include Blender&#39;s custom mesh tangents or full non-uniform-scale correction.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Midlevel</td><td>float</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>OUT</td><td>Displacement</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Facing 輸出「正對鏡頭」的比例（跟 Fresnel 相反方向），Fresnel 輸出跟 Fresnel 節點類似的邊緣反光比例。Blend 越大，過渡效果越集中在邊緣。</p></section>
     <section><h2>進階說明</h2><p>常見用法：Mix Shader 的 Fac 接 Layer Weight 的 Fresnel，疊一層清漆/水膜光澤在原本材質上。實作同樣使用未套用 Bump 的幾何法線，屬於簡化。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>Blend</td><td>float</td></tr><tr><td>OUT</td><td>Fresnel</td><td>float</td></tr><tr><td>OUT</td><td>Facing</td><td>float</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>Blend</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>Fresnel</td><td>float</td></tr><tr><td>OUT</td><td>Facing</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

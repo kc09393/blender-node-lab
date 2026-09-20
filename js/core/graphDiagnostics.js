@@ -12,6 +12,14 @@ function outputSurfaceLink(graph) {
   return null;
 }
 
+function outputSocketLink(graph, socketKey) {
+  for (const link of graph.links.values()) {
+    const target = graph.nodes.get(link.toNode);
+    if (target?.typeId === "output_material" && link.toSocket === socketKey) return link;
+  }
+  return null;
+}
+
 function reachableNodeIds(graph) {
   const reachable = new Set();
   const queue = [];
@@ -48,6 +56,13 @@ export function diagnoseGraph(graph) {
       code: "surface-disconnected",
       severity: "error",
       message: bi("材質輸出的「表面」尚未接線。", "Material Output's Surface socket is not connected."),
+    });
+  }
+  if (outputSocketLink(graph, "volume")) {
+    issues.push({
+      code: "volume-preview-unsupported",
+      severity: "warning",
+      message: bi("Volume 已接線，但瀏覽器預覽沒有 Blender 的體積光線步進；請在 Blender 5.2.2 檢查最終體積效果。", "Volume is connected, but the browser preview does not implement Blender's volumetric ray marching. Check the final volume effect in Blender 5.2.2."),
     });
   }
 

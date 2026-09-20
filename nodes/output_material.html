@@ -36,8 +36,8 @@
       <a href="output_material.en.html">English</a>
     </div>
     <section><h2>新手說明</h2><p>每張材質圖都需要一個「材質輸出」節點。把任何 Shader（BSDF）類型的節點接到它的 Surface 插槽，畫面就會套用該材質。沒有接東西的話，看到的會是預設灰色。</p></section>
-    <section><h2>進階說明</h2><p>本教學網站的即時預覽現在支援 Surface 與 Displacement 兩個插槽（Displacement 接 Vector 型別，通常來自 Displacement／Vector Displacement 節點）；Volume 插槽（體積材質）目前仍不支援即時渲染，僅在百科中列出說明。Displacement 是在頂點著色器裡運算的，能接的節點種類比 Surface 少（不能用 Bump／Normal Map／Wireframe／Fresnel 等需要 Fragment 端資料的節點），接了不支援的節點會有清楚的錯誤訊息。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>表面</td><td>shader</td></tr><tr><td>IN</td><td>位移</td><td>vector</td></tr></tbody></table></section>
+    <section><h2>進階說明</h2><p>插槽順序與 Blender 5.2.2 一致：Surface、Volume、Displacement、Thickness。即時預覽支援 Surface、Displacement 與 Thickness；Volume 需要體積光線步進，目前只顯示插槽並在接線時提出警告。Displacement 在頂點著色器運算，不能接 Bump／Normal Map／Wireframe／Fresnel 等只適用片段著色器的節點。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>表面</td><td>shader</td></tr><tr><td>IN</td><td>體積</td><td>shader</td></tr><tr><td>IN</td><td>位移</td><td>vector</td></tr><tr><td>IN</td><td>厚度</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

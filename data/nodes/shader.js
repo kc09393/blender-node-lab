@@ -6,7 +6,7 @@ export default [
   {
     id: "shader_principled_bsdf",
     category: "shader",
-    name: { zh: "原理化 BSDF", en: "Principled BSDF" },
+    name: { zh: "原則化 BSDF", en: "Principled BSDF" },
     summary: { zh: "以 Blender 5.2 LTS OpenPBR 架構為準的萬用材質節點。", en: "The Blender 5.2 LTS OpenPBR-based all-in-one surface shader." },
     docBeginner: {
       zh: "這是 Blender 5.2 LTS 新建材質時的主要表面節點。先從底色、金屬度與粗糙度開始；需要玻璃、車漆、布料或薄膜彩虹時，再使用透射、塗層、絨光與薄膜區塊。Thin Wall 適合紙張、葉片與窗片這類可視為零厚度的薄面。",
@@ -28,14 +28,13 @@ export default [
       { key: "diffuseRoughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "漫射", en: "Diffuse" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "subsurfaceWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "subsurfaceRadius", label: { zh: "半徑", en: "Radius" }, section: { zh: "次表面", en: "Subsurface" }, type: "vector", default: [1, 0.2, 0.1], min: 0, max: 10, step: 0.01 },
-      { key: "subsurfaceScale", label: { zh: "縮放", en: "Scale" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0.05, min: 0, max: 10, step: 0.01 },
-      { key: "subsurfaceIor", label: { zh: "折射率", en: "IOR" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 1.4, min: 1, max: 4, step: 0.01 },
+      { key: "subsurfaceScale", label: { zh: "縮放", en: "Scale" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0.005, min: 0, max: 10, step: 0.001 },
       { key: "subsurfaceAnisotropy", label: { zh: "非等向性", en: "Anisotropy" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "specularIorLevel", label: { zh: "IOR 等級", en: "IOR Level" }, section: { zh: "鏡面反射", en: "Specular" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
       { key: "specularTint", label: { zh: "染色", en: "Tint" }, section: { zh: "鏡面反射", en: "Specular" }, type: "color", default: [1, 1, 1, 1] },
       { key: "anisotropy", label: { zh: "非等向性", en: "Anisotropic" }, section: { zh: "鏡面反射", en: "Specular" }, type: "float", default: 0, min: -1, max: 1, step: 0.01 },
       { key: "anisotropyRotation", label: { zh: "非等向旋轉", en: "Anisotropic Rotation" }, section: { zh: "鏡面反射", en: "Specular" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
-      { key: "tangent", label: { zh: "切線", en: "Tangent" }, section: { zh: "鏡面反射", en: "Specular" }, type: "vector", default: [1, 0, 0], min: -1, max: 1, step: 0.01 },
+      { key: "tangent", label: { zh: "切線", en: "Tangent" }, section: { zh: "鏡面反射", en: "Specular" }, type: "vector", default: [0, 0, 0], min: -1, max: 1, step: 0.01 },
       { key: "transmissionWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "透射", en: "Transmission" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "coatWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "塗層", en: "Coat" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "coatRoughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "塗層", en: "Coat" }, type: "float", default: 0.03, min: 0, max: 1, step: 0.01 },
@@ -45,17 +44,41 @@ export default [
       { key: "sheenWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "絨光", en: "Sheen" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "sheenRoughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "絨光", en: "Sheen" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
       { key: "sheenTint", label: { zh: "染色", en: "Tint" }, section: { zh: "絨光", en: "Sheen" }, type: "color", default: [1, 1, 1, 1] },
-      { key: "emissionColor", label: { zh: "顏色", en: "Color" }, section: { zh: "發光", en: "Emission" }, type: "color", default: [0, 0, 0, 1] },
+      { key: "emissionColor", label: { zh: "顏色", en: "Color" }, section: { zh: "發光", en: "Emission" }, type: "color", default: [1, 1, 1, 1] },
       { key: "emissionStrength", label: { zh: "強度", en: "Strength" }, section: { zh: "發光", en: "Emission" }, type: "float", default: 0, min: 0, max: 20, step: 0.1 },
       { key: "thinFilmThickness", label: { zh: "厚度", en: "Thickness" }, section: { zh: "薄膜", en: "Thin Film" }, type: "float", default: 0, min: 0, max: 1000, step: 1 },
       { key: "thinFilmIor", label: { zh: "折射率", en: "IOR" }, section: { zh: "薄膜", en: "Thin Film" }, type: "float", default: 1.33, min: 1, max: 4, step: 0.01 },
+    ],
+    settings: [
+      {
+        key: "distribution",
+        uiType: "select",
+        label: { zh: "分布", en: "Distribution" },
+        default: "multi_ggx",
+        options: [
+          { value: "ggx", label: { zh: "GGX", en: "GGX" } },
+          { value: "multi_ggx", label: { zh: "多重散射 GGX", en: "Multiscatter GGX" } },
+        ],
+      },
+      {
+        key: "subsurfaceMethod",
+        uiType: "select",
+        label: { zh: "次表面方法", en: "Subsurface Method" },
+        default: "random_walk",
+        options: [
+          { value: "burley", label: { zh: "Christensen-Burley", en: "Christensen-Burley" } },
+          { value: "random_walk", label: { zh: "隨機行走", en: "Random Walk" } },
+          { value: "random_walk_skin", label: { zh: "隨機漫步 (皮膚)", en: "Random Walk (Skin)" } },
+          { value: "random_walk_legacy", label: { zh: "Random Walk (Legacy)", en: "Random Walk (Legacy)" } },
+        ],
+      },
     ],
     outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
         ctx.line(`normal = normalize(${ins.normal});`);
         const fresnel = ctx.freshVar("sssFresnel");
-        ctx.line(`float ${fresnel} = bml_fresnel(normalize(vNormal), max(${ins.subsurfaceIor}, 1.001));`);
+        ctx.line(`float ${fresnel} = bml_fresnel(normalize(vNormal), 1.4);`);
         const subsurface = ctx.freshVar("sssGlow");
         ctx.line(`vec3 ${subsurface} = (${ins.baseColor}).rgb * max(${ins.subsurfaceRadius}, vec3(0.0)) * clamp(${ins.subsurfaceScale}, 0.0, 10.0) * clamp(${ins.subsurfaceWeight}, 0.0, 1.0) * mix(1.0 - ${fresnel}, 1.0, clamp(${ins.subsurfaceAnisotropy}, 0.0, 1.0)) * (${ins.thinWall} ? 0.0 : 0.45);`);
         const v = ctx.freshVar("bsdf");
@@ -71,7 +94,7 @@ export default [
         ctx.line(`${v}.sheenColor = (${ins.sheenTint}).rgb * clamp(${ins.sheenWeight}, 0.0, 1.0);`);
         ctx.line(`${v}.sheenRoughness = clamp(${ins.sheenRoughness}, 0.035, 1.0);`);
         ctx.line(`${v}.anisotropy = abs(clamp(${ins.anisotropy}, -1.0, 1.0));`);
-        ctx.line(`${v}.anisotropyRotation = fract(clamp(${ins.anisotropyRotation}, 0.0, 1.0) + atan((${ins.tangent}).y, (${ins.tangent}).x) / 6.28318530718 + (${ins.anisotropy} < 0.0 ? 0.25 : 0.0));`);
+        ctx.line(`${v}.anisotropyRotation = fract(clamp(${ins.anisotropyRotation}, 0.0, 1.0) + (length((${ins.tangent}).xy) > 0.00001 ? atan((${ins.tangent}).y, (${ins.tangent}).x) / 6.28318530718 : 0.0) + (${ins.anisotropy} < 0.0 ? 0.25 : 0.0));`);
         ctx.line(`${v}.specularIorLevel = clamp(${ins.specularIorLevel}, 0.0, 1.0);`);
         ctx.line(`${v}.specularTint = (${ins.specularTint}).rgb;`);
         ctx.line(`${v}.thinFilmWeight = step(0.001, ${ins.thinFilmThickness});`);
@@ -126,15 +149,32 @@ export default [
     supported: true,
     inputs: [
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color", default: [0.8, 0.8, 0.8, 1] },
-      { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 0.1, min: 0, max: 1, step: 0.01 },
+      { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "anisotropy", label: { zh: "非等向性", en: "Anisotropy" }, type: "float", default: 0, min: -1, max: 1, step: 0.01 },
+      { key: "rotation", label: { zh: "旋轉", en: "Rotation" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
+      { key: "tangent", label: { zh: "切線", en: "Tangent" }, type: "vector", default: [0, 0, 0] },
     ],
+    settings: [{
+      key: "distribution",
+      uiType: "select",
+      label: { zh: "分布", en: "Distribution" },
+      default: "multi_ggx",
+      options: [
+        { value: "beckmann", label: { zh: "貝克曼", en: "Beckmann" } },
+        { value: "ggx", label: { zh: "GGX", en: "GGX" } },
+        { value: "ashikhmin_shirley", label: { zh: "阿席克敏-雪莉", en: "Ashikhmin-Shirley" } },
+        { value: "multi_ggx", label: { zh: "多重散射 GGX", en: "Multiscatter GGX" } },
+      ],
+    }],
     outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
         ctx.line(`normal = normalize(${ins.normal});`);
         const v = ctx.freshVar("bsdf");
         ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 1.0, vec3(0.0), 1.0);`);
+        ctx.line(`${v}.anisotropy = abs(clamp(${ins.anisotropy}, -1.0, 1.0));`);
+        ctx.line(`${v}.anisotropyRotation = fract(${ins.rotation} + (length((${ins.tangent}).xy) > 0.00001 ? atan((${ins.tangent}).y, (${ins.tangent}).x) / 6.28318530718 : 0.0) + (${ins.anisotropy} < 0.0 ? 0.25 : 0.0));`);
         return { bsdf: v };
       },
     },
@@ -157,7 +197,7 @@ export default [
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color", default: [1, 1, 1, 1] },
       { key: "strength", label: { zh: "強度", en: "Strength" }, type: "float", default: 1, min: 0, max: 50, step: 0.1 },
     ],
-    outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
+    outputs: [{ key: "bsdf", label: { zh: "發光", en: "Emission" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
         const v = ctx.freshVar("bsdf");
@@ -205,7 +245,7 @@ export default [
     },
     supported: true,
     inputs: [
-      { key: "fac", label: { zh: "Fac", en: "Fac" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "fac", label: { zh: "係數", en: "Factor" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
       { key: "shader1", label: { zh: "著色器", en: "Shader" }, type: "shader", default: null },
       { key: "shader2", label: { zh: "著色器", en: "Shader" }, type: "shader", default: null },
     ],
@@ -221,7 +261,7 @@ export default [
   {
     id: "shader_add_shader",
     category: "shader",
-    name: { zh: "加法著色器", en: "Add Shader" },
+    name: { zh: "新增著色器", en: "Add Shader" },
     summary: { zh: "把兩個材質的光線效果直接相加（不是平均）。", en: "Adds two shaders' light contribution together (not averaged)." },
     docBeginner: {
       zh: "Add Shader 跟 Mix Shader 很像，但沒有 Fac 比例——兩個輸入會直接疊加，常用來疊加一層額外的反射或發光效果在原本材質上。",
@@ -262,17 +302,37 @@ export default [
     inputs: [
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color", default: [1, 1, 1, 1] },
       { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 0.0, min: 0, max: 1, step: 0.01 },
-      { key: "ior", label: { zh: "IOR", en: "IOR" }, type: "float", default: 1.45, min: 1, max: 3, step: 0.01 },
+      { key: "ior", label: { zh: "IOR", en: "IOR" }, type: "float", default: 1.5, min: 1, max: 3, step: 0.01 },
+      { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
+      { key: "thinFilmThickness", label: { zh: "薄膜厚度", en: "Thin Film Thickness" }, type: "float", default: 0, min: 0, max: 1000, step: 1 },
+      { key: "thinFilmIor", label: { zh: "薄膜 IOR", en: "Thin Film IOR" }, type: "float", default: 1.33, min: 1, max: 4, step: 0.01 },
     ],
+    settings: [{
+      key: "distribution",
+      uiType: "select",
+      label: { zh: "分布", en: "Distribution" },
+      default: "multi_ggx",
+      options: [
+        { value: "beckmann", label: { zh: "貝克曼", en: "Beckmann" } },
+        { value: "ggx", label: { zh: "GGX", en: "GGX" } },
+        { value: "multi_ggx", label: { zh: "多重散射 GGX", en: "Multiscatter GGX" } },
+      ],
+    }],
     outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
         const fres = ctx.freshVar("gfres");
-        ctx.line(`float ${fres} = bml_fresnel(normalize(vNormal), max(${ins.ior}, 1.001));`);
+        ctx.line(`normal = normalize(${ins.normal});`);
+        ctx.line(`float ${fres} = bml_fresnel(normalize(${ins.normal}), max(${ins.ior}, 1.001));`);
         const alpha = ctx.freshVar("galpha");
         ctx.line(`float ${alpha} = clamp(0.06 + ${fres} * 0.9, 0.0, 1.0);`);
         const v = ctx.freshVar("bsdf");
         ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 0.0, vec3(0.0), ${alpha});`);
+        ctx.line(`${v}.ior = clamp(${ins.ior}, 1.0, 4.0);`);
+        ctx.line(`${v}.transmission = 1.0;`);
+        ctx.line(`${v}.thinFilmWeight = step(0.001, ${ins.thinFilmThickness});`);
+        ctx.line(`${v}.thinFilmIor = clamp(${ins.thinFilmIor}, 1.0, 4.0);`);
+        ctx.line(`${v}.thinFilmThickness = clamp(${ins.thinFilmThickness}, 0.0, 1000.0);`);
         return { bsdf: v };
       },
     },
@@ -298,7 +358,7 @@ export default [
   {
     id: "shader_translucent_bsdf",
     category: "shader",
-    name: { zh: "半透射 BSDF", en: "Translucent BSDF" },
+    name: { zh: "半透明 BSDF", en: "Translucent BSDF" },
     summary: { zh: "讓光從背面透過來，像葉子、紙張透光的感覺。", en: "Lets light pass through from the back — like light shining through a leaf or paper." },
     docBeginner: { zh: "常跟 Diffuse BSDF 用 Mix Shader 混合，模擬光線穿透薄物體背面的效果。", en: "Often mixed with Diffuse BSDF via Mix Shader to simulate light passing through thin objects." },
     docPro: {
@@ -337,20 +397,37 @@ export default [
     supported: true,
     inputs: [
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color", default: [0.8, 0.8, 0.8, 1] },
-      { key: "scale", label: { zh: "散射範圍", en: "Scale" }, type: "float", default: 0.05, min: 0, max: 2, step: 0.01 },
-      { key: "radius", label: { zh: "各色道半徑", en: "Radius" }, type: "vector", default: [1, 0.4, 0.25] },
+      { key: "scale", label: { zh: "縮放", en: "Scale" }, type: "float", default: 0.005, min: 0, max: 2, step: 0.001 },
+      { key: "radius", label: { zh: "半徑", en: "Radius" }, type: "vector", default: [1, 0.2, 0.1] },
+      { key: "ior", label: { zh: "IOR", en: "IOR" }, type: "float", default: 1.4, min: 1, max: 4, step: 0.01 },
+      { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
+      { key: "anisotropy", label: { zh: "非等向性", en: "Anisotropy" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
     ],
-    outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
+    settings: [{
+      key: "method",
+      uiType: "select",
+      label: { zh: "方法", en: "Method" },
+      default: "random_walk",
+      options: [
+        { value: "burley", label: { zh: "Christensen-Burley", en: "Christensen-Burley" } },
+        { value: "random_walk", label: { zh: "隨機行走", en: "Random Walk" } },
+        { value: "random_walk_skin", label: { zh: "隨機漫步 (皮膚)", en: "Random Walk (Skin)" } },
+        { value: "random_walk_legacy", label: { zh: "Random Walk (Legacy)", en: "Random Walk (Legacy)" } },
+      ],
+    }],
+    outputs: [{ key: "bsdf", label: { zh: "BSSRDF", en: "BSSRDF" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
         const fres = ctx.freshVar("sssFres");
-        ctx.line(`float ${fres} = bml_fresnel(normalize(vNormal), 1.3);`);
+        ctx.line(`normal = normalize(${ins.normal});`);
+        ctx.line(`float ${fres} = bml_fresnel(normalize(${ins.normal}), max(${ins.ior}, 1.001));`);
         const radius = ctx.freshVar("sssRadius");
         ctx.line(`vec3 ${radius} = clamp(${ins.radius}, 0.0, 5.0);`);
         const glow = ctx.freshVar("sssGlow");
-        ctx.line(`vec3 ${glow} = (${ins.color}).rgb * ${radius} * ${fres} * ${ins.scale} * 4.0;`);
+        ctx.line(`vec3 ${glow} = (${ins.color}).rgb * ${radius} * ${fres} * ${ins.scale} * 4.0 * mix(1.0, 1.5, clamp(${ins.anisotropy}, 0.0, 1.0));`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, 0.85, 0.0, ${glow}, 1.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 0.0, ${glow}, 1.0);`);
         return { bsdf: v };
       },
     },
@@ -358,7 +435,7 @@ export default [
   {
     id: "shader_sheen_bsdf",
     category: "shader",
-    name: { zh: "絨光 BSDF", en: "Sheen BSDF" },
+    name: { zh: "光澤 BSDF", en: "Sheen BSDF" },
     summary: { zh: "布料邊緣逆光時的微光，做絨布、天鵝絨質感。", en: "The faint edge glow seen on backlit fabric — for velvet and cloth." },
     docBeginner: { zh: "單獨使用效果不明顯，通常混合進 Principled BSDF 的材質裡，讓布料邊緣多一點絨毛感的反光。", en: "Subtle on its own — usually blended into a Principled BSDF material to add a fuzzy edge highlight to fabric." },
     docPro: {
@@ -369,14 +446,26 @@ export default [
     inputs: [
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color", default: [1, 1, 1, 1] },
       { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
     ],
+    settings: [{
+      key: "distribution",
+      uiType: "select",
+      label: { zh: "分布", en: "Distribution" },
+      default: "microfiber",
+      options: [
+        { value: "ashikhmin", label: { zh: "阿席克敏", en: "Ashikhmin" } },
+        { value: "microfiber", label: { zh: "微纖維", en: "Microfiber" } },
+      ],
+    }],
     outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
         const ior = ctx.freshVar("sheenIor");
         ctx.line(`float ${ior} = mix(1.05, 3.0, clamp(${ins.roughness}, 0.0, 1.0));`);
         const fres = ctx.freshVar("sheenFres");
-        ctx.line(`float ${fres} = bml_fresnel(normalize(vNormal), ${ior});`);
+        ctx.line(`normal = normalize(${ins.normal});`);
+        ctx.line(`float ${fres} = bml_fresnel(normalize(${ins.normal}), ${ior});`);
         const glow = ctx.freshVar("sheenGlow");
         ctx.line(`vec3 ${glow} = (${ins.color}).rgb * ${fres} * 0.6;`);
         const v = ctx.freshVar("bsdf");
@@ -388,7 +477,7 @@ export default [
   {
     id: "shader_holdout",
     category: "shader",
-    name: { zh: "遮罩", en: "Holdout" },
+    name: { zh: "鉗制", en: "Holdout" },
     summary: { zh: "讓物體在畫面中變成完全透明的「洞」，只用在合成流程。", en: "Makes an object a fully transparent 'hole' in the render — used only for compositing." },
     docBeginner: { zh: "Holdout 會讓物體不出現在畫面裡（但仍然遮住背後的東西），常用在需要把 3D 物件疊加到真實影片上的合成工作。", en: "Holdout makes an object invisible in the render (while still occluding what's behind it) — used when compositing 3D objects onto real footage." },
     docPro: { zh: "這是合成（compositing）專用的概念，跟材質外觀無關，本學習網站以材質為主，此節點僅列文件。", en: "This is a compositing-only concept unrelated to material appearance. Since this site focuses on materials, it's documented but not interactive." },
@@ -411,14 +500,28 @@ export default [
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color", default: [1, 1, 1, 1] },
       { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "ior", label: { zh: "IOR", en: "IOR" }, type: "float", default: 1.45, min: 1, max: 3, step: 0.01 },
+      { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
     ],
+    settings: [{
+      key: "distribution",
+      uiType: "select",
+      label: { zh: "分布", en: "Distribution" },
+      default: "beckmann",
+      options: [
+        { value: "beckmann", label: { zh: "貝克曼", en: "Beckmann" } },
+        { value: "ggx", label: { zh: "GGX", en: "GGX" } },
+      ],
+    }],
     outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
+        ctx.line(`normal = normalize(${ins.normal});`);
         const alpha = ctx.freshVar("refrAlpha");
         ctx.line(`float ${alpha} = clamp(0.05 + (${ins.roughness}) * 0.35, 0.0, 1.0);`);
         const v = ctx.freshVar("bsdf");
         ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 0.0, vec3(0.0), ${alpha});`);
+        ctx.line(`${v}.ior = clamp(${ins.ior}, 1.0, 4.0);`);
+        ctx.line(`${v}.transmission = 1.0;`);
         return { bsdf: v };
       },
     },
@@ -455,7 +558,7 @@ export default [
   {
     id: "shader_principled_volume",
     category: "shader",
-    name: { zh: "原理化體積", en: "Principled Volume" },
+    name: { zh: "原則化容體", en: "Principled Volume" },
     summary: { zh: "萬用體積材質，一個節點做出火焰、煙霧等體積效果。", en: "The all-in-one volume shader for fire, smoke, and other volumetric effects." },
     docBeginner: { zh: "常搭配 Blender 的煙霧/火焰模擬使用，透過密度、顏色、發光等屬性一次描述整團體積的樣子。", en: "Commonly paired with Blender's smoke/fire simulation, describing an entire volume's look via density, color, and emission." },
     docPro: { zh: "體積模擬與 ray marching 超出本網站『材質節點』的教學範圍與即時預覽能力，先列文件供查閱。", en: "Volume simulation and ray marching are beyond this site's material-node teaching scope and live-preview capability. Documentation only." },
@@ -484,7 +587,7 @@ export default [
   {
     id: "shader_principled_hair_bsdf",
     category: "shader",
-    name: { zh: "原理化毛髮 BSDF", en: "Principled Hair BSDF" },
+    name: { zh: "Principled Hair BSDF", en: "Principled Hair BSDF" },
     summary: { zh: "萬用毛髮材質，用色素濃度取代直接指定顏色，更接近真實毛髮。", en: "The all-in-one hair shader — uses pigment concentration instead of a direct color, closer to real hair." },
     docBeginner: { zh: "做角色頭髮/毛皮時的首選節點，比 Hair BSDF 多了更符合直覺的參數（例如粗細、色素）。", en: "The go-to node for character hair/fur — offers more intuitive parameters than Hair BSDF (like thickness and pigment)." },
     docPro: { zh: "同樣需要毛髮幾何與切線資料，本沙盒暫不支援，先列文件。", en: "Also requires hair geometry and tangent data, not yet supported by this sandbox. Documentation only." },

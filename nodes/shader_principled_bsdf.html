@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>原理化 BSDF · Blender 5.2 LTS 節點百科</title>
+<title>原則化 BSDF · Blender 5.2 LTS 節點百科</title>
 <meta name="description" content="以 Blender 5.2 LTS OpenPBR 架構為準的萬用材質節點。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="原理化 BSDF · Blender 5.2 LTS 節點百科" />
+<meta property="og:title" content="原則化 BSDF · Blender 5.2 LTS 節點百科" />
 <meta property="og:description" content="以 Blender 5.2 LTS OpenPBR 架構為準的萬用材質節點。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_principled_bsdf.html" />
@@ -17,7 +17,7 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_principled_bsdf.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"原理化 BSDF","description":"以 Blender 5.2 LTS OpenPBR 架構為準的萬用材質節點。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_principled_bsdf.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"原則化 BSDF","description":"以 Blender 5.2 LTS OpenPBR 架構為準的萬用材質節點。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_principled_bsdf.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
@@ -29,7 +29,7 @@
   <main class="content-main">
 
     <div class="content-kicker">Blender 5.2 LTS 節點百科</div>
-    <h1>原理化 BSDF</h1>
+    <h1>原則化 BSDF</h1>
     <p class="content-lead">以 Blender 5.2 LTS OpenPBR 架構為準的萬用材質節點。</p>
     <div class="content-actions">
       <a class="content-primary" href="../sandbox.html?addNode=shader_principled_bsdf">在沙盒中試用</a>
@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>這是 Blender 5.2 LTS 新建材質時的主要表面節點。先從底色、金屬度與粗糙度開始；需要玻璃、車漆、布料或薄膜彩虹時，再使用透射、塗層、絨光與薄膜區塊。Thin Wall 適合紙張、葉片與窗片這類可視為零厚度的薄面。</p></section>
     <section><h2>進階說明</h2><p>輸入分組與名稱依 Blender 5.2 LTS／OpenPBR。Thin Wall 為 5.2 新增的布林輸入；Blender 將表面當作層狀鏡對、零厚度的薄片，此時次表面半徑與縮放不起作用。本預覽會切到零厚度透射並關閉次表面近似，但仍不是 Cycles 的完整光線追蹤。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr class="socket-section"><th colspan="3">基礎</th></tr><tr><td>IN</td><td>底色</td><td>color</td></tr><tr><td>IN</td><td>金屬度</td><td>float</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>折射率</td><td>float</td></tr><tr><td>IN</td><td>Alpha</td><td>float</td></tr><tr><td>IN</td><td>Thin Wall（薄壁）</td><td>bool</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr class="socket-section"><th colspan="3">漫射</th></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr class="socket-section"><th colspan="3">次表面</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr><td>IN</td><td>半徑</td><td>vector</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>折射率</td><td>float</td></tr><tr><td>IN</td><td>非等向性</td><td>float</td></tr><tr class="socket-section"><th colspan="3">鏡面反射</th></tr><tr><td>IN</td><td>IOR 等級</td><td>float</td></tr><tr><td>IN</td><td>染色</td><td>color</td></tr><tr><td>IN</td><td>非等向性</td><td>float</td></tr><tr><td>IN</td><td>非等向旋轉</td><td>float</td></tr><tr><td>IN</td><td>切線</td><td>vector</td></tr><tr class="socket-section"><th colspan="3">透射</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr class="socket-section"><th colspan="3">塗層</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>折射率</td><td>float</td></tr><tr><td>IN</td><td>染色</td><td>color</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr class="socket-section"><th colspan="3">絨光</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>染色</td><td>color</td></tr><tr class="socket-section"><th colspan="3">發光</th></tr><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>強度</td><td>float</td></tr><tr class="socket-section"><th colspan="3">薄膜</th></tr><tr><td>IN</td><td>厚度</td><td>float</td></tr><tr><td>IN</td><td>折射率</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr class="socket-section"><th colspan="3">基礎</th></tr><tr><td>IN</td><td>底色</td><td>color</td></tr><tr><td>IN</td><td>金屬度</td><td>float</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>折射率</td><td>float</td></tr><tr><td>IN</td><td>Alpha</td><td>float</td></tr><tr><td>IN</td><td>Thin Wall（薄壁）</td><td>bool</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr class="socket-section"><th colspan="3">漫射</th></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr class="socket-section"><th colspan="3">次表面</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr><td>IN</td><td>半徑</td><td>vector</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>非等向性</td><td>float</td></tr><tr class="socket-section"><th colspan="3">鏡面反射</th></tr><tr><td>IN</td><td>IOR 等級</td><td>float</td></tr><tr><td>IN</td><td>染色</td><td>color</td></tr><tr><td>IN</td><td>非等向性</td><td>float</td></tr><tr><td>IN</td><td>非等向旋轉</td><td>float</td></tr><tr><td>IN</td><td>切線</td><td>vector</td></tr><tr class="socket-section"><th colspan="3">透射</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr class="socket-section"><th colspan="3">塗層</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>折射率</td><td>float</td></tr><tr><td>IN</td><td>染色</td><td>color</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr class="socket-section"><th colspan="3">絨光</th></tr><tr><td>IN</td><td>權重</td><td>float</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>染色</td><td>color</td></tr><tr class="socket-section"><th colspan="3">發光</th></tr><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>強度</td><td>float</td></tr><tr class="socket-section"><th colspan="3">薄膜</th></tr><tr><td>IN</td><td>厚度</td><td>float</td></tr><tr><td>IN</td><td>折射率</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

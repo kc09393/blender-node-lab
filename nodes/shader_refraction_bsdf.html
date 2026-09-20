@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>跟 Glass BSDF 很像，但完全沒有反光，適合用來理解『折射』跟『反射』是兩件獨立的事。</p></section>
     <section><h2>進階說明</h2><p>真正的折射彎曲需要對背景做逐光線取樣，本沙盒的即時預覽管線做不到（Glass BSDF 也一樣做不到真的彎曲，改用 Fresnel 驅動的透明度取代）。這個節點刻意用比 Glass 更簡化的方式實作，藉此凸顯兩者的概念差異：Glass BSDF＝反射＋折射依 Fresnel 混合（所以側邊角度會明顯變得更反光），Refraction BSDF＝只有純折射穿透、完全沒有反射分量，因此本沙盒讓它的透明度只取決於 Roughness（不像 Glass 那樣隨視角在邊緣變亮），比較兩者的即時預覽就能感受到「有沒有 Fresnel 反射」這個差異。**誠實記錄的簡化**：IOR 插槽在本沙盒沒有可見效果——沒有真的彎曲光線，IOR 便無事可做；保留這個插槽只是為了跟 Blender 介面一致、方便理解概念，不要誤以為調它會看到變化。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

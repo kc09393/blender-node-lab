@@ -43,7 +43,7 @@ export default [
   {
     id: "input_uv_map",
     category: "input",
-    name: { zh: "UV 貼圖", en: "UV Map" },
+    name: { zh: "UV 映射", en: "UV Map" },
     summary: { zh: "指定要用物體身上哪一組 UV 貼圖座標。", en: "Selects which UV map on the object to use." },
     docBeginner: { zh: "當一個物體有多組 UV（例如一組給貼圖、一組給光照烘焙）時，用這個節點指定要用哪一組。", en: "When an object has multiple UV maps (e.g. one for texturing, one for baked lighting), use this node to pick which one." },
     docPro: { zh: "本沙盒的預覽物件只有一組內建 UV，因此這個節點固定輸出跟 Texture Coordinate 的 UV 相同的座標。", en: "This sandbox's preview meshes only have one built-in UV set, so this node always outputs the same coordinate as Texture Coordinate's UV." },
@@ -59,7 +59,7 @@ export default [
   {
     id: "input_rgb",
     category: "input",
-    name: { zh: "RGB", en: "RGB" },
+    name: { zh: "色彩", en: "Color" },
     summary: { zh: "一個固定的顏色值，材質圖裡最基本的顏色來源。", en: "A fixed color value — the most basic color source in a material graph." },
     docBeginner: { zh: "點擊色塊選顏色，輸出就是這個顏色，可以接到任何顏色插槽。", en: "Click the swatch to pick a color; the output is exactly that color, ready to plug into any color socket." },
     docPro: { zh: "跟直接在某個節點的插槽上選色的差別在於：RGB 是獨立節點，同一個顏色值可以同時接到好幾個地方，之後改一次全部跟著變。", en: "Unlike picking a color directly on a socket, RGB is a standalone node — the same color value can feed multiple destinations, and changing it once updates them all." },
@@ -76,7 +76,7 @@ export default [
   {
     id: "input_value",
     category: "input",
-    name: { zh: "數值", en: "Value" },
+    name: { zh: "值", en: "Value" },
     summary: { zh: "一個固定的數值，材質圖裡最基本的數值來源。", en: "A fixed number — the most basic value source in a material graph." },
     docBeginner: { zh: "輸出一個你自訂的數字，可以接到任何數值插槽，例如共用同一個 Roughness 數值給好幾個材質分支。", en: "Outputs a number you set — plug it into any float socket, e.g. to share one Roughness value across several material branches." },
     docPro: { zh: "把常用數值抽成一個獨立的 Value 節點，之後要整體調整時只需要改一個地方，是材質圖整理的常見技巧。", en: "Extracting a commonly-used number into its own Value node means you only need to change it in one place later — a common material-graph organization technique." },
@@ -108,7 +108,7 @@ export default [
     inputs: [],
     outputs: [
       { key: "seconds", label: { zh: "秒數", en: "Seconds" }, type: "float" },
-      { key: "frames", label: { zh: "影格", en: "Frames" }, type: "float" },
+      { key: "frames", label: { zh: "影格", en: "Frame" }, type: "float" },
     ],
     glsl: {
       emit(ctx) {
@@ -134,12 +134,15 @@ export default [
       en: "The IOR socket controls how strong the edge effect is (higher = more pronounced). This sandbox computes it from the view direction and the geometric (pre-Bump) normal — a simplification; ideally it should use the final normal after Bump is applied.",
     },
     supported: true,
-    inputs: [{ key: "ior", label: { zh: "IOR", en: "IOR" }, type: "float", default: 1.45, min: 1, max: 3, step: 0.01 }],
-    outputs: [{ key: "fac", label: { zh: "係數", en: "Fac" }, type: "float" }],
+    inputs: [
+      { key: "ior", label: { zh: "IOR", en: "IOR" }, type: "float", default: 1.5, min: 1, max: 3, step: 0.01 },
+      { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
+    ],
+    outputs: [{ key: "fac", label: { zh: "係數", en: "Factor" }, type: "float" }],
     glsl: {
       emit(ctx, ins) {
         const v = ctx.freshVar("fresnel");
-        ctx.line(`float ${v} = bml_fresnel(normalize(vNormal), max(${ins.ior}, 1.001));`);
+        ctx.line(`float ${v} = bml_fresnel(normalize(${ins.normal}), max(${ins.ior}, 1.001));`);
         return { fac: v };
       },
     },
@@ -158,7 +161,10 @@ export default [
       en: "Common use: wire Layer Weight's Fresnel into a Mix Shader's Fac to layer a clearcoat/water-film gloss on top of a base material. Also uses the geometric (pre-Bump) normal — a simplification.",
     },
     supported: true,
-    inputs: [{ key: "blend", label: { zh: "Blend", en: "Blend" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 }],
+    inputs: [
+      { key: "blend", label: { zh: "Blend", en: "Blend" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
+    ],
     outputs: [
       { key: "fresnel", label: { zh: "Fresnel", en: "Fresnel" }, type: "float" },
       { key: "facing", label: { zh: "Facing", en: "Facing" }, type: "float" },
@@ -166,9 +172,9 @@ export default [
     glsl: {
       emit(ctx, ins) {
         const fresnel = ctx.freshVar("lwf");
-        ctx.line(`float ${fresnel} = bml_fresnel(normalize(vNormal), mix(1.01, 5.0, clamp(${ins.blend}, 0.0, 1.0)));`);
+        ctx.line(`float ${fresnel} = bml_fresnel(normalize(${ins.normal}), mix(1.01, 5.0, clamp(${ins.blend}, 0.0, 1.0)));`);
         const facing = ctx.freshVar("lwc");
-        ctx.line(`float ${facing} = 1.0 - abs(dot(normalize(vNormal), normalize(vViewPosition)));`);
+        ctx.line(`float ${facing} = 1.0 - abs(dot(normalize(${ins.normal}), normalize(vViewPosition)));`);
         return { fresnel, facing };
       },
     },
@@ -191,7 +197,7 @@ export default [
   {
     id: "input_geometry",
     category: "input",
-    name: { zh: "幾何資料", en: "Geometry" },
+    name: { zh: "幾何", en: "Geometry" },
     summary: { zh: "提供表面的位置、法線、切線等幾何資料。", en: "Provides surface position, normal, tangent, and other geometric data." },
     docBeginner: { zh: "Position、Normal 是最常用的兩個輸出，效果跟 Texture Coordinate 的 Object/Normal 類似。", en: "Position and Normal are the two most common outputs, similar in effect to Texture Coordinate's Object/Normal." },
     docPro: { zh: "Pointiness（邊緣/凹角偵測）、Random Per Island 等進階輸出需要網格拓樸分析，本沙盒的即時預覽管線沒有這一層資料，先整個節點列為文件參考；Position/Normal 可透過 Texture Coordinate 節點取得類似效果。", en: "Advanced outputs like Pointiness (edge/crevice detection) and Random Per Island need mesh topology analysis unavailable in this live-preview pipeline. The whole node is documented for reference; Position/Normal are available via the Texture Coordinate node instead." },
@@ -208,7 +214,7 @@ export default [
   {
     id: "input_camera_data",
     category: "input",
-    name: { zh: "攝影機資訊", en: "Camera Data" },
+    name: { zh: "攝影機資料", en: "Camera Data" },
     summary: { zh: "提供跟目前攝影機相關的向量與距離資訊。", en: "Provides vectors and distances relative to the current camera." },
     docBeginner: { zh: "View Z Depth 常用來做景深或距離霧化效果——離攝影機越遠，效果越明顯。", en: "View Z Depth is commonly used for depth-of-field or distance fog — the further from the camera, the stronger the effect." },
     docPro: { zh: "本沙盒的沙盒攝影機會隨使用者拖曳旋轉/縮放即時改變，這類節點在教學情境下容易讓人誤以為『材質本身變了』，先列文件、暫不即時預覽。", en: "This sandbox's camera changes live as the user drags to orbit/zoom, which could make learners mistakenly think 'the material itself changed'. Documentation only for now." },
@@ -223,7 +229,7 @@ export default [
   {
     id: "input_light_path",
     category: "input",
-    name: { zh: "光程", en: "Light Path" },
+    name: { zh: "燈光路徑", en: "Light Path" },
     summary: { zh: "判斷目前這道光線是反射、折射、陰影等哪一種路徑，只在路徑追蹤渲染器中有意義。", en: "Detects whether the current ray is a reflection, refraction, shadow ray, etc. — only meaningful in a path-traced renderer." },
     docBeginner: { zh: "常用來讓材質『只在被攝影機直接看到時』顯示某個效果、但反射中不顯示（例如讓某些效果不在鏡子倒影裡出現）。", en: "Often used to make a material show an effect only when directly seen by the camera, but not in reflections (e.g. hiding certain effects from mirror reflections)." },
     docPro: { zh: "這個節點的意義建立在『逐光線追蹤』的渲染架構上；本沙盒用的是即時光柵化（rasterization）預覽，沒有『這是第幾次反彈的光線』這個概念，先列文件。", en: "This node's meaning is built on a per-ray path-tracing architecture. This sandbox uses real-time rasterization, which has no concept of 'which bounce this ray is'. Documentation only." },
@@ -273,7 +279,7 @@ export default [
     supported: true,
     needsBarycentric: true,
     inputs: [{ key: "size", label: { zh: "粗細", en: "Size" }, type: "float", default: 0.01, min: 0, max: 0.5 }],
-    outputs: [{ key: "fac", label: { zh: "係數", en: "Fac" }, type: "float" }],
+    outputs: [{ key: "fac", label: { zh: "係數", en: "Factor" }, type: "float" }],
     glsl: {
       emit(ctx, ins) {
         const v = ctx.freshVar("wire");
@@ -285,7 +291,7 @@ export default [
   {
     id: "input_attribute",
     category: "input",
-    name: { zh: "屬性", en: "Attribute" },
+    name: { zh: "特性", en: "Attribute" },
     summary: { zh: "讀取物體上自訂的頂點/面/實例屬性資料。", en: "Reads custom vertex/face/instance attribute data stored on the object." },
     docBeginner: { zh: "適合進階使用者：當你在 Geometry Nodes 或頂點群組裡存了自訂資料（例如每個頂點的濕度值），可以用這個節點在材質裡讀出來。", en: "For advanced users: if you've stored custom data via Geometry Nodes or vertex groups (like a per-vertex wetness value), this node reads it into your material." },
     docPro: { zh: "需要對應到本沙盒沒有的自訂頂點屬性資料，先列文件參考。", en: "Requires custom vertex attribute data that this sandbox doesn't have. Documentation only." },

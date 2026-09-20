@@ -37,7 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Glossy BSDF only models reflection — no scattered base color like Diffuse BSDF. Roughness controls how sharp the reflection is (0 = mirror-clear, 1 = blurry/frosted). Often mixed with Diffuse BSDF via Mix Shader to create a &#39;mostly plastic, glossy at the edges&#39; car-paint look.</p></section>
     <section><h2>Technical notes</h2><p>This sandbox implements Glossy BSDF as metallic=1 (pure reflection, base color tints the reflection). This isn&#39;t identical to Blender&#39;s actual GGX microfacet model, but is enough to teach the &#39;pure reflection vs. pure diffuse&#39; distinction.</p></section>
-    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Roughness</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Roughness</td><td>float</td></tr><tr><td>IN</td><td>Anisotropy</td><td>float</td></tr><tr><td>IN</td><td>Rotation</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>IN</td><td>Tangent</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

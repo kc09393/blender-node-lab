@@ -6,7 +6,7 @@ export default [
   {
     id: "converter_math",
     category: "converter",
-    name: { zh: "數學", en: "Math" },
+    name: { zh: "數學公式", en: "Math" },
     summary: { zh: "對兩個數值做加減乘除等運算，是最基礎的數值調整工具。", en: "Performs arithmetic on two float values — the most basic numeric utility node." },
     docBeginner: {
       zh: "Math 節點就是計算機：選擇一種運算（Add/Subtract/Multiply...），輸入數值，輸出結果。常用來把某個節點的輸出「乘一個倍率」或「加一點偏移」後再接到下一個節點。",
@@ -135,7 +135,7 @@ export default [
   {
     id: "converter_color_ramp",
     category: "converter",
-    name: { zh: "顏色漸變", en: "Color Ramp" },
+    name: { zh: "色彩漸變", en: "Color Ramp" },
     summary: { zh: "把一個 0-1 的數值對應成漸層顏色，很適合接在 Noise/Fresnel 後面上色。", en: "Maps a 0-1 value to a color gradient — great after Noise or Fresnel for coloring." },
     docBeginner: {
       zh: "Color Ramp 接收一個數值（Fac），依它的大小在幾個顏色停駐點（stop）之間做漸層混合：數值落在哪兩個停駐點之間，就在那兩個顏色間過渡。點漸層條下方的「+」可以新增停駐點、拖曳位置數字調整它在漸層上的位置、點 × 可以刪除（至少要留 2 個）。常接在 Noise Texture 後面把黑白雜訊變成想要的配色。",
@@ -221,7 +221,7 @@ export default [
   {
     id: "converter_clamp",
     category: "converter",
-    name: { zh: "夾值", en: "Clamp" },
+    name: { zh: "限定", en: "Clamp" },
     summary: { zh: "把數值限制在指定的最小/最大範圍內，避免數值跑出合理區間。", en: "Restricts a value to a min/max range, keeping it inside a sensible bound." },
     docBeginner: {
       zh: "很多插槽（例如 Roughness）本來就只接受 0-1，但接上其他運算後可能超出範圍。Clamp 可以強制把數值夾回你要的範圍內。",
@@ -324,7 +324,7 @@ export default [
   {
     id: "converter_combine_xyz",
     category: "converter",
-    name: { zh: "合併 XYZ", en: "Combine XYZ" },
+    name: { zh: "合成 XYZ", en: "Combine XYZ" },
     summary: { zh: "把三個獨立的數值合併成一個向量。", en: "Combines three separate values into a single vector." },
     docBeginner: { zh: "當你需要用三個 Math 節點分別算出 X、Y、Z 再組成一個座標/方向時，就用這個節點把它們接在一起。", en: "When you've computed X, Y, Z separately (e.g. via Math nodes) and need to combine them into one coordinate/direction, this node joins them." },
     docPro: { zh: "跟 Separate XYZ 互為反向操作。", en: "The inverse operation of Separate XYZ." },
@@ -370,7 +370,7 @@ export default [
   {
     id: "converter_combine_color",
     category: "converter",
-    name: { zh: "合併顏色", en: "Combine Color" },
+    name: { zh: "合成色彩", en: "Combine Color" },
     summary: { zh: "把三個（或四個）數值依指定色彩空間合併成一個顏色。", en: "Combines three (or four) values into a single color, interpreted in the chosen color space." },
     docBeginner: { zh: "跟 Combine XYZ 概念一樣，只是合併出來的是顏色而不是座標。模式選 RGB 就是直接給紅/綠/藍；選 HSV/HSL 則是給色相/飽和度/明度（或亮度），節點會自動幫你轉成最終顏色。", en: "Same concept as Combine XYZ, but the result is a color instead of a coordinate. Pick RGB to feed red/green/blue directly, or HSV/HSL to feed hue/saturation/value(or lightness) — the node converts it to a final color for you." },
     docPro: { zh: "模式（Mode）有 3 種，跟 Blender 一致：RGB（直接組出紅/綠/藍）、HSV、HSL。切換模式時前三個輸入的意義會跟著變（R/G/B ↔ H/S/V ↔ H/S/L），對應 Blender 節點本身的行為；HSV/HSL 轉 RGB 的公式跟 Color Ramp（`js/core/colorRampUtil.js`）用同一套定義。", en: "Mode has 3 options matching Blender: RGB (compose red/green/blue directly), HSV, and HSL. Switching mode changes what the first three inputs mean (R/G/B ↔ H/S/V ↔ H/S/L), matching Blender's own node behavior; the HSV/HSL-to-RGB formulas are the same ones used by Color Ramp (`js/core/colorRampUtil.js`)." },
@@ -447,7 +447,7 @@ export default [
   {
     id: "converter_separate_color",
     category: "converter",
-    name: { zh: "分離顏色", en: "Separate Color" },
+    name: { zh: "分離色彩", en: "Separate Color" },
     summary: { zh: "把一個顏色依指定色彩空間拆成三個（或四個）獨立的數值。", en: "Splits a color into three (or four) separate values, in the chosen color space." },
     docBeginner: { zh: "想單獨處理某個色版（例如只提高紅色）時，先用這個節點拆開再各自調整、最後可以用 Combine Color 接回去。模式選 HSV/HSL 則會拆成色相/飽和度/明度（或亮度），適合只想調整彩度或明暗但不改變色相的情況。", en: "When you want to process a single channel (e.g. boost only red), split it apart with this node, adjust, and rejoin with Combine Color. Choosing HSV/HSL instead splits into hue/saturation/value(or lightness) — handy when you want to adjust brightness or saturation without touching hue." },
     docPro: { zh: "模式（Mode）有 3 種，跟 Blender 一致：RGB、HSV、HSL。切換模式時前三個輸出的意義會跟著變（R/G/B ↔ H/S/V ↔ H/S/L）；RGB 轉 HSV/HSL 的公式跟 Color Ramp（`js/core/colorRampUtil.js`）用同一套定義（互相校對過一致）。", en: "Mode has 3 options matching Blender: RGB, HSV, HSL. Switching mode changes what the first three outputs mean (R/G/B ↔ H/S/V ↔ H/S/L); the RGB-to-HSV/HSL formulas are the same ones used by Color Ramp (`js/core/colorRampUtil.js`), cross-checked for consistency." },
@@ -512,7 +512,7 @@ export default [
   {
     id: "converter_rgb_to_bw",
     category: "converter",
-    name: { zh: "RGB 轉黑白", en: "RGB to BW" },
+    name: { zh: "RGB 至黑白", en: "RGB to BW" },
     summary: { zh: "把彩色依人眼感知的亮度公式轉成一個灰階數值。", en: "Converts a color to a single grayscale value using a perceptual luminance formula." },
     docBeginner: { zh: "跟直接把三色平均不同，這裡用的是符合人眼感知的加權公式（綠色感覺比較亮，佔比較高）。", en: "Unlike simply averaging the three channels, this uses a perceptually-weighted formula (green feels brighter to the eye, so it's weighted more)." },
     docPro: { zh: "公式為 dot(rgb, vec3(0.2126, 0.7152, 0.0722))，跟本網站型別系統裡 color→float 的隱式轉換公式完全一致。", en: "Uses dot(rgb, vec3(0.2126, 0.7152, 0.0722)) — identical to this site's color→float implicit conversion formula." },
@@ -569,7 +569,7 @@ export default [
   {
     id: "converter_float_curve",
     category: "converter",
-    name: { zh: "數值曲線", en: "Float Curve" },
+    name: { zh: "浮點曲線", en: "Float Curve" },
     summary: { zh: "用可拖拉的曲線把一個數值重新對應成另一個數值。", en: "Uses a draggable curve to remap one value into another." },
     docBeginner: { zh: "比 Map Range 更自由：可以做出非線性、S 型、甚至來回震盪的對應關係。", en: "More flexible than Map Range — it can create nonlinear, S-curve, or even oscillating mappings." },
     docPro: { zh: "已補上可拖拉控制點的曲線編輯器（節點卡片上直接拖拉，或用旁邊的數值輸入精確調整）。曲線本身用平滑的 Cardinal（Catmull-Rom 風格）三次多項式逐段穿過每個控制點，跟 Blender 曲線部件的預設平滑手把（Auto Handle）效果一致，不是生硬的逐段直線；跟 Blender 一樣，控制點之間可能會輕微 overshoot 出範圍外，這是平滑曲線正常的行為。差異：本沙盒沒有 Blender「每個控制點可以個別切成 Vector（尖角）手把」的功能，全部控制點都套用同一種平滑演算法。", en: "Now has a draggable curve editor (drag control points directly on the node card, or use the adjacent numeric inputs for precision). The curve itself is a smooth Cardinal (Catmull-Rom-style) cubic that passes through every control point, matching Blender's default smooth (Auto Handle) look rather than a stiff piecewise-straight line; like Blender, it may slightly overshoot the range between points — that's normal smooth-curve behavior. Difference: this sandbox doesn't support Blender's per-point 'Vector' (sharp corner) handle type — every control point uses the same smoothing." },

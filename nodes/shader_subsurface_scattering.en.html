@@ -37,7 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Without subsurface scattering, skin looks plasticky. This node lets edges (like a backlit ear or nose) glow faintly red.</p></section>
     <section><h2>Technical notes</h2><p>Real SSS needs multi-sample blurring beneath the surface (screen-space or a Burley diffusion profile) — a full ray-tracing/post-process job. This sandbox uses a simplified approximation instead: a Fresnel term drives an edge-tinted glow using the Radius vector&#39;s R/G/B ratios (the default has red traveling further than blue, which is why backlit ears/noses glow reddish), scaled by Scale. It isn&#39;t true subsurface diffusion, but the direction and look are right.</p></section>
-    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Radius</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Radius</td><td>vector</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>IN</td><td>Roughness</td><td>float</td></tr><tr><td>IN</td><td>Anisotropy</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>BSSRDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

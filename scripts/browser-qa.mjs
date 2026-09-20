@@ -32,7 +32,9 @@ try {
   await page.goto(`http://127.0.0.1:${port}/dev-regression-test.html`, { waitUntil: "networkidle" });
   await page.waitForFunction(() => document.querySelector(".stat.err b")?.textContent === "0", null, { timeout: 30000 });
   const summary = await page.locator("#summary").innerText();
-  if (!summary.includes("186")) errors.push(`unexpected regression total: ${summary}`);
+  const regressionRows = await page.locator("#rows tr").count();
+  const reportedTotal = Number(await page.locator("#summary .stat").last().locator("b").textContent());
+  if (regressionRows < 187 || reportedTotal !== regressionRows) errors.push(`unexpected regression total: ${summary}`);
 
   await page.goto(`http://127.0.0.1:${port}/tutorials.html`, { waitUntil: "networkidle" });
   await page.waitForSelector(".skill-row");

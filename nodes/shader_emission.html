@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Emission 節點會讓材質本身發光，不受場景光源影響。Color 決定發光顏色，Strength 決定亮度，數值越大越亮（也越容易過曝變全白）。</p></section>
     <section><h2>進階說明</h2><p>在真實的 Cycles 渲染中，Emission 節點的物體本身可以照亮其他物體（成為光源）；本沙盒的即時預覽只把它當作自發光（emissive）顯示，不會反過來照亮場景中其他表面。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>強度</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>強度</td><td>float</td></tr><tr><td>OUT</td><td>發光</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

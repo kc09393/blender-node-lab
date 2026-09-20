@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Glossy BSDF 只描述「反射」，沒有 Diffuse BSDF 那種散射底色。Roughness 決定反射清不清晰（0 = 像鏡子一樣清楚、1 = 模糊霧面反光）。常常拿來跟 Diffuse BSDF 用 Mix Shader 混合，做出「大部分是塑膠、邊緣有一層光澤」的車漆效果。</p></section>
     <section><h2>進階說明</h2><p>本沙盒把 Glossy BSDF 實作成 metallic=1 的材質（純反射、底色只影響反射的顏色），這跟 Blender 實際使用的 GGX 微表面模型不完全相同，但在教學上足以呈現『純反射 vs 純散射』的差異。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>非等向性</td><td>float</td></tr><tr><td>IN</td><td>旋轉</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>IN</td><td>切線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

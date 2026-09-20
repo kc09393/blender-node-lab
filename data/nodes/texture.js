@@ -5,7 +5,7 @@ export default [
   {
     id: "texture_noise",
     category: "texture",
-    name: { zh: "雜訊紋理", en: "Noise Texture" },
+    name: { zh: "噪訊紋理", en: "Noise Texture" },
     summary: { zh: "程序化的隨機雜訊，常用來做粗糙度變化、凹凸、木紋等自然質感。", en: "Procedural random noise — great for varying roughness, bumps, wood grain, and other organic detail." },
     docBeginner: {
       zh: "Noise Texture 會依座標產生連續但看起來隨機的灰階/彩色圖案。Scale 越大，花紋看起來越密集。最常見用法：接到 Roughness 或 Bump 讓材質不要死板。",
@@ -82,7 +82,7 @@ export default [
   {
     id: "texture_white_noise",
     category: "texture",
-    name: { zh: "白噪波紋理", en: "White Noise Texture" },
+    name: { zh: "白噪訊紋理", en: "White Noise Texture" },
     summary: { zh: "完全隨機、沒有平滑過渡的雜訊，每個座標值都不相關。", en: "Fully random noise with no smooth transitions — every coordinate is unrelated to its neighbors." },
     docBeginner: {
       zh: "跟 Noise Texture 不同，White Noise 完全沒有平滑漸變，看起來就像電視雜訊。適合需要「完全隨機、不要有花紋規律」的場合，例如隨機挑選顏色。",
@@ -151,7 +151,7 @@ export default [
   {
     id: "texture_wave",
     category: "texture",
-    name: { zh: "波浪紋理", en: "Wave Texture" },
+    name: { zh: "波形紋理", en: "Wave Texture" },
     summary: { zh: "規律的條紋或環狀波紋，適合做木紋、水波、金屬拉絲。", en: "Regular bands or rings — good for wood grain, water ripples, brushed metal." },
     docBeginner: {
       zh: "Wave Texture 產生規律的明暗條紋。Distortion 可以讓條紋加入一點雜訊、變得不那麼死板規律，很適合模擬木紋的年輪。",
@@ -255,7 +255,7 @@ export default [
   {
     id: "texture_gradient",
     category: "texture",
-    name: { zh: "漸變紋理", en: "Gradient Texture" },
+    name: { zh: "漸層紋理", en: "Gradient Texture" },
     summary: { zh: "沿某個方向或形狀由黑到白的平滑漸層。", en: "A smooth black-to-white gradient along a direction or shape." },
     docBeginner: {
       zh: "最簡單的紋理節點：輸出從 0 到 1 平滑變化的灰階值，常接到 Color Ramp 做出漸層上色，或接到 Mix Shader 的 Fac 做出材質的漸變過渡。",
@@ -327,26 +327,42 @@ export default [
   {
     id: "texture_voronoi",
     category: "texture",
-    name: { zh: "沃羅諾伊紋理", en: "Voronoi Texture" },
+    name: { zh: "馮洛諾伊紋理", en: "Voronoi Texture" },
     summary: { zh: "自然的細胞/裂紋圖案，做石頭、龜裂地面、生物細胞紋理必備。", en: "Organic cell/crack patterns — essential for stone, cracked ground, and cellular textures." },
     docBeginner: {
       zh: "Voronoi 會把空間切成一塊塊不規則的『細胞』。Distance 輸出離最近細胞中心的距離（可以做出裂紋邊界），Color 輸出每個細胞一個隨機顏色（可以做出石頭的斑駁感）。",
       en: "Voronoi divides space into irregular 'cells'. Distance outputs how far you are from the nearest cell center (useful for crack-like edges), while Color gives each cell a random color (great for mottled stone).",
     },
     docPro: {
-      zh: "Randomness 是真的可調參數（0＝細胞中心退化成完美網格、1＝完全隨機跳動，Blender 預設 1）。特徵（Feature）跟距離度量（Distance Metric）現在都跟 Blender 一致：F1（離最近細胞多遠）、F2（離第二近細胞多遠）、平滑 F1（用平滑最小值把 F1/F2 融合，邊界更柔和）、到邊緣的距離（離兩個細胞交界處多遠，做裂縫特別適合）、N-球半徑（細胞點本身能塞進去、不跟鄰居重疊的最大球半徑，做圓潤的鵝卵石顆粒特別適合）；距離度量支援歐式（Euclidean，一般直線距離）、曼哈頓（Manhattan，只能走格線）、切比雪夫（Chebychev，取最大分量，切出方形細胞）、閔可夫斯基（Minkowski，用 Exponent 插槽的次方廣義化前面幾種——Exponent=1 等於曼哈頓、Exponent=2 等於歐式、Exponent 越大越接近切比雪夫）。Exponent 預設 0.5、範圍 0-32，跟 Blender 原始碼（`node_shader_tex_voronoi.cc`）的插槽定義一致；只有 Distance Metric 選 Minkowski 時才會用到。差異：平滑 F1 用 Smooth Min 對 F1/F2 做平滑（方向正確，但不是 Blender 內部真正逐點加權平滑的演算法）。",
-      en: "Randomness is genuinely adjustable (0 = cell centers collapse to a perfect grid, 1 = fully random jitter — Blender's default is 1). Feature and Distance Metric now both match Blender: F1 (distance to nearest cell), F2 (distance to second-nearest), Smooth F1 (blends F1/F2 with a smooth minimum for softer boundaries), Distance to Edge (distance to the boundary between two cells — great for cracks), N-Sphere Radius (the largest sphere a cell point fits without overlapping neighbors — great for rounded pebble grains); Distance Metric supports Euclidean (straight-line), Manhattan (grid-only movement), Chebychev (max component, carves square cells), and Minkowski (generalizes the others via the Exponent input — Exponent=1 equals Manhattan, Exponent=2 equals Euclidean, larger values approach Chebychev). Exponent defaults to 0.5 with range 0-32, matching Blender's source (`node_shader_tex_voronoi.cc`) socket definition; it only matters when Distance Metric is Minkowski. Difference: Smooth F1 approximates via Smooth Min on F1/F2 — directionally correct, but not Blender's true per-point weighted smoothing algorithm.",
+      zh: "插槽、輸出、維度、特徵與距離度量已依 Blender 5.2.2 補齊，N-球半徑使用獨立的 Radius 輸出，不再誤占 Distance。3D 的 F1／F2 與四種距離度量直接計算鄰近細胞；Detail、Roughness、Lacunarity 會逐層加入更細的細胞。誠實差異：本預覽的分形層混合、Smooth F1 與 4D 的 W 摺疊是即時近似，並非 Blender GPU 原始碼的逐點加權演算法；需要最終像素一致時仍應回 Blender 5.2.2 渲染。",
+      en: "Sockets, outputs, dimensions, features, and distance metrics now follow Blender 5.2.2, and N-Sphere Radius has its own Radius output instead of incorrectly replacing Distance. 3D F1/F2 and all four metrics search neighboring cells directly; Detail, Roughness, and Lacunarity add progressively finer cell layers. Honest difference: this preview's fractal blending, Smooth F1, and 4D W folding are real-time approximations rather than Blender GPU's per-point weighted algorithm; use Blender 5.2.2 when final pixel parity is required.",
     },
     supported: true,
     vertexSafe: true,
     inputs: [
       { key: "vector", label: { zh: "向量", en: "Vector" }, type: "vector", default: "UV" },
-      { key: "scale", label: { zh: "縮放", en: "Scale" }, type: "float", default: 5, min: 0.1, max: 50, step: 0.1 },
-      { key: "randomness", label: { zh: "隨機度", en: "Randomness" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
-      { key: "smoothness", label: { zh: "平滑度", en: "Smoothness" }, type: "float", default: 0.3, min: 0, max: 1, step: 0.01 },
+      { key: "w", label: { zh: "W", en: "W" }, type: "float", default: 0, step: 0.01 },
+      { key: "scale", label: { zh: "縮放", en: "Scale" }, type: "float", default: 5, min: -1000, max: 1000, step: 0.1 },
+      { key: "detail", label: { zh: "細節", en: "Detail" }, type: "float", default: 0, min: 0, max: 15, step: 0.1 },
+      { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "lacunarity", label: { zh: "疏密度", en: "Lacunarity" }, type: "float", default: 2, min: 0, max: 1000, step: 0.1 },
+      { key: "smoothness", label: { zh: "平滑度", en: "Smoothness" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
       { key: "exponent", label: { zh: "指數 Exponent", en: "Exponent" }, type: "float", default: 0.5, min: 0, max: 32, step: 0.1 },
+      { key: "randomness", label: { zh: "隨機度", en: "Randomness" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
     ],
     settings: [
+      {
+        key: "dimensions",
+        uiType: "select",
+        label: { zh: "維度", en: "Dimensions" },
+        default: "3d",
+        options: [
+          { value: "1d", label: { zh: "1D", en: "1D" } },
+          { value: "2d", label: { zh: "2D", en: "2D" } },
+          { value: "3d", label: { zh: "3D", en: "3D" } },
+          { value: "4d", label: { zh: "4D", en: "4D" } },
+        ],
+      },
       {
         key: "feature",
         uiType: "select",
@@ -377,11 +393,21 @@ export default [
       { key: "distance", label: { zh: "距離", en: "Distance" }, type: "float" },
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color" },
       { key: "position", label: { zh: "位置", en: "Position" }, type: "vector" },
+      { key: "w", label: { zh: "W", en: "W" }, type: "float" },
+      { key: "radius", label: { zh: "半徑", en: "Radius" }, type: "float" },
     ],
     glsl: {
       emit(ctx, ins, node) {
         const p = ctx.freshVar("p");
-        ctx.line(`vec3 ${p} = (${ins.vector}) * ${ins.scale};`);
+        const dimensions = node.params.dimensions || "3d";
+        const coordinate = dimensions === "1d"
+          ? `vec3((${ins.vector}).x, 0.0, 0.0)`
+          : dimensions === "2d"
+            ? `vec3((${ins.vector}).xy, 0.0)`
+            : dimensions === "4d"
+              ? `((${ins.vector}) + vec3(${ins.w}, ${ins.w} * 0.754877666, ${ins.w} * 0.569840296))`
+              : `(${ins.vector})`;
+        ctx.line(`vec3 ${p} = ${coordinate} * ${ins.scale};`);
         const metricIndex = { euclidean: 0, manhattan: 1, chebychev: 2, minkowski: 3 }[node.params.distanceMetric] ?? 0;
         const feature = node.params.feature || "f1";
 
@@ -392,6 +418,22 @@ export default [
         ctx.line(`float ${f1}, ${f2};`);
         ctx.line(`vec3 ${col}, ${pos};`);
         ctx.line(`bml_voronoiSearch(${p}, ${ins.randomness}, ${metricIndex}, ${ins.exponent}, ${f1}, ${col}, ${pos}, ${f2});`);
+        const amp = ctx.freshVar("vamp");
+        const freq = ctx.freshVar("vfreq");
+        const norm = ctx.freshVar("vnorm");
+        ctx.line(`float ${amp} = 1.0, ${freq} = 1.0, ${norm} = 1.0;`);
+        ctx.line(`for (int bml_vi = 1; bml_vi < 16; ++bml_vi) {`);
+        ctx.line(`  if (float(bml_vi) > clamp(${ins.detail}, 0.0, 15.0)) break;`);
+        ctx.line(`  ${amp} *= clamp(${ins.roughness}, 0.0, 1.0);`);
+        ctx.line(`  ${freq} *= max(${ins.lacunarity}, 0.0001);`);
+        ctx.line(`  float bml_vf1, bml_vf2; vec3 bml_vcol, bml_vpos;`);
+        ctx.line(`  bml_voronoiSearch(${p} * ${freq}, ${ins.randomness}, ${metricIndex}, ${ins.exponent}, bml_vf1, bml_vcol, bml_vpos, bml_vf2);`);
+        ctx.line(`  ${f1} += (bml_vf1 / ${freq}) * ${amp}; ${f2} += (bml_vf2 / ${freq}) * ${amp}; ${norm} += ${amp};`);
+        ctx.line(`}`);
+        ctx.line(`${f1} /= ${norm}; ${f2} /= ${norm};`);
+
+        const radius = ctx.freshVar("vradius");
+        ctx.line(`float ${radius} = bml_voronoiNSphereRadius(${pos}, ${ins.randomness}, ${metricIndex}, ${ins.exponent});`);
 
         const dist = ctx.freshVar("vdist");
         if (feature === "f2") {
@@ -401,18 +443,18 @@ export default [
         } else if (feature === "distance_to_edge") {
           ctx.line(`float ${dist} = (${f2} - ${f1}) * 0.5;`);
         } else if (feature === "n_sphere_radius") {
-          ctx.line(`float ${dist} = bml_voronoiNSphereRadius(${pos}, ${ins.randomness}, ${metricIndex}, ${ins.exponent});`);
+          ctx.line(`float ${dist} = ${f1};`);
         } else {
           ctx.line(`float ${dist} = ${f1};`);
         }
-        return { distance: dist, color: `vec4(${col}, 1.0)`, position: pos };
+        return { distance: dist, color: `vec4(${col}, 1.0)`, position: pos, w: `${pos}.x`, radius };
       },
     },
   },
   {
     id: "texture_magic",
     category: "texture",
-    name: { zh: "迷幻紋理", en: "Magic Texture" },
+    name: { zh: "魔法紋理", en: "Magic Texture" },
     summary: { zh: "鮮豔的萬花筒式抽象花紋，適合做特效或抽象材質。", en: "Vibrant, kaleidoscope-like abstract patterns — good for effects or stylized materials." },
     docBeginner: {
       zh: "Magic Texture 沒有明確對應的真實世界材質，比較像是一個『產生有趣抽象花紋』的紋理產生器，可以用 Distortion 調整花紋的複雜程度。",
@@ -427,14 +469,17 @@ export default [
     inputs: [
       { key: "vector", label: { zh: "向量", en: "Vector" }, type: "vector", default: "UV" },
       { key: "scale", label: { zh: "縮放", en: "Scale" }, type: "float", default: 5, min: 0.1, max: 50, step: 0.1 },
-      { key: "distortion", label: { zh: "扭曲", en: "Distortion" }, type: "float", default: 1.5, min: 0, max: 10, step: 0.1 },
+      { key: "distortion", label: { zh: "扭曲", en: "Distortion" }, type: "float", default: 1, min: -1000, max: 1000, step: 0.1 },
     ],
     settings: [{ key: "depth", uiType: "float", label: { zh: "疊代次數 Depth", en: "Depth" }, default: 2, min: 0, max: 10, step: 1 }],
-    outputs: [{ key: "color", label: { zh: "顏色", en: "Color" }, type: "color" }],
+    outputs: [
+      { key: "color", label: { zh: "顏色", en: "Color" }, type: "color" },
+      { key: "fac", label: { zh: "係數", en: "Factor" }, type: "float" },
+    ],
     glsl: {
       emit(ctx, ins, node) {
         const p = ctx.freshVar("p");
-        ctx.line(`vec3 ${p} = (${ins.vector}) * ${ins.scale};`);
+        ctx.line(`vec3 ${p} = mod((${ins.vector}) * ${ins.scale}, 6.28318530718);`);
         const depth = Math.max(0, Math.min(10, Math.round(node.params.depth ?? 2)));
         const d = `(${ins.distortion})`;
         const x = ctx.freshVar("mx");
@@ -448,47 +493,51 @@ export default [
         if (depth > 0) {
           ctx.line(`${x} *= ${d}; ${y} *= ${d}; ${z} *= ${d};`);
           ctx.line(`${y} = -cos(${x} - ${y} + ${z});`);
+          ctx.line(`${y} *= ${d};`);
         }
         if (depth > 1) {
-          ctx.line(`${y} *= ${d};`);
           ctx.line(`${x} = cos(${x} - ${y} - ${z});`);
+          ctx.line(`${x} *= ${d};`);
         }
         if (depth > 2) {
-          ctx.line(`${x} *= ${d};`);
           ctx.line(`${z} = sin(-${x} - ${y} - ${z});`);
+          ctx.line(`${z} *= ${d};`);
         }
         if (depth > 3) {
-          ctx.line(`${z} *= ${d};`);
-          ctx.line(`${x} = -cos(-${x} - ${y} - ${z});`);
+          ctx.line(`${x} = -cos(-${x} + ${y} - ${z});`);
+          ctx.line(`${x} *= ${d};`);
         }
         if (depth > 4) {
-          ctx.line(`${x} *= ${d};`);
-          ctx.line(`${y} = -sin(-${x} - ${y} - ${z});`);
+          ctx.line(`${y} = -sin(-${x} + ${y} + ${z});`);
+          ctx.line(`${y} *= ${d};`);
         }
         if (depth > 5) {
+          ctx.line(`${y} = -cos(-${x} + ${y} + ${z});`);
           ctx.line(`${y} *= ${d};`);
-          ctx.line(`${y} = -cos(-${x} - ${y} - ${z});`);
         }
         if (depth > 6) {
-          ctx.line(`${y} *= ${d};`);
-          ctx.line(`${x} = cos(-${x} - ${y} - ${z});`);
+          ctx.line(`${x} = cos(${x} + ${y} + ${z});`);
+          ctx.line(`${x} *= ${d};`);
         }
         if (depth > 7) {
-          ctx.line(`${x} *= ${d};`);
-          ctx.line(`${z} = sin(${x} - ${y} - ${z});`);
+          ctx.line(`${z} = sin(${x} + ${y} - ${z});`);
+          ctx.line(`${z} *= ${d};`);
         }
         if (depth > 8) {
-          ctx.line(`${z} *= ${d};`);
-          ctx.line(`${x} = -cos(${x} - ${y} + ${z});`);
+          ctx.line(`${x} = -cos(-${x} - ${y} + ${z});`);
+          ctx.line(`${x} *= ${d};`);
         }
         if (depth > 9) {
-          ctx.line(`${x} *= ${d};`);
+          ctx.line(`${y} = -sin(${x} - ${y} + ${z});`);
+          ctx.line(`${y} *= ${d};`);
         }
         const dscale = ctx.freshVar("mdscale");
         ctx.line(`float ${dscale} = (${d}) != 0.0 ? (${d}) * 2.0 : 1.0;`);
         const col = ctx.freshVar("magic");
         ctx.line(`vec4 ${col} = vec4(0.5 - ${x} / ${dscale}, 0.5 - ${y} / ${dscale}, 0.5 - ${z} / ${dscale}, 1.0);`);
-        return { color: col };
+        const fac = ctx.freshVar("magicFac");
+        ctx.line(`float ${fac} = (${col}.r + ${col}.g + ${col}.b) / 3.0;`);
+        return { color: col, fac };
       },
     },
   },
@@ -547,7 +596,7 @@ export default [
   {
     id: "texture_image",
     category: "texture",
-    name: { zh: "圖像紋理", en: "Image Texture" },
+    name: { zh: "影像紋理", en: "Image Texture" },
     summary: { zh: "讀取一張你上傳的圖片當作貼圖，最常見的材質來源。", en: "Reads an uploaded image as a texture — the most common material source." },
     docBeginner: {
       zh: "Image Texture 是最常用的紋理節點：點節點上的「選擇圖片」上傳一張照片或素材圖，就能把它貼在物體表面。Vector 輸入決定貼圖怎麼對應到表面座標，預設用物體的 UV。",

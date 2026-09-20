@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>絨光 BSDF · Blender 5.2 LTS 節點百科</title>
+<title>光澤 BSDF · Blender 5.2 LTS 節點百科</title>
 <meta name="description" content="布料邊緣逆光時的微光，做絨布、天鵝絨質感。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="絨光 BSDF · Blender 5.2 LTS 節點百科" />
+<meta property="og:title" content="光澤 BSDF · Blender 5.2 LTS 節點百科" />
 <meta property="og:description" content="布料邊緣逆光時的微光，做絨布、天鵝絨質感。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_sheen_bsdf.html" />
@@ -17,7 +17,7 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_sheen_bsdf.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"絨光 BSDF","description":"布料邊緣逆光時的微光，做絨布、天鵝絨質感。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_sheen_bsdf.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"光澤 BSDF","description":"布料邊緣逆光時的微光，做絨布、天鵝絨質感。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_sheen_bsdf.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
@@ -29,7 +29,7 @@
   <main class="content-main">
 
     <div class="content-kicker">Blender 5.2 LTS 節點百科</div>
-    <h1>絨光 BSDF</h1>
+    <h1>光澤 BSDF</h1>
     <p class="content-lead">布料邊緣逆光時的微光，做絨布、天鵝絨質感。</p>
     <div class="content-actions">
       <a class="content-primary" href="../sandbox.html?addNode=shader_sheen_bsdf">在沙盒中試用</a>
@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>單獨使用效果不明顯，通常混合進 Principled BSDF 的材質裡，讓布料邊緣多一點絨毛感的反光。</p></section>
     <section><h2>進階說明</h2><p>在 Blender 5.2 LTS，Sheen 已是 Principled BSDF 的絨光層；這裡仍保留獨立節點方便教學拆解。本沙盒把它實作成一個底色全黑、只靠 Fresnel 邊緣光（Emission 欄位）貢獻亮度的 BSDF——這樣跟其他材質用 Mix Shader 疊加時，才不會把底色蓋掉，只會在邊緣多一圈絨毛感的光暈。Roughness 越高，光暈覆蓋的角度範圍越寬、越柔和。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

@@ -37,7 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Mix Shader has three inputs: Fac (0 = fully the top shader, 1 = fully the bottom one), Shader (top), Shader (bottom). Very common for layered materials like glass or car paint.</p></section>
     <section><h2>Technical notes</h2><p>Physically, Mix Shader chooses between two BSDFs by path probability rather than simply blending material parameters. This preview linearly mixes its Base, Transmission, Coat, Sheen, and Thin Film fields as a real-time teaching approximation.</p></section>
-    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>Shader</td><td>shader</td></tr><tr><td>IN</td><td>Shader</td><td>shader</td></tr><tr><td>OUT</td><td>Shader</td><td>shader</td></tr></tbody></table></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Factor</td><td>float</td></tr><tr><td>IN</td><td>Shader</td><td>shader</td></tr><tr><td>IN</td><td>Shader</td><td>shader</td></tr><tr><td>OUT</td><td>Shader</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

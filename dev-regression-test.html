@@ -232,6 +232,34 @@ function runAll() {
     detail: learningSystemError,
   });
 
+  let blenderParityError = "";
+  try {
+    const parityGraph = Graph.fromJSON({
+      nodes: [
+        { id: "parity_principled", typeId: "shader_principled_bsdf", x: 0, y: 0, params: {} },
+        { id: "parity_magic", typeId: "texture_magic", x: 0, y: 180, params: { depth: 4 } },
+        { id: "parity_output", typeId: "output_material", x: 360, y: 0, params: {} },
+      ],
+      links: [
+        { id: "parity_surface", fromNode: "parity_principled", fromSocket: "bsdf", toNode: "parity_output", toSocket: "surface" },
+        { id: "parity_thickness", fromNode: "parity_magic", fromSocket: "fac", toNode: "parity_output", toSocket: "thickness" },
+      ],
+    });
+    const compiled = compileGraph(parityGraph);
+    if (!compiled.body.includes("bml_output_thickness") || !compiled.body.includes("magicFac")) {
+      blenderParityError = "Material Output Thickness 或 Magic Factor 沒有進入編譯結果";
+    }
+  } catch (error) {
+    blenderParityError = error.message;
+  }
+  results.push({
+    kind: "Blender 相容性",
+    id: "blender-5-2-2-output-contract",
+    name: "Thickness 與 Magic Factor 編譯",
+    status: blenderParityError ? "err" : "ok",
+    detail: blenderParityError,
+  });
+
   render(results);
 }
 

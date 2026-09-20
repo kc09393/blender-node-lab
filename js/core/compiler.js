@@ -770,6 +770,7 @@ function compileChain(graph, startNodeId, textureNodeIds, ctxTarget) {
       ins[inputDef.key] = resolveInputExpr(graph, node, inputDef, nodeOutputVars, ctxTarget);
     }
     const ctx = {
+      target: ctxTarget,
       freshVar,
       line: (s) => lines.push(s),
       useTexture: (id) => {
@@ -802,11 +803,14 @@ export function compileGraph(graph) {
   }
   const surfaceLink = graph.getIncomingLink(outputNode.id, "surface");
   const displacementLink = graph.getIncomingLink(outputNode.id, "displacement");
+  const thicknessLink = graph.getIncomingLink(outputNode.id, "thickness");
 
   const textureNodeIds = [];
   let needsBarycentric = false;
   let finalExpr = shaderDefaultExpr();
   let surfaceLines = [];
+  let thicknessExpr = "0.0";
+  let thicknessLines = [];
 
   if (surfaceLink) {
     const { lines, nodeOutputVars } = compileChain(graph, surfaceLink.fromNode, textureNodeIds, "fragment");
@@ -825,10 +829,25 @@ export function compileGraph(graph) {
     );
   }
 
+  if (thicknessLink) {
+    const compiled = compileChain(graph, thicknessLink.fromNode, textureNodeIds, "fragment");
+    thicknessLines = compiled.lines;
+    const fromNode = graph.nodes.get(thicknessLink.fromNode);
+    const fromType = getNodeType(fromNode.typeId);
+    const outDef = fromType.outputs.find((o) => o.key === thicknessLink.fromSocket);
+    thicknessExpr = castExpr(
+      compiled.nodeOutputVars.get(thicknessLink.fromNode)[thicknessLink.fromSocket],
+      outDef.type,
+      TYPES.FLOAT
+    );
+  }
+
   const body = `
   // ---- Blender Material Lab: 由節點圖產生 ----
   ${surfaceLines.join("\n  ")}
+  ${thicknessLines.join("\n  ")}
   BmlBsdf bml_final = ${finalExpr};
+  float bml_output_thickness = max(${thicknessExpr}, 0.0);
   diffuseColor.rgb = bml_final.baseColor;
   diffuseColor.a = bml_final.alpha;
   roughnessFactor = clamp(bml_final.roughness, 0.035, 1.0);
@@ -857,7 +876,7 @@ export function compileGraph(graph) {
 `;
   }
 
-  return { body, vertexBody, textureNodeIds, needsBarycentric };
+  return { body, vertexBody, textureNodeIds: [...new Set(textureNodeIds)], needsBarycentric };
 }
 
 export function createPreviewMaterial() {
@@ -933,7 +952,7 @@ export function applyFragmentChunk(material, graph, compileResult) {
       "material.transmission = clamp(bml_final.transmission, 0.0, 1.0);"
     ).replace(
       "material.thickness = thickness;",
-      "material.thickness = mix(thickness, 0.0, clamp(bml_final.thinWall, 0.0, 1.0));"
+      "material.thickness = mix(bml_output_thickness, 0.0, clamp(bml_final.thinWall, 0.0, 1.0));"
     );
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <transmission_fragment>",

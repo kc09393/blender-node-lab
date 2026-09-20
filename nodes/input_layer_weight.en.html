@@ -37,7 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Facing outputs how much the surface faces the camera (the inverse direction from Fresnel), Fresnel outputs an edge-reflection ratio similar to the Fresnel node. Higher Blend concentrates the transition more at the edges.</p></section>
     <section><h2>Technical notes</h2><p>Common use: wire Layer Weight&#39;s Fresnel into a Mix Shader&#39;s Fac to layer a clearcoat/water-film gloss on top of a base material. Also uses the geometric (pre-Bump) normal — a simplification.</p></section>
-    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Blend</td><td>float</td></tr><tr><td>OUT</td><td>Fresnel</td><td>float</td></tr><tr><td>OUT</td><td>Facing</td><td>float</td></tr></tbody></table></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Blend</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>Fresnel</td><td>float</td></tr><tr><td>OUT</td><td>Facing</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

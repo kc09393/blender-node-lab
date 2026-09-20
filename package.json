@@ -4,9 +4,10 @@
   "type": "module",
   "scripts": {
     "generate:seo": "node scripts/generate-seo-pages.mjs",
+    "qa:schema": "node scripts/audit-blender-node-schema.mjs",
     "qa:static": "node scripts/static-qa.mjs",
     "qa:browser": "node scripts/browser-qa.mjs",
-    "qa": "npm run qa:static && npm run qa:browser"
+    "qa": "npm run qa:schema && npm run qa:static && npm run qa:browser"
   },
   "devDependencies": {
     "playwright": "1.63.0"

@@ -5,7 +5,7 @@ export default [
   {
     id: "color_hsv",
     category: "color",
-    name: { zh: "色相/飽和度/明度", en: "Hue Saturation Value" },
+    name: { zh: "色相/飽和度/明度", en: "Hue/Saturation/Value" },
     summary: { zh: "分別調整顏色的色相、飽和度、明度，比直接調 RGB 更直覺。", en: "Adjusts hue, saturation, and value independently — more intuitive than tweaking RGB directly." },
     docBeginner: {
       zh: "Hue 轉動顏色在色環上的位置（例如把紅色轉成藍色）、Saturation 控制顏色鮮豔程度（0 = 灰階）、Value 控制明暗。三個都預設在「不改變」的中間值（Hue=0.5, Saturation=1, Value=1）。",
@@ -41,7 +41,7 @@ export default [
   {
     id: "color_invert",
     category: "color",
-    name: { zh: "反色", en: "Invert Color" },
+    name: { zh: "反轉色彩", en: "Invert Color" },
     summary: { zh: "把顏色變成互補色，像照片底片一樣。", en: "Flips a color to its complement — like a photo negative." },
     docBeginner: {
       zh: "Invert Color 會把顏色變成 1 減去原本的值（白變黑、紅變青）。Fac 控制反色的比例，Fac=0 完全不變、Fac=1 完全反色。",
@@ -69,7 +69,7 @@ export default [
   {
     id: "color_bright_contrast",
     category: "color",
-    name: { zh: "亮度/對比度", en: "Brightness/Contrast" },
+    name: { zh: "亮度/對比", en: "Brightness/Contrast" },
     summary: { zh: "整體調亮調暗、拉開或縮小明暗差距。", en: "Brightens/darkens overall, and stretches or compresses the light-dark range." },
     docBeginner: {
       zh: "Bright 直接加減亮度、Contrast 拉開（或縮小）明暗之間的差距。跟手機相簿的『亮度/對比』滑桿是同樣的概念。",
@@ -127,7 +127,7 @@ export default [
   {
     id: "color_mix",
     category: "color",
-    name: { zh: "混合顏色", en: "Mix Color" },
+    name: { zh: "混合", en: "Mix" },
     summary: { zh: "把兩個顏色依照混合模式（正常/加深/加亮…）與比例混合。", en: "Blends two colors using a mode (Mix/Multiply/Screen/...) and a ratio." },
     docBeginner: {
       zh: "跟 Photoshop 圖層的『混合模式』概念一樣：Mix 是直接淡入淡出、Multiply 讓顏色變暗（適合疊陰影）、Screen 讓顏色變亮（適合疊光暈）、Add 直接相加。",
@@ -140,8 +140,8 @@ export default [
     supported: true,
     vertexSafe: true,
     inputs: [
-      { key: "fac", label: { zh: "Fac", en: "Fac" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
-      { key: "a", label: { zh: "A", en: "A" }, type: "color", default: [0.8, 0.8, 0.8, 1] },
+      { key: "fac", label: { zh: "係數", en: "Factor" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
+      { key: "a", label: { zh: "A", en: "A" }, type: "color", default: [0.5, 0.5, 0.5, 1] },
       { key: "b", label: { zh: "B", en: "B" }, type: "color", default: [0.5, 0.5, 0.5, 1] },
     ],
     settings: [
@@ -164,6 +164,7 @@ export default [
           { value: "soft_light", label: { zh: "柔光 Soft Light", en: "Soft Light" }, cssBlend: "soft-light", group: "對比 Contrast" },
           { value: "linear_light", label: { zh: "線性光 Linear Light", en: "Linear Light" }, cssBlend: null, group: "對比 Contrast" },
           { value: "difference", label: { zh: "差值 Difference", en: "Difference" }, cssBlend: "difference", group: "比較 Comparative" },
+          { value: "exclusion", label: { zh: "排除 Exclusion", en: "Exclusion" }, cssBlend: "exclusion", group: "比較 Comparative" },
           { value: "subtract", label: { zh: "相減 Subtract", en: "Subtract" }, cssBlend: null, group: "比較 Comparative" },
           { value: "divide", label: { zh: "相除 Divide", en: "Divide" }, cssBlend: null, group: "比較 Comparative" },
           { value: "hue", label: { zh: "色相 Hue", en: "Hue" }, cssBlend: "hue", group: "分量 Component" },
@@ -172,6 +173,8 @@ export default [
           { value: "value", label: { zh: "明度 Value", en: "Value" }, cssBlend: "luminosity", group: "分量 Component" },
         ],
       },
+      { key: "clampFactor", uiType: "bool", label: { zh: "限定係數", en: "Clamp Factor" }, default: true },
+      { key: "clampResult", uiType: "bool", label: { zh: "限定結果", en: "Clamp Result" }, default: false },
     ],
     outputs: [{ key: "color", label: { zh: "顏色", en: "Color" }, type: "color" }],
     glsl: {
@@ -194,6 +197,7 @@ export default [
           soft_light: `bml_blendSoftLight(${a}, ${b})`,
           linear_light: `clamp(${a} + 2.0 * ${b} - 1.0, 0.0, 1.0)`,
           difference: `abs(${a} - ${b})`,
+          exclusion: `${a} + ${b} - 2.0 * ${a} * ${b}`,
           hue: `bml_blendHue(${a}, ${b})`,
           saturation: `bml_blendSaturation(${a}, ${b})`,
           color: `bml_blendColor(${a}, ${b})`,
@@ -202,7 +206,9 @@ export default [
         const blended = ctx.freshVar("blend");
         ctx.line(`vec3 ${blended} = ${blendMap[mode] || blendMap.mix};`);
         const col = ctx.freshVar("mixcol");
-        ctx.line(`vec3 ${col} = clamp(mix(${a}, ${blended}, clamp(${ins.fac}, 0.0, 1.0)), 0.0, 1.0);`);
+        const factor = node.params.clampFactor === false ? `${ins.fac}` : `clamp(${ins.fac}, 0.0, 1.0)`;
+        const mixed = `mix(${a}, ${blended}, ${factor})`;
+        ctx.line(`vec3 ${col} = ${node.params.clampResult ? `clamp(${mixed}, 0.0, 1.0)` : mixed};`);
         return { color: `vec4(${col}, (${ins.a}).a)` };
       },
     },
@@ -277,7 +283,7 @@ export default [
   {
     id: "color_light_falloff",
     category: "color",
-    name: { zh: "光線衰減", en: "Light Falloff" },
+    name: { zh: "燈光衰落", en: "Light Falloff" },
     summary: { zh: "調整燈光強度隨距離衰減的方式，只用在燈光材質上。", en: "Adjusts how light intensity falls off with distance — used only on light materials." },
     docBeginner: { zh: "這個節點是接在燈光（Light）的材質上，不是接在一般物體表面上，控制光線隨距離變暗的快慢。", en: "This node connects to a Light's material, not a regular object surface — it controls how quickly light dims with distance." },
     docPro: { zh: "本網站的即時預覽是單一物體材質預覽，沒有可調整的燈光材質圖，此節點先只列文件。", en: "This site's live preview is a single-object material preview without an editable light material graph. Documentation only for now." },

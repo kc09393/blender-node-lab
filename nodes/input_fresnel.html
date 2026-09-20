@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>現實中幾乎所有材質都是「正面看較不反光、側邊掠視角度反光更強」，這就是菲涅爾效應（想想看池水正上方看得到底、斜看只看到反光）。把 Fresnel 接到 Mix Shader 的 Fac，就能做出這種邊緣增亮的效果。</p></section>
     <section><h2>進階說明</h2><p>IOR 插槽控制反光增強的強度曲線（數值越大，效果越明顯）。本沙盒用視角方向與『幾何法線』（未套用 Bump）計算，這是簡化：真實情況應該用套用 Bump 後的最終法線。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

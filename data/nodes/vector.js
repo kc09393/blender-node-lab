@@ -5,7 +5,7 @@ export default [
   {
     id: "vector_mapping",
     category: "vector",
-    name: { zh: "映射", en: "Mapping" },
+    name: { zh: "映射方法", en: "Mapping" },
     summary: { zh: "平移、旋轉、縮放座標，常用來調整貼圖的位置與密度。", en: "Translate, rotate, and scale coordinates — commonly used to reposition or tile textures." },
     docBeginner: {
       zh: "Mapping 節點用來調整「座標」本身，而不是顏色。最常見用法：把 Texture Coordinate 或預設 UV 接進來，用 Scale 控制貼圖重複幾次、用 Location 平移貼圖位置。",
@@ -72,15 +72,19 @@ export default [
     },
     supported: true,
     inputs: [
-      { key: "height", label: { zh: "高度", en: "Height" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
       { key: "strength", label: { zh: "強度", en: "Strength" }, type: "float", default: 1, min: 0, max: 5, step: 0.01 },
+      { key: "distance", label: { zh: "距離", en: "Distance" }, type: "float", default: 0.001, min: 0, max: 1, step: 0.001 },
+      { key: "filterWidth", label: { zh: "濾鏡寬度", en: "Filter Width" }, type: "float", default: 0.1, min: 0, max: 1, step: 0.01 },
+      { key: "height", label: { zh: "高度", en: "Height" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
       { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
     ],
+    settings: [{ key: "invert", uiType: "bool", label: { zh: "反轉", en: "Invert" }, default: false }],
     outputs: [{ key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector" }],
     glsl: {
-      emit(ctx, ins) {
+      emit(ctx, ins, node) {
         const v = ctx.freshVar("bump");
-        ctx.line(`vec3 ${v} = bml_bump(${ins.height}, ${ins.strength} * 0.1, normalize(${ins.normal}));`);
+        const direction = node.params.invert ? "-1.0" : "1.0";
+        ctx.line(`vec3 ${v} = bml_bump(${ins.height}, ${direction} * ${ins.strength} * max(${ins.distance}, 0.0) / max(${ins.filterWidth}, 0.0001) * 10.0, normalize(${ins.normal}));`);
         return { normal: v };
       },
     },
@@ -88,7 +92,7 @@ export default [
   {
     id: "vector_math",
     category: "vector",
-    name: { zh: "向量數學", en: "Vector Math" },
+    name: { zh: "數學公式 ( 向量 )", en: "Vector Math" },
     summary: { zh: "對兩個向量做加減乘除、內積、外積、正規化等運算。", en: "Performs add/subtract/multiply/divide, dot/cross product, normalize, and more on vectors." },
     docBeginner: {
       zh: "跟 Math 節點很像，但操作的是三維向量（例如座標、法線）而不是單一數值。常用來手動調整座標或法線方向。",
@@ -261,7 +265,7 @@ export default [
   {
     id: "vector_normal_map",
     category: "vector",
-    name: { zh: "法線貼圖", en: "Normal Map" },
+    name: { zh: "法線映射", en: "Normal Map" },
     summary: { zh: "讀取一張切線空間法線貼圖，做出比 Bump 更精細的凹凸細節。", en: "Reads a tangent-space normal map texture for finer bump detail than Bump alone." },
     docBeginner: { zh: "通常接在 Image Texture（色彩空間設為 Non-Color）後面，貼圖上的紫藍色其實是編碼過的法線方向，能表現比單純灰階高度更精細的凹凸感。", en: "Usually placed after an Image Texture (with color space set to Non-Color). The purple-blue image is actually encoded normal directions, giving finer detail than a plain grayscale height." },
     docPro: { zh: "Blender 5.1 新增 OpenGL／DirectX 慣例切換，差別在綠色 Y 分量的方向；本沙盒現在也會在 DirectX 模式反轉綠色通道。法線基底仍以螢幕空間導數即時建立，效果對齊 Blender，但實作方式不同。", en: "Blender 5.1 added an OpenGL/DirectX convention switch; the two differ in the direction of the green Y component. This sandbox now flips the green channel in DirectX mode too. It still builds the tangent basis from screen-space derivatives, matching the effect with a different implementation." },
@@ -297,7 +301,7 @@ export default [
   {
     id: "vector_displacement",
     category: "vector",
-    name: { zh: "位移", en: "Displacement" },
+    name: { zh: "錯置", en: "Displacement" },
     summary: { zh: "真正依高度值改變物體的幾何形狀（而不只是光影假象）。", en: "Actually changes the object's geometry based on a height value (not just faked lighting)." },
     docBeginner: { zh: "跟 Bump 的差別：Displacement 會真的把頂點往外推，讓輪廓也跟著改變，代價是需要夠密的網格細分。", en: "Unlike Bump, Displacement actually pushes vertices outward, so the silhouette changes too — at the cost of needing a dense enough mesh subdivision." },
     docPro: { zh: "本沙盒新增了一條獨立的「頂點著色器編譯通道」，接在 Material Output 的 Displacement 插槽時，能真的在頂點著色器把 Height 換算成沿法線方向的位移、移動頂點（不再只是假的光影）。這條通道只支援不需要 Fragment 端資料的節點（Math／Vector Math／Mapping／程序化紋理等），Bump／Fresnel 等節點不能接在這裡。本沙盒的預覽網格（球體/環面細分較高、方塊/平面較低）沒有讓使用者自訂細分數，高頻率的位移在方塊上可能會看起來比較塊狀。", en: "This sandbox added a separate 'vertex shader compile pass' — when wired into Material Output's Displacement socket, Height genuinely offsets vertices along the normal in the vertex shader (not just faked lighting anymore). This pass only supports nodes that don't need fragment-only data (Math/Vector Math/Mapping/procedural textures, etc.) — Bump/Fresnel and similar can't be used here. This sandbox's preview meshes have fixed subdivision (sphere/torus are fairly dense, cube/plane less so) with no user control, so high-frequency displacement can look blocky on the cube." },
@@ -321,21 +325,46 @@ export default [
   {
     id: "vector_displacement_vec",
     category: "vector",
-    name: { zh: "向量位移", en: "Vector Displacement" },
+    name: { zh: "向量錯置", en: "Vector Displacement" },
     summary: { zh: "用一張向量貼圖描述每個頂點該往哪個方向、移動多少。", en: "Uses a vector map to describe exactly which direction and how far each point should move." },
     docBeginner: { zh: "比 Displacement 更自由：可以做出往任意方向的位移（不只是往外凸），常搭配雕刻軟體烘焙出來的向量位移貼圖使用。", en: "More flexible than Displacement — it can push in any direction, not just outward. Often paired with vector displacement maps baked from sculpting software." },
-    docPro: { zh: "跟 Displacement 共用同一條頂點著色器編譯通道。跟 Blender 的差異：Blender 預設把向量貼圖解讀成切線空間（需要切線基底才能正確轉換方向）；本沙盒直接把向量當作物體座標系統下的位移方向使用，不做切線空間轉換，效果的『大小/整體感覺』一致，但貼圖畫的方向定義跟 Blender 不完全相同。", en: "Shares the same vertex-shader compile pass as Displacement. Difference from Blender: Blender defaults to interpreting the vector map in tangent space (needs a tangent basis to convert correctly). This sandbox treats the vector directly as an object-space displacement direction, no tangent-space conversion — the overall scale/feel is consistent, but the map's direction convention doesn't exactly match Blender's." },
+    docPro: { zh: "插槽預設值與 Blender 5.2.2 一致，包含 Midlevel 0、Scale 0.01，並提供切線／物體／世界三種空間。物體空間可直接對應；切線空間會由目前頂點法線建立穩定的正交基底，世界空間則用模型矩陣反向旋轉到物體座標。這兩種即時轉換適合教學預覽，但沒有 Blender 網格自訂切線與完整非等比縮放校正。", en: "Socket defaults match Blender 5.2.2, including Midlevel 0 and Scale 0.01, with Tangent, Object, and World space modes. Object space maps directly; Tangent space builds a stable orthogonal basis from the vertex normal, while World space rotates the vector back through the model matrix. These live conversions are suitable for teaching previews, but do not include Blender's custom mesh tangents or full non-uniform-scale correction." },
     supported: true,
     vertexSafe: true,
     inputs: [
-      { key: "vector", label: { zh: "向量", en: "Vector" }, type: "vector", default: [0, 0, 0] },
-      { key: "scale", label: { zh: "縮放", en: "Scale" }, type: "float", default: 1, min: 0, max: 5 },
+      { key: "vector", label: { zh: "向量", en: "Vector" }, type: "vector", default: [0.8, 0.8, 0.8] },
+      { key: "midlevel", label: { zh: "中間值", en: "Midlevel" }, type: "float", default: 0, min: -10, max: 10, step: 0.01 },
+      { key: "scale", label: { zh: "縮放", en: "Scale" }, type: "float", default: 0.01, min: 0, max: 5, step: 0.01 },
     ],
+    settings: [{
+      key: "space",
+      uiType: "select",
+      label: { zh: "空間", en: "Space" },
+      default: "tangent",
+      options: [
+        { value: "tangent", label: { zh: "切線空間", en: "Tangent Space" } },
+        { value: "object", label: { zh: "物體空間", en: "Object Space" } },
+        { value: "world", label: { zh: "世界空間", en: "World Space" } },
+      ],
+    }],
     outputs: [{ key: "displacement", label: { zh: "位移", en: "Displacement" }, type: "vector" }],
     glsl: {
-      emit(ctx, ins) {
+      emit(ctx, ins, node) {
         const v = ctx.freshVar("vdisp");
-        ctx.line(`vec3 ${v} = (${ins.vector}) * (${ins.scale});`);
+        const raw = `((${ins.vector}) - vec3(${ins.midlevel}))`;
+        if (ctx.target === "vertex" && node.params.space === "tangent") {
+          const n = ctx.freshVar("vdispN");
+          const t = ctx.freshVar("vdispT");
+          const b = ctx.freshVar("vdispB");
+          ctx.line(`vec3 ${n} = normalize(objectNormal);`);
+          ctx.line(`vec3 ${t} = normalize(cross(abs(${n}.z) < 0.999 ? vec3(0.0, 0.0, 1.0) : vec3(0.0, 1.0, 0.0), ${n}));`);
+          ctx.line(`vec3 ${b} = cross(${n}, ${t});`);
+          ctx.line(`vec3 ${v} = mat3(${t}, ${b}, ${n}) * ${raw} * (${ins.scale});`);
+        } else if (ctx.target === "vertex" && node.params.space === "world") {
+          ctx.line(`vec3 ${v} = (vec4(${raw}, 0.0) * modelMatrix).xyz * (${ins.scale});`);
+        } else {
+          ctx.line(`vec3 ${v} = ${raw} * (${ins.scale});`);
+        }
         return { displacement: v };
       },
     },
@@ -391,7 +420,7 @@ export default [
   {
     id: "vector_transform",
     category: "vector",
-    name: { zh: "向量變換", en: "Vector Transform" },
+    name: { zh: "向量轉換", en: "Vector Transform" },
     summary: { zh: "把向量在世界／物體／攝影機等不同座標空間之間轉換。", en: "Converts a vector between World/Object/Camera coordinate spaces." },
     docBeginner: { zh: "同一個向量（例如法線）在不同座標系統下數值不一樣，這個節點負責在它們之間換算。", en: "The same vector (like a normal) has different values depending on the coordinate system. This node converts between them." },
     docPro: { zh: "Three.js 本來就會給每個材質內建 modelMatrix（Object→World）與 viewMatrix（World→Camera）這兩個 uniform，本沙盒直接借用（必要時用 WebGL2/GLSL ES 3.00 內建的 inverse() 算反向），補上了這個節點。跟 Blender 的差異：Blender 用 Type 下拉選單區分 Point/Vector/Normal（Point 會加位移、Normal 用反轉置矩陣處理非等比縮放）；本沙盒的預覽物件沒有可調整的物體變換（不能縮放/位移），固定當作純方向向量處理（不含位移），在等比縮放下三種 Type 的結果是一致的，先不特別區分。", en: "Three.js already provides every material with modelMatrix (Object→World) and viewMatrix (World→Camera) uniforms; this sandbox uses them directly (falling back to WebGL2/GLSL ES 3.00's built-in inverse() where needed) to implement this node. Difference from Blender: Blender has a Type dropdown for Point/Vector/Normal (Point adds translation, Normal uses the inverse-transpose matrix for non-uniform scale). This sandbox's preview objects have no adjustable transform (no scale/translation), so it's always treated as a pure direction (no translation) — under uniform scale all three Types give the same result anyway, so the distinction is skipped for now." },

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>迷幻紋理 · Blender 5.2 LTS 節點百科</title>
+<title>魔法紋理 · Blender 5.2 LTS 節點百科</title>
 <meta name="description" content="鮮豔的萬花筒式抽象花紋，適合做特效或抽象材質。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="迷幻紋理 · Blender 5.2 LTS 節點百科" />
+<meta property="og:title" content="魔法紋理 · Blender 5.2 LTS 節點百科" />
 <meta property="og:description" content="鮮豔的萬花筒式抽象花紋，適合做特效或抽象材質。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_magic.html" />
@@ -17,7 +17,7 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_magic.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"迷幻紋理","description":"鮮豔的萬花筒式抽象花紋，適合做特效或抽象材質。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_magic.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"魔法紋理","description":"鮮豔的萬花筒式抽象花紋，適合做特效或抽象材質。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_magic.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
@@ -29,7 +29,7 @@
   <main class="content-main">
 
     <div class="content-kicker">Blender 5.2 LTS 節點百科</div>
-    <h1>迷幻紋理</h1>
+    <h1>魔法紋理</h1>
     <p class="content-lead">鮮豔的萬花筒式抽象花紋，適合做特效或抽象材質。</p>
     <div class="content-actions">
       <a class="content-primary" href="../sandbox.html?addNode=texture_magic">在沙盒中試用</a>
@@ -37,7 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Magic Texture 沒有明確對應的真實世界材質，比較像是一個『產生有趣抽象花紋』的紋理產生器，可以用 Distortion 調整花紋的複雜程度。</p></section>
     <section><h2>進階說明</h2><p>Depth（疊代次數，0-10）現在是真的可調參數，跟 Blender 一致：每多一層疊代，x/y/z 會被扭曲值再變換一次，花紋變得更複雜、更不規則，跟 Blender Cycles 內部的 `svm_magic` 演算法對照過、逐層公式一致。Depth 是節點設定（編譯期就固定），不是插槽，這點也跟 Blender 一致。</p></section>
-    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>扭曲</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr></tbody></table></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>扭曲</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>

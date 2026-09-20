@@ -3,7 +3,7 @@
 **Bilingual, interactive Blender shader-node learning site** — encyclopedia, live sandbox, guided tutorials, challenges, and debugging labs.
 免費、雙語（繁中／英文）的 Blender 材質節點互動學習網站，不是看影片，是真的拖節點、接線、即時看 3D 預覽反應。
 
-目前內容與原理化 BSDF（Principled BSDF）的分組、名稱和教學基準以 **Blender 5.2 LTS／OpenPBR** 為準。已納入 5.1／5.2 的場景時間節點、Thin Wall、法線貼圖 OpenGL／DirectX 慣例與向量四捨五入。瀏覽器預覽會盡量對應物理材質行為，但不等同於 Cycles 的完整路徑追蹤。
+目前內容與原理化 BSDF（Principled BSDF）的分組、名稱和教學基準以 **Blender 5.2.2 LTS／OpenPBR** 為準。專案保存由官方 Blender 5.2.2 執行檔匯出的節點結構基準，測試會核對節點中英文名稱、重要插槽、預設值與選項。已納入場景時間、Thin Wall、Material Output Thickness、法線貼圖 OpenGL／DirectX 慣例與向量四捨五入。瀏覽器預覽會盡量對應物理材質行為，但 Three.js 即時光柵化不等同於 Cycles 路徑追蹤；百科會清楚標示即時效果是近似預覽。
 
 **🌐 [kc09393.github.io/blender-node-lab](https://kc09393.github.io/blender-node-lab/)**
 
