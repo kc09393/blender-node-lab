@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>The simplest texture node: outputs a smooth 0-to-1 grayscale value. Often feeds a Color Ramp for gradient coloring, or a Mix Shader&#39;s Fac for a smooth material transition.</p></section>
     <section><h2>Technical notes</h2><p>All 6 types match Blender exactly: Linear (X component), Quadratic (X squared, faster falloff mid-range), Easing (3x²-2x³ smooth curve), Diagonal (average of X and Y), Radial (angular sweep around the center, like a clock hand), and Spherical (distance from center, expanding outward in rings). Difference from Blender: Blender&#39;s Radial/Spherical formulas operate on raw coordinates already centered at the object&#39;s origin; this sandbox&#39;s default vector is 0-1 UV, so it first subtracts (0.5, 0.5) to recenter — same effect, different coordinate convention.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned where documented · live raster preview</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Fac</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

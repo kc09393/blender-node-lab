@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>跟 Combine XYZ 概念一樣，只是合併出來的是顏色而不是座標。模式選 RGB 就是直接給紅/綠/藍；選 HSV/HSL 則是給色相/飽和度/明度（或亮度），節點會自動幫你轉成最終顏色。</p></section>
     <section><h2>進階說明</h2><p>模式（Mode）有 3 種，跟 Blender 一致：RGB（直接組出紅/綠/藍）、HSV、HSL。切換模式時前三個輸入的意義會跟著變（R/G/B ↔ H/S/V ↔ H/S/L），對應 Blender 節點本身的行為；HSV/HSL 轉 RGB 的公式跟 Color Ramp（`js/core/colorRampUtil.js`）用同一套定義。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>r</td><td>float</td></tr><tr><td>IN</td><td>g</td><td>float</td></tr><tr><td>IN</td><td>b</td><td>float</td></tr><tr><td>IN</td><td>A</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

@@ -6,12 +6,14 @@
   <url><loc>https://kc09393.github.io/blender-node-lab/sandbox.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/reference.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/troubleshoot.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/validation.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/?lang=en</loc><lastmod>2026-09-20</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/tutorials.html?lang=en</loc><lastmod>2026-09-20</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/encyclopedia.html?lang=en</loc><lastmod>2026-09-20</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/sandbox.html?lang=en</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7000000000000001</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/reference.html?lang=en</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/troubleshoot.html?lang=en</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.5</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/validation.html?lang=en</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7000000000000001</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_xyz_split.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -342,4 +344,164 @@
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/converter_shader_to_rgb.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/converter_shader_to_rgb.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-polished-metal.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-polished-metal.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-time-pulse.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-time-pulse.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-frosted-glass.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-frosted-glass.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-edge-wear.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-edge-wear.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-uv-mapping-control.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-uv-mapping-control.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-gradient-palette.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-gradient-palette.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-magic-gloss.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-magic-gloss.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-neon-wave.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-neon-wave.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-brick-relief.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-brick-relief.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-procedural-wood.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-procedural-wood.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-voronoi-stone.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-voronoi-stone.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-fresnel-carpaint.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-fresnel-carpaint.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-blackbody-candle.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-blackbody-candle.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-metal-vs-plastic.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-metal-vs-plastic.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-roughness-study.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-roughness-study.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-rust-mask.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-rust-mask.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-terrain-palette.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-terrain-palette.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-skin-sss.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-skin-sss.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-candle-wax.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-candle-wax.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-puddle-mask.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-puddle-mask.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-toon-bands.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-toon-bands.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-channel-pack.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-channel-pack.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-displacement-terrain.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-displacement-terrain.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-stained-glass.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-stained-glass.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-fabric-colorway.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-fabric-colorway.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-principled-layers.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-principled-layers.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-map-range-control.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-map-range-control.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-checker-scale.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-checker-scale.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-noise-types.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-noise-types.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-wave-rings.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-wave-rings.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-mix-modes.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-mix-modes.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-float-curve.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-float-curve.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-rgb-curves.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-rgb-curves.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-vector-curves.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-vector-curves.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-normal-workflow.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-normal-workflow.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-invert-mask.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-invert-mask.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-clamp-safety.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-clamp-safety.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-math-remap-order.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-math-remap-order.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-blackbody.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-blackbody.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-wavelength.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-wavelength.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-sss-color.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-sss-color.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-candle-wax-balance.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-candle-wax-balance.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-puddle.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-puddle.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-clearcoat-build.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-clearcoat-build.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-vector-space.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/challenge-vector-space.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-disconnected-output.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-disconnected-output.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-directx-normal.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-directx-normal.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-thin-wall.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-thin-wall.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-mapping-bypass.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-mapping-bypass.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-neon-flat.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-neon-flat.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-brick-flat.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-brick-flat.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-wood-gray.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-wood-gray.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-carpaint-no-edge.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-carpaint-no-edge.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-time-no-loop.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-time-no-loop.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-time-unclamped.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-time-unclamped.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-edge-wear-everywhere.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-edge-wear-everywhere.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-frosted-glass-clear.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-frosted-glass-clear.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-displacement-flat.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-displacement-flat.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-channel-pack-roughness.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-channel-pack-roughness.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-rust-solid.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-rust-solid.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-skin-missing-gloss.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-skin-missing-gloss.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-metal-turned-plastic.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-metal-turned-plastic.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-checker-no-vector.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-checker-no-vector.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-noise-no-color.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-noise-no-color.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-ramp-no-basecolor.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-ramp-no-basecolor.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-bump-no-height.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-bump-no-height.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-map-range-no-input.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-map-range-no-input.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-add-shader-no-output.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-add-shader-no-output.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-layer-weight-no-factor.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-layer-weight-no-factor.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-wavelength-no-emission.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-wavelength-no-emission.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-blackbody-no-emission.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-blackbody-no-emission.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-vector-rotate-bypass.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-vector-rotate-bypass.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-transform-bypass.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-transform-bypass.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-white-noise-disconnected.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-white-noise-disconnected.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-magic-no-color.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-magic-no-color.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-voronoi-no-bump.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-voronoi-no-bump.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-normal-map-unplugged.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-normal-map-unplugged.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-sss-color-unplugged.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-sss-color-unplugged.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-puddle-no-roughness.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-puddle-no-roughness.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-invert-bypass.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/practice/debug-invert-bypass.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

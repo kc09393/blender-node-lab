@@ -15,6 +15,7 @@ import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
 import { initMobilePreviewDock } from "./ui/mobilePreviewDock.js";
 import { encodeGraphToShareParam, decodeShareParam } from "./core/shareLink.js";
+import { downloadBlenderPython } from "./core/blenderPythonExport.js";
 
 initLangToggle();
 initMobileNav();
@@ -336,6 +337,67 @@ document.getElementById("btn-export").addEventListener("click", () => {
   a.click();
   URL.revokeObjectURL(url);
 });
+
+document.getElementById("btn-blender-export").addEventListener("click", () => {
+  downloadBlenderPython(editor.graph, {
+    materialName: currentPreset ? tBi(currentPreset.name) : "Node Lab Material",
+  });
+});
+
+document.getElementById("btn-blender-library").addEventListener("click", () => {
+  location.href = "downloads/blender-node-lab-material-library-5.2.2.blend";
+});
+
+let abSnapshot = null;
+const abCompareButton = document.getElementById("btn-ab-compare");
+const abDialog = document.getElementById("ab-dialog");
+function capturePreview() {
+  try {
+    return preview.renderer.domElement.toDataURL("image/jpeg", 0.9);
+  } catch {
+    return "";
+  }
+}
+function graphDifference(left, right) {
+  const leftNodes = new Map(left.nodes.map((node) => [node.id, node]));
+  let changedParams = 0;
+  for (const node of right.nodes) {
+    const previous = leftNodes.get(node.id);
+    if (!previous) continue;
+    const keys = new Set([...Object.keys(previous.params || {}), ...Object.keys(node.params || {})]);
+    for (const key of keys) if (JSON.stringify(previous.params?.[key]) !== JSON.stringify(node.params?.[key])) changedParams += 1;
+  }
+  return {
+    addedNodes: right.nodes.filter((node) => !leftNodes.has(node.id)).length,
+    removedNodes: left.nodes.filter((node) => !right.nodes.some((candidate) => candidate.id === node.id)).length,
+    linkDelta: right.links.length - left.links.length,
+    changedParams,
+  };
+}
+document.getElementById("btn-ab-save").addEventListener("click", () => {
+  abSnapshot = { graph: editor.graph.toJSON(), image: capturePreview() };
+  abCompareButton.disabled = false;
+  const button = document.getElementById("btn-ab-save");
+  button.textContent = tBi({ zh: "A 已更新 ✓", en: "A Updated ✓" });
+  setTimeout(() => { button.textContent = t("sandbox.abSave"); }, 1200);
+});
+abCompareButton.addEventListener("click", () => {
+  if (!abSnapshot) return;
+  const current = editor.graph.toJSON();
+  const difference = graphDifference(abSnapshot.graph, current);
+  document.getElementById("ab-dialog-title").textContent = tBi({ zh: "材質 A/B 比較", en: "Material A/B Comparison" });
+  document.querySelector("#ab-dialog figure:first-child figcaption").textContent = tBi({ zh: "A · 儲存基準", en: "A · Saved Baseline" });
+  document.querySelector("#ab-dialog figure:last-child figcaption").textContent = tBi({ zh: "B · 目前材質", en: "B · Current Material" });
+  document.getElementById("ab-image-a").src = abSnapshot.image;
+  document.getElementById("ab-image-b").src = capturePreview();
+  document.getElementById("ab-summary").textContent = tBi({
+    zh: `參數變更 ${difference.changedParams} 項 · 新增節點 ${difference.addedNodes} · 移除節點 ${difference.removedNodes} · 連線差 ${difference.linkDelta >= 0 ? "+" : ""}${difference.linkDelta}`,
+    en: `${difference.changedParams} parameter changes · ${difference.addedNodes} nodes added · ${difference.removedNodes} removed · link delta ${difference.linkDelta >= 0 ? "+" : ""}${difference.linkDelta}`,
+  });
+  abDialog.showModal();
+});
+document.getElementById("ab-dialog-close").addEventListener("click", () => abDialog.close());
+abDialog.addEventListener("click", (event) => { if (event.target === abDialog) abDialog.close(); });
 
 const fileImport = document.getElementById("file-import");
 document.getElementById("btn-import").addEventListener("click", () => fileImport.click());

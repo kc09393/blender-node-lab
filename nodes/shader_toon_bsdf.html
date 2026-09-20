@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Toon BSDF 讓明暗交界變得銳利（一階一階，而不是平滑漸層），是動漫風格算圖常用的節點。</p></section>
     <section><h2>進階說明</h2><p>要做出真正的色塊感，需要在光照計算之後（而不是之前）做量化，這跟本沙盒目前『先給材質參數、再交給 Three.js 內建光照』的架構不同，屬於之後才會支援的進階節點。</p></section>
+    <section><h2>Blender 相容程度</h2><p>僅文件參考 · 需要 Blender 場景／渲染資料</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>色塊大小</td><td>float</td></tr><tr><td>IN</td><td>邊緣平滑</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

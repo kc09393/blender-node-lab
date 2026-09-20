@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Magic Texture 沒有明確對應的真實世界材質，比較像是一個『產生有趣抽象花紋』的紋理產生器，可以用 Distortion 調整花紋的複雜程度。</p></section>
     <section><h2>進階說明</h2><p>Depth（疊代次數，0-10）現在是真的可調參數，跟 Blender 一致：每多一層疊代，x/y/z 會被扭曲值再變換一次，花紋變得更複雜、更不規則，跟 Blender Cycles 內部的 `svm_magic` 演算法對照過、逐層公式一致。Depth 是節點設定（編譯期就固定），不是插槽，這點也跟 Blender 一致。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>扭曲</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

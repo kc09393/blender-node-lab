@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>常用來做『技術風格』或全息投影效果，讓模型的三角面線條發亮。</p></section>
     <section><h2>進階說明</h2><p>本沙盒的預覽幾何體已經改成 non-indexed、每個三角形附帶一組重心座標頂點屬性（vertex attribute），靠螢幕空間導數（fwidth）判斷片元離哪條邊比較近，不需要真的做網格鄰接分析。跟 Blender 的差異：Blender 的線框寬度是固定的螢幕像素寬，本沙盒的 Size 是相對三角形大小的比例值，同一個 Size 在不同細分程度的網格上看起來粗細會不太一樣。</p></section>
+    <section><h2>Blender 相容程度</h2><p>Blender 結構對齊 · 場景相依效果可能不同</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>粗細</td><td>float</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

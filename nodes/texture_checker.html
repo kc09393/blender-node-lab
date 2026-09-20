@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Checker Texture 是最容易看懂座標系統的紋理：格子如果扭曲、拉伸或縫隙不對齊，通常代表 UV 展開有問題。也可以直接拿兩個顏色做簡單的雙色材質。</p></section>
     <section><h2>進階說明</h2><p>Scale 支援任意正數（不限整數，例如 4.5 也會正確等比例縮放格子大小——這點原本文件寫錯，已更正）。跟 Blender 的差異：Blender 額外支援 4D 座標（W 分量），本沙盒的向量型別固定是三維，沒有 4D 座標的概念。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>顏色 1</td><td>color</td></tr><tr><td>IN</td><td>顏色 2</td><td>color</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title data-i18n="validation.metaTitle">Blender 一致性驗證 · Blender 5.2 LTS 材質節點</title>
+<meta name="description" data-i18n-content="validation.metaDescription" content="查看本站如何使用 Blender 5.2.2 官方執行檔核對節點結構、參數、渲染差異與資產庫。" />
+<meta name="theme-color" content="#1b1b1e" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/validation.html" />
+<link rel="stylesheet" href="css/theme.css" />
+<link rel="stylesheet" href="css/globalSearch.css" />
+<link rel="stylesheet" href="css/validation.css" />
+</head>
+<body>
+<div class="app-shell">
+  <header class="site-nav">
+    <div class="brand">Blender 材質<span>節點</span></div>
+    <nav>
+      <a href="index.html" data-i18n="nav.home">首頁</a>
+      <a href="encyclopedia.html" data-i18n="nav.encyclopedia">節點百科</a>
+      <a href="sandbox.html" data-i18n="nav.sandbox">自由沙盒</a>
+      <a href="tutorials.html" data-i18n="nav.tutorials">引導教學</a>
+      <a href="reference.html" data-i18n="nav.reference">參考表</a>
+      <a href="troubleshoot.html" data-i18n="nav.troubleshoot">疑難排解</a>
+    </nav>
+    <button id="global-search-btn" type="button"><span data-i18n="search.button">搜尋</span><span class="gs-kbd">Ctrl K</span></button>
+    <button id="lang-toggle" type="button">中 / EN</button>
+  </header>
+  <main class="validation-main">
+    <div class="validation-hero">
+      <div class="validation-kicker">Blender 5.2.2 LTS · d13f752e3b9c</div>
+      <h1 data-i18n="validation.title">節點和效果怎麼確認與 Blender 一致？</h1>
+      <p data-i18n="validation.lead">不是只看名稱：本站保存 Blender 官方執行檔匯出的節點結構，並用真實 EEVEE 渲染做 A/B 基準。瀏覽器做不到的部分會明確標示。</p>
+    </div>
+    <section class="validation-stats">
+      <div><strong>81 / 82</strong><span data-i18n="validation.schemaStat">節點映射到官方 5.2.2 結構；1 個為已移除舊節點</span></div>
+      <div><strong>12</strong><span data-i18n="validation.renderStat">官方 Blender 參考渲染</span></div>
+      <div><strong>6</strong><span data-i18n="validation.pairStat">單一參數 A/B 效果組</span></div>
+      <div><strong>90</strong><span data-i18n="validation.assetStat">已驗證 Material Assets</span></div>
+    </section>
+    <section class="validation-section">
+      <h2 data-i18n="validation.methodTitle">驗證方法</h2>
+      <ol>
+        <li data-i18n="validation.method1">以 Blender 5.2.2 執行檔匯出 118 種著色節點的中英文名稱、插槽、預設值與選項。</li>
+        <li data-i18n="validation.method2">自動比對網站 82 個節點；81 個對應現行官方節點，Point Density 保留為歷史文件。</li>
+        <li data-i18n="validation.method3">固定場景、攝影機與燈光，只改一個參數後由 EEVEE 渲染，確認每組結果確實有像素差異。</li>
+        <li data-i18n="validation.method4">將網站節點圖匯出到 Blender，重建所有 90 個材質並重新開啟 .blend 檢查資產與接線。</li>
+      </ol>
+    </section>
+    <section class="validation-section">
+      <h2 data-i18n="validation.examplesTitle">Blender 5.2.2 真實渲染 A/B</h2>
+      <p data-i18n="validation.examplesLead">以下圖片不是網站預覽，而是測試時由 Blender 5.2.2 EEVEE 自動輸出的固定基準。</p>
+      <div class="render-pairs">
+        <figure><figcaption>Roughness 0.15 → 0.80</figcaption><div><img src="tests/fixtures/blender-5.2.2-render-reference/dielectric-roughness-015.png" alt="Blender roughness 0.15" /><img src="tests/fixtures/blender-5.2.2-render-reference/dielectric-roughness-080.png" alt="Blender roughness 0.80" /></div></figure>
+        <figure><figcaption>Metal Roughness 0.15 → 0.80</figcaption><div><img src="tests/fixtures/blender-5.2.2-render-reference/metal-roughness-015.png" alt="Blender metal roughness 0.15" /><img src="tests/fixtures/blender-5.2.2-render-reference/metal-roughness-080.png" alt="Blender metal roughness 0.80" /></div></figure>
+        <figure><figcaption>Transmission 0 → 1</figcaption><div><img src="tests/fixtures/blender-5.2.2-render-reference/transmission-000.png" alt="Blender transmission zero" /><img src="tests/fixtures/blender-5.2.2-render-reference/transmission-100.png" alt="Blender transmission one" /></div></figure>
+        <figure><figcaption>Emission Strength 1 → 8</figcaption><div><img src="tests/fixtures/blender-5.2.2-render-reference/emission-strength-1.png" alt="Blender emission strength one" /><img src="tests/fixtures/blender-5.2.2-render-reference/emission-strength-8.png" alt="Blender emission strength eight" /></div></figure>
+      </div>
+    </section>
+    <section class="validation-section boundary-box">
+      <h2 data-i18n="validation.boundaryTitle">誠實的邊界</h2>
+      <p data-i18n="validation.boundaryText">Three.js 即時光柵預覽不等於 Cycles 路徑追蹤。體積、間接照明、多物體光線互動和部分 EEVEE／Cycles 專屬功能必須回 Blender 驗證；百科會逐節點標示「公式對齊」「視覺近似」或「僅文件」。</p>
+      <div class="validation-actions"><a href="tests/fixtures/blender-5.2.2-render-reference/manifest.json" data-i18n="validation.manifestLink">查看渲染基準資料</a><a class="primary" href="downloads/blender-node-lab-material-library-5.2.2.blend" data-i18n="validation.libraryLink">下載 90 材質 Blender 資產庫</a></div>
+    </section>
+  </main>
+</div>
+<script src="js/bootGuard.js"></script>
+<script type="module" src="js/app-validation.js"></script>
+</body>
+</html>

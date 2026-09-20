@@ -39,6 +39,9 @@ try {
   await page.goto(`http://127.0.0.1:${port}/tutorials.html`, { waitUntil: "networkidle" });
   await page.waitForSelector(".skill-row");
   if (await page.locator(".skill-row").count() !== 6) errors.push("skill map should contain 6 skills");
+  await page.locator("#assessment-start-btn").click();
+  if (await page.locator(".assessment-form fieldset").count() !== 30) errors.push("assessment should contain 30 diagnostic questions");
+  await page.locator("#learning-dialog-close").click();
   if (await page.locator("#challenge-topic option").count() < 3) errors.push("challenge topic filter was not populated");
   await page.locator(".activity-favorite").first().click();
   if ((await page.locator(".activity-favorite").first().getAttribute("aria-pressed")) !== "true") errors.push("favorite toggle did not update");
@@ -71,6 +74,22 @@ try {
   await page.setViewportSize({ width: 390, height: 844 });
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   if (overflow !== 0) errors.push(`mobile horizontal overflow: ${overflow}px`);
+
+  await page.setViewportSize({ width: 1280, height: 900 });
+  await page.goto(`http://127.0.0.1:${port}/sandbox.html`, { waitUntil: "networkidle" });
+  await page.locator("#btn-ab-save").click();
+  if (await page.locator("#btn-ab-compare").isDisabled()) errors.push("A/B compare did not enable after saving baseline A");
+  await page.locator("#btn-ab-compare").click();
+  if (!await page.locator("#ab-dialog").evaluate((dialog) => dialog.open)) errors.push("A/B comparison dialog did not open");
+  if (!String(await page.locator("#ab-image-a").getAttribute("src")).startsWith("data:image/")) errors.push("A/B baseline image was not captured");
+  await page.locator("#ab-dialog-close").click();
+  const python = await page.evaluate(async () => {
+    const { graphToBlenderPython } = await import("./js/core/blenderPythonExport.js");
+    return graphToBlenderPython(window.__bmlSandbox.editor.graph);
+  });
+  if (!python.includes("Blender 5.2.2 LTS") || !python.includes("ShaderNodeOutputMaterial")) errors.push("Blender Python export is incomplete");
+  const libraryBytes = await page.evaluate(async () => (await fetch("./downloads/blender-node-lab-material-library-5.2.2.blend")).arrayBuffer().then((buffer) => buffer.byteLength));
+  if (libraryBytes < 100000) errors.push("Blender asset library download is unexpectedly small");
 
   if (errors.length) throw new Error(errors.join("\n"));
   console.log(`Browser QA passed. ${summary.replace(/\s+/g, " ").trim()}; mobile overflow 0px.`);

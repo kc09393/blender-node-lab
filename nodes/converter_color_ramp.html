@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Color Ramp 接收一個數值（Fac），依它的大小在幾個顏色停駐點（stop）之間做漸層混合：數值落在哪兩個停駐點之間，就在那兩個顏色間過渡。點漸層條下方的「+」可以新增停駐點、拖曳位置數字調整它在漸層上的位置、點 × 可以刪除（至少要留 2 個）。常接在 Noise Texture 後面把黑白雜訊變成想要的配色。</p></section>
     <section><h2>進階說明</h2><p>色彩空間（Color Mode）：RGB／HSV／HSL，決定在哪個色彩空間裡做插值再轉回 RGB——HSV/HSL 在跨色相過渡時比較不會像 RGB 一樣中間掉飽和度變灰。插值方式（Interpolation）：線性（Linear）、緩動（Ease，比線性更平滑）、原始（Cardinal）、B－樣條（B-Spline，最平滑但不會剛好經過停駐點本身的顏色）、常量（Constant，硬邊、不過渡）——都跟 Blender 一致。色彩空間選 HSV/HSL 時會多出「色相過渡（Hue Interpolation）」選單，4 種都跟 Blender 一致：近端（Near，走最短路徑）、遠端（Far，故意繞遠路）、順時針／逆時針（CW／CCW，固定往同一個方向繞，不管哪邊比較短）。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>係數</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>透明度</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

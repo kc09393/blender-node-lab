@@ -1,0 +1,275 @@
+{
+  "blenderVersion": "5.2.2 LTS",
+  "blenderBuildHash": "d13f752e3b9c",
+  "engine": "BLENDER_EEVEE",
+  "resolution": [
+    256,
+    256
+  ],
+  "cases": [
+    {
+      "id": "dielectric-roughness-015",
+      "file": "dielectric-roughness-015.png",
+      "sha256": "2852f4c732c9ae22eb756497074584177404dba177012db15d1277bec124d637",
+      "meanRgb": [
+        0.4584894,
+        0.4380249,
+        0.431638
+      ],
+      "minRgb": 0.0078431,
+      "maxRgb": 0.937255,
+      "parameters": {
+        "roughness": 0.15
+      }
+    },
+    {
+      "id": "dielectric-roughness-080",
+      "file": "dielectric-roughness-080.png",
+      "sha256": "39fe8fa4561c3b39acfb217253a46713c18bc0d1a10263832c45ec3314efbb6d",
+      "meanRgb": [
+        0.459974,
+        0.4400478,
+        0.4364921
+      ],
+      "minRgb": 0.0039216,
+      "maxRgb": 0.9019608,
+      "parameters": {
+        "roughness": 0.8
+      }
+    },
+    {
+      "id": "metal-roughness-015",
+      "file": "metal-roughness-015.png",
+      "sha256": "b187dbe65f5e63c08cd31412ddb8ccd35a3acf30695f8f929afe3ab703ccbcb4",
+      "meanRgb": [
+        0.3971885,
+        0.412333,
+        0.4350181
+      ],
+      "minRgb": 0.0666667,
+      "maxRgb": 1.0,
+      "parameters": {
+        "metallic": 1.0,
+        "roughness": 0.15,
+        "base_color": [
+          0.32,
+          0.46,
+          0.72,
+          1
+        ]
+      }
+    },
+    {
+      "id": "metal-roughness-080",
+      "file": "metal-roughness-080.png",
+      "sha256": "f2d0afa0bf2d44c0cbddbeea47dc376ba6565e45f6675bfeaf6079dc9965e486",
+      "meanRgb": [
+        0.4355492,
+        0.4581574,
+        0.4923683
+      ],
+      "minRgb": 0.0392157,
+      "maxRgb": 0.937255,
+      "parameters": {
+        "metallic": 1.0,
+        "roughness": 0.8,
+        "base_color": [
+          0.32,
+          0.46,
+          0.72,
+          1
+        ]
+      }
+    },
+    {
+      "id": "transmission-000",
+      "file": "transmission-000.png",
+      "sha256": "a0d6e64b004ebc8d196ef586225f253e478dfc3e14f577f777aa82fd18455186",
+      "meanRgb": [
+        0.4583167,
+        0.4376,
+        0.4307908
+      ],
+      "minRgb": 0.0078431,
+      "maxRgb": 0.9411765,
+      "parameters": {
+        "transmission": 0.0,
+        "roughness": 0.08
+      }
+    },
+    {
+      "id": "transmission-100",
+      "file": "transmission-100.png",
+      "sha256": "cb0a412cc7edc968d7077a641f395285a6744a8213d13e4163666d532151edaa",
+      "meanRgb": [
+        0.3949111,
+        0.3964256,
+        0.4084136
+      ],
+      "minRgb": 0.0039216,
+      "maxRgb": 0.9411765,
+      "parameters": {
+        "transmission": 1.0,
+        "roughness": 0.08
+      }
+    },
+    {
+      "id": "emission-strength-1",
+      "file": "emission-strength-1.png",
+      "sha256": "c05eedaf88bdf262b56b7d7016554366d6d8a189c57987a99e539f1b3aab642c",
+      "meanRgb": [
+        0.5127761,
+        0.4448915,
+        0.438974
+      ],
+      "minRgb": 0.1529412,
+      "maxRgb": 0.9019608,
+      "parameters": {
+        "base_color": [
+          0.01,
+          0.01,
+          0.01,
+          1
+        ],
+        "emission_color": [
+          1.0,
+          0.08,
+          0.015,
+          1
+        ],
+        "emission_strength": 1.0
+      }
+    },
+    {
+      "id": "emission-strength-8",
+      "file": "emission-strength-8.png",
+      "sha256": "4a869f2e48141e9ac3f7f54af849da3f969b08ac533205f179bae33974ed0e7d",
+      "meanRgb": [
+        0.530764,
+        0.5096796,
+        0.5168186
+      ],
+      "minRgb": 0.1843137,
+      "maxRgb": 1.0,
+      "parameters": {
+        "base_color": [
+          0.01,
+          0.01,
+          0.01,
+          1
+        ],
+        "emission_color": [
+          1.0,
+          0.08,
+          0.015,
+          1
+        ],
+        "emission_strength": 8.0
+      }
+    },
+    {
+      "id": "subsurface-000",
+      "file": "subsurface-000.png",
+      "sha256": "da5f67c6b033c0a7ef412dfb54945c94d2d62eb96558eb181469f35dc12a20d5",
+      "meanRgb": [
+        0.4720026,
+        0.4362529,
+        0.4429405
+      ],
+      "minRgb": 0.0117647,
+      "maxRgb": 0.9019608,
+      "parameters": {
+        "subsurface": 0.0,
+        "roughness": 0.46,
+        "base_color": [
+          0.62,
+          0.12,
+          0.07,
+          1
+        ]
+      }
+    },
+    {
+      "id": "subsurface-100",
+      "file": "subsurface-100.png",
+      "sha256": "dc1710d8366d69d8b7b7760a324e10c4ee94ba8ed750863f3a2be0818147ca05",
+      "meanRgb": [
+        0.4718619,
+        0.4360911,
+        0.442692
+      ],
+      "minRgb": 0.0117647,
+      "maxRgb": 0.9019608,
+      "parameters": {
+        "subsurface": 1.0,
+        "roughness": 0.46,
+        "base_color": [
+          0.62,
+          0.12,
+          0.07,
+          1
+        ]
+      }
+    },
+    {
+      "id": "thin-wall-off",
+      "file": "thin-wall-off.png",
+      "sha256": "7ec9f187e54f0a289c3b0d6054a6823c0c4aa47d9111abd243daf1e0cf911808",
+      "meanRgb": [
+        0.3954798,
+        0.3970762,
+        0.4091536
+      ],
+      "minRgb": 0.0039216,
+      "maxRgb": 0.937255,
+      "parameters": {
+        "transmission": 1.0,
+        "thin_wall": false,
+        "roughness": 0.12
+      }
+    },
+    {
+      "id": "thin-wall-on",
+      "file": "thin-wall-on.png",
+      "sha256": "f63702095bb5ad498eb5d44eb8aea448d32ca853ff7c0c6384efd664be8545fe",
+      "meanRgb": [
+        0.3935393,
+        0.3951595,
+        0.4078713
+      ],
+      "minRgb": 0.0039216,
+      "maxRgb": 0.937255,
+      "parameters": {
+        "transmission": 1.0,
+        "thin_wall": true,
+        "roughness": 0.12
+      }
+    }
+  ],
+  "differencePairs": [
+    [
+      "dielectric-roughness-015",
+      "dielectric-roughness-080"
+    ],
+    [
+      "metal-roughness-015",
+      "metal-roughness-080"
+    ],
+    [
+      "transmission-000",
+      "transmission-100"
+    ],
+    [
+      "emission-strength-1",
+      "emission-strength-8"
+    ],
+    [
+      "subsurface-000",
+      "subsurface-100"
+    ],
+    [
+      "thin-wall-off",
+      "thin-wall-on"
+    ]
+  ]
+}

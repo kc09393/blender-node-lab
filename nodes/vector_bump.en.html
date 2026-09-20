@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Bump takes a value (often a Noise/Wave Texture&#39;s output as Height) — brighter areas look raised. It only fakes the lighting; the actual geometry (silhouette, collisions) stays flat.</p></section>
     <section><h2>Technical notes</h2><p>This sandbox uses the screen-space derivative (dFdx/dFdy) technique to convert the height&#39;s local slope into a normal offset, without needing extra tangent data. The direction of the effect matches Blender&#39;s Bump node, though implementation details differ. To see the effect, connect Bump&#39;s output into a Principled BSDF&#39;s Normal socket.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned where documented · live raster preview</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Strength</td><td>float</td></tr><tr><td>IN</td><td>Distance</td><td>float</td></tr><tr><td>IN</td><td>Filter Width</td><td>float</td></tr><tr><td>IN</td><td>Height</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>Normal</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

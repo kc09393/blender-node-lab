@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Magic Texture doesn&#39;t correspond to any real-world material — it&#39;s more of an &#39;interesting abstract pattern&#39; generator. Use Distortion to adjust pattern complexity.</p></section>
     <section><h2>Technical notes</h2><p>Depth (iteration count, 0-10) is now genuinely adjustable, matching Blender: each additional iteration transforms x/y/z through the distortion value again, making the pattern more complex and irregular — verified against Blender Cycles&#39; internal `svm_magic` algorithm, formula-for-formula per level. Depth is a node setting (fixed at compile time), not a socket, matching Blender.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned where documented · live raster preview</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Distortion</td><td>float</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Factor</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

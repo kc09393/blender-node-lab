@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Similar to Mix Shader but without a Fac ratio — both inputs are simply added together. Often used to layer extra reflection or glow on top of a base material.</p></section>
     <section><h2>Technical notes</h2><p>Approximation used here: base parameters are averaged, emission is summed, and the stronger Transmission, Coat, and Thin Film layers are kept to avoid invalid ranges. This is not true radiance addition, but it demonstrates the layering concept.</p></section>
+    <section><h2>Blender compatibility</h2><p>Blender sockets/defaults aligned · lighting is a Three.js approximation</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Shader</td><td>shader</td></tr><tr><td>IN</td><td>Shader</td><td>shader</td></tr><tr><td>OUT</td><td>Shader</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

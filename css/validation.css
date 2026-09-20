@@ -1,0 +1,23 @@
+.validation-main { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 48px 0 72px; }
+.validation-hero { max-width: 820px; }
+.validation-kicker { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .09em; }
+.validation-hero h1 { margin: 10px 0 12px; font-size: clamp(28px, 5vw, 48px); line-height: 1.1; }
+.validation-hero p, .validation-section p, .validation-section li { color: var(--text-1); line-height: 1.75; }
+.validation-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin: 30px 0; }
+.validation-stats div { padding: 16px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-1); }
+.validation-stats strong { display: block; color: var(--accent); font-size: 25px; }
+.validation-stats span { display: block; margin-top: 4px; color: var(--text-2); font-size: 12px; line-height: 1.5; }
+.validation-section { margin-top: 24px; padding: 24px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-1); }
+.validation-section h2 { margin: 0 0 10px; font-size: 20px; }
+.validation-section ol { margin: 0; padding-left: 22px; }
+.render-pairs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+.render-pairs figure { margin: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-0); }
+.render-pairs figcaption { padding: 9px 12px; font-size: 12px; font-weight: 600; }
+.render-pairs figure div { display: grid; grid-template-columns: 1fr 1fr; }
+.render-pairs img { display: block; width: 100%; }
+.boundary-box { border-color: rgba(255, 164, 48, .45); }
+.validation-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.validation-actions a { padding: 9px 14px; border: 1px solid var(--border); border-radius: 6px; color: var(--text-0); text-decoration: none; }
+.validation-actions a.primary { color: #17171a; background: var(--accent); border-color: var(--accent); font-weight: 700; }
+@media (max-width: 760px) { .validation-stats, .render-pairs { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 520px) { .validation-stats, .render-pairs { grid-template-columns: 1fr; } .validation-main { padding-top: 28px; } }

@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>比 Brightness/Contrast 更自由：可以只拉暗部、只拉亮部，或做出反轉效果，跟 Photoshop 的曲線工具概念相同。</p></section>
     <section><h2>進階說明</h2><p>已補上可拖拉控制點的曲線編輯器，曲線本身用平滑的 Cardinal（Catmull-Rom 風格）多項式逐段穿過每個控制點，跟 Blender 曲線部件的預設平滑手把效果一致（不是逐段直線）。現在也跟 Blender 一樣有 4 條獨立曲線：「C」合成曲線先同時套用在 R/G/B 三個頻道，套用完的結果再各自送進 R/G/B 各自獨立的曲線——順序跟 Blender GPU 著色器原始碼（`gpu_shader_common_curves.glsl` 的 `curves_combined_rgb`）核對過一致。差異：本沙盒沒有 Blender「切換頻道分頁」的介面，4 條曲線直接全部攤開顯示。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

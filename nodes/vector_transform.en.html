@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>The same vector (like a normal) has different values depending on the coordinate system. This node converts between them.</p></section>
     <section><h2>Technical notes</h2><p>Three.js already provides every material with modelMatrix (Object→World) and viewMatrix (World→Camera) uniforms; this sandbox uses them directly (falling back to WebGL2/GLSL ES 3.00&#39;s built-in inverse() where needed) to implement this node. Difference from Blender: Blender has a Type dropdown for Point/Vector/Normal (Point adds translation, Normal uses the inverse-transpose matrix for non-uniform scale). This sandbox&#39;s preview objects have no adjustable transform (no scale/translation), so it&#39;s always treated as a pure direction (no translation) — under uniform scale all three Types give the same result anyway, so the distinction is skipped for now.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned where documented · live raster preview</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>OUT</td><td>Vector</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

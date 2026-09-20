@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Glass BSDF 讓表面既會反光、又會透光，Roughness 控制模糊程度、IOR（折射率）決定反光強不強、透明感夠不夠明顯（玻璃約 1.45、水約 1.33、鑽石約 2.42——數字越大，邊緣反光越明顯、整體看起來越像寶石而不是單純的窗玻璃）。正面看比較透、側邊/邊緣比較容易看到反光，這是玻璃的典型特徵。</p></section>
     <section><h2>進階說明</h2><p>真正的折射需要對背後場景做逐光線彎曲取樣，屬於路徑追蹤渲染器的強項（我們也試過直接用 Three.js MeshPhysicalMaterial 內建的 transmission 物理透射功能，但在這個渲染環境下沒有正確顯現透射效果，所以改用下面這個更可控的做法）。本沙盒把 Glass BSDF 實作成：用 Fresnel 公式依 IOR 算出「側邊反光強度」，讓透明度隨著視角與 IOR 變化——正面看比較透明、側邊/IOR 越高越不透明越反光，方向是對的，但不會真的讓背後景物彎曲變形。</p></section>
+    <section><h2>Blender 相容程度</h2><p>Blender 插槽／預設值對齊 · 光照為 Three.js 近似</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>IN</td><td>薄膜厚度</td><td>float</td></tr><tr><td>IN</td><td>薄膜 IOR</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

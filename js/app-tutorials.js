@@ -139,19 +139,30 @@ function getRecommendedTutorial() {
   return id ? tutorials.find((tutorial) => tutorial.id === id) : null;
 }
 
+function getAssessmentPracticeActivity() {
+  const weakTopics = learningState.assessment?.weakTopics || [];
+  for (const topic of weakTopics) {
+    const activity = resolvedActivities.find((item) => inferActivityTopic(item) === topic && !learningState.activities?.[item.id]?.completedAt);
+    if (activity) return activity;
+  }
+  return null;
+}
+
 function renderLearningDashboard() {
   const lang = getLang();
   const stats = learningStats(learningState, tutorials.length, resolvedActivities.length);
   const assessment = learningState.assessment;
   const recommendation = getRecommendedTutorial();
+  const assessmentPractice = getAssessmentPracticeActivity();
+  const weaknessText = (assessment?.weakTopics || []).slice(0, 2).map((topic) => tBi(topicLabel(topic))).join("、");
   const profileSummary = document.getElementById("learning-profile-summary");
   profileSummary.textContent = assessment
     ? (lang === "zh"
-      ? `目前程度：${assessment.levelZh}。建議下一步：${recommendation ? tBi(recommendation.name) : "自由挑戰自己的材質"}。`
-      : `Current level: ${assessment.levelEn}. Recommended next: ${recommendation ? tBi(recommendation.name) : "build a material of your own"}.`)
+      ? `目前程度：${assessment.levelZh}。${weaknessText ? `優先補強：${weaknessText}。` : ""}建議下一步：${assessmentPractice ? tBi(assessmentPractice.name) : recommendation ? tBi(recommendation.name) : "自由挑戰自己的材質"}。`
+      : `Current level: ${assessment.levelEn}. ${weaknessText ? `Priority gaps: ${weaknessText}. ` : ""}Recommended next: ${assessmentPractice ? tBi(assessmentPractice.name) : recommendation ? tBi(recommendation.name) : "build a material of your own"}.`)
     : (lang === "zh"
-      ? "先做 6 題能力診斷，網站會幫你找到合適起點；所有進度只存在這台裝置。"
-      : "Take the 6-question skill check to find a good starting point. Progress stays only on this device.");
+      ? `先做 ${assessmentQuestions.length} 題能力診斷，網站會分析弱項與合適起點；所有進度只存在這台裝置。`
+      : `Take the ${assessmentQuestions.length}-question skill check to identify gaps and a good starting point. Progress stays only on this device.`);
 
   document.getElementById("learning-stats").innerHTML = `
     <div><strong>${stats.completed}</strong><span>${lang === "zh" ? `完成教學 / ${stats.tutorialTotal}` : `tutorials / ${stats.tutorialTotal}`}</span></div>
@@ -325,27 +336,47 @@ function openAssessment() {
   form.addEventListener("submit", (event) => {
     event.preventDefault();
     const data = new FormData(form);
-    const score = assessmentQuestions.reduce((total, question, index) => total + (Number(data.get(`assessment-${index}`)) === question.correctIndex ? 1 : 0), 0);
-    const level = score <= 2
+    const answers = assessmentQuestions.map((question, index) => Number(data.get(`assessment-${index}`)) === question.correctIndex);
+    const score = answers.filter(Boolean).length;
+    const ratio = score / assessmentQuestions.length;
+    const topicScores = new Map();
+    assessmentQuestions.forEach((question, index) => {
+      const topic = question.topic || "workflow";
+      const record = topicScores.get(topic) || { correct: 0, total: 0 };
+      record.total += 1;
+      if (answers[index]) record.correct += 1;
+      topicScores.set(topic, record);
+    });
+    const weakTopics = [...topicScores.entries()]
+      .map(([topic, record]) => ({ topic, ratio: record.correct / record.total }))
+      .sort((a, b) => a.ratio - b.ratio || a.topic.localeCompare(b.topic))
+      .filter((item) => item.ratio < 0.8)
+      .slice(0, 3)
+      .map((item) => item.topic);
+    const level = ratio <= 0.4
       ? { zh: "基礎探索者", en: "Foundation Explorer", stageIndex: 0 }
-      : score <= 4
+      : ratio <= 0.72
         ? { zh: "材質實作者", en: "Material Builder", stageIndex: Math.min(2, learningPath.length - 1) }
         : { zh: "節點解題者", en: "Node Problem Solver", stageIndex: Math.min(4, learningPath.length - 1) };
-    saveAssessment(learningState, { score, total: assessmentQuestions.length, levelZh: level.zh, levelEn: level.en, stageIndex: level.stageIndex });
+    saveAssessment(learningState, { score, total: assessmentQuestions.length, levelZh: level.zh, levelEn: level.en, stageIndex: level.stageIndex, weakTopics });
     renderLearningDashboard();
     const recommendation = getRecommendedTutorial();
+    const practice = getAssessmentPracticeActivity();
+    const weakLabels = weakTopics.map((topic) => tBi(topicLabel(topic))).join("、");
     const result = document.createElement("div");
     result.className = "assessment-result";
     result.innerHTML = `
       <div class="assessment-score">${score} / ${assessmentQuestions.length}</div>
       <h3>${lang === "zh" ? `你是「${level.zh}」` : `You're a ${level.en}`}</h3>
       <p>${lang === "zh" ? "這不是考試成績，而是幫你略過太簡單內容、補齊容易漏掉的基礎。" : "This is not a grade. It helps you skip material that is too easy while filling important gaps."}</p>
-      ${recommendation ? `<button type="button" class="primary" id="assessment-recommendation">${lang === "zh" ? `從「${tBi(recommendation.name)}」開始` : `Start with “${tBi(recommendation.name)}”`}</button>` : ""}
+      ${weakLabels ? `<p><strong>${lang === "zh" ? "優先補強" : "Priority gaps"}：</strong>${weakLabels}</p>` : ""}
+      ${practice || recommendation ? `<button type="button" class="primary" id="assessment-recommendation">${lang === "zh" ? `從「${tBi((practice || recommendation).name)}」開始` : `Start with “${tBi((practice || recommendation).name)}”`}</button>` : ""}
     `;
     learningDialogBody.replaceChildren(result);
     result.querySelector("button")?.addEventListener("click", () => {
       closeLearningDialog();
-      startTutorial(recommendation);
+      if (practice) startActivity(practice);
+      else startTutorial(recommendation);
     });
   });
   openLearningDialog(lang === "zh" ? "能力診斷" : "Skill Check", form);

@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>常接到 Mix Color 或 Color Ramp，讓模型凹陷處自然變暗，增加真實感。</p></section>
     <section><h2>進階說明</h2><p>正確運算需要對周遭幾何做多方向取樣（螢幕空間 SSAO 或逐光線取樣），計算量較大；本沙盒的即時預覽管線目前沒有這一道多重取樣步驟，先列文件。（曾嘗試用螢幕空間法線曲率（dFdx/dFdy）近似邊角遮蔽，實測即使在方塊的銳利邊緣上，效果也被抗鋸齒/多重取樣稀釋到肉眼幾乎看不出來，判斷不值得為了一個看不見的效果新增節點支援，故維持文件狀態。）</p></section>
+    <section><h2>Blender 相容程度</h2><p>僅文件參考 · 需要 Blender 場景／渲染資料</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>距離</td><td>float</td></tr><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>AO</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

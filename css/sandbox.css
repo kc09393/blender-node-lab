@@ -125,9 +125,22 @@
 .editor-toolbar {
   display: flex; align-items: center; gap: 8px;
   padding: 8px 12px; background: var(--bg-1); border-bottom: 1px solid var(--border);
-  flex-shrink: 0;
+  flex-shrink: 0; flex-wrap: wrap;
 }
+.editor-toolbar button, .editor-toolbar select { flex: 0 0 auto; }
 .toolbar-spacer { flex: 1; }
+.ab-dialog { width: min(760px, calc(100vw - 28px)); padding: 0; color: var(--text-0); background: var(--bg-1); border: 1px solid var(--accent-2); border-radius: 10px; box-shadow: 0 24px 80px rgba(0,0,0,.65); }
+.ab-dialog::backdrop { background: rgba(8,8,11,.78); backdrop-filter: blur(4px); }
+.ab-dialog-head { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.ab-dialog-head h2 { margin: 0; font-size: 16px; }
+.ab-dialog-head button { font-size: 20px; }
+.ab-dialog-body { padding: 16px; }
+.ab-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.ab-grid figure { margin: 0; overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: var(--bg-0); }
+.ab-grid figcaption { padding: 8px 10px; font-size: 12px; font-weight: 600; }
+.ab-grid img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: #111; }
+.ab-dialog-body p { margin: 14px 0 0; color: var(--text-1); font-size: 12.5px; }
+@media (max-width: 600px) { .ab-grid { grid-template-columns: 1fr; } }
 .preset-description {
   padding: 8px 14px;
   background: var(--bg-1);

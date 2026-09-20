@@ -4,6 +4,16 @@
 // 調整分類或加新材質時只要改這裡，不用一個個進去改每份 preset 檔案。
 export default [
   {
+    id: "architecture",
+    label: { zh: "建築表面", en: "Architecture" },
+    presetIds: ["painted_plaster", "terrazzo_tile", "asphalt_road", "limestone_wall", "wet_concrete", "terracotta_roof_tile", "weathered_stucco", "bathroom_tile", "dark_terrazzo", "granite_facade"],
+  },
+  {
+    id: "product",
+    label: { zh: "產品材質", en: "Product Materials" },
+    presetIds: ["matte_black_plastic", "frosted_acrylic", "anodized_aluminum", "ceramic_glaze", "rubber_grip", "powder_coated_metal", "translucent_packaging", "carbon_fiber"],
+  },
+  {
     id: "basics",
     label: { zh: "基礎材質", en: "Basics" },
     presetIds: [
@@ -50,6 +60,16 @@ export default [
   {
     id: "fabric",
     label: { zh: "布料工藝", en: "Fabric & Craft" },
-    presetIds: ["camo_fabric", "stained_wood_inlay", "denim_fabric", "terracotta_clay", "cork_board"],
+    presetIds: ["camo_fabric", "stained_wood_inlay", "denim_fabric", "terracotta_clay", "cork_board", "silk_fabric", "wool_fabric", "lace_mesh", "knit_fabric", "reflective_sportswear"],
+  },
+  {
+    id: "nature",
+    label: { zh: "自然環境", en: "Nature & Environment" },
+    presetIds: ["tree_bark", "moss_rock", "snow_crust", "wet_mud", "ocean_foam"],
+  },
+  {
+    id: "stylized-new",
+    label: { zh: "風格化特效", en: "Stylized Effects" },
+    presetIds: ["magic_crystal", "pixel_energy"],
   },
 ];

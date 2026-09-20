@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>跟 Photoshop 圖層的『混合模式』概念一樣：Mix 是直接淡入淡出、Multiply 讓顏色變暗（適合疊陰影）、Screen 讓顏色變亮（適合疊光暈）、Add 直接相加。</p></section>
     <section><h2>進階說明</h2><p>這是新版 Blender 通用 Mix 節點的『顏色』模式，18 種混合模式跟 Blender 完整版一致（分四組：變暗群組——變暗/正片疊底/顏色加深；變亮群組——變亮/濾色/顏色減淡/相加；對比群組——疊加/柔光/線性光；比較群組——差值/相減/相除；分量群組——色相/飽和度/顏色/明度）。色相/飽和度/顏色/明度這 4 種是依 PDF 混合模式規格（跟 CSS、Photoshop 同一套）用亮度（Lum）/飽和度（Sat）的設定—裁切運算實作，不是簡單的極座標色相旋轉。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>係數</td><td>float</td></tr><tr><td>IN</td><td>A</td><td>color</td></tr><tr><td>IN</td><td>B</td><td>color</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

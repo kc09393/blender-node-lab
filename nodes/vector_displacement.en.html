@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Unlike Bump, Displacement actually pushes vertices outward, so the silhouette changes too — at the cost of needing a dense enough mesh subdivision.</p></section>
     <section><h2>Technical notes</h2><p>This sandbox added a separate &#39;vertex shader compile pass&#39; — when wired into Material Output&#39;s Displacement socket, Height genuinely offsets vertices along the normal in the vertex shader (not just faked lighting anymore). This pass only supports nodes that don&#39;t need fragment-only data (Math/Vector Math/Mapping/procedural textures, etc.) — Bump/Fresnel and similar can&#39;t be used here. This sandbox&#39;s preview meshes have fixed subdivision (sphere/torus are fairly dense, cube/plane less so) with no user control, so high-frequency displacement can look blocky on the cube.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned where documented · live raster preview</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Height</td><td>float</td></tr><tr><td>IN</td><td>Midlevel</td><td>float</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>Displacement</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

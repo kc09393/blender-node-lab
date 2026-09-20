@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>通道拆開了，粗糙度卻沒有變化 · Blender 材質除錯實驗</title>
+<meta name="description" content="RGB 打包與拆包正常，但 R 通道沒有送到粗糙度。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="通道拆開了，粗糙度卻沒有變化 · Blender 材質除錯實驗" />
+<meta property="og:description" content="RGB 打包與拆包正常，但 R 通道沒有送到粗糙度。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/practice/debug-channel-pack-roughness.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/practice/debug-channel-pack-roughness.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/practice/debug-channel-pack-roughness.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/practice/debug-channel-pack-roughness.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"通道拆開了，粗糙度卻沒有變化","description":"RGB 打包與拆包正常，但 R 通道沒有送到粗糙度。","inLanguage":"zh-Hant","educationalLevel":"進階除錯","learningResourceType":"debugging lab","teaches":"把 Separate Color 的 R 接回 Principled Roughness。","url":"https://kc09393.github.io/blender-node-lab/practice/debug-channel-pack-roughness.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.2 LTS</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 材質除錯實驗</div>
+    <h1>通道拆開了，粗糙度卻沒有變化</h1>
+    <p class="content-lead">RGB 打包與拆包正常，但 R 通道沒有送到粗糙度。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?activity=debug-channel-pack-roughness">開啟互動實作</a>
+      <a href="debug-channel-pack-roughness.en.html">English</a>
+    </div>
+    <section><h2>實作目標</h2><p>把 Separate Color 的 R 接回 Principled Roughness。</p></section>
+    <section><h2>漸進提示</h2><ol><li><strong>提示 1：</strong>確認 Separate Color 的各通道去了哪裡。</li><li><strong>提示 2：</strong>這份案例把 R 指定為 Roughness 遮罩。</li></ol></section>
+    <section><h2>如何使用這個實驗</h2><p>先不要一次展開所有提示，自己完成節點圖。互動檢查會驗證必要結構與數值，最後可以和參考節點圖比較。</p></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
+</body>
+</html>

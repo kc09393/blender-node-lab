@@ -58,6 +58,7 @@ import neonGlassTube from "./neon_glass_tube.js";
 import galvanizedZinc from "./galvanized_zinc.js";
 import saltFlatDesert from "./salt_flat_desert.js";
 import agedParchment from "./aged_parchment.js";
+import expandedCollection from "./expanded_collection.js";
 
 export default [
   plastic, metal, glass, wood, neon, checkerToy, skin, velvet, rustMetal,
@@ -73,4 +74,5 @@ export default [
   frogSkin, solarPanel, barnacleRock, crystalBall, terracottaClay,
   polishedConcrete, corkBoard, cracklePorcelain, chainmailMesh,
   neonGlassTube, galvanizedZinc, saltFlatDesert, agedParchment,
+  ...expandedCollection,
 ];

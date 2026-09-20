@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Hue 轉動顏色在色環上的位置（例如把紅色轉成藍色）、Saturation 控制顏色鮮豔程度（0 = 灰階）、Value 控制明暗。三個都預設在「不改變」的中間值（Hue=0.5, Saturation=1, Value=1）。</p></section>
     <section><h2>進階說明</h2><p>內部用標準的 RGB↔HSV 轉換公式實作，跟 Blender 的色彩科學一致；Fac 插槽可以控制這個調整套用的比例（0 = 完全不套用）。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>色相</td><td>float</td></tr><tr><td>IN</td><td>飽和度</td><td>float</td></tr><tr><td>IN</td><td>明度</td><td>float</td></tr><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

@@ -4,10 +4,15 @@
   "type": "module",
   "scripts": {
     "generate:seo": "node scripts/generate-seo-pages.mjs",
+    "generate:blender-map": "node scripts/generate-blender-export-map.mjs",
+    "build:blender-library": "node scripts/build-blender-asset-library.mjs",
+    "qa:blender-renders": "node scripts/audit-blender-reference-renders.mjs",
     "qa:schema": "node scripts/audit-blender-node-schema.mjs",
+    "qa:export": "node tests/blender-python-export.test.mjs",
+    "qa:content": "node scripts/audit-learning-content.mjs",
     "qa:static": "node scripts/static-qa.mjs",
     "qa:browser": "node scripts/browser-qa.mjs",
-    "qa": "npm run qa:schema && npm run qa:static && npm run qa:browser"
+    "qa": "npm run qa:schema && npm run qa:export && npm run qa:blender-renders && npm run qa:content && npm run qa:static && npm run qa:browser"
   },
   "devDependencies": {
     "playwright": "1.63.0"

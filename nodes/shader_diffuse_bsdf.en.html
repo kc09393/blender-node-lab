@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Diffuse BSDF only models light scattering evenly in all directions — no metal or transmission options. Good for fully matte materials, or for learning the simplest possible shader node.</p></section>
     <section><h2>Technical notes</h2><p>Blender&#39;s Diffuse BSDF uses Oren-Nayar (not pure Lambert) when Roughness &gt; 0. This preview folds Roughness into the final material roughness rather than doing a per-ray Oren-Nayar integral.</p></section>
+    <section><h2>Blender compatibility</h2><p>Blender sockets/defaults aligned · lighting is a Three.js approximation</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Roughness</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

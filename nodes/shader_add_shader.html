@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Add Shader 跟 Mix Shader 很像，但沒有 Fac 比例——兩個輸入會直接疊加，常用來疊加一層額外的反射或發光效果在原本材質上。</p></section>
     <section><h2>進階說明</h2><p>本沙盒的近似作法：基礎參數取兩者平均、發光直接相加，透射、塗層與薄膜取較強的一側，避免直接相加超出合理範圍。這跟真實的輻射相加不完全相同，但足以示範『疊加』的概念。</p></section>
+    <section><h2>Blender 相容程度</h2><p>Blender 插槽／預設值對齊 · 光照為 Three.js 近似</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>著色器</td><td>shader</td></tr><tr><td>IN</td><td>著色器</td><td>shader</td></tr><tr><td>OUT</td><td>Shader</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

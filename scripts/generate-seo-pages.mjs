@@ -2,7 +2,9 @@ import { mkdir, rm, writeFile } from "node:fs/promises";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import tutorials from "../data/tutorials/index.js";
+import { learningActivities } from "../data/learningActivities.js";
 import { listNodeTypes } from "../js/core/nodeRegistry.js";
+import { nodeFidelity } from "../js/core/nodeFidelity.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const siteRoot = "https://kc09393.github.io/blender-node-lab";
@@ -135,6 +137,7 @@ function nodePage(node, lang) {
     </div>
     <section><h2>${isEnglish ? "Beginner explanation" : "新手說明"}</h2><p>${esc(node.docBeginner[lang])}</p></section>
     <section><h2>${isEnglish ? "Technical notes" : "進階說明"}</h2><p>${esc(node.docPro[lang])}</p></section>
+    <section><h2>${isEnglish ? "Blender compatibility" : "Blender 相容程度"}</h2><p>${esc(nodeFidelity(node, lang))}</p></section>
     <section><h2>${isEnglish ? "Sockets" : "插槽"}</h2><table><thead><tr><th>${isEnglish ? "Direction" : "方向"}</th><th>${isEnglish ? "Name" : "名稱"}</th><th>${isEnglish ? "Type" : "型別"}</th></tr></thead><tbody>${sockets}</tbody></table></section>`;
   return {
     filename,
@@ -160,12 +163,62 @@ function nodePage(node, lang) {
   };
 }
 
+function activityPage(activity, lang) {
+  const isEnglish = lang === "en";
+  const kind = activity.kind === "debug"
+    ? (isEnglish ? "Blender Material Debug Lab" : "Blender 材質除錯實驗")
+    : (isEnglish ? "Blender Material Challenge" : "Blender 材質實戰挑戰");
+  const title = `${activity.name[lang]} · ${kind}`;
+  const description = activity.description[lang];
+  const filename = `${activity.id}${isEnglish ? ".en" : ""}.html`;
+  const alternate = `${activity.id}${isEnglish ? "" : ".en"}.html`;
+  const hints = (activity.hints || []).map((hint, index) => `<li><strong>${isEnglish ? `Hint ${index + 1}` : `提示 ${index + 1}`}：</strong>${esc(hint[lang])}</li>`).join("");
+  const body = `
+    <div class="content-kicker">${kind}</div>
+    <h1>${esc(activity.name[lang])}</h1>
+    <p class="content-lead">${esc(description)}</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?activity=${encodeURIComponent(activity.id)}${isEnglish ? "&amp;lang=en" : ""}">${isEnglish ? "Open the interactive activity" : "開啟互動實作"}</a>
+      <a href="${alternate}">${isEnglish ? "繁體中文" : "English"}</a>
+    </div>
+    <section><h2>${isEnglish ? "Goal" : "實作目標"}</h2><p>${esc(activity.objective[lang])}</p></section>
+    <section><h2>${isEnglish ? "Progressive hints" : "漸進提示"}</h2><ol>${hints}</ol></section>
+    <section><h2>${isEnglish ? "How to use this lab" : "如何使用這個實驗"}</h2><p>${isEnglish ? "Try the graph without revealing every hint. The interactive checker verifies the required node structure and values, then lets you compare your result with the reference graph." : "先不要一次展開所有提示，自己完成節點圖。互動檢查會驗證必要結構與數值，最後可以和參考節點圖比較。"}</p></section>`;
+  return {
+    filename,
+    html: pageShell({
+      lang,
+      title,
+      description,
+      canonicalPath: `practice/${filename}`,
+      alternatePath: `practice/${alternate}`,
+      type: "LearningResource",
+      body,
+      jsonLd: {
+        "@context": "https://schema.org",
+        "@type": "LearningResource",
+        name: activity.name[lang],
+        description,
+        inLanguage: isEnglish ? "en" : "zh-Hant",
+        educationalLevel: activity.level[lang],
+        learningResourceType: activity.kind === "debug" ? "debugging lab" : "practice challenge",
+        teaches: activity.objective[lang],
+        url: `${siteRoot}/practice/${filename}`,
+        isPartOf: `${siteRoot}/tutorials.html`,
+      },
+    }),
+  };
+}
+
 const learnDir = resolve(root, "learn");
 const nodesDir = resolve(root, "nodes");
+const practiceDir = resolve(root, "practice");
 await rm(learnDir, { recursive: true, force: true });
 await rm(nodesDir, { recursive: true, force: true });
+await rm(practiceDir, { recursive: true, force: true });
 await mkdir(learnDir, { recursive: true });
 await mkdir(nodesDir, { recursive: true });
+await mkdir(practiceDir, { recursive: true });
 
 const sitemapUrls = [
   ["", "weekly", "1.0"],
@@ -174,6 +227,7 @@ const sitemapUrls = [
   ["sandbox.html", "monthly", "0.8"],
   ["reference.html", "monthly", "0.6"],
   ["troubleshoot.html", "monthly", "0.6"],
+  ["validation.html", "monthly", "0.8"],
 ];
 for (const [path, changefreq, priority] of [...sitemapUrls]) {
   const separator = path.includes("?") ? "&" : "?";
@@ -196,6 +250,14 @@ for (const node of listNodeTypes()) {
   }
 }
 
+for (const activity of learningActivities) {
+  for (const lang of ["zh", "en"]) {
+    const page = activityPage(activity, lang);
+    await writeFile(resolve(practiceDir, page.filename), page.html, "utf8");
+    sitemapUrls.push([`practice/${page.filename}`, "monthly", lang === "zh" ? "0.8" : "0.7"]);
+  }
+}
+
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${sitemapUrls.map(([path, changefreq, priority]) => `  <url><loc>${siteRoot}/${path}</loc><lastmod>${generatedAt}</lastmod><changefreq>${changefreq}</changefreq><priority>${priority}</priority></url>`).join("\n")}
@@ -203,4 +265,4 @@ ${sitemapUrls.map(([path, changefreq, priority]) => `  <url><loc>${siteRoot}/${p
 `;
 await writeFile(resolve(root, "sitemap.xml"), sitemap, "utf8");
 
-console.log(`Generated ${tutorials.length * 2} tutorial pages, ${listNodeTypes().length * 2} node pages, and ${sitemapUrls.length} sitemap URLs.`);
+console.log(`Generated ${tutorials.length * 2} tutorial pages, ${listNodeTypes().length * 2} node pages, ${learningActivities.length * 2} practice pages, and ${sitemapUrls.length} sitemap URLs.`);

@@ -7,6 +7,7 @@
 export default {
   // 著色器 Shader
   shader_principled_bsdf: "tutorial_principled_bsdf_tour",
+  shader_diffuse_bsdf: "tutorial_fresnel_tour",
   shader_glossy_bsdf: "tutorial_layer_weight_clearcoat",
   shader_emission: "tutorial_neon_sign",
   shader_transparent_bsdf: "tutorial_torn_holes",
@@ -32,6 +33,9 @@ export default {
   // 輸入 Input
   input_texture_coordinate: "tutorial_uv_mapping",
   input_uv_map: "tutorial_uv_mapping",
+  input_rgb: "tutorial_mix_color_blend_modes_tour",
+  input_value: "tutorial_compass_material",
+  input_scene_time: "tutorial_scene_time_pulse",
   input_fresnel: "tutorial_fresnel_tour",
   input_layer_weight: "tutorial_layer_weight_facing_vs_fresnel",
   input_wireframe: "tutorial_wireframe_fx",
@@ -67,5 +71,9 @@ export default {
   converter_separate_color: "tutorial_hsv_channel_pack",
   converter_wavelength: "tutorial_wavelength_spectrum",
   converter_blackbody: "tutorial_blackbody_glow",
+  converter_rgb_to_bw: "tutorial_stained_glass",
   converter_float_curve: "tutorial_float_curve",
+
+  // 輸出 Output
+  output_material: "tutorial_principled_bsdf_tour",
 };

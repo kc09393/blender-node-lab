@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>The Math node is a calculator: pick an operation (Add/Subtract/Multiply...), feed in values, get the result. Commonly used to scale or offset another node&#39;s output before feeding it downstream.</p></section>
     <section><h2>Technical notes</h2><p>The operation list closely mirrors full Blender (including trig functions, Round/Modulo/Wrap/Ping-Pong, etc). Difference from Blender: Blender dynamically hides sockets you don&#39;t need based on the chosen operation (e.g. Sine shows only 1); this sandbox always shows 3 value inputs for architectural simplicity — unused ones are simply ignored. The Clamp toggle clamps the final result to 0-1.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned · final pixels still depend on color management</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Value</td><td>float</td></tr><tr><td>IN</td><td>Value</td><td>float</td></tr><tr><td>IN</td><td>Value</td><td>float</td></tr><tr><td>OUT</td><td>Value</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

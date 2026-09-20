@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>很多插槽（例如 Roughness）本來就只接受 0-1，但接上其他運算後可能超出範圍。Clamp 可以強制把數值夾回你要的範圍內。</p></section>
     <section><h2>進階說明</h2><p>模式（Type）有 2 種，跟 Blender 一致：最小最大（Min Max，預設，直接把數值夾在 Min 跟 Max 之間，假設 Min ≤ Max）、範圍（Range，如果 Min 比 Max 大會自動把兩者對調再夾值，適合 Min/Max 由上游節點動態算出來、不保證誰大誰小的情況）。公式對照 Blender GPU 著色器原始碼（`gpu_shader_material_clamp.glsl`）核對過一致。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>數值</td><td>float</td></tr><tr><td>IN</td><td>最小</td><td>float</td></tr><tr><td>IN</td><td>最大</td><td>float</td></tr><tr><td>OUT</td><td>數值</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Brick Texture 產生一排排交錯排列的磚塊，中間有灰泥縫（Mortar）。Mortar Size 控制縫隙粗細，Color 1/2 是磚塊本身會隨機挑選的兩種色調，Mortar Color 是縫隙顏色。</p></section>
     <section><h2>進階說明</h2><p>Brick Width／Row Height（磚塊本身的長寬比）、Offset／Offset Frequency（每隔幾列水平位移一次）、Squash／Squash Frequency（每隔幾列壓縮磚塊寬度）、Bias（顏色 1/2 挑選的偏向）現在都是真的可調插槽，跟 Blender 完整版一致，公式對照 `node_shader_tex_brick.cc` 的 `brick()` 函式逐項複刻。跟 Blender 的差異：Mortar 邊緣用 `smoothstep` 平滑（Mortar Smooth 插槽控制平滑範圍），細節上跟 Blender 內部的距離場演算法不完全相同，但方向一致。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>顏色 1</td><td>color</td></tr><tr><td>IN</td><td>顏色 2</td><td>color</td></tr><tr><td>IN</td><td>灰泥顏色</td><td>color</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>灰泥縫寬度</td><td>float</td></tr><tr><td>IN</td><td>灰泥平滑度</td><td>float</td></tr><tr><td>IN</td><td>偏向</td><td>float</td></tr><tr><td>IN</td><td>磚塊寬度</td><td>float</td></tr><tr><td>IN</td><td>列高</td><td>float</td></tr><tr><td>IN</td><td>位移量</td><td>float</td></tr><tr><td>IN</td><td>位移週期</td><td>float</td></tr><tr><td>IN</td><td>壓縮量</td><td>float</td></tr><tr><td>IN</td><td>壓縮週期</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

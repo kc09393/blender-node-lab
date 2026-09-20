@@ -271,6 +271,41 @@ const guidedChallenges = [
   }),
 ];
 
+const expandedChallenges = [
+  ["challenge-principled-layers", "tutorial_principled_bsdf_tour", "pbr", "中階挑戰", "Intermediate Challenge", "原理化分層：底材、清漆與薄膜", "Principled Layers: Base, Coat and Thin Film", "只用一個 Principled 建立具有底材、清漆與薄膜色偏的產品表面。", "Use one Principled node to build a product surface with base, coat and thin-film color shift."],
+  ["challenge-map-range-control", "tutorial_map_range_tour", "masking", "入門挑戰", "Beginner Challenge", "安全重映射：限制粗糙度範圍", "Safe Remap: Constrain Roughness", "把任意紋理限制在可控粗糙度範圍並啟用 Clamp。", "Constrain any texture to a controlled roughness range with Clamp enabled."],
+  ["challenge-checker-scale", "tutorial_checker_texture_tour", "texture", "入門挑戰", "Beginner Challenge", "棋盤密度：看懂 Scale", "Checker Density: Understand Scale", "用座標與棋盤格做出可以直接比較密度的表面。", "Use coordinates and Checker Texture to make surface density easy to compare."],
+  ["challenge-noise-types", "tutorial_noise_texture_tour", "texture", "中階挑戰", "Intermediate Challenge", "雜訊地形：比較五種累積方式", "Noise Terrain: Compare Five Accumulation Types", "選擇合適的 Noise 類型並控制細節、粗糙度與扭曲。", "Choose a Noise type and control detail, roughness and distortion."],
+  ["challenge-wave-rings", "tutorial_wave_rings_multi_look", "texture", "中階挑戰", "Intermediate Challenge", "同一環紋做出三種材質", "Three Materials from One Ring Pattern", "只改數值和色帶，把環狀波紋轉成木頭、水波或陶器。", "Change only values and palette to turn rings into wood, water or pottery."],
+  ["challenge-mix-modes", "tutorial_mix_color_blend_modes_tour", "color", "中階挑戰", "Intermediate Challenge", "混色模式實驗室", "Blend Mode Lab", "用相同 A/B 顏色比較 Multiply、Screen 與 Overlay。", "Compare Multiply, Screen and Overlay with the same A/B colors."],
+  ["challenge-float-curve", "tutorial_float_curve", "masking", "進階挑戰", "Advanced Challenge", "曲線塑形：壓暗中間值", "Curve Shaping: Crush Mid Values", "不用硬切色帶，使用 Float Curve 重新分配遮罩中間值。", "Redistribute mask mid-values with Float Curve instead of a hard ramp."],
+  ["challenge-rgb-curves", "tutorial_rgb_curves", "color", "進階挑戰", "Advanced Challenge", "RGB 曲線：單獨校正色偏", "RGB Curves: Correct a Color Cast", "保留整體對比，只調整一個顏色通道修正色偏。", "Preserve overall contrast while correcting a cast in one color channel."],
+  ["challenge-vector-curves", "tutorial_vector_curves", "vector", "進階挑戰", "Advanced Challenge", "向量曲線：重塑方向", "Vector Curves: Reshape Direction", "獨立調整 X/Y/Z 曲線並觀察方向資料如何改變。", "Adjust X/Y/Z curves independently and observe direction changes."],
+  ["challenge-normal-workflow", "tutorial_detail_baking_workflow", "normal", "進階挑戰", "Advanced Challenge", "烘焙細節：正確接入法線", "Baked Detail: Wire Normals Correctly", "完成 Image Texture、Normal Map 與 Principled Normal 的資料鏈。", "Complete the Image Texture, Normal Map and Principled Normal data chain."],
+  ["challenge-invert-mask", "tutorial_invert_color", "masking", "入門挑戰", "Beginner Challenge", "反轉遮罩：交換乾濕區域", "Invert a Mask: Swap Dry and Wet Areas", "用反色節點交換遮罩黑白意義，而不是重做整張紋理。", "Swap the black/white meaning of a mask without rebuilding the texture."],
+  ["challenge-clamp-safety", "tutorial_clamp_node", "workflow", "入門挑戰", "Beginner Challenge", "夾值保險：阻止參數爆掉", "Clamp Safety: Stop Runaway Values", "讓運算結果保持在材質參數可接受的範圍。", "Keep calculated values inside a safe range for material parameters."],
+  ["challenge-math-remap-order", "tutorial_math_remap", "math", "中階挑戰", "Intermediate Challenge", "運算順序：先縮放還是先位移", "Operation Order: Scale or Offset First", "用兩個 Math 節點證明交換順序會得到不同範圍。", "Use two Math nodes to prove that changing order changes the resulting range."],
+  ["challenge-blackbody", "tutorial_blackbody_glow", "emission", "中階挑戰", "Intermediate Challenge", "色溫發光：從燭火到白熱", "Temperature Emission: Candle to White Heat", "使用 Blackbody 驅動發光顏色並保持強度獨立可調。", "Drive emission color with Blackbody while keeping strength independently adjustable."],
+  ["challenge-wavelength", "tutorial_wavelength_spectrum", "color", "中階挑戰", "Intermediate Challenge", "波長光譜：數值轉可見色", "Wavelength Spectrum: Values to Visible Color", "把奈米波長轉成可見光顏色並接入發光材質。", "Convert nanometer wavelengths into visible color and feed an emissive material."],
+  ["challenge-sss-color", "tutorial_sss_texture_driven_color", "shading", "進階挑戰", "Advanced Challenge", "紋理驅動次表面顏色", "Texture-Driven Subsurface Color", "讓顏色變化真正進入散射材質，而不是只停在表面貼色。", "Send color variation into the scattering material instead of stopping at surface tint."],
+  ["challenge-candle-wax-balance", "tutorial_candle_wax_glow", "shading", "進階挑戰", "Advanced Challenge", "蠟燭：散射與內部發光", "Candle Wax: Scattering and Inner Glow", "平衡次表面與發光，讓蠟看起來透光但不自體過曝。", "Balance subsurface and emission so wax transmits light without blowing out."],
+  ["challenge-puddle", "tutorial_puddle_wetness", "masking", "進階挑戰", "Advanced Challenge", "積水遮罩：同時改色與粗糙度", "Puddle Mask: Drive Color and Roughness", "用一張遮罩同步控制潮濕顏色與低粗糙反光。", "Use one mask to coordinate wet color and low-roughness reflections."],
+  ["challenge-clearcoat-build", "tutorial_handbuilt_clearcoat", "pbr", "進階挑戰", "Advanced Challenge", "手工清漆：理解層與層的差別", "Hand-Built Clear Coat: Understand Layers", "不用 Principled Coat，親手用兩個著色器重建清漆結構。", "Rebuild a clear-coat stack with two shaders instead of Principled Coat."],
+  ["challenge-vector-space", "tutorial_vector_transform_spaces", "vector", "進階挑戰", "Advanced Challenge", "座標空間：物體與世界", "Coordinate Spaces: Object and World", "在 Object 與 World 間轉換向量並辨認圖案何時跟著模型。", "Transform vectors between Object and World and identify when patterns follow the model."],
+].map(([id, sourceTutorialId, topic, zhLevel, enLevel, zhName, enName, zhDescription, enDescription]) => guidedChallenge({
+  id,
+  sourceTutorialId,
+  topic,
+  level: { zh: zhLevel, en: enLevel },
+  name: { zh: zhName, en: enName },
+  description: { zh: zhDescription, en: enDescription },
+  objective: { zh: zhDescription, en: enDescription },
+  hints: [
+    { zh: "先完成主要資料流，再逐一調整數值。", en: "Complete the main data flow before tuning values." },
+    { zh: "卡住時從 Material Output 反向追查。", en: "When stuck, trace backward from Material Output." },
+  ],
+}));
+
 const coreDebugLabs = [
   {
     id: "debug-disconnected-output",
@@ -492,40 +527,104 @@ const derivedDebugLabs = [
   }),
 ];
 
+const expandedDebugLabs = [
+  ["debug-checker-no-vector", "tutorial_checker_texture_tour", "texture", "棋盤格固定不動", "Checker Pattern Ignores Coordinates", "input_texture_coordinate", null, "texture_checker", "vector"],
+  ["debug-noise-no-color", "tutorial_noise_texture_tour", "texture", "雜訊存在但材質仍是純色", "Noise Exists but the Material Stays Flat", "texture_noise", "color", "shader_principled_bsdf", "baseColor"],
+  ["debug-ramp-no-basecolor", "tutorial_color_ramp_tour", "color", "色帶正確卻沒有上到材質", "The Ramp Works but Never Colors the Material", "converter_color_ramp", "color", "shader_principled_bsdf", "baseColor"],
+  ["debug-bump-no-height", "tutorial_bump_tour", "normal", "Bump 有接法線卻完全平坦", "Bump Reaches Normal but Has No Height", null, null, "vector_bump", "height"],
+  ["debug-map-range-no-input", "tutorial_map_range_tour", "masking", "映射範圍永遠輸出固定值", "Map Range Always Outputs One Value", null, null, "converter_map_range", "value"],
+  ["debug-add-shader-no-output", "tutorial_add_shader_tour", "shading", "兩個發光相加卻看不到結果", "Two Emissions Add but the Result Is Invisible", "shader_emission", "bsdf", "shader_mix_shader", "shader1"],
+  ["debug-layer-weight-no-factor", "tutorial_layer_weight_facing_vs_fresnel", "pbr", "清漆混合不再隨視角變化", "Clear Coat No Longer Changes with View Angle", "input_layer_weight", null, "shader_mix_shader", "fac"],
+  ["debug-wavelength-no-emission", "tutorial_wavelength_spectrum", "emission", "波長顏色正確但發光仍是白色", "Wavelength Color Works but Emission Stays White", "converter_wavelength", "color", "shader_emission", "color"],
+  ["debug-blackbody-no-emission", "tutorial_blackbody_glow", "emission", "色溫改變但燈光顏色不變", "Temperature Changes but Glow Color Does Not", "converter_blackbody", "color", "shader_emission", "color"],
+  ["debug-vector-rotate-bypass", "tutorial_vector_rotate", "vector", "旋轉角度改了，圖案卻不旋轉", "Rotation Changes but the Pattern Does Not", "vector_rotate", "vector", null, "vector"],
+  ["debug-transform-bypass", "tutorial_vector_transform_spaces", "vector", "座標空間切換沒有作用", "Coordinate Space Conversion Has No Effect", "converter_combine_xyz", "vector", "vector_transform", "vector"],
+  ["debug-white-noise-disconnected", "tutorial_white_noise", "texture", "白噪訊節點存在但沒有顆粒", "White Noise Exists but Adds No Speckles", "texture_white_noise", null, null, null],
+  ["debug-magic-no-color", "tutorial_magic_texture", "texture", "迷幻紋理有輸出但材質仍灰", "Magic Texture Outputs but the Material Is Gray", "texture_magic", "color", "shader_principled_bsdf", "baseColor"],
+  ["debug-voronoi-no-bump", "tutorial_voronoi_nsphere_bump_clusters", "normal", "細胞團塊有遮罩卻沒有立體感", "Cell Clusters Have a Mask but No Relief", "texture_voronoi", null, "vector_bump", "height"],
+  ["debug-normal-map-unplugged", "tutorial_detail_baking_workflow", "normal", "法線貼圖顏色正確但表面沒細節", "Normal Map Color Looks Right but Detail Is Missing", "vector_normal_map", "normal", "shader_principled_bsdf", "normal"],
+  ["debug-sss-color-unplugged", "tutorial_sss_texture_driven_color", "shading", "散射正常但紋理顏色消失", "Scattering Works but Texture Color Vanishes", "converter_color_ramp", "color", "shader_subsurface_scattering", "color"],
+  ["debug-puddle-no-roughness", "tutorial_puddle_wetness", "masking", "積水變深卻沒有濕亮反光", "Puddles Darken but Never Look Wet", "converter_color_ramp", "color", "shader_mix_shader", "fac"],
+  ["debug-invert-bypass", "tutorial_invert_color", "masking", "加入反色後遮罩方向仍沒變", "Adding Invert Does Not Reverse the Mask", "color_invert", "color", null, null],
+].map(([id, sourceTutorialId, topic, zhName, enName, fromType, fromSocket, toType, toSocket]) => derivedDebug({
+  id,
+  sourceTutorialId,
+  topic,
+  level: { zh: topic === "texture" ? "中階除錯" : "進階除錯", en: topic === "texture" ? "Intermediate Debugging" : "Advanced Debugging" },
+  name: { zh: zhName, en: enName },
+  description: { zh: "節點看似都在，但一條關鍵資料路徑中斷。", en: "The nodes appear present, but one critical data path is broken." },
+  objective: { zh: "找出並恢復缺少的連線。", en: "Find and restore the missing link." },
+  mutations: [{ type: "remove-link", fromType, fromSocket, toType, toSocket }],
+  hints: [
+    { zh: "從沒有變化的輸入插槽往左追。", en: "Trace left from the input that no longer changes." },
+    { zh: "比較節點存在與資料真正流過是兩件事。", en: "A node existing and data actually flowing through it are different things." },
+  ],
+}));
+
 export const assessmentQuestions = [
   {
+    topic: "pbr",
     question: { zh: "哪個參數主要控制高光是銳利還是模糊？", en: "Which parameter mainly controls whether highlights are sharp or blurry?" },
     options: [{ zh: "粗糙度 Roughness", en: "Roughness" }, { zh: "金屬度 Metallic", en: "Metallic" }, { zh: "Alpha", en: "Alpha" }],
     correctIndex: 0,
   },
   {
+    topic: "masking",
     question: { zh: "要把 Noise 的 0～1 輸出改成 0.2～5，最適合用哪個節點？", en: "Which node is best for remapping Noise from 0–1 into 0.2–5?" },
     options: [{ zh: "映射範圍 Map Range", en: "Map Range" }, { zh: "反色 Invert", en: "Invert" }, { zh: "法線 Normal", en: "Normal" }],
     correctIndex: 0,
   },
   {
+    topic: "displacement",
     question: { zh: "DirectX 法線貼圖和 OpenGL 最主要差在哪個通道？", en: "Which channel mainly differs between DirectX and OpenGL normal maps?" },
     options: [{ zh: "綠色 Y", en: "Green Y" }, { zh: "紅色 X", en: "Red X" }, { zh: "藍色 Z", en: "Blue Z" }],
     correctIndex: 0,
   },
   {
+    topic: "animation",
     question: { zh: "為什麼 Scene Time 後面常接 Sine？", en: "Why is Scene Time often followed by Sine?" },
     options: [{ zh: "把時間轉成循環波", en: "Turn time into a repeating wave" }, { zh: "轉換成顏色", en: "Convert it into color" }, { zh: "停止動畫", en: "Stop animation" }],
     correctIndex: 0,
   },
   {
+    topic: "pbr",
     question: { zh: "金屬材質的反光顏色主要來自哪裡？", en: "Where does a metal material's reflection color mainly come from?" },
     options: [{ zh: "底色 Base Color", en: "Base Color" }, { zh: "Alpha", en: "Alpha" }, { zh: "法線強度", en: "Normal Strength" }],
     correctIndex: 0,
   },
   {
+    topic: "workflow",
     question: { zh: "某個節點沒有連到 Material Output 的路徑上，會發生什麼事？", en: "What happens if a node is not on any path to Material Output?" },
     options: [{ zh: "不影響最終材質", en: "It does not affect the final material" }, { zh: "自動接到 Surface", en: "It automatically connects to Surface" }, { zh: "讓 Blender 崩潰", en: "It crashes Blender" }],
     correctIndex: 0,
   },
+  { topic: "pbr", question: { zh: "非金屬材質的 Metallic 通常應設多少？", en: "What should Metallic usually be for a non-metal?" }, options: [{ zh: "0", en: "0" }, { zh: "0.5", en: "0.5" }, { zh: "1", en: "1" }], correctIndex: 0 },
+  { topic: "pbr", question: { zh: "清漆層最適合用來模擬什麼？", en: "What is a coat layer best suited to simulate?" }, options: [{ zh: "表面透明保護漆", en: "A clear protective topcoat" }, { zh: "模型位移", en: "Mesh displacement" }, { zh: "貼圖座標", en: "Texture coordinates" }], correctIndex: 0 },
+  { topic: "pbr", question: { zh: "IOR 主要描述什麼？", en: "What does IOR mainly describe?" }, options: [{ zh: "光進入材質時的折射比例", en: "How light refracts entering a material" }, { zh: "紋理解析度", en: "Texture resolution" }, { zh: "節點位置", en: "Node position" }], correctIndex: 0 },
+  { topic: "mapping", question: { zh: "要讓程序紋理跟著物件本身移動，通常先選哪種座標？", en: "Which coordinate is commonly used so a procedural texture follows the object?" }, options: [{ zh: "Generated／Object", en: "Generated / Object" }, { zh: "Camera", en: "Camera" }, { zh: "Window", en: "Window" }], correctIndex: 0 },
+  { topic: "mapping", question: { zh: "Mapping 的 Scale 變大時，圖案通常會怎樣？", en: "What usually happens when Mapping Scale increases?" }, options: [{ zh: "重複得更密", en: "It repeats more densely" }, { zh: "完全消失", en: "It disappears" }, { zh: "自動變透明", en: "It becomes transparent" }], correctIndex: 0 },
+  { topic: "texture", question: { zh: "Noise Texture 的 Detail 主要增加什麼？", en: "What does Noise Texture Detail mainly add?" }, options: [{ zh: "更多尺度的細節層", en: "More layers of detail at different scales" }, { zh: "更多燈光", en: "More lights" }, { zh: "更多材質輸出", en: "More material outputs" }], correctIndex: 0 },
+  { topic: "texture", question: { zh: "Voronoi 的 Distance to Edge 適合做什麼？", en: "What is Voronoi Distance to Edge useful for?" }, options: [{ zh: "裂縫與細胞邊界", en: "Cracks and cell boundaries" }, { zh: "相機景深", en: "Camera depth of field" }, { zh: "色彩管理", en: "Color management" }], correctIndex: 0 },
+  { topic: "masking", question: { zh: "Mix Shader 的 Fac=0 時輸出哪一邊？", en: "Which side does Mix Shader output at Fac=0?" }, options: [{ zh: "第一個 Shader", en: "The first Shader" }, { zh: "第二個 Shader", en: "The second Shader" }, { zh: "兩者相加", en: "Their sum" }], correctIndex: 0 },
+  { topic: "masking", question: { zh: "Color Ramp 的 Constant 插值會產生什麼？", en: "What does Constant interpolation in Color Ramp produce?" }, options: [{ zh: "硬邊分段", en: "Hard-edged steps" }, { zh: "自動法線", en: "Automatic normals" }, { zh: "真實位移", en: "True displacement" }], correctIndex: 0 },
+  { topic: "masking", question: { zh: "要交換遮罩的黑白意義，最直接使用哪個節點？", en: "Which node directly swaps a mask's black/white meaning?" }, options: [{ zh: "反色 Invert", en: "Invert" }, { zh: "發光 Emission", en: "Emission" }, { zh: "材質輸出", en: "Material Output" }], correctIndex: 0 },
+  { topic: "stylized", question: { zh: "硬邊卡通色帶常用哪種 Color Ramp 插值？", en: "Which Color Ramp interpolation is common for hard toon bands?" }, options: [{ zh: "Constant", en: "Constant" }, { zh: "B-Spline", en: "B-Spline" }, { zh: "Cardinal", en: "Cardinal" }], correctIndex: 0 },
+  { topic: "surface", question: { zh: "Bump 和真正 Displacement 最大差別是什麼？", en: "What is the biggest difference between Bump and true Displacement?" }, options: [{ zh: "只有 Displacement 改變輪廓", en: "Only Displacement changes the silhouette" }, { zh: "只有 Bump 能接紋理", en: "Only Bump accepts textures" }, { zh: "兩者完全相同", en: "They are identical" }], correctIndex: 0 },
+  { topic: "surface", question: { zh: "Bump 的 Height 應接哪類資料？", en: "What kind of data should feed Bump Height?" }, options: [{ zh: "灰階高度值", en: "A grayscale height value" }, { zh: "Shader", en: "A Shader" }, { zh: "材質輸出", en: "Material Output" }], correctIndex: 0 },
+  { topic: "displacement", question: { zh: "真正位移要接到 Material Output 的哪個插槽？", en: "Which Material Output socket receives true displacement?" }, options: [{ zh: "Displacement", en: "Displacement" }, { zh: "Surface", en: "Surface" }, { zh: "Volume", en: "Volume" }], correctIndex: 0 },
+  { topic: "displacement", question: { zh: "低面數模型使用真位移時最常見問題是什麼？", en: "What is a common problem with true displacement on low-poly meshes?" }, options: [{ zh: "幾何不足而變形粗糙", en: "Too little geometry causes coarse deformation" }, { zh: "顏色自動反轉", en: "Colors invert automatically" }, { zh: "節點會被刪除", en: "Nodes are deleted" }], correctIndex: 0 },
+  { topic: "shading", question: { zh: "SSS 最適合哪類材質？", en: "Which material is SSS best suited for?" }, options: [{ zh: "皮膚、蠟與牛奶", en: "Skin, wax and milk" }, { zh: "鏡面金屬", en: "Mirror metal" }, { zh: "完全不透明岩石", en: "Fully opaque rock" }], correctIndex: 0 },
+  { topic: "glass", question: { zh: "Thin Wall 的核心意義是什麼？", en: "What is the core meaning of Thin Wall?" }, options: [{ zh: "把表面視為零厚度薄片", en: "Treat the surface as a zero-thickness sheet" }, { zh: "自動增加面數", en: "Add geometry automatically" }, { zh: "關閉透射", en: "Disable transmission" }], correctIndex: 0 },
+  { topic: "glass", question: { zh: "玻璃粗糙度提高後通常會怎樣？", en: "What usually happens as glass roughness increases?" }, options: [{ zh: "透過物體變模糊", en: "Objects seen through it become blurrier" }, { zh: "變成金屬", en: "It becomes metal" }, { zh: "IOR 歸零", en: "IOR becomes zero" }], correctIndex: 0 },
+  { topic: "emission", question: { zh: "瀏覽器預覽的 Emission 與 Cycles 最大差異之一是？", en: "What is one major difference between browser Emission preview and Cycles?" }, options: [{ zh: "瀏覽器自發光不會照亮其他物體", en: "Browser emission does not illuminate other objects" }, { zh: "瀏覽器沒有顏色", en: "Browser emission has no color" }, { zh: "Cycles 不支援發光", en: "Cycles does not support emission" }], correctIndex: 0 },
+  { topic: "workflow", question: { zh: "粗糙度貼圖應使用哪種色彩空間？", en: "Which color space should a roughness map use?" }, options: [{ zh: "Non-Color", en: "Non-Color" }, { zh: "sRGB", en: "sRGB" }, { zh: "Display P3", en: "Display P3" }], correctIndex: 0 },
+  { topic: "workflow", question: { zh: "通道打包的好處是什麼？", en: "What is a benefit of channel packing?" }, options: [{ zh: "一張圖可攜帶多份灰階遮罩", en: "One image can carry several grayscale masks" }, { zh: "自動增加細分", en: "It adds subdivision automatically" }, { zh: "讓所有材質透明", en: "It makes every material transparent" }], correctIndex: 0 },
+  { topic: "workflow", question: { zh: "匯入貼圖後材質數值不對，第一個應檢查什麼？", en: "If imported texture values look wrong, what should you check first?" }, options: [{ zh: "色彩空間與通道用途", en: "Color space and channel purpose" }, { zh: "節點卡片位置", en: "Node card position" }, { zh: "檔名長度", en: "Filename length" }], correctIndex: 0 },
+  { topic: "animation", question: { zh: "Sine 的完整一個週期是多少弧度？", en: "How many radians are in one full Sine cycle?" }, options: [{ zh: "約 6.283（2π）", en: "About 6.283 (2π)" }, { zh: "1", en: "1" }, { zh: "100", en: "100" }], correctIndex: 0 },
+  { topic: "color", question: { zh: "RGB 至黑白節點主要做什麼？", en: "What does RGB to BW mainly do?" }, options: [{ zh: "把顏色轉成亮度值", en: "Convert color into a luminance value" }, { zh: "把 Shader 變透明", en: "Make a shader transparent" }, { zh: "產生 UV", en: "Generate UVs" }], correctIndex: 0 },
 ];
 
-export const conceptCards = [
+const coreConceptCards = [
   { id: "roughness", tag: { zh: "PBR", en: "PBR" }, front: { zh: "Roughness 改變的是亮度嗎？", en: "Does Roughness change brightness?" }, back: { zh: "不是。它主要改變微表面反射的分散程度：低值銳利，高值寬而模糊。", en: "No. It mainly changes microfacet reflection spread: low is sharp, high is broad and blurry." } },
   { id: "metallic", tag: { zh: "PBR", en: "PBR" }, front: { zh: "為什麼金屬反光會帶顏色？", en: "Why are metal reflections colored?" }, back: { zh: "金屬幾乎沒有漫射層，Base Color 直接染色鏡面反射；非金屬的鏡面反射通常接近白色。", en: "Metals have almost no diffuse layer, so Base Color tints specular reflection; dielectrics usually reflect near-white." } },
   { id: "fac", tag: { zh: "遮罩", en: "Masks" }, front: { zh: "Fac 輸出通常代表什麼？", en: "What does a Fac output usually represent?" }, back: { zh: "一個 0～1 的控制值，可當作混合比例、粗糙度、遮罩或其他數值輸入。", en: "A 0–1 control value used as a mix factor, roughness, mask, or another numeric input." } },
@@ -535,6 +634,48 @@ export const conceptCards = [
   { id: "thin-wall", tag: { zh: "Blender 5.2", en: "Blender 5.2" }, front: { zh: "Thin Wall 會自動讓材質透明嗎？", en: "Does Thin Wall automatically make a material transparent?" }, back: { zh: "不會。它把表面視為零厚度薄片；仍需透射權重或其他透光設定。", en: "No. It treats the surface as a zero-thickness sheet; transmission still needs to be enabled separately." } },
   { id: "fresnel", tag: { zh: "光線", en: "Light" }, front: { zh: "Fresnel 為什麼常用來做邊緣效果？", en: "Why is Fresnel useful for edge effects?" }, back: { zh: "表面越接近掠視角，反射比例越高，因此物體輪廓附近自然得到較大的值。", en: "Reflection rises at grazing angles, so values naturally become stronger near silhouettes." } },
 ];
+
+const expandedConceptCards = [
+  ["ior", "PBR", "IOR 控制的是粗糙度嗎？", "Does IOR control roughness?", "不是。IOR 描述光進出介質的折射關係，也影響介電質的正面反射量。", "No. IOR describes refraction between media and also affects dielectric reflectance."],
+  ["coat", "PBR", "Coat 和 Metallic 是同一層嗎？", "Are Coat and Metallic the same layer?", "不是。Coat 是底材上方的透明反射層，Metallic 改變的是底材本身的光學模型。", "No. Coat is a transparent reflective layer above the base; Metallic changes the base material model."],
+  ["anisotropy", "PBR", "Anisotropy 何時最明顯？", "When is anisotropy most visible?", "在拉絲金屬、唱片或髮絲等有方向性的微表面上，高光會沿特定方向拉長。", "On directional micro-surfaces like brushed metal, records or hair, highlights stretch along an axis."],
+  ["transmission", "透光", "Transmission Weight=1 就等於透明 Alpha=0 嗎？", "Is Transmission Weight=1 the same as Alpha=0?", "不是。Transmission 模擬光穿過材質並折射；Alpha 是直接降低表面覆蓋率。", "No. Transmission models light passing through and refracting; Alpha reduces surface coverage."],
+  ["glass-roughness", "透光", "毛玻璃為什麼仍然能透光？", "Why can frosted glass still transmit light?", "透射沒有消失，只是高粗糙度把穿透方向擴散，因此後方影像變模糊。", "Transmission remains, but roughness spreads transmitted directions, blurring what is behind it."],
+  ["sss-scale", "散射", "SSS Scale 變大代表什麼？", "What does increasing SSS Scale mean?", "光在離開表面前能在材質內走得更遠，散射外觀會更柔、更深。", "Light can travel farther inside before exiting, producing a softer, deeper scatter."],
+  ["emission-light", "發光", "網站裡的發光會照亮旁邊物體嗎？", "Does site emission light nearby objects?", "不會。網站預覽只顯示自發光表面；Cycles 才能讓網格發光參與全域照明。", "No. The site previews a self-lit surface; Cycles can let emissive meshes contribute to global illumination."],
+  ["blackbody", "發光", "Blackbody 輸入的數值代表什麼？", "What does Blackbody's input represent?", "代表絕對溫度 Kelvin，用來估算加熱物體從紅、橙到白藍的顏色。", "It is absolute temperature in Kelvin, estimating the color of heated objects from red/orange to white-blue."],
+  ["generated-vs-uv", "座標", "Generated 和 UV 最大差別是什麼？", "What is the main difference between Generated and UV coordinates?", "Generated 由物件包圍盒自動產生；UV 是人工展開、可精確控制的二維座標。", "Generated is automatic from the object's bounds; UV is an authored 2D unwrap with precise control."],
+  ["mapping-order", "座標", "Mapping 應放在紋理之前還是之後？", "Should Mapping go before or after a texture?", "之前。先變換座標，再由紋理取樣；放在紋理後面就不再是座標資料。", "Before. Transform coordinates first, then sample the texture; after the texture it is no longer coordinate data."],
+  ["object-world", "座標", "Object 與 World 空間的圖案跟隨方式相同嗎？", "Do Object and World-space patterns follow objects the same way?", "不同。Object 空間通常跟著物件，World 空間像固定在場景裡，物件移動時會穿過圖案。", "No. Object space follows the object; World space stays in the scene so the object moves through the pattern."],
+  ["noise-detail", "紋理", "Noise Detail 和 Scale 有什麼不同？", "How do Noise Detail and Scale differ?", "Scale 改主圖案大小；Detail 增加不同頻率的細節層，不只是把整張圖縮小。", "Scale changes the main pattern size; Detail adds frequency layers rather than simply shrinking the whole pattern."],
+  ["noise-distortion", "紋理", "Noise Distortion 做了什麼？", "What does Noise Distortion do?", "先扭曲取樣座標再計算雜訊，打破過度規律的結構。", "It warps sampling coordinates before evaluating noise, breaking overly regular structure."],
+  ["voronoi-edge", "紋理", "Distance to Edge 和 F1 看的是同一件事嗎？", "Do Distance to Edge and F1 measure the same thing?", "不是。F1 是到最近特徵點的距離；Distance to Edge 是到細胞邊界的距離。", "No. F1 measures the nearest feature point; Distance to Edge measures the cell boundary."],
+  ["wave-profile", "紋理", "Wave 的 Sine、Saw、Triangle 差在哪？", "How do Wave Sine, Saw and Triangle differ?", "它們有相同週期，但波形轉折不同，因此色帶與凹凸的邊緣硬度不同。", "They share a period but differ in waveform turns, changing stripe and bump edge hardness."],
+  ["ramp-as-lookup", "顏色", "Color Ramp 只是調色工具嗎？", "Is Color Ramp only a coloring tool?", "不是。它也是數值查找表，可壓縮範圍、做閾值、反轉或建立多段遮罩。", "No. It is also a numeric lookup table for range shaping, thresholds, inversion and multi-band masks."],
+  ["mix-factor", "混合", "Mix 的 Factor=0.25 代表什麼？", "What does Mix Factor=0.25 mean?", "結果偏向 A：大致是 75% A 與 25% B 的內插。", "The result stays closer to A: roughly a 75% A and 25% B interpolation."],
+  ["add-vs-mix", "混合", "Add Shader 和 Mix Shader 的核心差別？", "Core difference between Add Shader and Mix Shader?", "Add 將能量相加；Mix 依 Fac 在兩者間內插，不會自動得到完整兩份能量。", "Add sums energy; Mix interpolates by Fac and does not automatically keep the full energy of both."],
+  ["clamp", "數學", "Clamp 為什麼是材質流程的保險？", "Why is Clamp a safety net in material workflows?", "它阻止上游運算超出預期範圍，避免粗糙度、強度或遮罩出現失控值。", "It keeps upstream math inside the intended range, preventing runaway roughness, strength or masks."],
+  ["map-range", "數學", "Map Range 解決哪個常見問題？", "What common problem does Map Range solve?", "把來源範圍重新縮放到目標範圍，例如把 0–1 轉成 0.2–0.6。", "It remaps a source range into a target range, such as converting 0–1 into 0.2–0.6."],
+  ["math-order", "數學", "Add 再 Multiply 和 Multiply 再 Add 相同嗎？", "Is Add-then-Multiply the same as Multiply-then-Add?", "通常不同；後做的乘法也會縮放前面加上的常數，因此節點順序會改變結果。", "Usually not; a later multiply also scales the earlier added constant, so node order changes the result."],
+  ["bump-distance", "法線", "Bump Distance 和 Strength 有何不同？", "How do Bump Distance and Strength differ?", "Distance 定義高度的物理尺度；Strength 混合平面法線與凹凸法線的影響程度。", "Distance sets the height scale; Strength blends between the flat and bumped normal effect."],
+  ["normal-convention", "法線", "DirectX 法線貼圖為何常需要翻綠色通道？", "Why do DirectX normal maps often need a flipped green channel?", "DirectX 與 OpenGL 對切線空間 Y 軸方向的慣例相反。", "DirectX and OpenGL use opposite tangent-space Y-axis conventions."],
+  ["displacement-geometry", "位移", "真位移為什麼需要足夠面數？", "Why does true displacement need enough geometry?", "它只能移動既有頂點；網格太疏時無法描述細小高度變化。", "It can only move existing vertices; sparse meshes cannot represent fine height changes."],
+  ["image-color-space", "貼圖", "Base Color 貼圖通常用 sRGB 還是 Non-Color？", "Should a Base Color map usually use sRGB or Non-Color?", "通常用 sRGB，因為它代表要被觀看的顏色；數據貼圖才用 Non-Color。", "Usually sRGB because it represents viewed color; data maps use Non-Color."],
+  ["packed-channels", "工作流", "ORM 打包常把什麼放在 RGB？", "What does ORM commonly pack into RGB?", "常見是 Occlusion、Roughness、Metallic，各通道存一張灰階資料。", "Commonly Occlusion, Roughness and Metallic, with one grayscale map per channel."],
+  ["unused-node", "工作流", "節點存在但不在輸出路徑上會怎樣？", "What if a node exists but is not on an output path?", "它不參與最終材質計算；是否存在不等於資料有流經它。", "It does not participate in the final material; existing is not the same as carrying data."],
+  ["engine-target", "Blender 5.2", "Material Output 為什麼有 Target？", "Why does Material Output have a Target?", "可為 EEVEE 與 Cycles 指定不同輸出節點，處理兩種引擎能力差異。", "It allows separate outputs for EEVEE and Cycles to handle engine capability differences."],
+  ["thickness", "Blender 5.2", "Material Output 的 Thickness 主要給哪個引擎？", "Which engine mainly uses Material Output Thickness?", "Blender 5.2 中主要由 EEVEE 用來近似物體內部厚度。", "In Blender 5.2 it is mainly used by EEVEE to approximate interior thickness."],
+  ["cycles-vs-preview", "驗證", "網站預覽能保證和 Cycles 像素完全相同嗎？", "Can the site preview guarantee pixel identity with Cycles?", "不能。可驗證節點結構、公式與變化方向，但光線追蹤、體積與色調映射仍會不同。", "No. Structure, formulas and response direction can be verified, but path tracing, volume and tone mapping still differ."],
+  ["ab-testing", "驗證", "驗證參數效果時為什麼要做 A/B？", "Why use A/B tests for a parameter effect?", "固定其他條件，只改一個參數並比較像素差，才能證明效果真的獨立生效。", "Hold everything else fixed, change one parameter and compare pixels to prove the effect acts independently."],
+  ["export-script", "工作流", "網站匯出的 Blender Python 主要做什麼？", "What does the exported Blender Python script do?", "在 Blender 5.2.2 中重建節點、參數、位置和接線；引擎特有限制會留下警告。", "It rebuilds nodes, values, positions and links in Blender 5.2.2, while warning about engine-specific limits."],
+].map(([id, tag, frontZh, frontEn, backZh, backEn]) => ({
+  id,
+  tag: { zh: tag, en: tag },
+  front: { zh: frontZh, en: frontEn },
+  back: { zh: backZh, en: backEn },
+}));
+
+export const conceptCards = [...coreConceptCards, ...expandedConceptCards];
 
 function cloneGraphData(graphData) {
   return graphData ? JSON.parse(JSON.stringify(graphData)) : null;
@@ -590,6 +731,6 @@ export function resolveLearningActivity(activity, tutorials) {
   return { ...activity, source, startGraph, targetGraph, checks };
 }
 
-export const challenges = [...coreChallenges, ...guidedChallenges];
-export const debugLabs = [...coreDebugLabs, ...derivedDebugLabs];
+export const challenges = [...coreChallenges, ...guidedChallenges, ...expandedChallenges];
+export const debugLabs = [...coreDebugLabs, ...derivedDebugLabs, ...expandedDebugLabs];
 export const learningActivities = [...challenges, ...debugLabs];

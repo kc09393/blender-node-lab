@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>單獨使用效果不明顯，通常混合進 Principled BSDF 的材質裡，讓布料邊緣多一點絨毛感的反光。</p></section>
     <section><h2>進階說明</h2><p>在 Blender 5.2 LTS，Sheen 已是 Principled BSDF 的絨光層；這裡仍保留獨立節點方便教學拆解。本沙盒把它實作成一個底色全黑、只靠 Fresnel 邊緣光（Emission 欄位）貢獻亮度的 BSDF——這樣跟其他材質用 Mix Shader 疊加時，才不會把底色蓋掉，只會在邊緣多一圈絨毛感的光暈。Roughness 越高，光暈覆蓋的角度範圍越寬、越柔和。</p></section>
+    <section><h2>Blender 相容程度</h2><p>Blender 插槽／預設值對齊 · 光照為 Three.js 近似</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

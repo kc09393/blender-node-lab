@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Toon BSDF makes the light/shadow boundary sharp (stepped, not smooth gradient) — common for anime-style rendering.</p></section>
     <section><h2>Technical notes</h2><p>A true stepped look requires quantizing *after* the lighting calculation, not before — different from this sandbox&#39;s current &#39;hand off material params, let Three.js light it&#39; architecture. Planned for a future upgrade.</p></section>
+    <section><h2>Blender compatibility</h2><p>Documentation only · requires Blender scene/render data</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Size</td><td>float</td></tr><tr><td>IN</td><td>Smooth</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

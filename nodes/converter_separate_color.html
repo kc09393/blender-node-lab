@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>想單獨處理某個色版（例如只提高紅色）時，先用這個節點拆開再各自調整、最後可以用 Combine Color 接回去。模式選 HSV/HSL 則會拆成色相/飽和度/明度（或亮度），適合只想調整彩度或明暗但不改變色相的情況。</p></section>
     <section><h2>進階說明</h2><p>模式（Mode）有 3 種，跟 Blender 一致：RGB、HSV、HSL。切換模式時前三個輸出的意義會跟著變（R/G/B ↔ H/S/V ↔ H/S/L）；RGB 轉 HSV/HSL 的公式跟 Color Ramp（`js/core/colorRampUtil.js`）用同一套定義（互相校對過一致）。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>r</td><td>float</td></tr><tr><td>OUT</td><td>g</td><td>float</td></tr><tr><td>OUT</td><td>b</td><td>float</td></tr><tr><td>OUT</td><td>A</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

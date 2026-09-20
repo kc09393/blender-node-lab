@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Often used for a &#39;tech&#39; or hologram look, making the model&#39;s polygon edges glow.</p></section>
     <section><h2>Technical notes</h2><p>This sandbox&#39;s preview meshes are now non-indexed with a per-triangle barycentric-coordinate vertex attribute, using screen-space derivatives (fwidth) to tell how close a fragment is to an edge — no real mesh adjacency analysis needed. Difference from Blender: Blender&#39;s line width is a fixed screen-pixel width, while this sandbox&#39;s Size is relative to triangle size, so the same Size can look thicker or thinner depending on mesh subdivision.</p></section>
+    <section><h2>Blender compatibility</h2><p>Blender structure aligned · scene-dependent behavior may differ</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Size</td><td>float</td></tr><tr><td>OUT</td><td>Factor</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

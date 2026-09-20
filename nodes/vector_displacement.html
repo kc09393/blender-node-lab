@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>跟 Bump 的差別：Displacement 會真的把頂點往外推，讓輪廓也跟著改變，代價是需要夠密的網格細分。</p></section>
     <section><h2>進階說明</h2><p>本沙盒新增了一條獨立的「頂點著色器編譯通道」，接在 Material Output 的 Displacement 插槽時，能真的在頂點著色器把 Height 換算成沿法線方向的位移、移動頂點（不再只是假的光影）。這條通道只支援不需要 Fragment 端資料的節點（Math／Vector Math／Mapping／程序化紋理等），Bump／Fresnel 等節點不能接在這裡。本沙盒的預覽網格（球體/環面細分較高、方塊/平面較低）沒有讓使用者自訂細分數，高頻率的位移在方塊上可能會看起來比較塊狀。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>高度</td><td>float</td></tr><tr><td>IN</td><td>中間值</td><td>float</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>位移</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

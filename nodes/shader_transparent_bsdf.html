@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Transparent BSDF 本身沒有參數，接上去的表面會完全穿透。通常不會單獨使用，而是用 Mix Shader 把它跟另一個材質（例如 Diffuse）混合，做出「這裡透明、那裡不透明」的效果。</p></section>
     <section><h2>進階說明</h2><p>本沙盒把 Transparent BSDF 實作成 alpha = 0、其餘欄位透傳顏色但不影響外觀；材質會統一開啟透明混合（alpha blending），不做真正的光線折射穿透。</p></section>
+    <section><h2>Blender 相容程度</h2><p>Blender 插槽／預設值對齊 · 光照為 Three.js 近似</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

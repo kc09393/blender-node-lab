@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>毛玻璃：讓雜訊只控制粗糙度 · Blender 材質實戰挑戰</title>
+<meta name="description" content="做出保留玻璃穿透、但表面有不均勻霧感的材質。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="毛玻璃：讓雜訊只控制粗糙度 · Blender 材質實戰挑戰" />
+<meta property="og:description" content="做出保留玻璃穿透、但表面有不均勻霧感的材質。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/practice/challenge-frosted-glass.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/practice/challenge-frosted-glass.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/practice/challenge-frosted-glass.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/practice/challenge-frosted-glass.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"毛玻璃：讓雜訊只控制粗糙度","description":"做出保留玻璃穿透、但表面有不均勻霧感的材質。","inLanguage":"zh-Hant","educationalLevel":"中階挑戰","learningResourceType":"practice challenge","teaches":"使用雜訊紋理控制玻璃 BSDF 的粗糙度，玻璃仍需連到輸出。","url":"https://kc09393.github.io/blender-node-lab/practice/challenge-frosted-glass.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.2 LTS</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 材質實戰挑戰</div>
+    <h1>毛玻璃：讓雜訊只控制粗糙度</h1>
+    <p class="content-lead">做出保留玻璃穿透、但表面有不均勻霧感的材質。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?activity=challenge-frosted-glass">開啟互動實作</a>
+      <a href="challenge-frosted-glass.en.html">English</a>
+    </div>
+    <section><h2>實作目標</h2><p>使用雜訊紋理控制玻璃 BSDF 的粗糙度，玻璃仍需連到輸出。</p></section>
+    <section><h2>漸進提示</h2><ol><li><strong>提示 1：</strong>不要把雜訊接到玻璃顏色；霧感是表面微小粗糙變化。</li><li><strong>提示 2：</strong>試著使用 Noise Texture 的 Fac 輸出。</li><li><strong>提示 3：</strong>把 Noise Fac 接到 Glass BSDF 的 Roughness。</li></ol></section>
+    <section><h2>如何使用這個實驗</h2><p>先不要一次展開所有提示，自己完成節點圖。互動檢查會驗證必要結構與數值，最後可以和參考節點圖比較。</p></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
+</body>
+</html>

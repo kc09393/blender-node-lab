@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Every material graph needs a Material Output node. Connect any Shader (BSDF) node to its Surface socket to apply that material. Without a connection, you&#39;ll see a default gray.</p></section>
     <section><h2>Technical notes</h2><p>Socket order matches Blender 5.2.2: Surface, Volume, Displacement, and Thickness. The live preview supports Surface, Displacement, and Thickness; Volume needs volumetric ray marching, so its socket is shown but a connected graph receives a warning. Displacement runs in the vertex shader and cannot use fragment-only nodes such as Bump, Normal Map, Wireframe, or Fresnel.</p></section>
+    <section><h2>Blender compatibility</h2><p>Socket layout exact · Thickness is EEVEE-only · volume preview unsupported</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Surface</td><td>shader</td></tr><tr><td>IN</td><td>Volume</td><td>shader</td></tr><tr><td>IN</td><td>Displacement</td><td>vector</td></tr><tr><td>IN</td><td>Thickness</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

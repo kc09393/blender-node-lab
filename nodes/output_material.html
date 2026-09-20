@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>每張材質圖都需要一個「材質輸出」節點。把任何 Shader（BSDF）類型的節點接到它的 Surface 插槽，畫面就會套用該材質。沒有接東西的話，看到的會是預設灰色。</p></section>
     <section><h2>進階說明</h2><p>插槽順序與 Blender 5.2.2 一致：Surface、Volume、Displacement、Thickness。即時預覽支援 Surface、Displacement 與 Thickness；Volume 需要體積光線步進，目前只顯示插槽並在接線時提出警告。Displacement 在頂點著色器運算，不能接 Bump／Normal Map／Wireframe／Fresnel 等只適用片段著色器的節點。</p></section>
+    <section><h2>Blender 相容程度</h2><p>插槽結構一致 · Thickness 僅 EEVEE · 體積預覽不支援</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>表面</td><td>shader</td></tr><tr><td>IN</td><td>體積</td><td>shader</td></tr><tr><td>IN</td><td>位移</td><td>vector</td></tr><tr><td>IN</td><td>厚度</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

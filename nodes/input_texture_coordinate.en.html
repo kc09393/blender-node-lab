@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Texture nodes default to UV if Vector is left unconnected. This node lets you switch to other coordinate systems — most commonly Generated (follows the object&#39;s shape, ignores UV) and Object (follows the object itself, unaffected by its transform).</p></section>
     <section><h2>Technical notes</h2><p>This sandbox&#39;s preview meshes don&#39;t store separate Generated/Object coordinate data, so the Generated/Object/Window outputs are approximated as UV for now — only UV and Normal are computed exactly. Reflection approximates the view direction reflected off the normal.</p></section>
+    <section><h2>Blender compatibility</h2><p>Blender structure aligned · scene-dependent behavior may differ</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>OUT</td><td>Generated</td><td>vector</td></tr><tr><td>OUT</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>UV</td><td>vector</td></tr><tr><td>OUT</td><td>Object</td><td>vector</td></tr><tr><td>OUT</td><td>Camera</td><td>vector</td></tr><tr><td>OUT</td><td>Window</td><td>vector</td></tr><tr><td>OUT</td><td>Reflection</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

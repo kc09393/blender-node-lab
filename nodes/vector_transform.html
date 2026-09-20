@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>同一個向量（例如法線）在不同座標系統下數值不一樣，這個節點負責在它們之間換算。</p></section>
     <section><h2>進階說明</h2><p>Three.js 本來就會給每個材質內建 modelMatrix（Object→World）與 viewMatrix（World→Camera）這兩個 uniform，本沙盒直接借用（必要時用 WebGL2/GLSL ES 3.00 內建的 inverse() 算反向），補上了這個節點。跟 Blender 的差異：Blender 用 Type 下拉選單區分 Point/Vector/Normal（Point 會加位移、Normal 用反轉置矩陣處理非等比縮放）；本沙盒的預覽物件沒有可調整的物體變換（不能縮放/位移），固定當作純方向向量處理（不含位移），在等比縮放下三種 Type 的結果是一致的，先不特別區分。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>OUT</td><td>向量</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

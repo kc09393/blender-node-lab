@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Subtle on its own — usually blended into a Principled BSDF material to add a fuzzy edge highlight to fabric.</p></section>
     <section><h2>Technical notes</h2><p>In Blender 5.2 LTS, Sheen is a layer of Principled BSDF; this standalone node is kept here for teaching purposes. This sandbox implements it as a BSDF with a fully black base color that only contributes brightness through a Fresnel-driven edge glow (via the Emission channel) — so when layered onto another material with Mix Shader, it won&#39;t wash out the base color, just add a fuzzy rim highlight. Higher Roughness widens and softens the glow.</p></section>
+    <section><h2>Blender compatibility</h2><p>Blender sockets/defaults aligned · lighting is a Three.js approximation</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Roughness</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

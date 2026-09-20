@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Conceptually the same as RGB Curves, but applied to a vector (like a normal) instead of a color.</p></section>
     <section><h2>Technical notes</h2><p>Now has a draggable curve editor; the curve itself is a smooth Cardinal (Catmull-Rom-style) polynomial passing through every control point, matching Blender&#39;s default smooth handle look (not a piecewise-straight line). X/Y/Z now each have their own independent curve, matching Blender (Blender&#39;s own source, `node_shader_init_curve_vec`, only ever has 3 curves — unlike RGB Curves it has no extra &#39;C&#39; combined curve). The curve&#39;s domain is fixed to -1..1 (a common range for normal components); each input component is clamped into that range before lookup.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned where documented · live raster preview</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>OUT</td><td>Vector</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

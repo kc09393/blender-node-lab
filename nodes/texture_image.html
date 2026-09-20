@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Image Texture 是最常用的紋理節點：點節點上的「選擇圖片」上傳一張照片或素材圖，就能把它貼在物體表面。Vector 輸入決定貼圖怎麼對應到表面座標，預設用物體的 UV。</p></section>
     <section><h2>進階說明</h2><p>延展模式（Extension：Repeat／Extend／Clip／Mirror）、插值（Interpolation：Linear／Closest／Cubic）與色彩空間（Color Space：sRGB／Non-Color）現在都是真的可調設定，跟 Blender 一致（`js/core/textureCache.js` 依這些設定即時設定 Three.js Texture；Clip 沒有原生對應的 wrap 模式，改在 GLSL 端判斷 UV 是否落在 0-1 之外，超出範圍就讓 Alpha 直接歸零）。**色彩空間很重要**：一般照片/顏色貼圖用 sRGB（會做 gamma 解碼）；法線貼圖、粗糙度圖、高度圖這類「數值資料」貼圖一定要選 Non-Color（原樣讀取、不解碼），選錯會讓法線方向偏移、粗糙度整體變暗。Cubic 用經典的「4 次雙線性取樣模擬雙三次 B-Spline」技巧實作（Sigg &amp; Hadwiger 2005，遊戲/著色器業界常用手法），不是逐像素真的采 16 個點的卷積，但平滑方向與效果一致。跟 Blender 的差異：Smart 插值（依縮放程度自動切換 Cubic/Linear）還沒實作。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>透明度</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

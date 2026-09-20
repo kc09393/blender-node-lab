@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>常跟 Blackbody 一起用在需要物理精確光色的場合，例如模擬雷射光或稜鏡色散。</p></section>
     <section><h2>進階說明</h2><p>完整的 CIE 色彩匹配函數需要查表積分，本沙盒改用 Dan Bruton 提出的公開領域可見光波長轉 RGB 分段近似公式，數值走向（380nm 紫→780nm 紅）正確，但不是逐波長精確的色度學計算。</p></section>
+    <section><h2>Blender 相容程度</h2><p>公式對齊 · 最終像素仍受色彩管理影響</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>波長(nm)</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

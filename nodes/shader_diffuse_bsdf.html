@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Diffuse BSDF 只描述「均勻往四面八方散開的光」，沒有 Principled BSDF 的金屬/透明等額外功能，適合用來做完全霧面的材質，或是教學上理解「最單純的材質節點長什麼樣子」。</p></section>
     <section><h2>進階說明</h2><p>Blender 的 Diffuse BSDF 有 Roughness 插槽時用的是 Oren-Nayar 模型而非純 Lambert；本沙盒的即時預覽把 Roughness 一併考慮進最終粗糙度，但不是逐光線的 Oren-Nayar 積分。</p></section>
+    <section><h2>Blender 相容程度</h2><p>Blender 插槽／預設值對齊 · 光照為 Three.js 近似</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

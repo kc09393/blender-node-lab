@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Often mixed with Diffuse BSDF via Mix Shader to simulate light passing through thin objects.</p></section>
     <section><h2>Technical notes</h2><p>Real translucency needs lighting and thickness info from the back face, unavailable in this single-surface live preview architecture (Blender&#39;s own node source only has Color/Normal inputs too — no thickness or radius parameter). This sandbox uses a simplification similar to Subsurface Scattering: a Fresnel term drives an edge/back-facing glow using the Color itself — directionally correct (brighter at edges/backlit areas, mimicking light bleeding through from behind), but not a real sample of back-face lighting. Difference from Subsurface Scattering: SSS has a Radius vector giving each color channel a different falloff (producing a reddish edge tint); Translucent has no such per-channel dispersion — its edge glow is just the Color itself.</p></section>
+    <section><h2>Blender compatibility</h2><p>Blender sockets/defaults aligned · lighting is a Three.js approximation</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

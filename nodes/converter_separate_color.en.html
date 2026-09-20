@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>When you want to process a single channel (e.g. boost only red), split it apart with this node, adjust, and rejoin with Combine Color. Choosing HSV/HSL instead splits into hue/saturation/value(or lightness) — handy when you want to adjust brightness or saturation without touching hue.</p></section>
     <section><h2>Technical notes</h2><p>Mode has 3 options matching Blender: RGB, HSV, HSL. Switching mode changes what the first three outputs mean (R/G/B ↔ H/S/V ↔ H/S/L); the RGB-to-HSV/HSL formulas are the same ones used by Color Ramp (`js/core/colorRampUtil.js`), cross-checked for consistency.</p></section>
+    <section><h2>Blender compatibility</h2><p>Formula-aligned · final pixels still depend on color management</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>r</td><td>float</td></tr><tr><td>OUT</td><td>g</td><td>float</td></tr><tr><td>OUT</td><td>b</td><td>float</td></tr><tr><td>OUT</td><td>A</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

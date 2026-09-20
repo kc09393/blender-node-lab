@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>材質為什麼完全沒反應？ · Blender 材質除錯實驗</title>
+<meta name="description" content="節點都在，但預覽仍是預設材質；找出斷掉的關鍵連線。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="材質為什麼完全沒反應？ · Blender 材質除錯實驗" />
+<meta property="og:description" content="節點都在，但預覽仍是預設材質；找出斷掉的關鍵連線。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/practice/debug-disconnected-output.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/practice/debug-disconnected-output.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/practice/debug-disconnected-output.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/practice/debug-disconnected-output.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"材質為什麼完全沒反應？","description":"節點都在，但預覽仍是預設材質；找出斷掉的關鍵連線。","inLanguage":"zh-Hant","educationalLevel":"基礎除錯","learningResourceType":"debugging lab","teaches":"修好節點圖，讓原理化 BSDF 真正送到材質輸出。","url":"https://kc09393.github.io/blender-node-lab/practice/debug-disconnected-output.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.2 LTS</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 材質除錯實驗</div>
+    <h1>材質為什麼完全沒反應？</h1>
+    <p class="content-lead">節點都在，但預覽仍是預設材質；找出斷掉的關鍵連線。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?activity=debug-disconnected-output">開啟互動實作</a>
+      <a href="debug-disconnected-output.en.html">English</a>
+    </div>
+    <section><h2>實作目標</h2><p>修好節點圖，讓原理化 BSDF 真正送到材質輸出。</p></section>
+    <section><h2>漸進提示</h2><ol><li><strong>提示 1：</strong>先從材質輸出往左追，看看 Surface 有沒有收到資料。</li><li><strong>提示 2：</strong>著色器的 BSDF 輸出必須接到 Material Output 的 Surface。</li></ol></section>
+    <section><h2>如何使用這個實驗</h2><p>先不要一次展開所有提示，自己完成節點圖。互動檢查會驗證必要結構與數值，最後可以和參考節點圖比較。</p></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
+</body>
+</html>

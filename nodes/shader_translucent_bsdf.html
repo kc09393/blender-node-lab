@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>常跟 Diffuse BSDF 用 Mix Shader 混合，模擬光線穿透薄物體背面的效果。</p></section>
     <section><h2>進階說明</h2><p>真正的半透射需要取得物體背面的光照與厚度資訊，這在單一表面的即時預覽架構下無法取得（原始碼裡 Blender 這個節點確實也只有 Color／Normal 兩個輸入，沒有額外的厚度或半徑參數）。本沙盒改用跟次表面散射類似的簡化：用菲涅爾算出「側邊/背向鏡頭」的比例，疊加一層用 Color 驅動的發光——方向正確（側邊/背光處更亮，模擬光線從背後透出的感覺），但不是真的取樣背面光照。跟次表面散射的差異：次表面散射多了 Radius 讓每個色版散射距離不同（做出偏紅的邊緣），半透射沒有這個色散效果，邊緣發光就是原本的顏色本身。</p></section>
+    <section><h2>Blender 相容程度</h2><p>Blender 插槽／預設值對齊 · 光照為 Three.js 近似</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

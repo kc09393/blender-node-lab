@@ -37,6 +37,7 @@
     </div>
     <section><h2>Beginner explanation</h2><p>Often fed into Mix Color or Color Ramp to naturally darken a model&#39;s recesses, adding realism.</p></section>
     <section><h2>Technical notes</h2><p>Correct computation needs multi-directional sampling of surrounding geometry (screen-space SSAO or per-ray sampling) — fairly expensive. This live-preview pipeline doesn&#39;t have that multi-sample pass yet. Documentation only. (A screen-space normal-curvature approximation via dFdx/dFdy was tried and tested — even on a cube&#39;s sharp edges, the effect got diluted by anti-aliasing/MSAA to the point of being visually imperceptible, so it wasn&#39;t judged worth shipping for an effect nobody could actually see.)</p></section>
+    <section><h2>Blender compatibility</h2><p>Documentation only · requires Blender scene/render data</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Distance</td><td>float</td></tr><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>AO</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

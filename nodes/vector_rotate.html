@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>跟 Mapping 的旋轉類似，但更單純：只做旋轉，並且可以指定旋轉的軸方向（不是固定 X/Y/Z 依序旋轉）。</p></section>
     <section><h2>進階說明</h2><p>類型（Type）現在有 5 種，跟 Blender 一致：軸角（Axis Angle，繞任意軸轉指定角度，用 Rodrigues 旋轉公式）、X／Y／Z 軸（固定繞該軸轉，等於軸角模式把 Axis 鎖死成該軸）、歐拉 XYZ（Euler XYZ，改用一個三軸角度向量，依 X→Y→Z 順序疊加旋轉，跟 Mapping 節點的 Rotation 用同一套公式）。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>中心</td><td>vector</td></tr><tr><td>IN</td><td>軸</td><td>vector</td></tr><tr><td>IN</td><td>角度(度)</td><td>float</td></tr><tr><td>IN</td><td>歐拉角(度)</td><td>vector</td></tr><tr><td>OUT</td><td>向量</td><td>vector</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>

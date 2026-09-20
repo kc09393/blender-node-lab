@@ -37,6 +37,7 @@
     </div>
     <section><h2>新手說明</h2><p>Voronoi 會把空間切成一塊塊不規則的『細胞』。Distance 輸出離最近細胞中心的距離（可以做出裂紋邊界），Color 輸出每個細胞一個隨機顏色（可以做出石頭的斑駁感）。</p></section>
     <section><h2>進階說明</h2><p>插槽、輸出、維度、特徵與距離度量已依 Blender 5.2.2 補齊，N-球半徑使用獨立的 Radius 輸出，不再誤占 Distance。3D 的 F1／F2 與四種距離度量直接計算鄰近細胞；Detail、Roughness、Lacunarity 會逐層加入更細的細胞。誠實差異：本預覽的分形層混合、Smooth F1 與 4D 的 W 摺疊是即時近似，並非 Blender GPU 原始碼的逐點加權演算法；需要最終像素一致時仍應回 Blender 5.2.2 渲染。</p></section>
+    <section><h2>Blender 相容程度</h2><p>已記錄範圍內公式對齊 · 即時光柵預覽</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>W</td><td>float</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>細節</td><td>float</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>疏密度</td><td>float</td></tr><tr><td>IN</td><td>平滑度</td><td>float</td></tr><tr><td>IN</td><td>指數 Exponent</td><td>float</td></tr><tr><td>IN</td><td>隨機度</td><td>float</td></tr><tr><td>OUT</td><td>距離</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>位置</td><td>vector</td></tr><tr><td>OUT</td><td>W</td><td>float</td></tr><tr><td>OUT</td><td>半徑</td><td>float</td></tr></tbody></table></section>
   </main>
   <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
