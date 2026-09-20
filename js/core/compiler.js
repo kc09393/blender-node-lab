@@ -194,6 +194,7 @@ struct BmlBsdf {
   float alpha;
   float ior;
   float transmission;
+  float thinWall;
   float coatWeight;
   float coatRoughness;
   float coatIor;
@@ -219,6 +220,7 @@ BmlBsdf bml_makeBsdf(vec3 baseColor, float roughness, float metallic, vec3 emiss
   r.alpha = alpha;
   r.ior = 1.5;
   r.transmission = 0.0;
+  r.thinWall = 0.0;
   r.coatWeight = 0.0;
   r.coatRoughness = 0.03;
   r.coatIor = 1.5;
@@ -245,6 +247,7 @@ BmlBsdf bml_mixShader(BmlBsdf a, BmlBsdf b, float fac) {
   r.alpha     = mix(a.alpha, b.alpha, fac);
   r.ior = mix(a.ior, b.ior, fac);
   r.transmission = mix(a.transmission, b.transmission, fac);
+  r.thinWall = mix(a.thinWall, b.thinWall, fac);
   r.coatWeight = mix(a.coatWeight, b.coatWeight, fac);
   r.coatRoughness = mix(a.coatRoughness, b.coatRoughness, fac);
   r.coatIor = mix(a.coatIor, b.coatIor, fac);
@@ -271,6 +274,7 @@ BmlBsdf bml_addShader(BmlBsdf a, BmlBsdf b) {
   r.alpha     = max(a.alpha, b.alpha);
   r.ior = (a.ior + b.ior) * 0.5;
   r.transmission = max(a.transmission, b.transmission);
+  r.thinWall = max(a.thinWall, b.thinWall);
   r.coatWeight = max(a.coatWeight, b.coatWeight);
   r.coatRoughness = (a.coatRoughness + b.coatRoughness) * 0.5;
   r.coatIor = (a.coatIor + b.coatIor) * 0.5;
@@ -893,7 +897,10 @@ export function applyFragmentChunk(material, graph, compileResult) {
     textureNodeIds.map((id) => `${id}:${graph.nodes.get(id)?.params.colorSpace || "srgb"}`).join(",");
   material.customProgramCacheKey = () => `${fragmentBody}|${vertexBody}|bary:${!!needsBarycentric}|tex:${textureStateKey()}`;
   material.onBeforeCompile = (shader) => {
-    const uniformDecls = textureNodeIds.map((id) => `uniform sampler2D bml_tex_${id};`).join("\n");
+    const uniformDecls = [`uniform float bml_time;`, ...textureNodeIds.map((id) => `uniform sampler2D bml_tex_${id};`)].join("\n");
+    const timeUniform = { value: 0 };
+    shader.uniforms.bml_time = timeUniform;
+    material.userData.bmlTimeUniform = timeUniform;
     for (const id of textureNodeIds) {
       shader.uniforms[`bml_tex_${id}`] = { value: getTextureForNode(graph.nodes.get(id)) };
     }
@@ -924,6 +931,9 @@ export function applyFragmentChunk(material, graph, compileResult) {
     const transmissionChunk = THREE.ShaderChunk.transmission_fragment.replace(
       "material.transmission = transmission;",
       "material.transmission = clamp(bml_final.transmission, 0.0, 1.0);"
+    ).replace(
+      "material.thickness = thickness;",
+      "material.thickness = mix(thickness, 0.0, clamp(bml_final.thinWall, 0.0, 1.0));"
     );
     shader.fragmentShader = shader.fragmentShader.replace(
       "#include <transmission_fragment>",

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Refraction BSDF · Blender 5.0 Node Encyclopedia</title>
+<title>Refraction BSDF · Blender 5.2 LTS Node Encyclopedia</title>
 <meta name="description" content="Refraction only, no reflection — usually used alongside the Glass concept." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Refraction BSDF · Blender 5.0 Node Encyclopedia" />
+<meta property="og:title" content="Refraction BSDF · Blender 5.2 LTS Node Encyclopedia" />
 <meta property="og:description" content="Refraction only, no reflection — usually used alongside the Glass concept." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Refraction BSDF","description":"Refraction only, no reflection — usually used alongside the Glass concept.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Refraction BSDF","description":"Refraction only, no reflection — usually used alongside the Glass concept.","inLanguage":"en","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <div class="content-kicker">Blender 5.2 LTS Node Encyclopedia</div>
     <h1>Refraction BSDF</h1>
     <p class="content-lead">Refraction only, no reflection — usually used alongside the Glass concept.</p>
     <div class="content-actions">
@@ -39,6 +39,6 @@
     <section><h2>Technical notes</h2><p>True refractive bending needs per-ray sampling of the background — this sandbox&#39;s live preview pipeline can&#39;t do that (Glass BSDF can&#39;t either; it substitutes a Fresnel-driven transparency instead). This node is implemented more simply than Glass on purpose, to highlight the conceptual difference: Glass BSDF blends reflection and refraction by Fresnel (so it visibly gets more reflective at grazing angles), while Refraction BSDF is pure transmission with no reflection component at all — so here its transparency depends only on Roughness, not on viewing angle. Comparing the two live previews makes the &#39;does it have Fresnel reflection or not&#39; distinction tangible. **Honestly documented simplification**: the IOR socket has no visible effect in this sandbox — with no real ray bending, IOR has nothing to do. It&#39;s kept only to match Blender&#39;s interface; don&#39;t expect turning it to change anything here.</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>IN</td><td>Roughness</td><td>float</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

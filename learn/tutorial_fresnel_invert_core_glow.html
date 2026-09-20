@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>菲涅爾反轉：核心發光、邊緣透明 · Blender 5.0 引導教學</title>
+<title>菲涅爾反轉：核心發光、邊緣透明 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="菲涅爾反轉：核心發光、邊緣透明 · Blender 5.0 引導教學" />
+<meta property="og:title" content="菲涅爾反轉：核心發光、邊緣透明 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"菲涅爾反轉：核心發光、邊緣透明","description":"菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"菲涅爾反轉：核心發光、邊緣透明","description":"菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>菲涅爾反轉：核心發光、邊緣透明</h1>
     <p class="content-lead">菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>「用數學節點算 1 減某個值」是個通用技巧，不是只能反轉菲涅爾——任何一個 0-1 的遮罩，只要你想要的是它的「相反」（本來該亮的地方變暗、該暗的地方變亮），都可以用同一招，比重新設計一整套遮罩邏輯更簡單直接。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

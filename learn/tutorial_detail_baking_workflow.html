@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>細節烘焙工作流：法線貼圖＋向量位移 · Blender 5.0 引導教學</title>
+<title>細節烘焙工作流：法線貼圖＋向量位移 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="細節烘焙工作流：法線貼圖＋向量位移 · Blender 5.0 引導教學" />
+<meta property="og:title" content="細節烘焙工作流：法線貼圖＋向量位移 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"細節烘焙工作流：法線貼圖＋向量位移","description":"遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"細節烘焙工作流：法線貼圖＋向量位移","description":"遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>細節烘焙工作流：法線貼圖＋向量位移</h1>
     <p class="content-lead">遊戲/影視最常見的高模轉低模流程：先在雕刻軟體做出超高精度的模型，再把細節「烘焙」成兩張貼圖——法線貼圖（Normal Map，做出光影細節，不改變輪廓）跟向量位移貼圖（Vector Displacement Map，真的把頂點往外推，改變輪廓）——貼回低模上。這篇教學示範完整接線流程：UV 貼圖（UV Map）指定座標、圖像紋理（Image Texture）讀圖、法線貼圖節點解出光影方向、向量位移節點搭配「把 0-1 貼圖數值解碼回 -1 到 1 方向」的技巧做出真正的幾何位移。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>加入 3 個數學（Math）節點，運算都選乘加（Multiply Add），第二個數值填 2、第三個數值填 -1（也就是「原始值 × 2 － 1」，把 0-1 換算回 -1 到 1）。<br /><br />把分離顏色的 R、G、B 分別接到這 3 個數學節點的第一個數值。<br /><br />加入合併 XYZ（Combine XYZ），把 3 個數學節點的結果分別接到 X、Y、Z。<br /><br />加入向量位移（Vector Displacement），把合併 XYZ 的結果接到它的向量輸入，輸出接到材質輸出的位移（Displacement）插槽。<br /><br />這樣貼圖裡編碼的每一個方向，就會變成頂點真正往那個方向移動的位移——跟法線貼圖不同，這次輪廓會真的改變。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

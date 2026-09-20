@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>風格化色階：用硬邊漸變仿卡通分色 · Blender 5.0 引導教學</title>
+<title>風格化色階：用硬邊漸變仿卡通分色 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="本沙盒的卡通 BSDF（Toon BSDF）跟 Shader to RGB 都因為需要『打光完成之後』才能介入而無法支援即時預覽（這兩個節點都需要先算出最終光影、才能把它硬分成幾個色階，但本沙盒的架構是先算好材質參數、再一次交給 Three.js 統一打光，順序反過來了）。這篇教一個不需要那兩個節點也能做到的替代做法：用菲涅爾（Fresnel）＋多停駐點的硬邊顏色漸變（Color Ramp，常量 Constant），做出「隨視角分色」的風格化色塊——不是真正依光照方向分色的卡通渲染，但一樣能做出手繪分色感的視覺效果，這篇會誠實說明兩者的差異在哪。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="風格化色階：用硬邊漸變仿卡通分色 · Blender 5.0 引導教學" />
+<meta property="og:title" content="風格化色階：用硬邊漸變仿卡通分色 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="本沙盒的卡通 BSDF（Toon BSDF）跟 Shader to RGB 都因為需要『打光完成之後』才能介入而無法支援即時預覽（這兩個節點都需要先算出最終光影、才能把它硬分成幾個色階，但本沙盒的架構是先算好材質參數、再一次交給 Three.js 統一打光，順序反過來了）。這篇教一個不需要那兩個節點也能做到的替代做法：用菲涅爾（Fresnel）＋多停駐點的硬邊顏色漸變（Color Ramp，常量 Constant），做出「隨視角分色」的風格化色塊——不是真正依光照方向分色的卡通渲染，但一樣能做出手繪分色感的視覺效果，這篇會誠實說明兩者的差異在哪。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"風格化色階：用硬邊漸變仿卡通分色","description":"本沙盒的卡通 BSDF（Toon BSDF）跟 Shader to RGB 都因為需要『打光完成之後』才能介入而無法支援即時預覽（這兩個節點都需要先算出最終光影、才能把它硬分成幾個色階，但本沙盒的架構是先算好材質參數、再一次交給 Three.js 統一打光，順序反過來了）。這篇教一個不需要那兩個節點也能做到的替代做法：用菲涅爾（Fresnel）＋多停駐點的硬邊顏色漸變（Color Ramp，常量 Constant），做出「隨視角分色」的風格化色塊——不是真正依光照方向分色的卡通渲染，但一樣能做出手繪分色感的視覺效果，這篇會誠實說明兩者的差異在哪。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"風格化色階：用硬邊漸變仿卡通分色","description":"本沙盒的卡通 BSDF（Toon BSDF）跟 Shader to RGB 都因為需要『打光完成之後』才能介入而無法支援即時預覽（這兩個節點都需要先算出最終光影、才能把它硬分成幾個色階，但本沙盒的架構是先算好材質參數、再一次交給 Three.js 統一打光，順序反過來了）。這篇教一個不需要那兩個節點也能做到的替代做法：用菲涅爾（Fresnel）＋多停駐點的硬邊顏色漸變（Color Ramp，常量 Constant），做出「隨視角分色」的風格化色塊——不是真正依光照方向分色的卡通渲染，但一樣能做出手繪分色感的視覺效果，這篇會誠實說明兩者的差異在哪。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>風格化色階：用硬邊漸變仿卡通分色</h1>
     <p class="content-lead">本沙盒的卡通 BSDF（Toon BSDF）跟 Shader to RGB 都因為需要『打光完成之後』才能介入而無法支援即時預覽（這兩個節點都需要先算出最終光影、才能把它硬分成幾個色階，但本沙盒的架構是先算好材質參數、再一次交給 Three.js 統一打光，順序反過來了）。這篇教一個不需要那兩個節點也能做到的替代做法：用菲涅爾（Fresnel）＋多停駐點的硬邊顏色漸變（Color Ramp，常量 Constant），做出「隨視角分色」的風格化色塊——不是真正依光照方向分色的卡通渲染，但一樣能做出手繪分色感的視覺效果，這篇會誠實說明兩者的差異在哪。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>球體現在應該呈現 3 層清楚的色塊，隨視角分布——但仔細看會發現，本沙盒固定的攝影棚打光仍然會在這些色塊上疊加一層本身的柔和光影（因為打光是最後統一套用的，這套做法沒辦法真的擋掉）。<br /><br />真正的 Toon BSDF／Shader to RGB 在 Blender 裡是先把光照結果本身分色，色塊會完全鎖住、不受光源角度變化影響；這裡做的是「用視角這個替代依據」分色，效果類似但原理不同——這點要誠實知道，不要誤以為兩者完全等價。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

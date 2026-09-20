@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>積水地面：程序化的濕潤斑塊 · Blender 5.0 引導教學</title>
+<title>積水地面：程序化的濕潤斑塊 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="淋濕的地面會在低窪處積出一灘灘光滑的水漬，其餘地方仍然是乾燥粗糙的。這篇用沃羅諾伊紋理（Voronoi Texture）的平滑 F1（Smooth F1）特徵天生的圓潤斑塊形狀，接一個硬邊的顏色漸變（Color Ramp，常量 Constant）做出積水遮罩，驅動混合著色器（Mix Shader）在「乾燥粗糙」跟「濕潤光滑」兩種材質間切換——這次遮罩是由紋理（而非視角）決定，跟邊緣磨損那篇正好互補。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="積水地面：程序化的濕潤斑塊 · Blender 5.0 引導教學" />
+<meta property="og:title" content="積水地面：程序化的濕潤斑塊 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="淋濕的地面會在低窪處積出一灘灘光滑的水漬，其餘地方仍然是乾燥粗糙的。這篇用沃羅諾伊紋理（Voronoi Texture）的平滑 F1（Smooth F1）特徵天生的圓潤斑塊形狀，接一個硬邊的顏色漸變（Color Ramp，常量 Constant）做出積水遮罩，驅動混合著色器（Mix Shader）在「乾燥粗糙」跟「濕潤光滑」兩種材質間切換——這次遮罩是由紋理（而非視角）決定，跟邊緣磨損那篇正好互補。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"積水地面：程序化的濕潤斑塊","description":"淋濕的地面會在低窪處積出一灘灘光滑的水漬，其餘地方仍然是乾燥粗糙的。這篇用沃羅諾伊紋理（Voronoi Texture）的平滑 F1（Smooth F1）特徵天生的圓潤斑塊形狀，接一個硬邊的顏色漸變（Color Ramp，常量 Constant）做出積水遮罩，驅動混合著色器（Mix Shader）在「乾燥粗糙」跟「濕潤光滑」兩種材質間切換——這次遮罩是由紋理（而非視角）決定，跟邊緣磨損那篇正好互補。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"積水地面：程序化的濕潤斑塊","description":"淋濕的地面會在低窪處積出一灘灘光滑的水漬，其餘地方仍然是乾燥粗糙的。這篇用沃羅諾伊紋理（Voronoi Texture）的平滑 F1（Smooth F1）特徵天生的圓潤斑塊形狀，接一個硬邊的顏色漸變（Color Ramp，常量 Constant）做出積水遮罩，驅動混合著色器（Mix Shader）在「乾燥粗糙」跟「濕潤光滑」兩種材質間切換——這次遮罩是由紋理（而非視角）決定，跟邊緣磨損那篇正好互補。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>積水地面：程序化的濕潤斑塊</h1>
     <p class="content-lead">淋濕的地面會在低窪處積出一灘灘光滑的水漬，其餘地方仍然是乾燥粗糙的。這篇用沃羅諾伊紋理（Voronoi Texture）的平滑 F1（Smooth F1）特徵天生的圓潤斑塊形狀，接一個硬邊的顏色漸變（Color Ramp，常量 Constant）做出積水遮罩，驅動混合著色器（Mix Shader）在「乾燥粗糙」跟「濕潤光滑」兩種材質間切換——這次遮罩是由紋理（而非視角）決定，跟邊緣磨損那篇正好互補。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>把顏色漸變的顏色（Color）輸出接到混合著色器的 Fac。畫面應該會出現幾塊邊界清楚的光滑積水，其餘部分維持粗糙乾燥——試著調高沃羅諾伊的縮放（Scale），積水的數量會變多、但每一灘也會跟著變小。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

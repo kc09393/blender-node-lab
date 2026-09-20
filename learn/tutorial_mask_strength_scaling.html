@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>把遮罩調含蓄一點：用 Math 縮小整體影響力 · Blender 5.0 引導教學</title>
+<title>把遮罩調含蓄一點：用 Math 縮小整體影響力 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="把遮罩調含蓄一點：用 Math 縮小整體影響力 · Blender 5.0 引導教學" />
+<meta property="og:title" content="把遮罩調含蓄一點：用 Math 縮小整體影響力 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"把遮罩調含蓄一點：用 Math 縮小整體影響力","description":"拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"把遮罩調含蓄一點：用 Math 縮小整體影響力","description":"拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>把遮罩調含蓄一點：用 Math 縮小整體影響力</h1>
     <p class="content-lead">拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>這個「乘一個小於 1 的數字，把範圍壓扁」的技巧不是只能用在 Mix Shader 的 Fac——任何接受 0-1 數值的插槽（例如 Bump 的 Strength、Emission 的 Strength 想要的話也可以反過來乘大於 1 的數放大），都可以用同樣的方法讓效果更含蓄或更強烈，是比映射範圍（Map Range）更簡單、專門用在「只想往 0 靠攏、不需要改變上限」這種場合的做法。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

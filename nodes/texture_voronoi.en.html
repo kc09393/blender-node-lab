@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Voronoi Texture · Blender 5.0 Node Encyclopedia</title>
+<title>Voronoi Texture · Blender 5.2 LTS Node Encyclopedia</title>
 <meta name="description" content="Organic cell/crack patterns — essential for stone, cracked ground, and cellular textures." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Voronoi Texture · Blender 5.0 Node Encyclopedia" />
+<meta property="og:title" content="Voronoi Texture · Blender 5.2 LTS Node Encyclopedia" />
 <meta property="og:description" content="Organic cell/crack patterns — essential for stone, cracked ground, and cellular textures." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Voronoi Texture","description":"Organic cell/crack patterns — essential for stone, cracked ground, and cellular textures.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Voronoi Texture","description":"Organic cell/crack patterns — essential for stone, cracked ground, and cellular textures.","inLanguage":"en","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_voronoi.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <div class="content-kicker">Blender 5.2 LTS Node Encyclopedia</div>
     <h1>Voronoi Texture</h1>
     <p class="content-lead">Organic cell/crack patterns — essential for stone, cracked ground, and cellular textures.</p>
     <div class="content-actions">
@@ -39,6 +39,6 @@
     <section><h2>Technical notes</h2><p>Randomness is genuinely adjustable (0 = cell centers collapse to a perfect grid, 1 = fully random jitter — Blender&#39;s default is 1). Feature and Distance Metric now both match Blender: F1 (distance to nearest cell), F2 (distance to second-nearest), Smooth F1 (blends F1/F2 with a smooth minimum for softer boundaries), Distance to Edge (distance to the boundary between two cells — great for cracks), N-Sphere Radius (the largest sphere a cell point fits without overlapping neighbors — great for rounded pebble grains); Distance Metric supports Euclidean (straight-line), Manhattan (grid-only movement), Chebychev (max component, carves square cells), and Minkowski (generalizes the others via the Exponent input — Exponent=1 equals Manhattan, Exponent=2 equals Euclidean, larger values approach Chebychev). Exponent defaults to 0.5 with range 0-32, matching Blender&#39;s source (`node_shader_tex_voronoi.cc`) socket definition; it only matters when Distance Metric is Minkowski. Difference: Smooth F1 approximates via Smooth Min on F1/F2 — directionally correct, but not Blender&#39;s true per-point weighted smoothing algorithm.</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Randomness</td><td>float</td></tr><tr><td>IN</td><td>Smoothness</td><td>float</td></tr><tr><td>IN</td><td>Exponent</td><td>float</td></tr><tr><td>OUT</td><td>Distance</td><td>float</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Position</td><td>vector</td></tr></tbody></table></section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

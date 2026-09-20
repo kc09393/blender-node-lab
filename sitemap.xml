@@ -176,6 +176,8 @@
   <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_any_fac_as_bump_height.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_texture_coordinate.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_texture_coordinate.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_uv_map.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
@@ -184,6 +186,8 @@
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_rgb.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_value.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_value.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.en.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://kc09393.github.io/blender-node-lab/nodes/input_layer_weight.html</loc><lastmod>2026-09-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>

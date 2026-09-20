@@ -53,7 +53,7 @@ export function setPageSeo({ title, description, path, type = "website" }) {
 }
 
 export function tutorialSeo(tutorial) {
-  const suffix = getLang() === "en" ? "Blender 5.0 Guided Tutorial" : "Blender 5.0 引導教學";
+  const suffix = getLang() === "en" ? "Blender 5.2 LTS Guided Tutorial" : "Blender 5.2 LTS 引導教學";
   setPageSeo({
     title: { zh: `${tutorial.name.zh} · ${suffix}`, en: `${tutorial.name.en} · ${suffix}` },
     description: tutorial.description,
@@ -63,7 +63,7 @@ export function tutorialSeo(tutorial) {
 }
 
 export function nodeSeo(typeDef) {
-  const suffix = getLang() === "en" ? "Blender 5.0 Node Encyclopedia" : "Blender 5.0 節點百科";
+  const suffix = getLang() === "en" ? "Blender 5.2 LTS Node Encyclopedia" : "Blender 5.2 LTS 節點百科";
   setPageSeo({
     title: { zh: `${typeDef.name.zh} · ${suffix}`, en: `${typeDef.name.en} · ${suffix}` },
     description: typeDef.summary,

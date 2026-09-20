@@ -7,14 +7,14 @@ export default [
     id: "shader_principled_bsdf",
     category: "shader",
     name: { zh: "原理化 BSDF", en: "Principled BSDF" },
-    summary: { zh: "以 Blender 5.0 OpenPBR 架構為準的萬用材質節點。", en: "The Blender 5.0 OpenPBR-based all-in-one surface shader." },
+    summary: { zh: "以 Blender 5.2 LTS OpenPBR 架構為準的萬用材質節點。", en: "The Blender 5.2 LTS OpenPBR-based all-in-one surface shader." },
     docBeginner: {
-      zh: "這是 Blender 5.0 新建材質時的主要表面節點。先從底色、金屬度與粗糙度開始；需要玻璃、車漆、布料或薄膜彩虹時，再使用透射、塗層、絨光與薄膜區塊。",
-      en: "This is Blender 5.0's primary surface shader. Start with Base Color, Metallic, and Roughness; use Transmission, Coat, Sheen, or Thin Film for glass, paint, fabric, and interference colors.",
+      zh: "這是 Blender 5.2 LTS 新建材質時的主要表面節點。先從底色、金屬度與粗糙度開始；需要玻璃、車漆、布料或薄膜彩虹時，再使用透射、塗層、絨光與薄膜區塊。Thin Wall 適合紙張、葉片與窗片這類可視為零厚度的薄面。",
+      en: "This is Blender 5.2 LTS's primary surface shader. Start with Base Color, Metallic, and Roughness; use Transmission, Coat, Sheen, or Thin Film for glass, paint, fabric, and interference colors. Thin Wall is for paper, leaves, and window sheets that can be treated as zero-thickness surfaces.",
     },
     docPro: {
-      zh: "輸入分組與名稱依 Blender 5.0／OpenPBR：基礎、漫射、次表面、鏡面反射、透射、塗層、絨光、發光與薄膜。即時預覽會把各層映射到 Three.js 物理材質；次表面是畫面空間近似，透射不會像 Cycles 一樣追蹤真正的折射光路。",
-      en: "Inputs follow Blender 5.0/OpenPBR groups: Base, Diffuse, Subsurface, Specular, Transmission, Coat, Sheen, Emission, and Thin Film. The preview maps these layers to Three.js physical shading; subsurface is a screen-space approximation and transmission does not trace refracted paths like Cycles.",
+      zh: "輸入分組與名稱依 Blender 5.2 LTS／OpenPBR。Thin Wall 為 5.2 新增的布林輸入；Blender 將表面當作層狀鏡對、零厚度的薄片，此時次表面半徑與縮放不起作用。本預覽會切到零厚度透射並關閉次表面近似，但仍不是 Cycles 的完整光線追蹤。",
+      en: "Inputs follow Blender 5.2 LTS/OpenPBR. Thin Wall is a new 5.2 Boolean input: Blender treats the surface as a mirrored-layer, zero-thickness slab, and subsurface Radius/Scale no longer apply. This preview switches transmission to zero thickness and disables its subsurface approximation, but it is still not full Cycles path tracing.",
     },
     supported: true,
     inputs: [
@@ -23,6 +23,7 @@ export default [
       { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "基礎", en: "Base" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
       { key: "ior", label: { zh: "折射率", en: "IOR" }, section: { zh: "基礎", en: "Base" }, type: "float", default: 1.5, min: 1, max: 4, step: 0.01 },
       { key: "alpha", label: { zh: "Alpha", en: "Alpha" }, section: { zh: "基礎", en: "Base" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
+      { key: "thinWall", label: { zh: "Thin Wall（薄壁）", en: "Thin Wall" }, section: { zh: "基礎", en: "Base" }, type: "bool", default: false },
       { key: "normal", label: { zh: "法線", en: "Normal" }, section: { zh: "基礎", en: "Base" }, type: "vector", default: "NORMAL" },
       { key: "diffuseRoughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "漫射", en: "Diffuse" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
       { key: "subsurfaceWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
@@ -56,11 +57,12 @@ export default [
         const fresnel = ctx.freshVar("sssFresnel");
         ctx.line(`float ${fresnel} = bml_fresnel(normalize(vNormal), max(${ins.subsurfaceIor}, 1.001));`);
         const subsurface = ctx.freshVar("sssGlow");
-        ctx.line(`vec3 ${subsurface} = (${ins.baseColor}).rgb * max(${ins.subsurfaceRadius}, vec3(0.0)) * clamp(${ins.subsurfaceScale}, 0.0, 10.0) * clamp(${ins.subsurfaceWeight}, 0.0, 1.0) * mix(1.0 - ${fresnel}, 1.0, clamp(${ins.subsurfaceAnisotropy}, 0.0, 1.0)) * 0.45;`);
+        ctx.line(`vec3 ${subsurface} = (${ins.baseColor}).rgb * max(${ins.subsurfaceRadius}, vec3(0.0)) * clamp(${ins.subsurfaceScale}, 0.0, 10.0) * clamp(${ins.subsurfaceWeight}, 0.0, 1.0) * mix(1.0 - ${fresnel}, 1.0, clamp(${ins.subsurfaceAnisotropy}, 0.0, 1.0)) * (${ins.thinWall} ? 0.0 : 0.45);`);
         const v = ctx.freshVar("bsdf");
         ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.baseColor}).rgb, clamp(${ins.roughness} + ${ins.diffuseRoughness} * 0.15, 0.035, 1.0), clamp(${ins.metallic}, 0.0, 1.0), (${ins.emissionColor}).rgb * ${ins.emissionStrength} + ${subsurface}, clamp(${ins.alpha}, 0.0, 1.0));`);
         ctx.line(`${v}.ior = clamp(${ins.ior}, 1.0, 4.0);`);
         ctx.line(`${v}.transmission = clamp(${ins.transmissionWeight}, 0.0, 1.0);`);
+        ctx.line(`${v}.thinWall = ${ins.thinWall} ? 1.0 : 0.0;`);
         ctx.line(`${v}.coatWeight = clamp(${ins.coatWeight}, 0.0, 1.0);`);
         ctx.line(`${v}.coatRoughness = clamp(${ins.coatRoughness}, 0.035, 1.0);`);
         ctx.line(`${v}.coatIor = clamp(${ins.coatIor}, 1.0, 4.0);`);
@@ -360,8 +362,8 @@ export default [
     summary: { zh: "布料邊緣逆光時的微光，做絨布、天鵝絨質感。", en: "The faint edge glow seen on backlit fabric — for velvet and cloth." },
     docBeginner: { zh: "單獨使用效果不明顯，通常混合進 Principled BSDF 的材質裡，讓布料邊緣多一點絨毛感的反光。", en: "Subtle on its own — usually blended into a Principled BSDF material to add a fuzzy edge highlight to fabric." },
     docPro: {
-      zh: "在 Blender 5.0，Sheen 已是 Principled BSDF 的絨光層；這裡仍保留獨立節點方便教學拆解。本沙盒把它實作成一個底色全黑、只靠 Fresnel 邊緣光（Emission 欄位）貢獻亮度的 BSDF——這樣跟其他材質用 Mix Shader 疊加時，才不會把底色蓋掉，只會在邊緣多一圈絨毛感的光暈。Roughness 越高，光暈覆蓋的角度範圍越寬、越柔和。",
-      en: "In Blender 5.0, Sheen is a layer of Principled BSDF; this standalone node is kept here for teaching purposes. This sandbox implements it as a BSDF with a fully black base color that only contributes brightness through a Fresnel-driven edge glow (via the Emission channel) — so when layered onto another material with Mix Shader, it won't wash out the base color, just add a fuzzy rim highlight. Higher Roughness widens and softens the glow.",
+      zh: "在 Blender 5.2 LTS，Sheen 已是 Principled BSDF 的絨光層；這裡仍保留獨立節點方便教學拆解。本沙盒把它實作成一個底色全黑、只靠 Fresnel 邊緣光（Emission 欄位）貢獻亮度的 BSDF——這樣跟其他材質用 Mix Shader 疊加時，才不會把底色蓋掉，只會在邊緣多一圈絨毛感的光暈。Roughness 越高，光暈覆蓋的角度範圍越寬、越柔和。",
+      en: "In Blender 5.2 LTS, Sheen is a layer of Principled BSDF; this standalone node is kept here for teaching purposes. This sandbox implements it as a BSDF with a fully black base color that only contributes brightness through a Fresnel-driven edge glow (via the Emission channel) — so when layered onto another material with Mix Shader, it won't wash out the base color, just add a fuzzy rim highlight. Higher Roughness widens and softens the glow.",
     },
     supported: true,
     inputs: [

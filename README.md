@@ -1,9 +1,9 @@
-# Blender 5.0 材質節點學習站
+# Blender 5.2 LTS 材質節點學習站
 
 **Bilingual, interactive Blender shader-node learning site** — encyclopedia, live sandbox, guided tutorials.
 免費、雙語（繁中／英文）的 Blender 材質節點互動學習網站，不是看影片，是真的拖節點、接線、即時看 3D 預覽反應。
 
-目前內容與原理化 BSDF（Principled BSDF）的分組、名稱和教學基準以 **Blender 5.0／OpenPBR** 為準。瀏覽器預覽會盡量對應物理材質行為，但不等同於 Cycles 的完整路徑追蹤。
+目前內容與原理化 BSDF（Principled BSDF）的分組、名稱和教學基準以 **Blender 5.2 LTS／OpenPBR** 為準。已納入 5.1／5.2 的場景時間節點、Thin Wall、法線貼圖 OpenGL／DirectX 慣例與向量四捨五入。瀏覽器預覽會盡量對應物理材質行為，但不等同於 Cycles 的完整路徑追蹤。
 
 **🌐 [kc09393.github.io/blender-node-lab](https://kc09393.github.io/blender-node-lab/)**
 

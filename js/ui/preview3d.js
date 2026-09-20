@@ -145,6 +145,8 @@ export class Preview3D {
 
   _tick() {
     this._raf = requestAnimationFrame(this._tick);
+    const timeUniform = this.mesh?.material?.userData?.bmlTimeUniform;
+    if (timeUniform) timeUniform.value = performance.now() * 0.001;
     this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }

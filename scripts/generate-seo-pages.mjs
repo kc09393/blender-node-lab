@@ -6,6 +6,7 @@ import { listNodeTypes } from "../js/core/nodeRegistry.js";
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const siteRoot = "https://kc09393.github.io/blender-node-lab";
+const blenderVersion = "5.2 LTS";
 const generatedAt = new Date().toISOString().slice(0, 10);
 
 function esc(value = "") {
@@ -48,12 +49,12 @@ function pageShell({ lang, title, description, canonicalPath, alternatePath, typ
     <a href="../index.html">${homeLabel}</a>
     <a href="../encyclopedia.html">${encyclopediaLabel}</a>
     <a href="../tutorials.html">${tutorialsLabel}</a>
-    <span>Blender 5.0</span>
+    <span>Blender ${blenderVersion}</span>
   </header>
   <main class="content-main">
     ${body}
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · ${generatedAt}</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender ${blenderVersion} · ${generatedAt}</footer>
 </body>
 </html>
 `.replace(/[ \t]+$/gm, "");
@@ -61,7 +62,7 @@ function pageShell({ lang, title, description, canonicalPath, alternatePath, typ
 
 function tutorialPage(tutorial, lang) {
   const isEnglish = lang === "en";
-  const suffix = isEnglish ? "Blender 5.0 Guided Tutorial" : "Blender 5.0 引導教學";
+  const suffix = isEnglish ? `Blender ${blenderVersion} Guided Tutorial` : `Blender ${blenderVersion} 引導教學`;
   const title = `${tutorial.name[lang]} · ${suffix}`;
   const description = tutorial.description[lang];
   const filename = `${tutorial.id}${isEnglish ? ".en" : ""}.html`;
@@ -98,7 +99,7 @@ function tutorialPage(tutorial, lang) {
         description,
         inLanguage: isEnglish ? "en" : "zh-Hant",
         educationalLevel: tutorial.level[lang],
-        teaches: "Blender 5.0 material nodes",
+        teaches: `Blender ${blenderVersion} material nodes`,
         url: `${siteRoot}/learn/${filename}`,
         isPartOf: `${siteRoot}/tutorials.html`,
       },
@@ -108,7 +109,7 @@ function tutorialPage(tutorial, lang) {
 
 function nodePage(node, lang) {
   const isEnglish = lang === "en";
-  const suffix = isEnglish ? "Blender 5.0 Node Encyclopedia" : "Blender 5.0 節點百科";
+  const suffix = isEnglish ? `Blender ${blenderVersion} Node Encyclopedia` : `Blender ${blenderVersion} 節點百科`;
   const title = `${node.name[lang]} · ${suffix}`;
   const description = node.summary[lang];
   const filename = `${node.id}${isEnglish ? ".en" : ""}.html`;
@@ -151,7 +152,7 @@ function nodePage(node, lang) {
         headline: node.name[lang],
         description,
         inLanguage: isEnglish ? "en" : "zh-Hant",
-        about: "Blender 5.0 material nodes",
+        about: `Blender ${blenderVersion} material nodes`,
         url: `${siteRoot}/nodes/${filename}`,
         isPartOf: `${siteRoot}/encyclopedia.html`,
       },

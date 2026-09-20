@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>數值曲線 · Blender 5.0 節點百科</title>
+<title>數值曲線 · Blender 5.2 LTS 節點百科</title>
 <meta name="description" content="用可拖拉的曲線把一個數值重新對應成另一個數值。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="數值曲線 · Blender 5.0 節點百科" />
+<meta property="og:title" content="數值曲線 · Blender 5.2 LTS 節點百科" />
 <meta property="og:description" content="用可拖拉的曲線把一個數值重新對應成另一個數值。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"數值曲線","description":"用可拖拉的曲線把一個數值重新對應成另一個數值。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"數值曲線","description":"用可拖拉的曲線把一個數值重新對應成另一個數值。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <div class="content-kicker">Blender 5.2 LTS 節點百科</div>
     <h1>數值曲線</h1>
     <p class="content-lead">用可拖拉的曲線把一個數值重新對應成另一個數值。</p>
     <div class="content-actions">
@@ -39,6 +39,6 @@
     <section><h2>進階說明</h2><p>已補上可拖拉控制點的曲線編輯器（節點卡片上直接拖拉，或用旁邊的數值輸入精確調整）。曲線本身用平滑的 Cardinal（Catmull-Rom 風格）三次多項式逐段穿過每個控制點，跟 Blender 曲線部件的預設平滑手把（Auto Handle）效果一致，不是生硬的逐段直線；跟 Blender 一樣，控制點之間可能會輕微 overshoot 出範圍外，這是平滑曲線正常的行為。差異：本沙盒沒有 Blender「每個控制點可以個別切成 Vector（尖角）手把」的功能，全部控制點都套用同一種平滑演算法。</p></section>
     <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>數值</td><td>float</td></tr><tr><td>OUT</td><td>數值</td><td>float</td></tr></tbody></table></section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

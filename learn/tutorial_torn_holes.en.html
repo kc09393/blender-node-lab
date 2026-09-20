@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Torn Holes: Partial Transparency · Blender 5.0 Guided Tutorial</title>
+<title>Torn Holes: Partial Transparency · Blender 5.2 LTS Guided Tutorial</title>
 <meta name="description" content="Torn leaves, moth-eaten fabric, rusted-through sheet metal — these &#39;mostly solid, holes here and there&#39; materials all use the same technique: Transparent BSDF as the &#39;hole&#39;, Mix Shader to blend it with the base material, and a Color Ramp mask to control where the holes appear. This tutorial focuses on Transparent BSDF, a node not used elsewhere in this site." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Torn Holes: Partial Transparency · Blender 5.0 Guided Tutorial" />
+<meta property="og:title" content="Torn Holes: Partial Transparency · Blender 5.2 LTS Guided Tutorial" />
 <meta property="og:description" content="Torn leaves, moth-eaten fabric, rusted-through sheet metal — these &#39;mostly solid, holes here and there&#39; materials all use the same technique: Transparent BSDF as the &#39;hole&#39;, Mix Shader to blend it with the base material, and a Color Ramp mask to control where the holes appear. This tutorial focuses on Transparent BSDF, a node not used elsewhere in this site." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Torn Holes: Partial Transparency","description":"Torn leaves, moth-eaten fabric, rusted-through sheet metal — these 'mostly solid, holes here and there' materials all use the same technique: Transparent BSDF as the 'hole', Mix Shader to blend it with the base material, and a Color Ramp mask to control where the holes appear. This tutorial focuses on Transparent BSDF, a node not used elsewhere in this site.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Torn Holes: Partial Transparency","description":"Torn leaves, moth-eaten fabric, rusted-through sheet metal — these 'mostly solid, holes here and there' materials all use the same technique: Transparent BSDF as the 'hole', Mix Shader to blend it with the base material, and a Color Ramp mask to control where the holes appear. This tutorial focuses on Transparent BSDF, a node not used elsewhere in this site.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_torn_holes.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
     <h1>Torn Holes: Partial Transparency</h1>
     <p class="content-lead">Torn leaves, moth-eaten fabric, rusted-through sheet metal — these &#39;mostly solid, holes here and there&#39; materials all use the same technique: Transparent BSDF as the &#39;hole&#39;, Mix Shader to blend it with the base material, and a Color Ramp mask to control where the holes appear. This tutorial focuses on Transparent BSDF, a node not used elsewhere in this site.</p>
     <div class="content-actions">
@@ -50,6 +50,6 @@
       <p>Add a Mix Shader.<br /><br />Connect the original leaf material to the first Shader input.<br /><br />Connect Transparent BSDF to the second Shader input.<br /><br />Connect the Color Ramp&#39;s Color output to Mix Shader&#39;s Fac.<br /><br />Since the Color Ramp is mostly black (0, fully the first material) with only the holes white (1, fully Transparent BSDF), this creates a &#39;mostly solid, holes in a few spots&#39; look.<br /><br />Connect Mix Shader&#39;s output to the material output.</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

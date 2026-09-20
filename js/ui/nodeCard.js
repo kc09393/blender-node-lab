@@ -897,6 +897,7 @@ export function createNodeElement(node, opts) {
     if (!connectedInputKeys.has(def.key)) {
       if (def.type === "float") row.appendChild(buildFloatControl(node, def, onParamChange));
       else if (def.type === "color") row.appendChild(buildColorControl(node, def, onParamChange));
+      else if (def.type === "bool") row.appendChild(buildBoolControl(node, def, onParamChange));
       else if (def.type === "vector" && (def.default === "UV" || def.default === "NORMAL")) {
         // "UV"/"NORMAL" 是特殊字串常數（見 socketTypes.js 的 literalExpr），代表「沒接線時用畫面 UV／
         // 目前的著色法線」，不是真的 [x,y,z] 陣列——絕對不能丟進 buildVectorControl，

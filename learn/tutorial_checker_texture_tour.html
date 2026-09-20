@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>認識棋盤格紋理：理解座標系統的最佳工具 · Blender 5.0 引導教學</title>
+<title>認識棋盤格紋理：理解座標系統的最佳工具 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="認識棋盤格紋理：理解座標系統的最佳工具 · Blender 5.0 引導教學" />
+<meta property="og:title" content="認識棋盤格紋理：理解座標系統的最佳工具 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識棋盤格紋理：理解座標系統的最佳工具","description":"棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識棋盤格紋理：理解座標系統的最佳工具","description":"棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>認識棋盤格紋理：理解座標系統的最佳工具</h1>
     <p class="content-lead">棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>加入紋理座標（Texture Coordinate，輸入 Input 分類），把它的 Generated 輸出接到棋盤格紋理的向量（Vector）輸入。格子的排列方式可能會跟著改變。<br /><br />這就是棋盤格紋理最重要的用途：只要格子看起來扭曲、接縫不對齊，通常就代表你接的座標系統本身有問題。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

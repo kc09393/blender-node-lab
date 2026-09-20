@@ -91,6 +91,36 @@ export default [
     },
   },
   {
+    id: "input_scene_time",
+    category: "input",
+    name: { zh: "場景時間", en: "Scene Time" },
+    summary: { zh: "輸出目前場景的秒數與影格，用來製作會自動變化的材質。", en: "Outputs the current scene time in seconds and frames for animated materials." },
+    docBeginner: {
+      zh: "這是 Blender 5.2 LTS 加入著色器的場景時間（Scene Time）節點。把秒數接到數學節點的正弦（Sine），就能讓發光、顏色或粗糙度自動循環。",
+      en: "Blender 5.2 LTS adds Scene Time to shader nodes. Connect Seconds to a Math node set to Sine to make emission, color, or roughness loop automatically.",
+    },
+    docPro: {
+      zh: "Blender 會依場景的動畫時間輸出 Seconds 與 Frames；本沙盒沒有時間軸，因此改用頁面開啟後的實時秒數，並以 Blender 預設 24 FPS 計算影格。兩個輸出都會連續更新，適合教學動態節點圖，但不是可拖曳的 Blender 時間軸。",
+      en: "Blender outputs Seconds and Frames from the scene animation time. This sandbox has no timeline, so it uses real elapsed page time and derives Frames at Blender's default 24 FPS. Both outputs update continuously for teaching animated graphs, but they are not a scrubbable Blender timeline.",
+    },
+    supported: true,
+    vertexSafe: true,
+    inputs: [],
+    outputs: [
+      { key: "seconds", label: { zh: "秒數", en: "Seconds" }, type: "float" },
+      { key: "frames", label: { zh: "影格", en: "Frames" }, type: "float" },
+    ],
+    glsl: {
+      emit(ctx) {
+        const seconds = ctx.freshVar("sceneSeconds");
+        const frames = ctx.freshVar("sceneFrames");
+        ctx.line(`float ${seconds} = bml_time;`);
+        ctx.line(`float ${frames} = bml_time * 24.0;`);
+        return { seconds, frames };
+      },
+    },
+  },
+  {
     id: "input_fresnel",
     category: "input",
     name: { zh: "菲涅爾", en: "Fresnel" },

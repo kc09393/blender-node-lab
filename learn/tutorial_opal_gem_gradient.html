@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>蛋白石效果：雙重驅動的漸層 · Blender 5.0 引導教學</title>
+<title>蛋白石效果：雙重驅動的漸層 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="真正好看的漸層效果很少只靠單一輸入驅動——蛋白石（Opal）的變彩效果同時受「觀察角度」跟「內部雜訊結構」影響。這篇教學把菲涅爾（Fresnel）跟雜訊紋理（Noise Texture）用數學節點結合成一個驅動值，再接到顏色漸變（Color Ramp）做出比單一輸入更有機、更不規則的多彩漸層。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="蛋白石效果：雙重驅動的漸層 · Blender 5.0 引導教學" />
+<meta property="og:title" content="蛋白石效果：雙重驅動的漸層 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="真正好看的漸層效果很少只靠單一輸入驅動——蛋白石（Opal）的變彩效果同時受「觀察角度」跟「內部雜訊結構」影響。這篇教學把菲涅爾（Fresnel）跟雜訊紋理（Noise Texture）用數學節點結合成一個驅動值，再接到顏色漸變（Color Ramp）做出比單一輸入更有機、更不規則的多彩漸層。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"蛋白石效果：雙重驅動的漸層","description":"真正好看的漸層效果很少只靠單一輸入驅動——蛋白石（Opal）的變彩效果同時受「觀察角度」跟「內部雜訊結構」影響。這篇教學把菲涅爾（Fresnel）跟雜訊紋理（Noise Texture）用數學節點結合成一個驅動值，再接到顏色漸變（Color Ramp）做出比單一輸入更有機、更不規則的多彩漸層。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"蛋白石效果：雙重驅動的漸層","description":"真正好看的漸層效果很少只靠單一輸入驅動——蛋白石（Opal）的變彩效果同時受「觀察角度」跟「內部雜訊結構」影響。這篇教學把菲涅爾（Fresnel）跟雜訊紋理（Noise Texture）用數學節點結合成一個驅動值，再接到顏色漸變（Color Ramp）做出比單一輸入更有機、更不規則的多彩漸層。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_opal_gem_gradient.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>蛋白石效果：雙重驅動的漸層</h1>
     <p class="content-lead">真正好看的漸層效果很少只靠單一輸入驅動——蛋白石（Opal）的變彩效果同時受「觀察角度」跟「內部雜訊結構」影響。這篇教學把菲涅爾（Fresnel）跟雜訊紋理（Noise Texture）用數學節點結合成一個驅動值，再接到顏色漸變（Color Ramp）做出比單一輸入更有機、更不規則的多彩漸層。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>把顏色漸變的顏色（Color）輸出，接到原理化 BSDF（Principled BSDF）的底色（Base Color）。<br /><br />把粗糙度（Roughness）調到接近 0。<br /><br />小知識：真實的蛋白石其實是不透光的寶石，變彩效果來自內部的結構繞射，不是穿透折射，所以這裡用不透明的 Principled BSDF 呈現，比用玻璃 BSDF 更接近真實效果。<br /><br />用滑鼠拖曳旋轉預覽球體看看：菲涅爾會隨觀察角度改變，顏色漸變的取值也會跟著角度變，就做出「轉動角度、顏色跟著流動」的蛋白石效果了。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

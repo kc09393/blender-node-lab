@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>用 Math 節點縮小數值範圍 · Blender 5.0 引導教學</title>
+<title>用 Math 節點縮小數值範圍 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="雜訊紋理（Noise Texture）的輸出永遠是 0-1，但很多時候你只想要一個比較窄的範圍（例如 0.2-0.5）。這個教學帶你用兩個數學（Math）節點手動做出「乘＋加」的縮放平移，理解映射範圍（Map Range）背後其實在做的事。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="用 Math 節點縮小數值範圍 · Blender 5.0 引導教學" />
+<meta property="og:title" content="用 Math 節點縮小數值範圍 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="雜訊紋理（Noise Texture）的輸出永遠是 0-1，但很多時候你只想要一個比較窄的範圍（例如 0.2-0.5）。這個教學帶你用兩個數學（Math）節點手動做出「乘＋加」的縮放平移，理解映射範圍（Map Range）背後其實在做的事。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_remap.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_remap.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"用 Math 節點縮小數值範圍","description":"雜訊紋理（Noise Texture）的輸出永遠是 0-1，但很多時候你只想要一個比較窄的範圍（例如 0.2-0.5）。這個教學帶你用兩個數學（Math）節點手動做出「乘＋加」的縮放平移，理解映射範圍（Map Range）背後其實在做的事。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_math_remap.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"用 Math 節點縮小數值範圍","description":"雜訊紋理（Noise Texture）的輸出永遠是 0-1，但很多時候你只想要一個比較窄的範圍（例如 0.2-0.5）。這個教學帶你用兩個數學（Math）節點手動做出「乘＋加」的縮放平移，理解映射範圍（Map Range）背後其實在做的事。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_math_remap.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>用 Math 節點縮小數值範圍</h1>
     <p class="content-lead">雜訊紋理（Noise Texture）的輸出永遠是 0-1，但很多時候你只想要一個比較窄的範圍（例如 0.2-0.5）。這個教學帶你用兩個數學（Math）節點手動做出「乘＋加」的縮放平移，理解映射範圍（Map Range）背後其實在做的事。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>把第二個數學（Math）節點的結果接到原理化 BSDF（Principled BSDF）的粗糙度（Roughness）。<br /><br />跟直接接雜訊紋理（Noise Texture）比起來，現在粗糙度的變化範圍更可控、不會忽然全黑或全白。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

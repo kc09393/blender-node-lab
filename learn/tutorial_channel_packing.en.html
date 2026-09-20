@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Channel Packing: Three Masks in One Texture · Blender 5.0 Guided Tutorial</title>
+<title>Channel Packing: Three Masks in One Texture · Blender 5.2 LTS Guided Tutorial</title>
 <meta name="description" content="Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture&#39;s R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color&#39;s R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Channel Packing: Three Masks in One Texture · Blender 5.0 Guided Tutorial" />
+<meta property="og:title" content="Channel Packing: Three Masks in One Texture · Blender 5.2 LTS Guided Tutorial" />
 <meta property="og:description" content="Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture&#39;s R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color&#39;s R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Channel Packing: Three Masks in One Texture","description":"Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture's R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color's R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Channel Packing: Three Masks in One Texture","description":"Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture's R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color's R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_channel_packing.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
     <h1>Channel Packing: Three Masks in One Texture</h1>
     <p class="content-lead">Game art often packs three independent black/white masks (e.g. roughness, metallic, AO) into a single texture&#39;s R, G, B channels instead of three separate images — saving space and texture reads. This is called channel packing. This tutorial uses Combine Color to stuff three unrelated textures into one color&#39;s R/G/B, then Separate Color to pull them back apart and drive different material parameters — proving no information is lost in the round trip.</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>Connect Separate Color&#39;s R output to Principled BSDF&#39;s Roughness.<br /><br />Connect Separate Color&#39;s G output to Principled BSDF&#39;s Metallic.<br /><br />Check the live preview: the sphere should show both Voronoi-cell-shaped roughness variation and Noise-shaped metallic variation, independent of each other — proof that packing and unpacking didn&#39;t scramble anything.</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

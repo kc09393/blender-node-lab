@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>認識 Math 節點：切換運算看四種效果 · Blender 5.0 引導教學</title>
+<title>認識 Math 節點：切換運算看四種效果 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="Math 節點的運算（Operation）下拉選單有 30 幾種選項，光看清單很難想像差別。這篇用同一條「雜訊→Math→發光」的線路，切換 4 種代表性運算（相加、吸附、大於、正弦），讓你直接看到「函式／捨入／比較／三角函數」這四大分類分別長什麼樣子。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="認識 Math 節點：切換運算看四種效果 · Blender 5.0 引導教學" />
+<meta property="og:title" content="認識 Math 節點：切換運算看四種效果 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="Math 節點的運算（Operation）下拉選單有 30 幾種選項，光看清單很難想像差別。這篇用同一條「雜訊→Math→發光」的線路，切換 4 種代表性運算（相加、吸附、大於、正弦），讓你直接看到「函式／捨入／比較／三角函數」這四大分類分別長什麼樣子。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識 Math 節點：切換運算看四種效果","description":"Math 節點的運算（Operation）下拉選單有 30 幾種選項，光看清單很難想像差別。這篇用同一條「雜訊→Math→發光」的線路，切換 4 種代表性運算（相加、吸附、大於、正弦），讓你直接看到「函式／捨入／比較／三角函數」這四大分類分別長什麼樣子。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識 Math 節點：切換運算看四種效果","description":"Math 節點的運算（Operation）下拉選單有 30 幾種選項，光看清單很難想像差別。這篇用同一條「雜訊→Math→發光」的線路，切換 4 種代表性運算（相加、吸附、大於、正弦），讓你直接看到「函式／捨入／比較／三角函數」這四大分類分別長什麼樣子。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_math_operations_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>認識 Math 節點：切換運算看四種效果</h1>
     <p class="content-lead">Math 節點的運算（Operation）下拉選單有 30 幾種選項，光看清單很難想像差別。這篇用同一條「雜訊→Math→發光」的線路，切換 4 種代表性運算（相加、吸附、大於、正弦），讓你直接看到「函式／捨入／比較／三角函數」這四大分類分別長什麼樣子。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>把運算切換成「三角函數 Trigonometric」分類的正弦（Sine）。畫面看起來只是一段平滑的漸層，不太像「週期性」的波紋。<br /><br />這是因為雜訊的輸出範圍是 0 到 1（換算成弧度只有一小段），正弦函數要跨過好幾圈（大約 0 到 6 以上）才看得出規律的上下震盪。<br /><br />⚠️ 這是一個很有用的教訓：Sine／Cosine 要先把輸入範圍「放大」（例如接一個 Math 相乘節點乘上 10），才會顯出真正的週期性條紋。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>邊緣磨損：油漆刮到露出金屬 · Blender 5.0 引導教學</title>
+<title>邊緣磨損：油漆刮到露出金屬 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="遊戲美術最常用的一招：邊緣磨損（Edge Wear）——物體的平坦處保留原本的漆面，稜角/邊緣則因為長期碰撞磨損露出底下的金屬。做法是用菲涅爾（Fresnel）算出「這裡有多接近邊緣」，接一個切成硬邊的顏色漸變（Color Ramp，常量 Constant 插值）做出「非黑即白」的遮罩，再用這個遮罩驅動混合著色器（Mix Shader）切換兩種完全不同的材質。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="邊緣磨損：油漆刮到露出金屬 · Blender 5.0 引導教學" />
+<meta property="og:title" content="邊緣磨損：油漆刮到露出金屬 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="遊戲美術最常用的一招：邊緣磨損（Edge Wear）——物體的平坦處保留原本的漆面，稜角/邊緣則因為長期碰撞磨損露出底下的金屬。做法是用菲涅爾（Fresnel）算出「這裡有多接近邊緣」，接一個切成硬邊的顏色漸變（Color Ramp，常量 Constant 插值）做出「非黑即白」的遮罩，再用這個遮罩驅動混合著色器（Mix Shader）切換兩種完全不同的材質。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"邊緣磨損：油漆刮到露出金屬","description":"遊戲美術最常用的一招：邊緣磨損（Edge Wear）——物體的平坦處保留原本的漆面，稜角/邊緣則因為長期碰撞磨損露出底下的金屬。做法是用菲涅爾（Fresnel）算出「這裡有多接近邊緣」，接一個切成硬邊的顏色漸變（Color Ramp，常量 Constant 插值）做出「非黑即白」的遮罩，再用這個遮罩驅動混合著色器（Mix Shader）切換兩種完全不同的材質。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"邊緣磨損：油漆刮到露出金屬","description":"遊戲美術最常用的一招：邊緣磨損（Edge Wear）——物體的平坦處保留原本的漆面，稜角/邊緣則因為長期碰撞磨損露出底下的金屬。做法是用菲涅爾（Fresnel）算出「這裡有多接近邊緣」，接一個切成硬邊的顏色漸變（Color Ramp，常量 Constant 插值）做出「非黑即白」的遮罩，再用這個遮罩驅動混合著色器（Mix Shader）切換兩種完全不同的材質。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_edge_wear_mask.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>邊緣磨損：油漆刮到露出金屬</h1>
     <p class="content-lead">遊戲美術最常用的一招：邊緣磨損（Edge Wear）——物體的平坦處保留原本的漆面，稜角/邊緣則因為長期碰撞磨損露出底下的金屬。做法是用菲涅爾（Fresnel）算出「這裡有多接近邊緣」，接一個切成硬邊的顏色漸變（Color Ramp，常量 Constant 插值）做出「非黑即白」的遮罩，再用這個遮罩驅動混合著色器（Mix Shader）切換兩種完全不同的材質。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>把顏色漸變（Color Ramp）的顏色（Color）輸出接到混合著色器（Mix Shader）的 Fac，取代原本固定的滑桿。<br /><br />畫面正面（面對鏡頭）應該維持完整漆面，只有側邊/邊緣才會突然切換成金屬色——這就是「邊緣磨損」效果，跟一般漸層式的髒污遮罩不同，切換是硬邊、乾脆的。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

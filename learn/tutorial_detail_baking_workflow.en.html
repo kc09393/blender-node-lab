@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Detail Baking Workflow: Normal Map + Vector Displacement · Blender 5.0 Guided Tutorial</title>
+<title>Detail Baking Workflow: Normal Map + Vector Displacement · Blender 5.2 LTS Guided Tutorial</title>
 <meta name="description" content="The classic high-poly-to-low-poly pipeline: sculpt extreme detail in a dedicated app, then bake it into two textures — a Normal Map (shading detail, silhouette unchanged) and a Vector Displacement Map (actually pushes vertices, changing the silhouette) — and apply both to the low-poly mesh. This tutorial wires up the whole chain: UV Map for coordinates, Image Texture to read the maps, Normal Map to decode shading direction, and Vector Displacement paired with the &#39;decode a 0-1 map value back into a -1..1 direction&#39; technique for real geometric displacement." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Detail Baking Workflow: Normal Map + Vector Displacement · Blender 5.0 Guided Tutorial" />
+<meta property="og:title" content="Detail Baking Workflow: Normal Map + Vector Displacement · Blender 5.2 LTS Guided Tutorial" />
 <meta property="og:description" content="The classic high-poly-to-low-poly pipeline: sculpt extreme detail in a dedicated app, then bake it into two textures — a Normal Map (shading detail, silhouette unchanged) and a Vector Displacement Map (actually pushes vertices, changing the silhouette) — and apply both to the low-poly mesh. This tutorial wires up the whole chain: UV Map for coordinates, Image Texture to read the maps, Normal Map to decode shading direction, and Vector Displacement paired with the &#39;decode a 0-1 map value back into a -1..1 direction&#39; technique for real geometric displacement." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Detail Baking Workflow: Normal Map + Vector Displacement","description":"The classic high-poly-to-low-poly pipeline: sculpt extreme detail in a dedicated app, then bake it into two textures — a Normal Map (shading detail, silhouette unchanged) and a Vector Displacement Map (actually pushes vertices, changing the silhouette) — and apply both to the low-poly mesh. This tutorial wires up the whole chain: UV Map for coordinates, Image Texture to read the maps, Normal Map to decode shading direction, and Vector Displacement paired with the 'decode a 0-1 map value back into a -1..1 direction' technique for real geometric displacement.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Detail Baking Workflow: Normal Map + Vector Displacement","description":"The classic high-poly-to-low-poly pipeline: sculpt extreme detail in a dedicated app, then bake it into two textures — a Normal Map (shading detail, silhouette unchanged) and a Vector Displacement Map (actually pushes vertices, changing the silhouette) — and apply both to the low-poly mesh. This tutorial wires up the whole chain: UV Map for coordinates, Image Texture to read the maps, Normal Map to decode shading direction, and Vector Displacement paired with the 'decode a 0-1 map value back into a -1..1 direction' technique for real geometric displacement.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_detail_baking_workflow.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
     <h1>Detail Baking Workflow: Normal Map + Vector Displacement</h1>
     <p class="content-lead">The classic high-poly-to-low-poly pipeline: sculpt extreme detail in a dedicated app, then bake it into two textures — a Normal Map (shading detail, silhouette unchanged) and a Vector Displacement Map (actually pushes vertices, changing the silhouette) — and apply both to the low-poly mesh. This tutorial wires up the whole chain: UV Map for coordinates, Image Texture to read the maps, Normal Map to decode shading direction, and Vector Displacement paired with the &#39;decode a 0-1 map value back into a -1..1 direction&#39; technique for real geometric displacement.</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>Add 3 Math nodes, all set to Multiply Add, with the second value 2 and the third value -1 (i.e. &#39;raw value × 2 − 1&#39;, converting 0-1 back to -1 to 1).<br /><br />Connect Separate Color&#39;s R, G, B to these 3 Math nodes&#39; first value respectively.<br /><br />Add a Combine XYZ and connect the 3 Math nodes&#39; results to X, Y, Z.<br /><br />Add a Vector Displacement node, connect Combine XYZ&#39;s result to its vector input, and its output to the material output&#39;s Displacement socket.<br /><br />Every direction encoded in the map now becomes real vertex movement in that direction — unlike Normal Map, the silhouette actually changes this time.</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

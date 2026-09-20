@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Scene Time · Blender 5.2 LTS Node Encyclopedia</title>
+<meta name="description" content="Outputs the current scene time in seconds and frames for animated materials." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Scene Time · Blender 5.2 LTS Node Encyclopedia" />
+<meta property="og:description" content="Outputs the current scene time in seconds and frames for animated materials." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Scene Time","description":"Outputs the current scene time in seconds and frames for animated materials.","inLanguage":"en","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.2 LTS</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.2 LTS Node Encyclopedia</div>
+    <h1>Scene Time</h1>
+    <p class="content-lead">Outputs the current scene time in seconds and frames for animated materials.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=input_scene_time&amp;lang=en">Try it in the sandbox</a>
+      <a href="input_scene_time.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Blender 5.2 LTS adds Scene Time to shader nodes. Connect Seconds to a Math node set to Sine to make emission, color, or roughness loop automatically.</p></section>
+    <section><h2>Technical notes</h2><p>Blender outputs Seconds and Frames from the scene animation time. This sandbox has no timeline, so it uses real elapsed page time and derives Frames at Blender&#39;s default 24 FPS. Both outputs update continuously for teaching animated graphs, but they are not a scrubbable Blender timeline.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>OUT</td><td>Seconds</td><td>float</td></tr><tr><td>OUT</td><td>Frames</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
+</body>
+</html>

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>向量變換：認識座標空間 · Blender 5.0 引導教學</title>
+<title>向量變換：認識座標空間 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="同一個方向在「物體」「世界」「攝影機」三種座標空間下的數值都不一樣。向量變換（Vector Transform）節點負責在它們之間換算——把世界座標下的「正上方」轉到攝影機座標，你會發現數值隨著鏡頭角度即時改變。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="向量變換：認識座標空間 · Blender 5.0 引導教學" />
+<meta property="og:title" content="向量變換：認識座標空間 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="同一個方向在「物體」「世界」「攝影機」三種座標空間下的數值都不一樣。向量變換（Vector Transform）節點負責在它們之間換算——把世界座標下的「正上方」轉到攝影機座標，你會發現數值隨著鏡頭角度即時改變。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_transform_spaces.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_transform_spaces.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"向量變換：認識座標空間","description":"同一個方向在「物體」「世界」「攝影機」三種座標空間下的數值都不一樣。向量變換（Vector Transform）節點負責在它們之間換算——把世界座標下的「正上方」轉到攝影機座標，你會發現數值隨著鏡頭角度即時改變。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_transform_spaces.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"向量變換：認識座標空間","description":"同一個方向在「物體」「世界」「攝影機」三種座標空間下的數值都不一樣。向量變換（Vector Transform）節點負責在它們之間換算——把世界座標下的「正上方」轉到攝影機座標，你會發現數值隨著鏡頭角度即時改變。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_transform_spaces.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>向量變換：認識座標空間</h1>
     <p class="content-lead">同一個方向在「物體」「世界」「攝影機」三種座標空間下的數值都不一樣。向量變換（Vector Transform）節點負責在它們之間換算——把世界座標下的「正上方」轉到攝影機座標，你會發現數值隨著鏡頭角度即時改變。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>把向量變換的輸出接到原理化 BSDF（Principled BSDF）的底色（Base Color），用顏色來視覺化這個向量。<br /><br />用滑鼠拖曳旋轉預覽球體——顏色應該會即時改變，因為「世界座標的正上方」換算到攝影機座標的數值，會隨著鏡頭角度而不同。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

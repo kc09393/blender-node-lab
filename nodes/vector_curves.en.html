@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Vector Curves · Blender 5.0 Node Encyclopedia</title>
+<title>Vector Curves · Blender 5.2 LTS Node Encyclopedia</title>
 <meta name="description" content="Uses a draggable curve to remap a vector&#39;s X/Y/Z components independently." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Vector Curves · Blender 5.0 Node Encyclopedia" />
+<meta property="og:title" content="Vector Curves · Blender 5.2 LTS Node Encyclopedia" />
 <meta property="og:description" content="Uses a draggable curve to remap a vector&#39;s X/Y/Z components independently." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/vector_curves.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/vector_curves.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Vector Curves","description":"Uses a draggable curve to remap a vector's X/Y/Z components independently.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_curves.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Vector Curves","description":"Uses a draggable curve to remap a vector's X/Y/Z components independently.","inLanguage":"en","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_curves.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <div class="content-kicker">Blender 5.2 LTS Node Encyclopedia</div>
     <h1>Vector Curves</h1>
     <p class="content-lead">Uses a draggable curve to remap a vector&#39;s X/Y/Z components independently.</p>
     <div class="content-actions">
@@ -39,6 +39,6 @@
     <section><h2>Technical notes</h2><p>Now has a draggable curve editor; the curve itself is a smooth Cardinal (Catmull-Rom-style) polynomial passing through every control point, matching Blender&#39;s default smooth handle look (not a piecewise-straight line). X/Y/Z now each have their own independent curve, matching Blender (Blender&#39;s own source, `node_shader_init_curve_vec`, only ever has 3 curves — unlike RGB Curves it has no extra &#39;C&#39; combined curve). The curve&#39;s domain is fixed to -1..1 (a common range for normal components); each input component is clamped into that range before lookup.</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>OUT</td><td>Vector</td><td>vector</td></tr></tbody></table></section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

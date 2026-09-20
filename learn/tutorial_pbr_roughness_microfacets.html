@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>為什麼粗糙度會讓反光暈開，而不是把顏色調暗 · Blender 5.0 引導教學</title>
+<title>為什麼粗糙度會讓反光暈開，而不是把顏色調暗 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="為什麼粗糙度會讓反光暈開，而不是把顏色調暗 · Blender 5.0 引導教學" />
+<meta property="og:title" content="為什麼粗糙度會讓反光暈開，而不是把顏色調暗 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"為什麼粗糙度會讓反光暈開，而不是把顏色調暗","description":"這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"為什麼粗糙度會讓反光暈開，而不是把顏色調暗","description":"這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>為什麼粗糙度會讓反光暈開，而不是把顏色調暗</h1>
     <p class="content-lead">這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>很多人做金屬材質時，第一直覺是「調底色」，但底色只決定反光被染成什麼顏色（見同系列教學「為什麼金屬的反光有顏色」），真正決定「這個表面摸起來/看起來是拋光的還是霧面的」的是粗糙度。同一顆球，粗糙度從 0.03 跳到 0.85，視覺質感的差異遠大於隨便換一個底色。<br /><br />如果拿不準某種材質的粗糙度該填多少，不用用猜的——「材質參考表」頁面整理了鏡面／拋光金屬／消光塑膠／橡膠等常見材質的粗糙度數值範圍，可以直接查。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

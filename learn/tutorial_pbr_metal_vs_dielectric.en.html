@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Why Metal Reflections Are Colored, But Plastic&#39;s Aren&#39;t · Blender 5.0 Guided Tutorial</title>
+<title>Why Metal Reflections Are Colored, But Plastic&#39;s Aren&#39;t · Blender 5.2 LTS Guided Tutorial</title>
 <meta name="description" content="This isn&#39;t &#39;here&#39;s what the Metallic slider does&#39; — plenty of tutorials cover that already. This one explains the physics behind it: why the same Base Color produces a plastic with a white highlight, but a metal with a colored one. Understanding this tells you Metallic almost never belongs at 0.5 — it&#39;s switching between two fundamentally different reflection models, not a continuous &#39;how metal-like&#39; dial." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Why Metal Reflections Are Colored, But Plastic&#39;s Aren&#39;t · Blender 5.0 Guided Tutorial" />
+<meta property="og:title" content="Why Metal Reflections Are Colored, But Plastic&#39;s Aren&#39;t · Blender 5.2 LTS Guided Tutorial" />
 <meta property="og:description" content="This isn&#39;t &#39;here&#39;s what the Metallic slider does&#39; — plenty of tutorials cover that already. This one explains the physics behind it: why the same Base Color produces a plastic with a white highlight, but a metal with a colored one. Understanding this tells you Metallic almost never belongs at 0.5 — it&#39;s switching between two fundamentally different reflection models, not a continuous &#39;how metal-like&#39; dial." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_metal_vs_dielectric.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_metal_vs_dielectric.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Why Metal Reflections Are Colored, But Plastic's Aren't","description":"This isn't 'here's what the Metallic slider does' — plenty of tutorials cover that already. This one explains the physics behind it: why the same Base Color produces a plastic with a white highlight, but a metal with a colored one. Understanding this tells you Metallic almost never belongs at 0.5 — it's switching between two fundamentally different reflection models, not a continuous 'how metal-like' dial.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_metal_vs_dielectric.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Why Metal Reflections Are Colored, But Plastic's Aren't","description":"This isn't 'here's what the Metallic slider does' — plenty of tutorials cover that already. This one explains the physics behind it: why the same Base Color produces a plastic with a white highlight, but a metal with a colored one. Understanding this tells you Metallic almost never belongs at 0.5 — it's switching between two fundamentally different reflection models, not a continuous 'how metal-like' dial.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_metal_vs_dielectric.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
     <h1>Why Metal Reflections Are Colored, But Plastic&#39;s Aren&#39;t</h1>
     <p class="content-lead">This isn&#39;t &#39;here&#39;s what the Metallic slider does&#39; — plenty of tutorials cover that already. This one explains the physics behind it: why the same Base Color produces a plastic with a white highlight, but a metal with a colored one. Understanding this tells you Metallic almost never belongs at 0.5 — it&#39;s switching between two fundamentally different reflection models, not a continuous &#39;how metal-like&#39; dial.</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>In reality a surface is either metal or it isn&#39;t — there&#39;s no such thing as &#39;half metal&#39; material. So in real production, Metallic is almost always exactly 0 or exactly 1, rarely a middle value.<br /><br />A fractional value only makes sense in two situations: (1) a transition mask between two materials (like paint chipping to reveal metal underneath — exactly what the &#39;Edge Wear&#39; tutorial in this series does), or (2) a very thin non-metal coating over a metal (car paint clear coat, nail polish).<br /><br />If you find yourself hard-coding Metallic to 0.3 or 0.6 on a material (not driven by a texture/mask), that&#39;s usually a sign it should just be 0 or 1, or that you need two layered materials instead of one fudged middle value.</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

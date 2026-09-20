@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Hand-Built Clearcoat: How Principled BSDF Works Under the Hood · Blender 5.0 Guided Tutorial</title>
+<title>Hand-Built Clearcoat: How Principled BSDF Works Under the Hood · Blender 5.2 LTS Guided Tutorial</title>
 <meta name="description" content="Principled BSDF&#39;s Clearcoat isn&#39;t magic — it&#39;s really just &#39;blend two materials by Fresnel&#39;: a matte Diffuse BSDF underneath, a near-mirror Glossy BSDF on top, with the top coat becoming more visible at grazing angles. This tutorial builds that effect by hand from 3 primitive nodes (Diffuse BSDF / Glossy BSDF / Fresnel), and along the way introduces the two most basic constant nodes in any material graph: RGB and Value." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Hand-Built Clearcoat: How Principled BSDF Works Under the Hood · Blender 5.0 Guided Tutorial" />
+<meta property="og:title" content="Hand-Built Clearcoat: How Principled BSDF Works Under the Hood · Blender 5.2 LTS Guided Tutorial" />
 <meta property="og:description" content="Principled BSDF&#39;s Clearcoat isn&#39;t magic — it&#39;s really just &#39;blend two materials by Fresnel&#39;: a matte Diffuse BSDF underneath, a near-mirror Glossy BSDF on top, with the top coat becoming more visible at grazing angles. This tutorial builds that effect by hand from 3 primitive nodes (Diffuse BSDF / Glossy BSDF / Fresnel), and along the way introduces the two most basic constant nodes in any material graph: RGB and Value." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Hand-Built Clearcoat: How Principled BSDF Works Under the Hood","description":"Principled BSDF's Clearcoat isn't magic — it's really just 'blend two materials by Fresnel': a matte Diffuse BSDF underneath, a near-mirror Glossy BSDF on top, with the top coat becoming more visible at grazing angles. This tutorial builds that effect by hand from 3 primitive nodes (Diffuse BSDF / Glossy BSDF / Fresnel), and along the way introduces the two most basic constant nodes in any material graph: RGB and Value.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Hand-Built Clearcoat: How Principled BSDF Works Under the Hood","description":"Principled BSDF's Clearcoat isn't magic — it's really just 'blend two materials by Fresnel': a matte Diffuse BSDF underneath, a near-mirror Glossy BSDF on top, with the top coat becoming more visible at grazing angles. This tutorial builds that effect by hand from 3 primitive nodes (Diffuse BSDF / Glossy BSDF / Fresnel), and along the way introduces the two most basic constant nodes in any material graph: RGB and Value.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
     <h1>Hand-Built Clearcoat: How Principled BSDF Works Under the Hood</h1>
     <p class="content-lead">Principled BSDF&#39;s Clearcoat isn&#39;t magic — it&#39;s really just &#39;blend two materials by Fresnel&#39;: a matte Diffuse BSDF underneath, a near-mirror Glossy BSDF on top, with the top coat becoming more visible at grazing angles. This tutorial builds that effect by hand from 3 primitive nodes (Diffuse BSDF / Glossy BSDF / Fresnel), and along the way introduces the two most basic constant nodes in any material graph: RGB and Value.</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>Add a Mix Shader.<br /><br />Connect Diffuse BSDF (base paint) to the first Shader input, Glossy BSDF (clearcoat) to the second.<br /><br />Connect Fresnel&#39;s Fac to Mix Shader&#39;s Fac.<br /><br />Connect Mix Shader&#39;s output to the material output.<br /><br />Orbit the preview: head-on should mostly show the base paint&#39;s color and matte texture, while edges get progressively brighter and mirror-like — this is exactly what Principled BSDF&#39;s Clearcoat socket does under the hood.</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

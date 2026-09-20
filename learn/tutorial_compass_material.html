@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>羅盤材質：用向量數學指向固定方向 · Blender 5.0 引導教學</title>
+<title>羅盤材質：用向量數學指向固定方向 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="羅盤材質：用向量數學指向固定方向 · Blender 5.0 引導教學" />
+<meta property="og:title" content="羅盤材質：用向量數學指向固定方向 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"羅盤材質：用向量數學指向固定方向","description":"菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"羅盤材質：用向量數學指向固定方向","description":"菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>羅盤材質：用向量數學指向固定方向</h1>
     <p class="content-lead">菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>加入顏色漸變（Color Ramp），把數學節點的結果接到它的係數（Fac），設定成「大部分是黑、接近 1 的地方才變亮」。<br /><br />加入發光（Emission）節點，把色彩帶的顏色接到它的顏色，強度調高（例如 4）。<br /><br />加入加法著色器（Add Shader），把原本的材質接到一個輸入、剛做的發光接到另一個輸入，輸出接到材質輸出。<br /><br />轉動攝影機環繞球體看看：發光的斑點應該固定出現在球體上同一個地方（跟著物體本身、不是跟著攝影機角度），這跟菲涅爾效果完全不同。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

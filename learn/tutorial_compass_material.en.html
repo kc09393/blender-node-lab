@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Compass Material: Pointing a Fixed Direction with Vector Math · Blender 5.0 Guided Tutorial</title>
+<title>Compass Material: Pointing a Fixed Direction with Vector Math · Blender 5.2 LTS Guided Tutorial</title>
 <meta name="description" content="Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math&#39;s Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Compass Material: Pointing a Fixed Direction with Vector Math · Blender 5.0 Guided Tutorial" />
+<meta property="og:title" content="Compass Material: Pointing a Fixed Direction with Vector Math · Blender 5.2 LTS Guided Tutorial" />
 <meta property="og:description" content="Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math&#39;s Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Compass Material: Pointing a Fixed Direction with Vector Math","description":"Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math's Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Compass Material: Pointing a Fixed Direction with Vector Math","description":"Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math's Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
     <h1>Compass Material: Pointing a Fixed Direction with Vector Math</h1>
     <p class="content-lead">Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math&#39;s Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node.</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>Add a Color Ramp, connect the Math node&#39;s result to its Fac, and set it up so most of it stays black with only values near 1 lighting up.<br /><br />Add an Emission node, connect the Color Ramp&#39;s color to it, and raise Strength (e.g. to 4).<br /><br />Add an Add Shader, connect the original material to one input and the new Emission to the other, then wire its output to the material output.<br /><br />Orbit the camera around the sphere: the glowing spot should stay fixed at the same place on the sphere (tied to the object, not the camera angle) — completely unlike a Fresnel-driven effect.</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

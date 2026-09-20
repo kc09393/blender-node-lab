@@ -80,6 +80,7 @@ import pbrRoughnessMicrofacets from "./pbr_roughness_microfacets.js";
 import fresnelInvertCoreGlow from "./fresnel_invert_core_glow.js";
 import anyFacAsBumpHeight from "./any_fac_as_bump_height.js";
 import voronoiColorSubtleBlend from "./voronoi_color_subtle_blend.js";
+import sceneTimePulse from "./scene_time_pulse.js";
 
 export default [
   uvMapping,
@@ -164,4 +165,5 @@ export default [
   fresnelInvertCoreGlow,
   anyFacAsBumpHeight,
   voronoiColorSubtleBlend,
+  sceneTimePulse,
 ];

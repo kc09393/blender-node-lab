@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>手工組出清漆效果：拆解 Principled BSDF 的內部原理 · Blender 5.0 引導教學</title>
+<title>手工組出清漆效果：拆解 Principled BSDF 的內部原理 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="手工組出清漆效果：拆解 Principled BSDF 的內部原理 · Blender 5.0 引導教學" />
+<meta property="og:title" content="手工組出清漆效果：拆解 Principled BSDF 的內部原理 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"手工組出清漆效果：拆解 Principled BSDF 的內部原理","description":"原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"手工組出清漆效果：拆解 Principled BSDF 的內部原理","description":"原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>手工組出清漆效果：拆解 Principled BSDF 的內部原理</h1>
     <p class="content-lead">原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>加入混合著色器（Mix Shader）。<br /><br />把漫射 BSDF（底漆）接到第一個著色器輸入，光澤 BSDF（清漆）接到第二個。<br /><br />把菲涅爾的係數（Fac）接到混合著色器的 Fac。<br /><br />把混合著色器的輸出接到材質輸出。<br /><br />轉動預覽球體：正面應該主要看到底漆的顏色跟粗糙質感，邊緣則會越來越亮、越來越像鏡面——這就是 Principled BSDF 的 Clearcoat 插槽在底層做的事。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

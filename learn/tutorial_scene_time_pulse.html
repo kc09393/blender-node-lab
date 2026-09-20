@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blender 5.2 場景時間：會呼吸的發光材質 · Blender 5.2 LTS 引導教學</title>
+<meta name="description" content="用 Blender 5.2 LTS 新增的場景時間節點，把持續增加的時間轉成往復變化，做出有節奏的發光動畫。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Blender 5.2 場景時間：會呼吸的發光材質 · Blender 5.2 LTS 引導教學" />
+<meta property="og:description" content="用 Blender 5.2 LTS 新增的場景時間節點，把持續增加的時間轉成往復變化，做出有節奏的發光動畫。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Blender 5.2 場景時間：會呼吸的發光材質","description":"用 Blender 5.2 LTS 新增的場景時間節點，把持續增加的時間轉成往復變化，做出有節奏的發光動畫。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.2 LTS</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
+    <h1>Blender 5.2 場景時間：會呼吸的發光材質</h1>
+    <p class="content-lead">用 Blender 5.2 LTS 新增的場景時間節點，把持續增加的時間轉成往復變化，做出有節奏的發光動畫。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_scene_time_pulse">開啟互動教學</a>
+      <a href="tutorial_scene_time_pulse.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>3 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入場景時間</h2>
+      <p>從「輸入 Input」拖入場景時間（Scene Time）。<br /><br />把秒數（Seconds）接到發光（Emission）的強度（Strength）。<br /><br />預覽會隨時間越來越亮，但還不會循環。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用正弦做循環</h2>
+      <p>在中間加入數學（Math）節點，運算改成正弦（Sine）。<br /><br />改接成：秒數 → Sine → 發光強度。<br /><br />Sine 會在 -1 到 1 之間往復，所以亮度開始呼吸式循環。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：把亮度控制在合理範圍</h2>
+      <p>加入映射範圍（Map Range），放在 Sine 與發光強度之間。<br /><br />把來源範圍設為 -1 到 1，目標範圍設為 0.25 到 5，並開啟夾值（Clamp）。<br /><br />這樣就不會出現負亮度，發光會在可控的強弱之間循環。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
+</body>
+</html>

@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>認識映射範圍：4 種插值方式一次看懂 · Blender 5.0 引導教學</title>
+<title>認識映射範圍：4 種插值方式一次看懂 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="映射範圍（Map Range）把數值從一個範圍等比例換算到另一個範圍，是整理材質圖的重要工具。這篇帶你認識它的插值方式——線性（Linear）、階梯（Stepped）、平滑／更平滑（Smoothstep／Smootherstep）——還有夾值（Clamp）開關，用同一張雜訊紋理一次一種切換給你看差異。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="認識映射範圍：4 種插值方式一次看懂 · Blender 5.0 引導教學" />
+<meta property="og:title" content="認識映射範圍：4 種插值方式一次看懂 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="映射範圍（Map Range）把數值從一個範圍等比例換算到另一個範圍，是整理材質圖的重要工具。這篇帶你認識它的插值方式——線性（Linear）、階梯（Stepped）、平滑／更平滑（Smoothstep／Smootherstep）——還有夾值（Clamp）開關，用同一張雜訊紋理一次一種切換給你看差異。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_map_range_tour.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_map_range_tour.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識映射範圍：4 種插值方式一次看懂","description":"映射範圍（Map Range）把數值從一個範圍等比例換算到另一個範圍，是整理材質圖的重要工具。這篇帶你認識它的插值方式——線性（Linear）、階梯（Stepped）、平滑／更平滑（Smoothstep／Smootherstep）——還有夾值（Clamp）開關，用同一張雜訊紋理一次一種切換給你看差異。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_map_range_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識映射範圍：4 種插值方式一次看懂","description":"映射範圍（Map Range）把數值從一個範圍等比例換算到另一個範圍，是整理材質圖的重要工具。這篇帶你認識它的插值方式——線性（Linear）、階梯（Stepped）、平滑／更平滑（Smoothstep／Smootherstep）——還有夾值（Clamp）開關，用同一張雜訊紋理一次一種切換給你看差異。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_map_range_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>認識映射範圍：4 種插值方式一次看懂</h1>
     <p class="content-lead">映射範圍（Map Range）把數值從一個範圍等比例換算到另一個範圍，是整理材質圖的重要工具。這篇帶你認識它的插值方式——線性（Linear）、階梯（Stepped）、平滑／更平滑（Smoothstep／Smootherstep）——還有夾值（Clamp）開關，用同一張雜訊紋理一次一種切換給你看差異。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>打開夾值（Clamp）開關。<br /><br />這會把最終結果強制鎖在目標最小（To Min）與目標最大（To Max）之間——如果上游數值意外超出你預期的範圍（例如疊加了好幾層運算後跑到 1.2），Clamp 能避免它繼續往下傳、把後面的材質參數弄壞。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

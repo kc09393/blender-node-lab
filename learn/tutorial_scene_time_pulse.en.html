@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blender 5.2 Scene Time: A Pulsing Emissive Material · Blender 5.2 LTS Guided Tutorial</title>
+<meta name="description" content="Use Blender 5.2 LTS&#39;s new Scene Time shader node to turn continuously increasing time into a repeating pulse for an animated emissive material." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Blender 5.2 Scene Time: A Pulsing Emissive Material · Blender 5.2 LTS Guided Tutorial" />
+<meta property="og:description" content="Use Blender 5.2 LTS&#39;s new Scene Time shader node to turn continuously increasing time into a repeating pulse for an animated emissive material." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Blender 5.2 Scene Time: A Pulsing Emissive Material","description":"Use Blender 5.2 LTS's new Scene Time shader node to turn continuously increasing time into a repeating pulse for an animated emissive material.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_scene_time_pulse.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.2 LTS</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
+    <h1>Blender 5.2 Scene Time: A Pulsing Emissive Material</h1>
+    <p class="content-lead">Use Blender 5.2 LTS&#39;s new Scene Time shader node to turn continuously increasing time into a repeating pulse for an animated emissive material.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_scene_time_pulse&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_scene_time_pulse.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>3 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add Scene Time</h2>
+      <p>Drag Scene Time from the Input category.<br /><br />Connect Seconds to Emission&#39;s Strength.<br /><br />The preview gets brighter over time, but it does not loop yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Make It Loop with Sine</h2>
+      <p>Insert a Math node and set Operation to Sine.<br /><br />Reconnect the chain as Seconds → Sine → Emission Strength.<br /><br />Sine oscillates from -1 to 1, so the brightness starts pulsing.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Keep Brightness in a Useful Range</h2>
+      <p>Insert Map Range between Sine and Emission Strength.<br /><br />Set From to -1..1, To to 0.25..5, and enable Clamp.<br /><br />This removes negative brightness and keeps the pulse within a useful range.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
+</body>
+</html>

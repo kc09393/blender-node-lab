@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>場景時間 · Blender 5.2 LTS 節點百科</title>
+<meta name="description" content="輸出目前場景的秒數與影格，用來製作會自動變化的材質。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="場景時間 · Blender 5.2 LTS 節點百科" />
+<meta property="og:description" content="輸出目前場景的秒數與影格，用來製作會自動變化的材質。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"場景時間","description":"輸出目前場景的秒數與影格，用來製作會自動變化的材質。","inLanguage":"zh-Hant","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_scene_time.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.2 LTS</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.2 LTS 節點百科</div>
+    <h1>場景時間</h1>
+    <p class="content-lead">輸出目前場景的秒數與影格，用來製作會自動變化的材質。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=input_scene_time">在沙盒中試用</a>
+      <a href="input_scene_time.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>這是 Blender 5.2 LTS 加入著色器的場景時間（Scene Time）節點。把秒數接到數學節點的正弦（Sine），就能讓發光、顏色或粗糙度自動循環。</p></section>
+    <section><h2>進階說明</h2><p>Blender 會依場景的動畫時間輸出 Seconds 與 Frames；本沙盒沒有時間軸，因此改用頁面開啟後的實時秒數，並以 Blender 預設 24 FPS 計算影格。兩個輸出都會連續更新，適合教學動態節點圖，但不是可拖曳的 Blender 時間軸。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>OUT</td><td>秒數</td><td>float</td></tr><tr><td>OUT</td><td>影格</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
+</body>
+</html>

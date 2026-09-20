@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Displacement · Blender 5.0 Node Encyclopedia</title>
+<title>Displacement · Blender 5.2 LTS Node Encyclopedia</title>
 <meta name="description" content="Actually changes the object&#39;s geometry based on a height value (not just faked lighting)." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Displacement · Blender 5.0 Node Encyclopedia" />
+<meta property="og:title" content="Displacement · Blender 5.2 LTS Node Encyclopedia" />
 <meta property="og:description" content="Actually changes the object&#39;s geometry based on a height value (not just faked lighting)." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/vector_displacement.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/vector_displacement.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Displacement","description":"Actually changes the object's geometry based on a height value (not just faked lighting).","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_displacement.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Displacement","description":"Actually changes the object's geometry based on a height value (not just faked lighting).","inLanguage":"en","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_displacement.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <div class="content-kicker">Blender 5.2 LTS Node Encyclopedia</div>
     <h1>Displacement</h1>
     <p class="content-lead">Actually changes the object&#39;s geometry based on a height value (not just faked lighting).</p>
     <div class="content-actions">
@@ -39,6 +39,6 @@
     <section><h2>Technical notes</h2><p>This sandbox added a separate &#39;vertex shader compile pass&#39; — when wired into Material Output&#39;s Displacement socket, Height genuinely offsets vertices along the normal in the vertex shader (not just faked lighting anymore). This pass only supports nodes that don&#39;t need fragment-only data (Math/Vector Math/Mapping/procedural textures, etc.) — Bump/Fresnel and similar can&#39;t be used here. This sandbox&#39;s preview meshes have fixed subdivision (sphere/torus are fairly dense, cube/plane less so) with no user control, so high-frequency displacement can look blocky on the cube.</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Height</td><td>float</td></tr><tr><td>IN</td><td>Midlevel</td><td>float</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>Displacement</td><td>vector</td></tr></tbody></table></section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

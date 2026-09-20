@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Image Texture · Blender 5.0 Node Encyclopedia</title>
+<title>Image Texture · Blender 5.2 LTS Node Encyclopedia</title>
 <meta name="description" content="Reads an uploaded image as a texture — the most common material source." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Image Texture · Blender 5.0 Node Encyclopedia" />
+<meta property="og:title" content="Image Texture · Blender 5.2 LTS Node Encyclopedia" />
 <meta property="og:description" content="Reads an uploaded image as a texture — the most common material source." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_image.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_image.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Image Texture","description":"Reads an uploaded image as a texture — the most common material source.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_image.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Image Texture","description":"Reads an uploaded image as a texture — the most common material source.","inLanguage":"en","about":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_image.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <div class="content-kicker">Blender 5.2 LTS Node Encyclopedia</div>
     <h1>Image Texture</h1>
     <p class="content-lead">Reads an uploaded image as a texture — the most common material source.</p>
     <div class="content-actions">
@@ -39,6 +39,6 @@
     <section><h2>Technical notes</h2><p>Extension (Repeat/Extend/Clip/Mirror), Interpolation (Linear/Closest/Cubic), and Color Space (sRGB/Non-Color) are now genuinely adjustable settings, matching Blender (`js/core/textureCache.js` configures the Three.js Texture live based on these). Clip has no native wrap-mode equivalent, so it&#39;s handled in GLSL instead — checking whether the UV falls outside 0-1 and zeroing Alpha if so. **Color Space matters**: use sRGB for photos/color maps (gamma-decoded); data maps like normal, roughness, or height maps must use Non-Color (read as-is, no decoding) — the wrong choice shifts normal directions and darkens roughness values. Cubic uses the classic &#39;4 bilinear taps approximating a bicubic B-spline&#39; trick (Sigg &amp; Hadwiger 2005, a common game/shader technique) rather than a true 16-tap per-pixel convolution, but the smoothing direction and effect match. Difference from Blender: Smart interpolation (auto-switches between Cubic/Linear based on zoom level) isn&#39;t implemented yet.</p></section>
     <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Alpha</td><td>float</td></tr></tbody></table></section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

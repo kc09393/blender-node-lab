@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>蠟燭材質：次表面散射＋加法著色器疊光 · Blender 5.0 引導教學</title>
+<title>蠟燭材質：次表面散射＋加法著色器疊光 · Blender 5.2 LTS 引導教學</title>
 <meta name="description" content="蠟燭的蠟身半透光、內部又像被燭火照亮，是次表面散射（Subsurface Scattering）的經典應用之一。這篇示範怎麼把 SSS 的邊緣透光效果，跟一層額外的暖黃色發光（Emission）疊加起來——用加法著色器（Add Shader，不是 Mix Shader）疊加，才能讓「原本的透光」跟「額外的燭光」是真的相加變亮，而不是被平均掉。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="蠟燭材質：次表面散射＋加法著色器疊光 · Blender 5.0 引導教學" />
+<meta property="og:title" content="蠟燭材質：次表面散射＋加法著色器疊光 · Blender 5.2 LTS 引導教學" />
 <meta property="og:description" content="蠟燭的蠟身半透光、內部又像被燭火照亮，是次表面散射（Subsurface Scattering）的經典應用之一。這篇示範怎麼把 SSS 的邊緣透光效果，跟一層額外的暖黃色發光（Emission）疊加起來——用加法著色器（Add Shader，不是 Mix Shader）疊加，才能讓「原本的透光」跟「額外的燭光」是真的相加變亮，而不是被平均掉。" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"蠟燭材質：次表面散射＋加法著色器疊光","description":"蠟燭的蠟身半透光、內部又像被燭火照亮，是次表面散射（Subsurface Scattering）的經典應用之一。這篇示範怎麼把 SSS 的邊緣透光效果，跟一層額外的暖黃色發光（Emission）疊加起來——用加法著色器（Add Shader，不是 Mix Shader）疊加，才能讓「原本的透光」跟「額外的燭光」是真的相加變亮，而不是被平均掉。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"蠟燭材質：次表面散射＋加法著色器疊光","description":"蠟燭的蠟身半透光、內部又像被燭火照亮，是次表面散射（Subsurface Scattering）的經典應用之一。這篇示範怎麼把 SSS 的邊緣透光效果，跟一層額外的暖黃色發光（Emission）疊加起來——用加法著色器（Add Shader，不是 Mix Shader）疊加，才能讓「原本的透光」跟「額外的燭光」是真的相加變亮，而不是被平均掉。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">首頁</a>
     <a href="../encyclopedia.html">節點百科</a>
     <a href="../tutorials.html">引導教學</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <div class="content-kicker">Blender 5.2 LTS 引導教學</div>
     <h1>蠟燭材質：次表面散射＋加法著色器疊光</h1>
     <p class="content-lead">蠟燭的蠟身半透光、內部又像被燭火照亮，是次表面散射（Subsurface Scattering）的經典應用之一。這篇示範怎麼把 SSS 的邊緣透光效果，跟一層額外的暖黃色發光（Emission）疊加起來——用加法著色器（Add Shader，不是 Mix Shader）疊加，才能讓「原本的透光」跟「額外的燭光」是真的相加變亮，而不是被平均掉。</p>
     <div class="content-actions">
@@ -54,6 +54,6 @@
       <p>把發光（Emission）的強度（Strength）調得更高（例如 3）。整顆球會明顯變得更亮更暖，而且不會像 Mix Shader 那樣被限制在『兩者之間』——這正是相加（而非平均）的直接證據。</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>

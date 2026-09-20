@@ -95,8 +95,8 @@ export default [
       en: "Similar to the Math node, but operates on 3D vectors (like coordinates or normals) instead of single values. Often used to manually adjust coordinates or normal directions.",
     },
     docPro: {
-      zh: "運算清單盡量對齊 Blender 完整版。跟 Blender 不同的地方：Blender 會依運算方式動態隱藏用不到的插槽，本沙盒固定顯示 3 個向量輸入＋1 個 Scale 數值（給 Scale/Refract 運算用），用不到的忽略即可；輸出固定同時提供 Vector 與 Value 兩種，跟 Blender 一致。",
-      en: "The operation list closely mirrors full Blender. Difference from Blender: Blender dynamically hides sockets based on the operation; this sandbox always shows 3 vector inputs plus a Scale value (used by Scale/Refract) — unused ones are simply ignored. Both Vector and Value outputs are always available, matching Blender.",
+      zh: "運算清單對齊 Blender 5.2 LTS，包含 5.1 新增的元素逐項「四捨五入 Round」。跟 Blender 不同的地方：Blender 會依運算方式動態隱藏用不到的插槽，本沙盒固定顯示 3 個向量輸入＋1 個 Scale 數值，用不到的忽略即可。",
+      en: "The operation list follows Blender 5.2 LTS, including the element-wise Round operation added in 5.1. Unlike Blender, which dynamically hides unused sockets, this sandbox always shows 3 vector inputs plus one Scale value; unused inputs are simply ignored.",
     },
     supported: true,
     vertexSafe: true,
@@ -133,6 +133,7 @@ export default [
           { value: "maximum", label: { zh: "取最大 Maximum", en: "Maximum" }, group: "捨入 Rounding" },
           { value: "floor", label: { zh: "無條件捨去 Floor", en: "Floor" }, group: "捨入 Rounding" },
           { value: "ceil", label: { zh: "無條件進位 Ceil", en: "Ceil" }, group: "捨入 Rounding" },
+          { value: "round", label: { zh: "四捨五入 Round", en: "Round" }, group: "捨入 Rounding" },
           { value: "fraction", label: { zh: "小數部分 Fraction", en: "Fraction" }, group: "捨入 Rounding" },
           { value: "modulo", label: { zh: "取餘 Modulo", en: "Modulo" }, group: "捨入 Rounding" },
           { value: "wrap", label: { zh: "環繞 Wrap", en: "Wrap" }, group: "捨入 Rounding" },
@@ -172,6 +173,7 @@ export default [
           maximum: `max(${a}, ${b})`,
           floor: `floor(${a})`,
           ceil: `ceil(${a})`,
+          round: `sign(${a}) * floor(abs(${a}) + vec3(0.5))`,
           fraction: `fract(${a})`,
           modulo: `bml_safeModVec3(${a}, ${b})`,
           wrap: `bml_wrapVec3(${a}, ${b}, ${c})`,
@@ -262,17 +264,32 @@ export default [
     name: { zh: "法線貼圖", en: "Normal Map" },
     summary: { zh: "讀取一張切線空間法線貼圖，做出比 Bump 更精細的凹凸細節。", en: "Reads a tangent-space normal map texture for finer bump detail than Bump alone." },
     docBeginner: { zh: "通常接在 Image Texture（色彩空間設為 Non-Color）後面，貼圖上的紫藍色其實是編碼過的法線方向，能表現比單純灰階高度更精細的凹凸感。", en: "Usually placed after an Image Texture (with color space set to Non-Color). The purple-blue image is actually encoded normal directions, giving finer detail than a plain grayscale height." },
-    docPro: { zh: "正規做法需要模型預先算好的切線（Tangent）/副切線（Bitangent）頂點屬性；本沙盒改用跟 Bump 節點同一招的螢幕空間導數技巧（cotangent frame，依 dFdx/dFdy(位置) 與 dFdx/dFdy(UV) 現算切線基底），不需要額外的頂點資料就能把切線空間法線貼圖轉到正確方向，效果跟 Blender 一致，實作細節不同。", en: "The standard approach needs precomputed tangent/bitangent vertex attributes. This sandbox instead reuses the Bump node's screen-space derivative trick (a cotangent frame built from dFdx/dFdy of position and UV) to orient the tangent-space normal map correctly without extra vertex data — the effect matches Blender, though the implementation differs." },
+    docPro: { zh: "Blender 5.1 新增 OpenGL／DirectX 慣例切換，差別在綠色 Y 分量的方向；本沙盒現在也會在 DirectX 模式反轉綠色通道。法線基底仍以螢幕空間導數即時建立，效果對齊 Blender，但實作方式不同。", en: "Blender 5.1 added an OpenGL/DirectX convention switch; the two differ in the direction of the green Y component. This sandbox now flips the green channel in DirectX mode too. It still builds the tangent basis from screen-space derivatives, matching the effect with a different implementation." },
     supported: true,
     inputs: [
       { key: "color", label: { zh: "顏色", en: "Color" }, type: "color", default: [0.5, 0.5, 1, 1] },
       { key: "strength", label: { zh: "強度", en: "Strength" }, type: "float", default: 1, min: 0, max: 5 },
     ],
+    settings: [
+      {
+        key: "convention",
+        uiType: "select",
+        label: { zh: "慣例 Convention", en: "Convention" },
+        default: "opengl",
+        options: [
+          { value: "opengl", label: { zh: "OpenGL", en: "OpenGL" } },
+          { value: "directx", label: { zh: "DirectX", en: "DirectX" } },
+        ],
+      },
+    ],
     outputs: [{ key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector" }],
     glsl: {
-      emit(ctx, ins) {
+      emit(ctx, ins, node) {
         const v = ctx.freshVar("nmap");
-        ctx.line(`vec3 ${v} = bml_normalMap((${ins.color}).rgb, ${ins.strength}, normalize(normal));`);
+        const color = node.params.convention === "directx"
+          ? `vec3((${ins.color}).r, 1.0 - (${ins.color}).g, (${ins.color}).b)`
+          : `(${ins.color}).rgb`;
+        ctx.line(`vec3 ${v} = bml_normalMap(${color}, ${ins.strength}, normalize(normal));`);
         return { normal: v };
       },
     },

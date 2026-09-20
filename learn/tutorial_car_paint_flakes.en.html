@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Metallic Car Paint: Adding Tiny Flakes · Blender 5.0 Guided Tutorial</title>
+<title>Metallic Car Paint: Adding Tiny Flakes · Blender 5.2 LTS Guided Tutorial</title>
 <meta name="description" content="Real metallic car paint isn&#39;t a flat color — it&#39;s full of microscopic metal flakes, and only a few spots catch a sharp bright glint. This tutorial uses Voronoi Texture&#39;s Distance output with a Color Ramp to build a sparse &#39;mostly black, bright only at cell centers&#39; mask, then uses an Add Shader to layer that as glow on top of the base paint color — two independent materials summed together, not replacing one another." />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" content="Metallic Car Paint: Adding Tiny Flakes · Blender 5.0 Guided Tutorial" />
+<meta property="og:title" content="Metallic Car Paint: Adding Tiny Flakes · Blender 5.2 LTS Guided Tutorial" />
 <meta property="og:description" content="Real metallic car paint isn&#39;t a flat color — it&#39;s full of microscopic metal flakes, and only a few spots catch a sharp bright glint. This tutorial uses Voronoi Texture&#39;s Distance output with a Color Ramp to build a sparse &#39;mostly black, bright only at cell centers&#39; mask, then uses an Add Shader to layer that as glow on top of the base paint color — two independent materials summed together, not replacing one another." />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.en.html" />
@@ -17,18 +17,18 @@
 <link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.html" />
 <link rel="stylesheet" href="../css/theme.css" />
 <link rel="stylesheet" href="../css/content-page.css" />
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Metallic Car Paint: Adding Tiny Flakes","description":"Real metallic car paint isn't a flat color — it's full of microscopic metal flakes, and only a few spots catch a sharp bright glint. This tutorial uses Voronoi Texture's Distance output with a Color Ramp to build a sparse 'mostly black, bright only at cell centers' mask, then uses an Add Shader to layer that as glow on top of the base paint color — two independent materials summed together, not replacing one another.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Metallic Car Paint: Adding Tiny Flakes","description":"Real metallic car paint isn't a flat color — it's full of microscopic metal flakes, and only a few spots catch a sharp bright glint. This tutorial uses Voronoi Texture's Distance output with a Color Ramp to build a sparse 'mostly black, bright only at cell centers' mask, then uses an Add Shader to layer that as glow on top of the base paint color — two independent materials summed together, not replacing one another.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.2 LTS material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_car_paint_flakes.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
 </head>
 <body class="content-page">
   <header class="content-nav">
     <a href="../index.html">Home</a>
     <a href="../encyclopedia.html">Node Encyclopedia</a>
     <a href="../tutorials.html">Guided Tutorials</a>
-    <span>Blender 5.0</span>
+    <span>Blender 5.2 LTS</span>
   </header>
   <main class="content-main">
 
-    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <div class="content-kicker">Blender 5.2 LTS Guided Tutorial</div>
     <h1>Metallic Car Paint: Adding Tiny Flakes</h1>
     <p class="content-lead">Real metallic car paint isn&#39;t a flat color — it&#39;s full of microscopic metal flakes, and only a few spots catch a sharp bright glint. This tutorial uses Voronoi Texture&#39;s Distance output with a Color Ramp to build a sparse &#39;mostly black, bright only at cell centers&#39; mask, then uses an Add Shader to layer that as glow on top of the base paint color — two independent materials summed together, not replacing one another.</p>
     <div class="content-actions">
@@ -50,6 +50,6 @@
       <p>Add an Add Shader, connect the base paint material to one input and the sparkle-emission material you just built to the other, then connect Add Shader&#39;s output to the material output. Orbit the preview — you should see both the dark paint base color AND scattered tiny bright specks at once. That&#39;s the key difference between Add Shader (sums) and Mix Shader (blends/replaces).</p>
     </section>
   </main>
-  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.2 LTS · 2026-09-20</footer>
 </body>
 </html>
