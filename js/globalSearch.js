@@ -1,10 +1,11 @@
-// 全站統一搜尋（Ctrl/Cmd+K）：跨節點百科／預設材質／引導教學／疑難排解四種內容一起搜，
+// 全站統一搜尋（Ctrl/Cmd+K）：跨節點百科／預設材質／引導教學／實作活動／疑難排解一起搜，
 // 點結果或按 Enter 直接跳轉到對應頁面的深連結（沿用各頁面既有的 ?node=/?preset=/?tutorial=/?category= 慣例）。
 // 每個頁面的 app-*.js 只需要呼叫一次 initGlobalSearch()，索引資料在這個模組內部組好、跨頁共用同一份邏輯。
 import { listNodeTypes } from "./core/nodeRegistry.js";
 import { tBi, t, getLang } from "./i18n.js";
 import presets from "../data/presets/index.js";
 import tutorials from "../data/tutorials/index.js";
+import { learningActivities } from "../data/learningActivities.js";
 import troubleshootGuide from "../data/troubleshootGuide.js";
 
 const MAX_PER_GROUP = 6;
@@ -23,6 +24,10 @@ function buildIndex() {
       group: "tutorial", name: tut.name, sub: tut.description,
       dot: "var(--accent-2)", href: `tutorials.html?tutorial=${encodeURIComponent(tut.id)}`,
     })),
+    ...learningActivities.map((activity) => ({
+      group: "activity", name: activity.name, sub: activity.description,
+      dot: "var(--ok)", href: `tutorials.html?activity=${encodeURIComponent(activity.id)}`,
+    })),
     ...troubleshootGuide.map((cat) => ({
       group: "troubleshoot", name: cat.symptom, sub: null,
       dot: "var(--danger)", href: `troubleshoot.html?category=${encodeURIComponent(cat.id)}`,
@@ -34,9 +39,10 @@ const GROUP_LABEL_KEY = {
   node: "search.groupNode",
   preset: "search.groupPreset",
   tutorial: "search.groupTutorial",
+  activity: "search.groupActivity",
   troubleshoot: "search.groupTroubleshoot",
 };
-const GROUP_ORDER = ["node", "preset", "tutorial", "troubleshoot"];
+const GROUP_ORDER = ["node", "preset", "tutorial", "activity", "troubleshoot"];
 
 function haystack(item) {
   return [item.name.zh, item.name.en, item.sub?.zh, item.sub?.en].filter(Boolean).join(" ").toLowerCase();

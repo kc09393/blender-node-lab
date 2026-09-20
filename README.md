@@ -1,6 +1,6 @@
 # Blender 5.2 LTS 材質節點學習站
 
-**Bilingual, interactive Blender shader-node learning site** — encyclopedia, live sandbox, guided tutorials.
+**Bilingual, interactive Blender shader-node learning site** — encyclopedia, live sandbox, guided tutorials, challenges, and debugging labs.
 免費、雙語（繁中／英文）的 Blender 材質節點互動學習網站，不是看影片，是真的拖節點、接線、即時看 3D 預覽反應。
 
 目前內容與原理化 BSDF（Principled BSDF）的分組、名稱和教學基準以 **Blender 5.2 LTS／OpenPBR** 為準。已納入 5.1／5.2 的場景時間節點、Thin Wall、法線貼圖 OpenGL／DirectX 慣例與向量四捨五入。瀏覽器預覽會盡量對應物理材質行為，但不等同於 Cycles 的完整路徑追蹤。
@@ -13,7 +13,7 @@
 
 - 📖 **節點百科** — 依分類瀏覽所有材質節點，每個節點都有新手／進階雙層雙語說明與輸入輸出圖解
 - 🧪 **自由沙盒** — 拖拉節點、自己接線，右側 3D 預覽即時反應每一次修改；可以一鍵產生分享連結，把自己做的材質丟給朋友
-- 🎓 **引導教學** — 一步步做出玻璃、金屬、木紋等真實材質，每一步都有提示與自動驗證，部分教學還有結業小測驗
+- 🎓 **互動學習中心** — 能力診斷會建議起點，逐步教學之外還有實戰挑戰、除錯實驗、智慧節點檢查、間隔複習、錯題複習與 Blender 重建清單；進度只存在使用者自己的瀏覽器
 - 📐 **材質參考表** — 真實世界材質的 IOR 折射率／粗糙度／金屬反射率顏色速查表
 - 🛠 **疑難排解** — 開發過程中真的踩過的坑，症狀對照原因跟修法
 
@@ -39,4 +39,4 @@ python -m http.server 5173
 
 然後打開 `http://localhost:5173/index.html`。改完 `data/presets/*.js` 或 `data/tutorials/*.js` 記得整頁重新整理（巢狀 import 不會被強制重抓）。
 
-`dev-regression-test.html` 是內部的資料完整性回歸測試頁（結構檢查＋編譯檢查），不在導覽列裡，直接開網址存取。
+`dev-regression-test.html` 是內部的資料完整性回歸測試頁，會檢查全部預設材質、教學、實戰挑戰與除錯實驗的結構、編譯與活動目標，不在導覽列裡，直接開網址存取。

@@ -36,7 +36,7 @@
 </head>
 <body>
 <h1>全站回歸測試（開發用，不對外連結）</h1>
-<p style="color:var(--text-2)">對所有 <code>data/presets/*.js</code>／<code>data/tutorials/*.js</code> 做結構檢查＋<code>compileGraph()</code> 編譯檢查。取代每次改動後手動在 console 貼腳本的做法。</p>
+<p style="color:var(--text-2)">對所有預設材質、教學、實戰挑戰與除錯實驗做結構檢查＋<code>compileGraph()</code> 編譯檢查。取代每次改動後手動在 console 貼腳本的做法。</p>
 <button id="run">重新執行測試</button>
 <div class="summary" id="summary"></div>
 <div class="filters" id="filters"></div>
@@ -51,6 +51,7 @@ import { compileGraph } from "./js/core/compiler.js";
 import { getNodeType } from "./js/core/nodeRegistry.js";
 import presets from "./data/presets/index.js";
 import tutorials from "./data/tutorials/index.js";
+import { learningActivities } from "./data/learningActivities.js";
 
 // 檢查一份原始 JSON graph 資料：typeId 是否存在、有沒有重複 id、
 // 連線是否都指向真的存在的節點/socket——這些問題 Graph.fromJSON() 會「悄悄跳過」
@@ -150,6 +151,43 @@ function runAll() {
       id: tut.id,
       name: tut.name?.zh || tut.id,
       status: hasRealError ? "err" : lastStepNote ? "warn" : "ok",
+      detail: errors.join("\n"),
+    });
+  }
+
+  for (const activity of learningActivities) {
+    const source = activity.sourceTutorialId
+      ? tutorials.find((tutorial) => tutorial.id === activity.sourceTutorialId)
+      : null;
+    const startGraph = activity.startGraph || source?.startGraph;
+    const targetGraph = activity.targetGraph || source?.endGraph;
+    const checks = activity.checksFromTutorial && source
+      ? source.steps.map((step) => step.check)
+      : (activity.checks || []).map((check) => check.test);
+    const errors = [];
+    if (activity.sourceTutorialId && !source) errors.push(`找不到來源教學：${activity.sourceTutorialId}`);
+    if (!startGraph) errors.push("缺少 startGraph");
+    if (!targetGraph) errors.push("缺少 targetGraph");
+    const startAudit = startGraph ? auditRawGraph(startGraph) : { problems: [], graph: null };
+    const targetAudit = targetGraph ? auditRawGraph(targetGraph) : { problems: [], graph: null };
+    startAudit.problems.forEach((problem) => errors.push(`[startGraph] ${problem}`));
+    targetAudit.problems.forEach((problem) => errors.push(`[targetGraph] ${problem}`));
+    const targetCompile = tryCompile(targetAudit.graph);
+    if (!targetCompile.ok) errors.push(`[targetGraph] 編譯錯誤：${targetCompile.error}`);
+    if (targetAudit.graph) {
+      checks.forEach((check, index) => {
+        try {
+          if (!check(targetAudit.graph)) errors.push(`[check ${index + 1}] targetGraph 未通過`);
+        } catch (error) {
+          errors.push(`[check ${index + 1}] 拋出例外：${error.message}`);
+        }
+      });
+    }
+    results.push({
+      kind: activity.kind === "debug" ? "除錯實驗" : "實戰挑戰",
+      id: activity.id,
+      name: activity.name?.zh || activity.id,
+      status: errors.length ? "err" : "ok",
       detail: errors.join("\n"),
     });
   }

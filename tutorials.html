@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title data-i18n="meta.tutorials.title">引導教學 · Blender 5.2 LTS 材質節點</title>
-<meta name="description" data-i18n-content="meta.tutorials.description" content="跟著步驟做出玻璃、金屬、木紋等 Blender 5.2 LTS 材質，每一步都有提示與自動驗證。" />
+<title data-i18n="meta.tutorials.title">互動學習中心 · Blender 5.2 LTS 材質節點</title>
+<meta name="description" data-i18n-content="meta.tutorials.description" content="用程度診斷、挑戰題、除錯實驗、間隔複習與智慧節點檢查，真正學會 Blender 5.2 LTS 材質節點。" />
 <meta name="theme-color" content="#1b1b1e" />
-<meta property="og:title" data-i18n-content="meta.tutorials.title" content="引導教學 · Blender 5.2 LTS 材質節點" />
-<meta property="og:description" data-i18n-content="meta.tutorials.description" content="跟著步驟做出 Blender 5.2 LTS 材質，每一步都有提示與自動驗證。" />
+<meta property="og:title" data-i18n-content="meta.tutorials.title" content="互動學習中心 · Blender 5.2 LTS 材質節點" />
+<meta property="og:description" data-i18n-content="meta.tutorials.description" content="用程度診斷、挑戰題、除錯實驗、間隔複習與智慧節點檢查，真正學會 Blender 5.2 LTS 材質節點。" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/tutorials.html" />
 <meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
@@ -41,7 +41,7 @@
       <a href="index.html" data-i18n="nav.home">首頁</a>
       <a href="encyclopedia.html" data-i18n="nav.encyclopedia">節點百科</a>
       <a href="sandbox.html" data-i18n="nav.sandbox">自由沙盒</a>
-      <a href="tutorials.html" class="active" data-i18n="nav.tutorials">引導教學</a>
+      <a href="tutorials.html" class="active" data-i18n="nav.tutorials">學習中心</a>
       <a href="reference.html" data-i18n="nav.reference">參考表</a>
       <a href="troubleshoot.html" data-i18n="nav.troubleshoot">疑難排解</a>
     </nav>
@@ -52,7 +52,59 @@
 
   <div class="app-body" id="tutorials-body">
     <div id="tutorial-list-view" class="tutorial-list-view">
-      <h1 data-i18n="tutorials.title">引導式教學</h1>
+      <h1 data-i18n="tutorials.title">互動學習中心</h1>
+
+      <section class="learning-dashboard" aria-labelledby="learning-dashboard-title">
+        <div class="learning-dashboard-copy">
+          <div class="learning-eyebrow" data-i18n="tutorials.dashboardEyebrow">你的學習儀表板</div>
+          <h2 id="learning-dashboard-title" data-i18n="tutorials.dashboardTitle">今天要練什麼？</h2>
+          <p id="learning-profile-summary"></p>
+        </div>
+        <div class="learning-stats" id="learning-stats"></div>
+        <div class="learning-actions">
+          <button type="button" class="primary" id="assessment-start-btn" data-i18n="tutorials.assessmentButton">能力診斷</button>
+          <button type="button" id="review-due-btn" data-i18n="tutorials.reviewButton">今日複習</button>
+          <button type="button" id="mistake-review-btn" data-i18n="tutorials.mistakeButton">錯題複習</button>
+          <button type="button" id="random-challenge-btn" data-i18n="tutorials.randomChallengeButton">隨機挑戰</button>
+        </div>
+      </section>
+
+      <section class="learning-activities-section" aria-labelledby="challenge-heading">
+        <div class="section-heading-row">
+          <div>
+            <h2 id="challenge-heading" data-i18n="tutorials.challengeTitle">實戰挑戰</h2>
+            <p data-i18n="tutorials.challengeSub">只有目標與分段提示，不會直接帶你照答案做。</p>
+          </div>
+          <div class="section-progress" id="challenge-progress"></div>
+        </div>
+        <div class="activity-grid" id="challenge-cards"></div>
+      </section>
+
+      <section class="learning-activities-section" aria-labelledby="debug-heading">
+        <div class="section-heading-row">
+          <div>
+            <h2 id="debug-heading" data-i18n="tutorials.debugTitle">材質除錯實驗室</h2>
+            <p data-i18n="tutorials.debugSub">節點圖已經故意弄壞；找出症狀、原因與修法。</p>
+          </div>
+          <div class="section-progress" id="debug-progress"></div>
+        </div>
+        <div class="activity-grid" id="debug-cards"></div>
+      </section>
+
+      <section class="concept-review-section" aria-labelledby="concept-heading">
+        <div class="concept-copy">
+          <div class="learning-eyebrow" data-i18n="tutorials.conceptEyebrow">每日 5 分鐘</div>
+          <h2 id="concept-heading" data-i18n="tutorials.conceptTitle">概念卡片</h2>
+          <p data-i18n="tutorials.conceptSub">先回答，再翻面確認；熟悉的卡片會記在這台裝置。</p>
+        </div>
+        <div class="concept-card" id="concept-card" tabindex="0" role="button" aria-live="polite"></div>
+        <div class="concept-actions">
+          <button type="button" id="concept-prev-btn" aria-label="上一張 / Previous">←</button>
+          <button type="button" id="concept-flip-btn" data-i18n="tutorials.conceptFlip">翻面看答案</button>
+          <button type="button" id="concept-known-btn" data-i18n="tutorials.conceptKnown">我已熟悉</button>
+          <button type="button" id="concept-next-btn" aria-label="下一張 / Next">→</button>
+        </div>
+      </section>
 
       <section class="learning-path-section">
         <div class="learning-path-header">
@@ -137,6 +189,14 @@
     </div>
   </div>
 </div>
+
+<dialog id="learning-dialog" class="learning-dialog" aria-labelledby="learning-dialog-title">
+  <div class="learning-dialog-head">
+    <h2 id="learning-dialog-title"></h2>
+    <button type="button" id="learning-dialog-close" aria-label="關閉 / Close">×</button>
+  </div>
+  <div id="learning-dialog-body" class="learning-dialog-body"></div>
+</dialog>
 
 <script src="js/bootGuard.js"></script>
 <script type="module" src="js/app-tutorials.js"></script>

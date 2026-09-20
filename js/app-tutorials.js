@@ -6,8 +6,25 @@ import { renderPalette } from "./ui/palette.js";
 import { renderInspector } from "./ui/inspector.js";
 import { compileGraph, applyFragmentChunk, createPreviewMaterial, CompileError } from "./core/compiler.js";
 import { Graph } from "./core/graphModel.js";
+import { getNodeType } from "./core/nodeRegistry.js";
+import { diagnoseGraph, scoreGraphHealth } from "./core/graphDiagnostics.js";
+import {
+  loadLearningState,
+  completedTutorialIds,
+  markTutorialComplete,
+  recordQuizAnswer,
+  markTutorialReviewed,
+  dueTutorialIds,
+  mistakeTutorialIds,
+  markActivityComplete,
+  recordActivityAttempt,
+  saveAssessment,
+  toggleKnownConcept,
+  learningStats,
+} from "./core/learningProgress.js";
 import tutorials from "../data/tutorials/index.js";
 import learningPath from "../data/tutorials/learningPath.js";
+import { challenges, debugLabs, learningActivities, assessmentQuestions, conceptCards } from "../data/learningActivities.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
@@ -28,26 +45,9 @@ const progressEl = document.getElementById("tutorial-progress");
 const pathBody = document.getElementById("learning-path-body");
 const pathToggleBtn = document.getElementById("path-toggle");
 
-// ---------- 已完成教學紀錄（localStorage）----------
-// 存教學 id 陣列，不是整個教學物件——教學數量固定不大，直接存 id 清單最簡單，
-// 未來教學被移除/改名時舊紀錄裡的孤兒 id 也不會造成任何問題（只是永遠比對不到）。
-const COMPLETED_KEY = "bml_tutorials_completed_v1";
-function loadCompletedSet() {
-  try {
-    const raw = localStorage.getItem(COMPLETED_KEY);
-    return new Set(raw ? JSON.parse(raw) : []);
-  } catch {
-    return new Set(); // localStorage 被封鎖時退回「這次瀏覽都當作沒完成過」，不影響教學功能本身。
-  }
-}
-function saveCompletedSet(set) {
-  try {
-    localStorage.setItem(COMPLETED_KEY, JSON.stringify([...set]));
-  } catch {
-    // 存不進去就這次瀏覽不記錄，不影響當次操作。
-  }
-}
-const completedSet = loadCompletedSet();
+// ---------- 學習紀錄（只存這台裝置的 localStorage，不需要帳號）----------
+const learningState = loadLearningState();
+const completedSet = completedTutorialIds(learningState);
 
 let currentLevelFilter = ""; // "" = 全部，或 "入門"/"中階"/"進階"（用 level.zh 當穩定 key，不受目前顯示語言影響）
 
@@ -98,6 +98,223 @@ function getPathPosition(tutorialId) {
   }
   return null;
 }
+
+// ---------- 學習中心：診斷、實戰、除錯、間隔複習 ----------
+const resolvedActivities = learningActivities.map((activity) => {
+  const source = activity.sourceTutorialId
+    ? tutorials.find((tutorial) => tutorial.id === activity.sourceTutorialId)
+    : null;
+  const checks = activity.checksFromTutorial && source
+    ? source.steps.map((step) => ({ label: step.title, test: step.check }))
+    : activity.checks;
+  return {
+    ...activity,
+    startGraph: activity.startGraph || source?.startGraph,
+    targetGraph: activity.targetGraph || source?.endGraph,
+    checks: checks || [],
+  };
+});
+const resolvedActivityById = new Map(resolvedActivities.map((activity) => [activity.id, activity]));
+
+const learningDialog = document.getElementById("learning-dialog");
+const learningDialogTitle = document.getElementById("learning-dialog-title");
+const learningDialogBody = document.getElementById("learning-dialog-body");
+
+function openLearningDialog(title, content) {
+  learningDialogTitle.textContent = title;
+  learningDialogBody.replaceChildren();
+  if (typeof content === "string") learningDialogBody.innerHTML = content;
+  else if (content) learningDialogBody.appendChild(content);
+  if (typeof learningDialog.showModal === "function") learningDialog.showModal();
+  else learningDialog.setAttribute("open", "");
+}
+
+function closeLearningDialog() {
+  if (typeof learningDialog.close === "function") learningDialog.close();
+  else learningDialog.removeAttribute("open");
+}
+
+document.getElementById("learning-dialog-close").addEventListener("click", closeLearningDialog);
+learningDialog.addEventListener("click", (event) => {
+  if (event.target === learningDialog) closeLearningDialog();
+});
+
+function getRecommendedTutorial() {
+  const stageIndex = Math.min(learningPath.length - 1, Math.max(0, Number(learningState.assessment?.stageIndex) || 0));
+  const stage = learningPath[stageIndex];
+  const firstIncomplete = stage?.steps.find((step) => !completedSet.has(step.tutorialId));
+  const id = firstIncomplete?.tutorialId || learningPathFlatIds.find((tutorialId) => !completedSet.has(tutorialId));
+  return id ? tutorials.find((tutorial) => tutorial.id === id) : null;
+}
+
+function renderLearningDashboard() {
+  const lang = getLang();
+  const stats = learningStats(learningState, tutorials.length, resolvedActivities.length);
+  const assessment = learningState.assessment;
+  const recommendation = getRecommendedTutorial();
+  const profileSummary = document.getElementById("learning-profile-summary");
+  profileSummary.textContent = assessment
+    ? (lang === "zh"
+      ? `目前程度：${assessment.levelZh}。建議下一步：${recommendation ? tBi(recommendation.name) : "自由挑戰自己的材質"}。`
+      : `Current level: ${assessment.levelEn}. Recommended next: ${recommendation ? tBi(recommendation.name) : "build a material of your own"}.`)
+    : (lang === "zh"
+      ? "先做 6 題能力診斷，網站會幫你找到合適起點；所有進度只存在這台裝置。"
+      : "Take the 6-question skill check to find a good starting point. Progress stays only on this device.");
+
+  document.getElementById("learning-stats").innerHTML = `
+    <div><strong>${stats.completed}</strong><span>${lang === "zh" ? `完成教學 / ${stats.tutorialTotal}` : `tutorials / ${stats.tutorialTotal}`}</span></div>
+    <div><strong>${stats.activitiesCompleted}</strong><span>${lang === "zh" ? `完成實作 / ${stats.activityTotal}` : `activities / ${stats.activityTotal}`}</span></div>
+    <div><strong>${stats.due}</strong><span>${lang === "zh" ? "到期複習" : "reviews due"}</span></div>
+    <div><strong>${stats.mistakes}</strong><span>${lang === "zh" ? "需再確認" : "need review"}</span></div>
+  `;
+
+  const dueButton = document.getElementById("review-due-btn");
+  const mistakeButton = document.getElementById("mistake-review-btn");
+  dueButton.disabled = stats.due === 0;
+  mistakeButton.disabled = stats.mistakes === 0;
+}
+
+function renderActivityCards(items, containerId, progressId) {
+  const lang = getLang();
+  const container = document.getElementById(containerId);
+  container.innerHTML = "";
+  let completed = 0;
+  for (const originalActivity of items) {
+    const activity = resolvedActivityById.get(originalActivity.id);
+    const record = learningState.activities[activity.id];
+    if (record?.completedAt) completed += 1;
+    const card = document.createElement("article");
+    card.className = `activity-card${record?.completedAt ? " completed" : ""}`;
+    card.innerHTML = `
+      <div class="activity-card-top"><span>${tBi(activity.level)}</span>${record?.completedAt ? `<span class="activity-done">✓ ${lang === "zh" ? "完成" : "Done"}</span>` : ""}</div>
+      <h3>${tBi(activity.name)}</h3>
+      <p>${tBi(activity.description)}</p>
+      <div class="activity-meta">${record?.bestScore ? `${lang === "zh" ? "最佳" : "Best"} ${record.bestScore}` : `${activity.checks.length} ${lang === "zh" ? "個驗證目標" : "checks"}`}</div>
+      <button type="button" class="primary">${record?.completedAt ? (lang === "zh" ? "再練一次" : "Practice Again") : (lang === "zh" ? "開始實作" : "Start")}</button>
+    `;
+    card.querySelector("button").addEventListener("click", () => startActivity(activity));
+    container.appendChild(card);
+  }
+  document.getElementById(progressId).textContent = lang === "zh"
+    ? `已完成 ${completed} / ${items.length}`
+    : `${completed} / ${items.length} completed`;
+}
+
+let conceptIndex = Math.floor(Date.now() / 86400000) % conceptCards.length;
+let conceptFlipped = false;
+
+function renderConceptCard() {
+  const card = conceptCards[conceptIndex];
+  const known = learningState.knownConcepts.includes(card.id);
+  const cardEl = document.getElementById("concept-card");
+  cardEl.classList.toggle("flipped", conceptFlipped);
+  cardEl.classList.toggle("known", known);
+  cardEl.innerHTML = `
+    <div class="concept-tag">${tBi(card.tag)} · ${conceptIndex + 1}/${conceptCards.length}${known ? " · ✓" : ""}</div>
+    <strong>${tBi(conceptFlipped ? card.back : card.front)}</strong>
+  `;
+  document.getElementById("concept-flip-btn").textContent = conceptFlipped
+    ? (getLang() === "zh" ? "回到題目" : "Show Question")
+    : t("tutorials.conceptFlip");
+  document.getElementById("concept-known-btn").classList.toggle("active", known);
+}
+
+function moveConcept(direction) {
+  conceptIndex = (conceptIndex + direction + conceptCards.length) % conceptCards.length;
+  conceptFlipped = false;
+  renderConceptCard();
+}
+
+document.getElementById("concept-prev-btn").addEventListener("click", () => moveConcept(-1));
+document.getElementById("concept-next-btn").addEventListener("click", () => moveConcept(1));
+document.getElementById("concept-flip-btn").addEventListener("click", () => {
+  conceptFlipped = !conceptFlipped;
+  renderConceptCard();
+});
+document.getElementById("concept-card").addEventListener("click", () => {
+  conceptFlipped = !conceptFlipped;
+  renderConceptCard();
+});
+document.getElementById("concept-card").addEventListener("keydown", (event) => {
+  if (event.key !== "Enter" && event.key !== " ") return;
+  event.preventDefault();
+  conceptFlipped = !conceptFlipped;
+  renderConceptCard();
+});
+document.getElementById("concept-known-btn").addEventListener("click", () => {
+  toggleKnownConcept(learningState, conceptCards[conceptIndex].id);
+  renderConceptCard();
+});
+
+function openAssessment() {
+  const lang = getLang();
+  const form = document.createElement("form");
+  form.className = "assessment-form";
+  assessmentQuestions.forEach((question, questionIndex) => {
+    const fieldset = document.createElement("fieldset");
+    fieldset.innerHTML = `<legend>${questionIndex + 1}. ${tBi(question.question)}</legend>`;
+    question.options.forEach((option, optionIndex) => {
+      const label = document.createElement("label");
+      label.innerHTML = `<input type="radio" name="assessment-${questionIndex}" value="${optionIndex}" required> <span>${tBi(option)}</span>`;
+      fieldset.appendChild(label);
+    });
+    form.appendChild(fieldset);
+  });
+  const submit = document.createElement("button");
+  submit.type = "submit";
+  submit.className = "primary";
+  submit.textContent = lang === "zh" ? "查看建議起點" : "See My Starting Point";
+  form.appendChild(submit);
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const data = new FormData(form);
+    const score = assessmentQuestions.reduce((total, question, index) => total + (Number(data.get(`assessment-${index}`)) === question.correctIndex ? 1 : 0), 0);
+    const level = score <= 2
+      ? { zh: "基礎探索者", en: "Foundation Explorer", stageIndex: 0 }
+      : score <= 4
+        ? { zh: "材質實作者", en: "Material Builder", stageIndex: Math.min(2, learningPath.length - 1) }
+        : { zh: "節點解題者", en: "Node Problem Solver", stageIndex: Math.min(4, learningPath.length - 1) };
+    saveAssessment(learningState, { score, total: assessmentQuestions.length, levelZh: level.zh, levelEn: level.en, stageIndex: level.stageIndex });
+    renderLearningDashboard();
+    const recommendation = getRecommendedTutorial();
+    const result = document.createElement("div");
+    result.className = "assessment-result";
+    result.innerHTML = `
+      <div class="assessment-score">${score} / ${assessmentQuestions.length}</div>
+      <h3>${lang === "zh" ? `你是「${level.zh}」` : `You're a ${level.en}`}</h3>
+      <p>${lang === "zh" ? "這不是考試成績，而是幫你略過太簡單內容、補齊容易漏掉的基礎。" : "This is not a grade. It helps you skip material that is too easy while filling important gaps."}</p>
+      ${recommendation ? `<button type="button" class="primary" id="assessment-recommendation">${lang === "zh" ? `從「${tBi(recommendation.name)}」開始` : `Start with “${tBi(recommendation.name)}”`}</button>` : ""}
+    `;
+    learningDialogBody.replaceChildren(result);
+    result.querySelector("button")?.addEventListener("click", () => {
+      closeLearningDialog();
+      startTutorial(recommendation);
+    });
+  });
+  openLearningDialog(lang === "zh" ? "能力診斷" : "Skill Check", form);
+}
+
+function renderLearningHub() {
+  renderLearningDashboard();
+  renderActivityCards(challenges, "challenge-cards", "challenge-progress");
+  renderActivityCards(debugLabs, "debug-cards", "debug-progress");
+  renderConceptCard();
+}
+
+document.getElementById("assessment-start-btn").addEventListener("click", openAssessment);
+document.getElementById("review-due-btn").addEventListener("click", () => {
+  const nextId = dueTutorialIds(learningState).find((id) => tutorials.some((tutorial) => tutorial.id === id));
+  const tutorial = tutorials.find((item) => item.id === nextId);
+  if (tutorial) startTutorial(tutorial);
+});
+document.getElementById("mistake-review-btn").addEventListener("click", () => {
+  const nextId = mistakeTutorialIds(learningState).find((id) => tutorials.some((tutorial) => tutorial.id === id));
+  const tutorial = tutorials.find((item) => item.id === nextId);
+  if (tutorial) startTutorial(tutorial);
+});
+document.getElementById("random-challenge-btn").addEventListener("click", () => {
+  startActivity(resolvedActivityById.get(challenges[Math.floor(Math.random() * challenges.length)].id));
+});
 
 function renderLearningPath() {
   const collapsed = isPathCollapsed();
@@ -181,8 +398,7 @@ function ensureThumbPreview() {
 
 // 渲染單一教學的縮圖，回傳 data URL；graph 編譯失敗（理論上不該發生，endGraph 都驗證過）時回傳 null，
 // 讓呼叫端保留占位圖而不是讓整頁縮圖渲染中斷。
-function renderTutorialThumbnail(tut) {
-  const graphData = tut.endGraph || tut.startGraph;
+function renderGraphThumbnail(graphData, label = "graph") {
   if (!graphData) return null;
   try {
     const preview = ensureThumbPreview();
@@ -193,9 +409,13 @@ function renderTutorialThumbnail(tut) {
     preview.renderer.render(preview.scene, preview.camera);
     return preview.renderer.domElement.toDataURL("image/jpeg", 0.85);
   } catch (err) {
-    console.error(`縮圖渲染失敗（${tut.id}）:`, err);
+    console.error(`縮圖渲染失敗（${label}）:`, err);
     return null;
   }
+}
+
+function renderTutorialThumbnail(tut) {
+  return renderGraphThumbnail(tut.endGraph || tut.startGraph, tut.id);
 }
 
 // 縮圖快取：一份材質圖只需要渲染一次，搜尋/篩選/切換語言都只是重新篩過 DOM，不用重畫縮圖
@@ -329,12 +549,24 @@ function renderTutorialCards() {
 document.addEventListener("langchange", () => {
   renderTutorialCards();
   renderLearningPath();
+  renderLearningHub();
   if (currentTutorial) tutorialSeo(currentTutorial);
-  else resetTutorialSeo();
+  else if (currentActivity) {
+    setPageSeo({
+      title: `${tBi(currentActivity.name)} · ${t("meta.tutorials.title")}`,
+      description: tBi(currentActivity.description),
+      path: `tutorials.html?activity=${encodeURIComponent(currentActivity.id)}${getLang() === "en" ? "&lang=en" : ""}`,
+    });
+  } else resetTutorialSeo();
   // 已經放進畫布的節點卡片（標籤/插槽名稱/下拉選單文字）是新增/編輯當下就把字串定案進 DOM，
   // 不會自動跟著切換語言——教學進行中畫布上通常已經有 startGraph 帶進來的節點，不補這行的話
   // 使用者切語言時，疊加層文字/教學清單都換了，畫布上的節點卡片卻還停在切換前的語言。
   if (editor) editor.render();
+  if (currentActivity) {
+    if (overlayMode === "activity-completion") renderActivityCompletion(currentActivity, activeActivityScore);
+    else renderActivityOverlay();
+    return;
+  }
   if (!currentTutorial) return;
   // 教學進行中的疊加層有三種子畫面（一般步驟／結業測驗／學習路徑下一步），語言切換要重繪
   // 「使用者當下真的在看的那個」，不能無條件呼叫 renderOverlay()——不然使用者在測驗或
@@ -362,6 +594,9 @@ levelFilterContainer.addEventListener("click", (e) => {
 let editor = null;
 let preview = null;
 let currentTutorial = null;
+let currentActivity = null;
+let revealedHintCount = 0;
+let activeActivityScore = 0;
 let currentStepIndex = 0;
 // 教學進行中的疊加層目前顯示哪個子畫面："step"（一般步驟）／"quiz"（結業測驗）／
 // "completion"（學習路徑「下一步」畫面）。切換語言時（見下方 langchange 監聽）要重繪
@@ -410,7 +645,8 @@ function ensureEditorInitialized() {
       } catch (err) {
         showError(err instanceof CompileError ? err.message : `未預期的錯誤: ${err.message}`);
       }
-      checkCurrentStep();
+      if (currentActivity) updateActivityStatus();
+      else checkCurrentStep();
       refreshUndoRedoButtons();
     },
     onSelect: (nodeId) => renderInspector(inspectorBody, editor.graph, nodeId),
@@ -449,6 +685,7 @@ function ensureEditorInitialized() {
 }
 
 function startTutorial(tut) {
+  currentActivity = null;
   currentTutorial = tut;
   currentStepIndex = 0;
   ensureEditorInitialized();
@@ -462,8 +699,206 @@ function startTutorial(tut) {
   renderOverlay();
   const url = new URL(location.href);
   url.searchParams.set("tutorial", tut.id);
+  url.searchParams.delete("activity");
   history.replaceState({ tutorial: tut.id }, "", `${url.pathname}${url.search}${url.hash}`);
   tutorialSeo(tut);
+}
+
+function startActivity(activity) {
+  if (!activity?.startGraph) return;
+  currentTutorial = null;
+  currentActivity = activity;
+  revealedHintCount = 0;
+  activeActivityScore = 0;
+  overlayMode = "activity";
+  ensureEditorInitialized();
+  listView.style.display = "none";
+  runView.classList.add("active");
+  editor.loadGraph(Graph.fromJSON(activity.startGraph));
+  editor.clearHistory();
+  recordActivityAttempt(learningState, activity.id);
+  renderActivityOverlay();
+  const url = new URL(location.href);
+  url.searchParams.delete("tutorial");
+  url.searchParams.set("activity", activity.id);
+  history.replaceState({ activity: activity.id }, "", `${url.pathname}${url.search}${url.hash}`);
+  setPageSeo({
+    title: `${tBi(activity.name)} · ${t("meta.tutorials.title")}`,
+    description: tBi(activity.description),
+    path: `tutorials.html?activity=${encodeURIComponent(activity.id)}${getLang() === "en" ? "&lang=en" : ""}`,
+  });
+}
+
+function activityResults() {
+  if (!currentActivity || !editor) return [];
+  return currentActivity.checks.map((check) => ({ ...check, passed: Boolean(check.test(editor.graph)) }));
+}
+
+function renderSmartCoach(graph, element) {
+  if (!element) return;
+  const issues = diagnoseGraph(graph);
+  if (issues.length === 0) {
+    element.innerHTML = `<div class="smart-coach-title">${getLang() === "zh" ? "智慧檢查" : "Smart Check"}</div><div class="smart-coach-item">✓ ${getLang() === "zh" ? "目前沒有發現常見結構問題。" : "No common structural problems found."}</div>`;
+    return;
+  }
+  element.innerHTML = `
+    <div class="smart-coach-title">${getLang() === "zh" ? "智慧檢查" : "Smart Check"} · ${scoreGraphHealth(graph)}/100</div>
+    ${issues.slice(0, 3).map((issue) => `<div class="smart-coach-item ${issue.severity}">${issue.severity === "error" ? "!" : issue.severity === "warning" ? "△" : "i"} ${tBi(issue.message)}</div>`).join("")}
+  `;
+}
+
+function updateActivityStatus() {
+  if (!currentActivity || !editor) return;
+  const results = activityResults();
+  results.forEach((result, index) => {
+    const row = document.querySelector(`[data-activity-check="${index}"]`);
+    if (!row) return;
+    row.classList.toggle("done", result.passed);
+    const icon = row.querySelector("span");
+    if (icon) icon.textContent = result.passed ? "✓" : "○";
+  });
+  const passed = results.filter((result) => result.passed).length;
+  const finish = document.getElementById("activity-finish-btn");
+  if (finish) finish.disabled = passed !== results.length;
+  const progress = document.getElementById("activity-live-progress");
+  if (progress) progress.textContent = `${passed} / ${results.length}`;
+  renderSmartCoach(editor.graph, document.getElementById("activity-smart-coach"));
+}
+
+function renderRevealedHints() {
+  if (!currentActivity) return;
+  const hintList = document.getElementById("activity-hints");
+  if (!hintList) return;
+  hintList.innerHTML = currentActivity.hints.slice(0, revealedHintCount)
+    .map((hint, index) => `<div><strong>${getLang() === "zh" ? `提示 ${index + 1}` : `Hint ${index + 1}`}：</strong>${tBi(hint)}</div>`)
+    .join("");
+  const button = document.getElementById("activity-hint-btn");
+  button.disabled = revealedHintCount >= currentActivity.hints.length;
+  button.textContent = revealedHintCount >= currentActivity.hints.length
+    ? (getLang() === "zh" ? "提示已全部顯示" : "All Hints Revealed")
+    : (getLang() === "zh" ? `再看一個提示（剩 ${currentActivity.hints.length - revealedHintCount}）` : `Reveal Another Hint (${currentActivity.hints.length - revealedHintCount} left)`);
+}
+
+function showNextHint() {
+  if (!currentActivity) return;
+  revealedHintCount = Math.min(currentActivity.hints.length, revealedHintCount + 1);
+  renderRevealedHints();
+}
+
+function openComparison(currentGraphData, targetGraphData, title) {
+  const currentImage = renderGraphThumbnail(currentGraphData, "current-comparison");
+  const targetImage = renderGraphThumbnail(targetGraphData, "target-comparison");
+  const lang = getLang();
+  openLearningDialog(title, `
+    <p>${lang === "zh" ? "比較的是材質外觀，不是要求節點位置或顏色完全一樣；只要原理與目標成立，就可能有不只一種正確解法。" : "Compare the material result, not exact node positions or colors. More than one graph can be correct if the goal and principle are satisfied."}</p>
+    <div class="comparison-grid">
+      <div class="comparison-panel"><h3>${lang === "zh" ? "你的結果" : "Your Result"}</h3>${currentImage ? `<img src="${currentImage}" alt="${lang === "zh" ? "目前材質預覽" : "Current material preview"}">` : `<p>${lang === "zh" ? "無法產生預覽" : "Preview unavailable"}</p>`}</div>
+      <div class="comparison-panel"><h3>${lang === "zh" ? "參考方向" : "Reference Direction"}</h3>${targetImage ? `<img src="${targetImage}" alt="${lang === "zh" ? "參考材質預覽" : "Reference material preview"}">` : `<p>${lang === "zh" ? "這項練習沒有單一參考外觀" : "This activity has no single reference look"}</p>`}</div>
+    </div>
+  `);
+}
+
+function formatValue(value) {
+  if (Array.isArray(value)) return value.map((item) => typeof item === "number" ? Number(item.toFixed(3)) : item).join(", ");
+  if (typeof value === "number") return String(Number(value.toFixed(3)));
+  return String(value);
+}
+
+function englishLabel(value, fallback = "") {
+  if (typeof value === "string") return value;
+  return value?.en || value?.zh || fallback;
+}
+
+function openTransferGuide(graphData) {
+  const lang = getLang();
+  const graph = Graph.fromJSON(graphData);
+  const nodeRows = [...graph.nodes.values()].map((node, index) => {
+    const definition = getNodeType(node.typeId);
+    const changed = [];
+    for (const input of definition?.inputs || []) {
+      if (graph.getIncomingLink(node.id, input.key)) continue;
+      const value = node.params[input.key];
+      if (JSON.stringify(value) !== JSON.stringify(input.default)) changed.push(`${tBi(input.label)} = ${formatValue(value)}`);
+    }
+    for (const setting of definition?.settings || []) {
+      const value = node.params[setting.key];
+      if (JSON.stringify(value) !== JSON.stringify(setting.default)) changed.push(`${tBi(setting.label)} = ${formatValue(value)}`);
+    }
+    return `<li><strong>${index + 1}. Shift+A → Search → ${englishLabel(definition?.name, node.typeId)}</strong>${changed.length ? `<div>${changed.join(" · ")}</div>` : ""}</li>`;
+  }).join("");
+  const linkRows = [...graph.links.values()].map((link) => {
+    const fromNode = graph.nodes.get(link.fromNode);
+    const toNode = graph.nodes.get(link.toNode);
+    const fromDefinition = getNodeType(fromNode?.typeId);
+    const toDefinition = getNodeType(toNode?.typeId);
+    const fromSocket = fromDefinition?.outputs.find((socket) => socket.key === link.fromSocket);
+    const toSocket = toDefinition?.inputs.find((socket) => socket.key === link.toSocket);
+    return `<li>${englishLabel(fromDefinition?.name, fromNode?.typeId)} · ${englishLabel(fromSocket?.label, link.fromSocket)} → ${englishLabel(toDefinition?.name, toNode?.typeId)} · ${englishLabel(toSocket?.label, link.toSocket)}</li>`;
+  }).join("");
+  openLearningDialog(lang === "zh" ? "在 Blender 5.2 LTS 重做" : "Rebuild in Blender 5.2 LTS", `
+    <div class="transfer-guide">
+      <p>${lang === "zh" ? "網站預覽用來學結構；最後請在 Blender 裡重做一次，確認燈光、色彩管理與實際模型下的結果。" : "The web preview teaches structure. Rebuild once in Blender to verify lighting, color management, and your real model."}</p>
+      <h3>${lang === "zh" ? "1. 新增節點" : "1. Add nodes"}</h3><ol>${nodeRows}</ol>
+      <h3>${lang === "zh" ? "2. 接線" : "2. Connect sockets"}</h3><ol>${linkRows}</ol>
+      <h3>${lang === "zh" ? "3. 實機確認" : "3. Verify in Blender"}</h3>
+      <ul><li>${lang === "zh" ? "使用 Material Preview 與 Rendered 各看一次" : "Check both Material Preview and Rendered view"}</li><li>${lang === "zh" ? "換一個 HDRI 或燈光角度，確認材質不是只在單一光線下好看" : "Change the HDRI or light angle so the material works beyond one lighting setup"}</li><li>${lang === "zh" ? "資料貼圖使用 Non-Color；法線貼圖確認 OpenGL／DirectX 慣例" : "Use Non-Color for data maps and verify OpenGL/DirectX normal convention"}</li></ul>
+    </div>
+  `);
+}
+
+function finishActivity() {
+  if (!currentActivity || activityResults().some((result) => !result.passed)) return;
+  const activity = currentActivity;
+  const score = Math.max(60, 100 - revealedHintCount * 10);
+  markActivityComplete(learningState, activity.id, score);
+  renderLearningHub();
+  renderActivityCompletion(activity, score);
+}
+
+function renderActivityCompletion(activity, score) {
+  overlayMode = "activity-completion";
+  activeActivityScore = score;
+  const overlay = document.getElementById("tutorial-overlay");
+  overlay.innerHTML = `
+    <div class="step-count">${getLang() === "zh" ? "實作完成" : "Activity Complete"}</div>
+    <h4>🎉 ${tBi(activity.name)}</h4>
+    <p>${getLang() === "zh" ? `完成分數 ${score}。提示是學習工具，不是扣分處罰；下次可以試著少看一個。` : `Score: ${score}. Hints are learning tools, not a punishment—try one fewer next time.`}</p>
+    <div class="step-actions challenge-tools">
+      <button type="button" id="activity-comparison-btn">${getLang() === "zh" ? "前後比較" : "Compare"}</button>
+      <button type="button" id="activity-transfer-btn">${getLang() === "zh" ? "Blender 實作清單" : "Blender Checklist"}</button>
+      <button type="button" id="activity-back-btn" class="primary">${getLang() === "zh" ? "回學習中心" : "Back to Learning Center"}</button>
+    </div>
+  `;
+  document.getElementById("activity-comparison-btn").addEventListener("click", () => openComparison(editor.graph.toJSON(), activity.targetGraph, tBi(activity.name)));
+  document.getElementById("activity-transfer-btn").addEventListener("click", () => openTransferGuide(editor.graph.toJSON()));
+  document.getElementById("activity-back-btn").addEventListener("click", exitTutorial);
+}
+
+function renderActivityOverlay() {
+  if (!currentActivity) return;
+  overlayMode = "activity";
+  const lang = getLang();
+  const overlay = document.getElementById("tutorial-overlay");
+  overlay.innerHTML = `
+    <div class="step-count">${currentActivity.kind === "debug" ? (lang === "zh" ? "除錯實驗" : "Debug Lab") : (lang === "zh" ? "實戰挑戰" : "Challenge")} · <span id="activity-live-progress">0 / ${currentActivity.checks.length}</span></div>
+    <h4>${tBi(currentActivity.name)}</h4>
+    <p>${tBi(currentActivity.objective)}</p>
+    <div class="challenge-checklist">${currentActivity.checks.map((check, index) => `<div class="challenge-check" data-activity-check="${index}"><span>○</span><div>${tBi(check.label)}</div></div>`).join("")}</div>
+    <div id="activity-smart-coach" class="smart-coach"></div>
+    <div id="activity-hints" class="challenge-hints"></div>
+    <div class="step-actions challenge-tools">
+      <button type="button" id="activity-hint-btn">${lang === "zh" ? "看一個提示" : "Reveal a Hint"}</button>
+      <button type="button" id="activity-compare-live-btn">${lang === "zh" ? "與參考比較" : "Compare Reference"}</button>
+      <button type="button" id="activity-transfer-live-btn">${lang === "zh" ? "Blender 實作清單" : "Blender Checklist"}</button>
+      <button type="button" id="activity-finish-btn" class="primary" disabled>${lang === "zh" ? "完成挑戰" : "Complete Activity"}</button>
+    </div>
+  `;
+  renderRevealedHints();
+  document.getElementById("activity-hint-btn").addEventListener("click", showNextHint);
+  document.getElementById("activity-compare-live-btn").addEventListener("click", () => openComparison(editor.graph.toJSON(), currentActivity.targetGraph, tBi(currentActivity.name)));
+  document.getElementById("activity-transfer-live-btn").addEventListener("click", () => openTransferGuide(editor.graph.toJSON()));
+  document.getElementById("activity-finish-btn").addEventListener("click", finishActivity);
+  updateActivityStatus();
 }
 
 function checkCurrentStep() {
@@ -480,13 +915,17 @@ function checkCurrentStep() {
       ? getLang() === "zh" ? "✓ 完成，可以進入下一步" : "✓ Done — you can continue"
       : getLang() === "zh" ? "尚未完成這一步" : "Not done yet";
   }
+  renderSmartCoach(editor.graph, document.getElementById("tutorial-smart-coach"));
 }
 
 function finishTutorial() {
   if (!currentTutorial) return;
   const finishedId = currentTutorial.id;
+  const wasCompleted = completedSet.has(finishedId);
   completedSet.add(finishedId);
-  saveCompletedSet(completedSet);
+  if (wasCompleted) markTutorialReviewed(learningState, finishedId, true);
+  else markTutorialComplete(learningState, finishedId);
+  renderLearningDashboard();
   const nextId = getNextInPath(finishedId);
   if (nextId === undefined) {
     exitTutorial();
@@ -586,6 +1025,7 @@ function renderQuiz(quiz, index) {
       if (answered) return;
       answered = true;
       const isCorrect = i === item.correctIndex;
+      recordQuizAnswer(learningState, currentTutorial.id, isCorrect);
       btn.classList.add(isCorrect ? "correct" : "incorrect");
       if (!isCorrect) {
         [...optionsEl.children][item.correctIndex].classList.add("correct");
@@ -628,10 +1068,15 @@ function renderOverlay() {
     <h4>${tBi(step.title)}</h4>
     <p>${tBi(step.instruction)}</p>
     <div class="step-status pending" id="tutorial-step-status">${getLang() === "zh" ? "尚未完成這一步" : "Not done yet"}</div>
+    <div id="tutorial-smart-coach" class="smart-coach"></div>
     <div class="step-actions">
+      <button type="button" id="tutorial-compare-btn">${getLang() === "zh" ? "前後比較" : "Compare"}</button>
+      <button type="button" id="tutorial-transfer-btn">${getLang() === "zh" ? "Blender 實作清單" : "Blender Checklist"}</button>
       <button type="button" id="tutorial-next-btn" disabled>${isLast ? (getLang() === "zh" ? "完成教學 🎉" : "Finish 🎉") : getLang() === "zh" ? "下一步" : "Next"}</button>
     </div>
   `;
+  document.getElementById("tutorial-compare-btn").addEventListener("click", () => openComparison(editor.graph.toJSON(), currentTutorial.endGraph, tBi(currentTutorial.name)));
+  document.getElementById("tutorial-transfer-btn").addEventListener("click", () => openTransferGuide(editor.graph.toJSON()));
   document.getElementById("tutorial-next-btn").addEventListener("click", () => {
     // 這個按鈕點下去之後畫面才會切換／消失，中間有一個空檔；如果使用者手滑點兩下
     // （或裝置卡頓），第二次點擊時 currentTutorial 可能已經被 exitTutorial() 設回 null，
@@ -654,14 +1099,19 @@ function renderOverlay() {
 
 function exitTutorial() {
   currentTutorial = null;
+  currentActivity = null;
+  revealedHintCount = 0;
+  activeActivityScore = 0;
   runView.classList.remove("active");
   listView.style.display = "";
   // 回到列表時重繪一次：剛完成的教學要立刻顯示已完成勾勾＋更新進度數字，
   // 縮圖已經快取過，這次重繪不會重新跑 WebGL render。
   renderTutorialCards();
   renderLearningPath();
+  renderLearningHub();
   const url = new URL(location.href);
   url.searchParams.delete("tutorial");
+  url.searchParams.delete("activity");
   history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
   resetTutorialSeo();
 }
@@ -681,6 +1131,12 @@ window.__bmlTutorial = {
   get currentTutorial() {
     return currentTutorial;
   },
+  get currentActivity() {
+    return currentActivity;
+  },
+  get learningState() {
+    return learningState;
+  },
   get currentStepIndex() {
     return currentStepIndex;
   },
@@ -688,7 +1144,16 @@ window.__bmlTutorial = {
 
 document.getElementById("t-back-to-list").addEventListener("click", exitTutorial);
 document.getElementById("t-restart").addEventListener("click", () => {
-  if (!currentTutorial) return;
+  if (!currentTutorial && !currentActivity) return;
+  if (currentActivity) {
+    revealedHintCount = 0;
+    activeActivityScore = 0;
+    editor.loadGraph(Graph.fromJSON(currentActivity.startGraph));
+    editor.clearHistory();
+    editor.frameAll();
+    renderActivityOverlay();
+    return;
+  }
   currentStepIndex = 0;
   editor.loadGraph(Graph.fromJSON(currentTutorial.startGraph));
   editor.clearHistory();
@@ -700,9 +1165,13 @@ document.getElementById("t-restart").addEventListener("click", () => {
 // 輸入（使用者可能手動改網址、或連結指向之後版本已改名/移除的教學 id），找不到就當作
 // 沒帶參數，正常顯示教學列表，不讓整支 module script 因此掛掉。
 const tutorialParam = new URLSearchParams(location.search).get("tutorial");
+const activityParam = new URLSearchParams(location.search).get("activity");
 const targetTutorial = tutorialParam ? tutorials.find((t) => t.id === tutorialParam) : null;
+const targetActivity = activityParam ? resolvedActivityById.get(activityParam) : null;
 renderLearningPath();
-if (targetTutorial) startTutorial(targetTutorial);
+renderLearningHub();
+if (targetActivity) startActivity(targetActivity);
+else if (targetTutorial) startTutorial(targetTutorial);
 else {
   renderTutorialCards();
   resetTutorialSeo();
