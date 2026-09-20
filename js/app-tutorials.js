@@ -20,8 +20,13 @@ import {
   recordActivityAttempt,
   saveAssessment,
   toggleKnownConcept,
+  toggleFavoriteActivity,
+  createLearningBackup,
+  restoreLearningBackup,
   learningStats,
 } from "./core/learningProgress.js";
+import { calculateSkillMastery, recommendActivity, inferActivityTopic, topicLabel, estimateActivityMinutes } from "./core/learningSkills.js";
+import { activityVariants, createActivityVariant } from "./core/learningVariants.js";
 import tutorials from "../data/tutorials/index.js";
 import learningPath from "../data/tutorials/learningPath.js";
 import { challenges, debugLabs, learningActivities, assessmentQuestions, conceptCards, resolveLearningActivity } from "../data/learningActivities.js";
@@ -155,15 +160,36 @@ function renderLearningDashboard() {
     <div><strong>${stats.mistakes}</strong><span>${lang === "zh" ? "需再確認" : "need review"}</span></div>
   `;
 
+  const mastery = calculateSkillMastery(learningState, resolvedActivities);
+  document.getElementById("skill-mastery").innerHTML = `
+    <div class="skill-mastery-title">${lang === "zh" ? "能力地圖" : "Skill Map"}</div>
+    ${mastery.map((skill) => `
+      <div class="skill-row">
+        <div class="skill-row-label"><span>${tBi(skill.label)}</span><b>${skill.score}%</b></div>
+        <div class="skill-meter"><i style="width:${skill.score}%"></i></div>
+      </div>
+    `).join("")}
+  `;
+
   const dueButton = document.getElementById("review-due-btn");
   const mistakeButton = document.getElementById("mistake-review-btn");
+  const continueButton = document.getElementById("continue-activity-btn");
+  const smartButton = document.getElementById("smart-practice-btn");
   dueButton.disabled = stats.due === 0;
   mistakeButton.disabled = stats.mistakes === 0;
+  continueButton.disabled = !resolvedActivityById.has(learningState.lastActivityId);
+  continueButton.textContent = lang === "zh" ? "繼續上次" : "Continue Last";
+  const smart = recommendActivity(learningState, resolvedActivities);
+  smartButton.textContent = smart
+    ? (lang === "zh" ? `練弱項：${tBi(smart.skill.label)}` : `Practice: ${tBi(smart.skill.label)}`)
+    : (lang === "zh" ? "推薦練習" : "Recommended Practice");
+  document.getElementById("progress-backup-btn").textContent = lang === "zh" ? "匯出進度" : "Export Progress";
+  document.getElementById("progress-restore-btn").textContent = lang === "zh" ? "匯入進度" : "Import Progress";
 }
 
 const activityFilters = {
-  challenge: { query: "", level: "" },
-  debug: { query: "", level: "" },
+  challenge: { query: "", level: "", topic: "", time: "", favorites: false },
+  debug: { query: "", level: "", topic: "", time: "", favorites: false },
 };
 
 function activityDifficulty(activity) {
@@ -175,6 +201,12 @@ function activityDifficulty(activity) {
 
 function activityMatchesFilter(activity, filter) {
   if (filter.level && activityDifficulty(activity) !== filter.level) return false;
+  if (filter.topic && inferActivityTopic(activity) !== filter.topic) return false;
+  const minutes = estimateActivityMinutes(activity);
+  if (filter.time === "5" && minutes !== 5) return false;
+  if (filter.time === "10" && minutes !== 10) return false;
+  if (filter.time === "15" && minutes < 15) return false;
+  if (filter.favorites && !(learningState.favoriteActivities || []).includes(activity.id)) return false;
   const query = filter.query.trim().toLowerCase();
   if (!query) return true;
   return [activity.name?.zh, activity.name?.en, activity.description?.zh, activity.description?.en, activity.objective?.zh, activity.objective?.en, activity.topic]
@@ -193,18 +225,27 @@ function renderActivityCards(items, containerId, progressId, filterKey) {
   for (const originalActivity of items) {
     const activity = resolvedActivityById.get(originalActivity.id);
     const record = learningState.activities[activity.id];
+    const topic = inferActivityTopic(activity);
+    const minutes = estimateActivityMinutes(activity);
+    const variants = activityVariants(activity);
+    const favorite = (learningState.favoriteActivities || []).includes(activity.id);
     if (record?.completedAt) completed += 1;
     if (!visibleItems.some((item) => item.id === activity.id)) continue;
     const card = document.createElement("article");
     card.className = `activity-card${record?.completedAt ? " completed" : ""}`;
     card.innerHTML = `
-      <div class="activity-card-top"><span>${tBi(activity.level)}</span>${record?.completedAt ? `<span class="activity-done">✓ ${lang === "zh" ? "完成" : "Done"}</span>` : ""}</div>
+      <div class="activity-card-top"><span>${tBi(activity.level)}</span><button type="button" class="activity-favorite${favorite ? " active" : ""}" aria-label="${favorite ? (lang === "zh" ? "取消收藏" : "Remove favorite") : (lang === "zh" ? "加入收藏" : "Add favorite")}" aria-pressed="${favorite}">${favorite ? "★" : "☆"}</button></div>
       <h3>${tBi(activity.name)}</h3>
       <p>${tBi(activity.description)}</p>
-      <div class="activity-meta">${record?.bestScore ? `${lang === "zh" ? "最佳" : "Best"} ${record.bestScore}` : `${activity.checks.length} ${lang === "zh" ? "個驗證目標" : "checks"}`}</div>
-      <button type="button" class="primary">${record?.completedAt ? (lang === "zh" ? "再練一次" : "Practice Again") : (lang === "zh" ? "開始實作" : "Start")}</button>
+      <div class="activity-tags"><span>${tBi(topicLabel(topic))}</span><span>⏱ ${minutes} ${lang === "zh" ? "分鐘" : "min"}</span>${variants.length > 1 ? `<span>◐ ${variants.length} ${lang === "zh" ? "種變體" : "variants"}</span>` : ""}</div>
+      <div class="activity-meta"><span>${record?.bestScore ? `${lang === "zh" ? "最佳" : "Best"} ${record.bestScore}` : `${activity.checks.length} ${lang === "zh" ? "個驗證目標" : "checks"}`}</span>${record?.completedAt ? `<span class="activity-done">✓ ${lang === "zh" ? "完成" : "Done"}</span>` : ""}</div>
+      <button type="button" class="primary activity-start">${record?.completedAt ? (lang === "zh" ? "再練一次" : "Practice Again") : (lang === "zh" ? "開始實作" : "Start")}</button>
     `;
-    card.querySelector("button").addEventListener("click", () => startActivity(activity));
+    card.querySelector(".activity-start").addEventListener("click", () => startActivity(activity));
+    card.querySelector(".activity-favorite").addEventListener("click", () => {
+      toggleFavoriteActivity(learningState, activity.id);
+      renderLearningHub();
+    });
     container.appendChild(card);
   }
   if (visibleItems.length === 0) {
@@ -312,20 +353,54 @@ function openAssessment() {
 
 function renderLearningHub() {
   renderLearningDashboard();
+  renderTopicFilters();
   renderActivityCards(challenges, "challenge-cards", "challenge-progress", "challenge");
   renderActivityCards(debugLabs, "debug-cards", "debug-progress", "debug");
   renderConceptCard();
 }
 
+function renderTopicFilters() {
+  const lang = getLang();
+  for (const [kind, items] of [["challenge", challenges], ["debug", debugLabs]]) {
+    const select = document.getElementById(`${kind}-topic`);
+    const selected = select.value || activityFilters[kind].topic;
+    const topics = [...new Set(items.map(inferActivityTopic))].sort((a, b) => tBi(topicLabel(a)).localeCompare(tBi(topicLabel(b))));
+    select.innerHTML = `<option value="">${lang === "zh" ? "全部主題" : "All Topics"}</option>${topics.map((topic) => `<option value="${topic}">${tBi(topicLabel(topic))}</option>`).join("")}`;
+    select.value = selected;
+    const time = document.getElementById(`${kind}-time`);
+    time.options[0].textContent = lang === "zh" ? "全部時間" : "Any Duration";
+    time.options[1].textContent = lang === "zh" ? "約 5 分鐘" : "About 5 min";
+    time.options[2].textContent = lang === "zh" ? "約 10 分鐘" : "About 10 min";
+    time.options[3].textContent = lang === "zh" ? "約 15 分鐘以上" : "15+ min";
+    const favoriteLabel = document.getElementById(`${kind}-favorites`).closest("label");
+    if (favoriteLabel) favoriteLabel.lastChild.textContent = lang === "zh" ? " 只看收藏" : " Favorites only";
+  }
+}
+
 function bindActivityFilters(kind, items, containerId, progressId) {
   const search = document.getElementById(`${kind}-search`);
   const level = document.getElementById(`${kind}-level`);
+  const topic = document.getElementById(`${kind}-topic`);
+  const time = document.getElementById(`${kind}-time`);
+  const favorites = document.getElementById(`${kind}-favorites`);
   search.addEventListener("input", () => {
     activityFilters[kind].query = search.value;
     renderActivityCards(items, containerId, progressId, kind);
   });
   level.addEventListener("change", () => {
     activityFilters[kind].level = level.value;
+    renderActivityCards(items, containerId, progressId, kind);
+  });
+  topic.addEventListener("change", () => {
+    activityFilters[kind].topic = topic.value;
+    renderActivityCards(items, containerId, progressId, kind);
+  });
+  time.addEventListener("change", () => {
+    activityFilters[kind].time = time.value;
+    renderActivityCards(items, containerId, progressId, kind);
+  });
+  favorites.addEventListener("change", () => {
+    activityFilters[kind].favorites = favorites.checked;
     renderActivityCards(items, containerId, progressId, kind);
   });
 }
@@ -346,6 +421,45 @@ document.getElementById("mistake-review-btn").addEventListener("click", () => {
 });
 document.getElementById("random-challenge-btn").addEventListener("click", () => {
   startActivity(resolvedActivityById.get(challenges[Math.floor(Math.random() * challenges.length)].id));
+});
+document.getElementById("smart-practice-btn").addEventListener("click", () => {
+  const recommendation = recommendActivity(learningState, resolvedActivities);
+  if (recommendation) startActivity(recommendation.activity);
+});
+document.getElementById("continue-activity-btn").addEventListener("click", () => {
+  const activity = resolvedActivityById.get(learningState.lastActivityId);
+  if (activity) startActivity(activity);
+});
+document.getElementById("progress-backup-btn").addEventListener("click", () => {
+  const blob = new Blob([createLearningBackup(learningState)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = `blender-node-lab-progress-${new Date().toISOString().slice(0, 10)}.json`;
+  link.click();
+  setTimeout(() => URL.revokeObjectURL(link.href), 0);
+});
+document.getElementById("progress-restore-btn").addEventListener("click", () => document.getElementById("progress-restore-input").click());
+document.getElementById("progress-restore-input").addEventListener("change", async (event) => {
+  const input = event.currentTarget;
+  const file = input.files?.[0];
+  if (!file) return;
+  const lang = getLang();
+  try {
+    const raw = await file.text();
+    const accepted = window.confirm(lang === "zh" ? "匯入會以備份內容取代這台裝置目前的學習進度，確定繼續？" : "Importing replaces the current learning progress on this device. Continue?");
+    if (!accepted) return;
+    restoreLearningBackup(learningState, raw);
+    completedSet.clear();
+    completedTutorialIds(learningState).forEach((id) => completedSet.add(id));
+    renderLearningHub();
+    renderLearningPath();
+    renderTutorialCards();
+    openLearningDialog(lang === "zh" ? "匯入完成" : "Import Complete", `<p>${lang === "zh" ? "學習進度已從備份還原。" : "Your learning progress was restored from the backup."}</p>`);
+  } catch {
+    openLearningDialog(lang === "zh" ? "無法匯入" : "Import Failed", `<p>${lang === "zh" ? "檔案不是有效的 Blender Material Node Lab 學習備份。" : "This file is not a valid Blender Material Node Lab learning backup."}</p>`);
+  } finally {
+    input.value = "";
+  }
 });
 
 function renderLearningPath() {
@@ -627,6 +741,7 @@ let editor = null;
 let preview = null;
 let currentTutorial = null;
 let currentActivity = null;
+let activityStartedAt = 0;
 let revealedHintCount = 0;
 let activeActivityScore = 0;
 let currentStepIndex = 0;
@@ -652,6 +767,11 @@ function ensureEditorInitialized() {
   );
 
   const canvasEl = document.getElementById("t-graph-canvas");
+  const editorPanel = canvasEl.closest(".editor-panel");
+  const editorToolbar = editorPanel.querySelector(".editor-toolbar");
+  const syncOverlayPosition = () => editorPanel.style.setProperty("--tutorial-toolbar-height", `${editorToolbar.offsetHeight}px`);
+  syncOverlayPosition();
+  if (typeof ResizeObserver === "function") new ResizeObserver(syncOverlayPosition).observe(editorToolbar);
   const errorBox = document.getElementById("t-shader-error");
   const inspectorBody = document.getElementById("t-inspector-body");
   mountControlsHint(canvasEl.parentElement);
@@ -738,26 +858,29 @@ function startTutorial(tut) {
 
 function startActivity(activity) {
   if (!activity?.startGraph) return;
+  const priorAttempts = Number(learningState.activities?.[activity.id]?.attempts) || 0;
+  const activityForAttempt = createActivityVariant(activity, priorAttempts);
   currentTutorial = null;
-  currentActivity = activity;
+  currentActivity = activityForAttempt;
+  activityStartedAt = Date.now();
   revealedHintCount = 0;
   activeActivityScore = 0;
   overlayMode = "activity";
   ensureEditorInitialized();
   listView.style.display = "none";
   runView.classList.add("active");
-  editor.loadGraph(Graph.fromJSON(activity.startGraph));
+  editor.loadGraph(Graph.fromJSON(activityForAttempt.startGraph));
   editor.clearHistory();
-  recordActivityAttempt(learningState, activity.id);
+  recordActivityAttempt(learningState, activityForAttempt.id);
   renderActivityOverlay();
   const url = new URL(location.href);
   url.searchParams.delete("tutorial");
-  url.searchParams.set("activity", activity.id);
-  history.replaceState({ activity: activity.id }, "", `${url.pathname}${url.search}${url.hash}`);
+  url.searchParams.set("activity", activityForAttempt.id);
+  history.replaceState({ activity: activityForAttempt.id }, "", `${url.pathname}${url.search}${url.hash}`);
   setPageSeo({
-    title: `${tBi(activity.name)} · ${t("meta.tutorials.title")}`,
-    description: tBi(activity.description),
-    path: `tutorials.html?activity=${encodeURIComponent(activity.id)}${getLang() === "en" ? "&lang=en" : ""}`,
+    title: `${tBi(activityForAttempt.name)} · ${t("meta.tutorials.title")}`,
+    description: tBi(activityForAttempt.description),
+    path: `tutorials.html?activity=${encodeURIComponent(activityForAttempt.id)}${getLang() === "en" ? "&lang=en" : ""}`,
   });
 }
 
@@ -882,7 +1005,11 @@ function finishActivity() {
   if (!currentActivity || activityResults().some((result) => !result.passed)) return;
   const activity = currentActivity;
   const score = Math.max(60, 100 - revealedHintCount * 10);
-  markActivityComplete(learningState, activity.id, score);
+  markActivityComplete(learningState, activity.id, score, {
+    hintsUsed: revealedHintCount,
+    durationMs: activityStartedAt ? Date.now() - activityStartedAt : 0,
+    variantKey: activity.variant?.key,
+  });
   renderLearningHub();
   renderActivityCompletion(activity, score);
 }
@@ -912,7 +1039,7 @@ function renderActivityOverlay() {
   const lang = getLang();
   const overlay = document.getElementById("tutorial-overlay");
   overlay.innerHTML = `
-    <div class="step-count">${currentActivity.kind === "debug" ? (lang === "zh" ? "除錯實驗" : "Debug Lab") : (lang === "zh" ? "實戰挑戰" : "Challenge")} · <span id="activity-live-progress">0 / ${currentActivity.checks.length}</span></div>
+    <div class="step-count">${currentActivity.kind === "debug" ? (lang === "zh" ? "除錯實驗" : "Debug Lab") : (lang === "zh" ? "實戰挑戰" : "Challenge")} · ${currentActivity.variant ? tBi(currentActivity.variant.label) + " · " : ""}<span id="activity-live-progress">0 / ${currentActivity.checks.length}</span></div>
     <h4>${tBi(currentActivity.name)}</h4>
     <p>${tBi(currentActivity.objective)}</p>
     <div class="challenge-checklist">${currentActivity.checks.map((check, index) => `<div class="challenge-check" data-activity-check="${index}"><span>○</span><div>${tBi(check.label)}</div></div>`).join("")}</div>

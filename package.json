@@ -3,6 +3,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "generate:seo": "node scripts/generate-seo-pages.mjs"
+    "generate:seo": "node scripts/generate-seo-pages.mjs",
+    "qa:static": "node scripts/static-qa.mjs",
+    "qa:browser": "node scripts/browser-qa.mjs",
+    "qa": "npm run qa:static && npm run qa:browser"
+  },
+  "devDependencies": {
+    "playwright": "1.63.0"
   }
 }

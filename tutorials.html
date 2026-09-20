@@ -61,11 +61,17 @@
           <p id="learning-profile-summary"></p>
         </div>
         <div class="learning-stats" id="learning-stats"></div>
+        <div class="skill-mastery" id="skill-mastery" aria-label="能力地圖 / Skill map"></div>
         <div class="learning-actions">
           <button type="button" class="primary" id="assessment-start-btn" data-i18n="tutorials.assessmentButton">能力診斷</button>
+          <button type="button" id="smart-practice-btn">推薦練習</button>
+          <button type="button" id="continue-activity-btn">繼續上次</button>
           <button type="button" id="review-due-btn" data-i18n="tutorials.reviewButton">今日複習</button>
           <button type="button" id="mistake-review-btn" data-i18n="tutorials.mistakeButton">錯題複習</button>
           <button type="button" id="random-challenge-btn" data-i18n="tutorials.randomChallengeButton">隨機挑戰</button>
+          <button type="button" id="progress-backup-btn">匯出進度</button>
+          <button type="button" id="progress-restore-btn">匯入進度</button>
+          <input type="file" id="progress-restore-input" accept="application/json,.json" hidden />
         </div>
       </section>
 
@@ -85,6 +91,14 @@
             <option value="intermediate" data-i18n="tutorials.filterIntermediate">中階</option>
             <option value="advanced" data-i18n="tutorials.filterAdvanced">進階</option>
           </select>
+          <select id="challenge-topic" aria-label="實戰主題 / Challenge topic"></select>
+          <select id="challenge-time" aria-label="實戰時間 / Challenge time">
+            <option value="">全部時間</option>
+            <option value="5">約 5 分鐘</option>
+            <option value="10">約 10 分鐘</option>
+            <option value="15">約 15 分鐘以上</option>
+          </select>
+          <label class="favorite-filter"><input type="checkbox" id="challenge-favorites" /> 只看收藏</label>
         </div>
         <div class="activity-grid" id="challenge-cards"></div>
       </section>
@@ -105,6 +119,14 @@
             <option value="intermediate" data-i18n="tutorials.filterIntermediate">中階</option>
             <option value="advanced" data-i18n="tutorials.filterAdvanced">進階</option>
           </select>
+          <select id="debug-topic" aria-label="除錯主題 / Debug topic"></select>
+          <select id="debug-time" aria-label="除錯時間 / Debug time">
+            <option value="">全部時間</option>
+            <option value="5">約 5 分鐘</option>
+            <option value="10">約 10 分鐘</option>
+            <option value="15">約 15 分鐘以上</option>
+          </select>
+          <label class="favorite-filter"><input type="checkbox" id="debug-favorites" /> 只看收藏</label>
         </div>
         <div class="activity-grid" id="debug-cards"></div>
       </section>

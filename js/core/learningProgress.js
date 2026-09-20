@@ -10,6 +10,8 @@ function emptyState() {
     activities: {},
     assessment: null,
     knownConcepts: [],
+    favoriteActivities: [],
+    lastActivityId: null,
   };
 }
 
@@ -28,6 +30,8 @@ export function loadLearningState() {
     state.tutorials = state.tutorials && typeof state.tutorials === "object" ? state.tutorials : {};
     state.activities = state.activities && typeof state.activities === "object" ? state.activities : {};
     state.knownConcepts = Array.isArray(state.knownConcepts) ? state.knownConcepts : [];
+    state.favoriteActivities = Array.isArray(state.favoriteActivities) ? state.favoriteActivities : [];
+    state.lastActivityId = typeof state.lastActivityId === "string" ? state.lastActivityId : null;
 
     const legacyIds = safeParse(localStorage.getItem(LEGACY_COMPLETED_KEY), []);
     const now = Date.now();
@@ -123,24 +127,96 @@ export function mistakeTutorialIds(state) {
     .map(([id]) => id);
 }
 
-export function markActivityComplete(state, activityId, score) {
+export function markActivityComplete(state, activityId, score, details = {}) {
   const now = Date.now();
   const previous = state.activities[activityId] || {};
+  const durationMs = Math.max(0, Number(details.durationMs) || 0);
+  const hintsUsed = Math.max(0, Number(details.hintsUsed) || 0);
   state.activities[activityId] = {
+    ...previous,
     completedAt: now,
     bestScore: Math.max(Number(previous.bestScore) || 0, Number(score) || 0),
     attempts: Math.max(1, Number(previous.attempts) || 0),
+    completions: (Number(previous.completions) || 0) + 1,
+    lastScore: Number(score) || 0,
+    lastDurationMs: durationMs,
+    totalDurationMs: (Number(previous.totalDurationMs) || 0) + durationMs,
+    hintsUsed: (Number(previous.hintsUsed) || 0) + hintsUsed,
+    lastVariantKey: details.variantKey || previous.lastVariantKey || "original",
   };
   saveLearningState(state);
 }
 
 export function recordActivityAttempt(state, activityId) {
+  const now = Date.now();
   const previous = state.activities[activityId] || {};
   state.activities[activityId] = {
     ...previous,
     attempts: (Number(previous.attempts) || 0) + 1,
+    lastStartedAt: now,
   };
+  state.lastActivityId = activityId;
   saveLearningState(state);
+}
+
+export function toggleFavoriteActivity(state, activityId) {
+  const favorites = new Set(state.favoriteActivities || []);
+  if (favorites.has(activityId)) favorites.delete(activityId);
+  else favorites.add(activityId);
+  state.favoriteActivities = [...favorites];
+  saveLearningState(state);
+  return favorites.has(activityId);
+}
+
+function normalizeImportedState(value) {
+  const source = value?.state && typeof value.state === "object" ? value.state : value;
+  if (!source || typeof source !== "object" || Array.isArray(source)) throw new Error("invalid-backup");
+  const normalized = { ...emptyState(), ...source };
+  const cleanRecords = (records, allowedNumeric, allowedText = []) => {
+    if (!records || typeof records !== "object" || Array.isArray(records)) return {};
+    const clean = {};
+    for (const [id, record] of Object.entries(records)) {
+      if (!/^[a-z0-9_-]{1,120}$/i.test(id) || !record || typeof record !== "object" || Array.isArray(record)) continue;
+      const next = {};
+      for (const key of allowedNumeric) {
+        const number = Number(record[key]);
+        if (Number.isFinite(number)) next[key] = Math.max(0, number);
+      }
+      for (const key of allowedText) {
+        if (typeof record[key] === "string" && /^[a-z0-9_-]{1,80}$/i.test(record[key])) next[key] = record[key];
+      }
+      clean[id] = next;
+    }
+    return clean;
+  };
+  normalized.tutorials = cleanRecords(normalized.tutorials, ["completedAt", "lastReviewedAt", "nextReviewAt", "intervalDays", "attempts", "quizMistakes"]);
+  normalized.activities = cleanRecords(normalized.activities, ["completedAt", "bestScore", "attempts", "completions", "lastScore", "lastDurationMs", "totalDurationMs", "hintsUsed", "lastStartedAt"], ["lastVariantKey"]);
+  normalized.knownConcepts = Array.isArray(normalized.knownConcepts) ? normalized.knownConcepts.filter((id) => typeof id === "string") : [];
+  normalized.favoriteActivities = Array.isArray(normalized.favoriteActivities) ? normalized.favoriteActivities.filter((id) => typeof id === "string") : [];
+  normalized.lastActivityId = typeof normalized.lastActivityId === "string" ? normalized.lastActivityId : null;
+  normalized.version = 2;
+  return normalized;
+}
+
+export function createLearningBackup(state) {
+  return JSON.stringify({
+    format: "blender-material-node-lab-learning-backup",
+    formatVersion: 1,
+    exportedAt: new Date().toISOString(),
+    state: normalizeImportedState(state),
+  }, null, 2);
+}
+
+export function restoreLearningBackup(state, rawText) {
+  const parsed = safeParse(rawText, null);
+  if (!parsed) throw new Error("invalid-backup");
+  if (parsed.format && parsed.format !== "blender-material-node-lab-learning-backup") throw new Error("invalid-backup");
+  if (!parsed.format && !parsed.state && !parsed.tutorials && !parsed.activities) throw new Error("invalid-backup");
+  const normalized = normalizeImportedState(parsed);
+  for (const key of Object.keys(state)) delete state[key];
+  Object.assign(state, normalized);
+  saveLearningState(state);
+  return state;
 }
 
 export function saveAssessment(state, result) {

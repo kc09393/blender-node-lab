@@ -52,6 +52,9 @@ import { getNodeType } from "./js/core/nodeRegistry.js";
 import presets from "./data/presets/index.js";
 import tutorials from "./data/tutorials/index.js";
 import { learningActivities, resolveLearningActivity } from "./data/learningActivities.js";
+import { activityVariants, createActivityVariant } from "./js/core/learningVariants.js";
+import { calculateSkillMastery, estimateActivityMinutes, inferActivityTopic, recommendActivity } from "./js/core/learningSkills.js";
+import { createLearningBackup, restoreLearningBackup } from "./js/core/learningProgress.js";
 
 // 檢查一份原始 JSON graph 資料：typeId 是否存在、有沒有重複 id、
 // 連線是否都指向真的存在的節點/socket——這些問題 Graph.fromJSON() 會「悄悄跳過」
@@ -187,6 +190,20 @@ function runAll() {
         }
       });
     }
+    const variants = activityVariants(resolved);
+    variants.forEach((variant, variantIndex) => {
+      const candidate = createActivityVariant(resolved, variantIndex);
+      const variantStart = auditRawGraph(candidate.startGraph);
+      const variantTarget = auditRawGraph(candidate.targetGraph);
+      const startVariantCompile = tryCompile(variantStart.graph);
+      const targetVariantCompile = tryCompile(variantTarget.graph);
+      if (!startVariantCompile.ok) errors.push(`[variant ${variant.key} start] 編譯錯誤：${startVariantCompile.error}`);
+      if (!targetVariantCompile.ok) errors.push(`[variant ${variant.key} target] 編譯錯誤：${targetVariantCompile.error}`);
+      if (variantTarget.graph && !candidate.checks.every((check) => check.test(variantTarget.graph))) errors.push(`[variant ${variant.key}] targetGraph 未通過全部檢查`);
+      if (variantStart.graph && candidate.checks.every((check) => check.test(variantStart.graph))) errors.push(`[variant ${variant.key}] startGraph 一開始就已完成`);
+    });
+    if (!inferActivityTopic(resolved)) errors.push("無法推斷學習主題");
+    if (![5, 10, 15, 20].includes(estimateActivityMinutes(resolved))) errors.push("預估時間不在允許範圍");
     results.push({
       kind: activity.kind === "debug" ? "除錯實驗" : "實戰挑戰",
       id: activity.id,
@@ -195,6 +212,25 @@ function runAll() {
       detail: errors.join("\n"),
     });
   }
+
+  const fakeState = { version: 2, tutorials: {}, activities: {}, assessment: null, knownConcepts: [], favoriteActivities: [], lastActivityId: null };
+  const backupText = createLearningBackup(fakeState);
+  const restoredState = {};
+  let learningSystemError = "";
+  try {
+    restoreLearningBackup(restoredState, backupText);
+    const skills = calculateSkillMastery(restoredState, learningActivities);
+    if (skills.length < 5 || !recommendActivity(restoredState, learningActivities)?.activity) learningSystemError = "能力地圖或推薦器沒有產生有效結果";
+  } catch (error) {
+    learningSystemError = error.message;
+  }
+  results.push({
+    kind: "學習系統",
+    id: "learning-progress-portability",
+    name: "能力地圖、推薦與備份",
+    status: learningSystemError ? "err" : "ok",
+    detail: learningSystemError,
+  });
 
   render(results);
 }
