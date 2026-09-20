@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>為什麼粗糙度會讓反光暈開，而不是把顏色調暗 · Blender 5.0 引導教學</title>
+<meta name="description" content="這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="為什麼粗糙度會讓反光暈開，而不是把顏色調暗 · Blender 5.0 引導教學" />
+<meta property="og:description" content="這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"為什麼粗糙度會讓反光暈開，而不是把顏色調暗","description":"這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_pbr_roughness_microfacets.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>為什麼粗糙度會讓反光暈開，而不是把顏色調暗</h1>
+    <p class="content-lead">這篇不是教「粗糙度（Roughness）滑桿越大表面越霧」——那個滑一下就看出來了。這篇要講的是背後的原因：表面其實是由無數個微小的鏡面（微表面，microfacet）組成，粗糙度調的是這些鏡面朝向有多分散，不是直接調亮度。搞懂這個，你才會知道「金屬看起來很塑膠感」十之八九是粗糙度沒調對，不是底色錯了。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_pbr_roughness_microfacets">開啟互動教學</a>
+      <a href="tutorial_pbr_roughness_microfacets.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：先做一顆拋光金屬球</h2>
+      <p>把原理化 BSDF 的底色（Base Color）改成飽和的顏色（例如紅色 0.85/0.15/0.1）、金屬度（Metallic）調到 1、粗糙度（Roughness）調到很低（例如 0.03，接近鏡面）。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：旋轉球體，注意反光是一個很小很亮的點</h2>
+      <p>拖曳旋轉球體。你會看到打光形成的亮點又小又刺眼（幾乎死白），球體其餘大部分區域偏暗，而且如果仔細看，亮點附近隱約看得出環境反射出的形狀（不是一片死黑）。<br /><br />原因：表面其實不是真的平滑，是由無數個微觀尺度的小鏡面（微表面，microfacet）拼成的，粗糙度＝這些小鏡面的朝向偏離「平均表面法線」的程度。粗糙度很低時，幾乎所有小鏡面都朝同一個方向——所以一整批入射光會被集中反射到幾乎同一個方向，你才會看到又小又亮的鏡面反光，其餘角度自然就暗，因為那些角度沒有小鏡面在幫你把光反過來。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：調高粗糙度，反光暈開成一大片柔光</h2>
+      <p>把粗糙度（Roughness）調到 0.85（其他不要動）。原本又小又刺眼的亮點會消失，取而代之是一大片柔和的光暈，覆蓋球體相當大的面積，環境反射的清晰形狀也會變得模糊一片。<br /><br />⚠️ 注意畫面整體：雖然沒有任何一點跟剛才一樣死白刺眼，但球體整體看起來反而更亮、更均勻——這不是「粗糙度把顏色調暗了」，是同一批入射光被重新分配：粗糙度高時，微表面的朝向散布得很開，每道入射光反射出去的方向都不太一樣，於是同樣的光能量被攤開到一大片角度範圍，單一像素分到的量變少（不再刺眼），但攤開後總共照亮的面積變大很多。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：粗糙度才是「材質手感」的關鍵，不是底色</h2>
+      <p>很多人做金屬材質時，第一直覺是「調底色」，但底色只決定反光被染成什麼顏色（見同系列教學「為什麼金屬的反光有顏色」），真正決定「這個表面摸起來/看起來是拋光的還是霧面的」的是粗糙度。同一顆球，粗糙度從 0.03 跳到 0.85，視覺質感的差異遠大於隨便換一個底色。<br /><br />如果拿不準某種材質的粗糙度該填多少，不用用猜的——「材質參考表」頁面整理了鏡面／拋光金屬／消光塑膠／橡膠等常見材質的粗糙度數值範圍，可以直接查。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

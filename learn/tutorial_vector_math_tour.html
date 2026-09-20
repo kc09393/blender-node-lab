@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識向量數學：長度、正規化、外積 · Blender 5.0 引導教學</title>
+<meta name="description" content="向量數學（Vector Math）的內積（Dot Product）已經在「羅盤材質」教學教過；這篇換個角度，帶你認識幾何（Geometry）分類的長度（Length）、正規化（Normalize），還有外積（Cross Product）——用長度做出一個以物體中心為圓心的放射狀漸層，直接看到效果。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識向量數學：長度、正規化、外積 · Blender 5.0 引導教學" />
+<meta property="og:description" content="向量數學（Vector Math）的內積（Dot Product）已經在「羅盤材質」教學教過；這篇換個角度，帶你認識幾何（Geometry）分類的長度（Length）、正規化（Normalize），還有外積（Cross Product）——用長度做出一個以物體中心為圓心的放射狀漸層，直接看到效果。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_math_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_math_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_math_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_math_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識向量數學：長度、正規化、外積","description":"向量數學（Vector Math）的內積（Dot Product）已經在「羅盤材質」教學教過；這篇換個角度，帶你認識幾何（Geometry）分類的長度（Length）、正規化（Normalize），還有外積（Cross Product）——用長度做出一個以物體中心為圓心的放射狀漸層，直接看到效果。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_math_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識向量數學：長度、正規化、外積</h1>
+    <p class="content-lead">向量數學（Vector Math）的內積（Dot Product）已經在「羅盤材質」教學教過；這篇換個角度，帶你認識幾何（Geometry）分類的長度（Length）、正規化（Normalize），還有外積（Cross Product）——用長度做出一個以物體中心為圓心的放射狀漸層，直接看到效果。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_vector_math_tour">開啟互動教學</a>
+      <a href="tutorial_vector_math_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：用 Length 算出離中心的距離</h2>
+      <p>加入紋理座標（Texture Coordinate）、向量數學（Vector Math）、顏色漸變（Color Ramp）。把紋理座標的 Object 輸出接到向量數學的第一個向量，運算選長度（Length，幾何 Geometry 分類），再把它的數值（Value）輸出接到顏色漸變的係數（Fac），顏色漸變接到底色（Base Color）。Length 算出每個點離物體中心有多遠，畫面會出現以中心為圓心的放射狀漸層。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：切到「正規化」看方向不變、長度歸一</h2>
+      <p>把運算切換成正規化（Normalize）。Normalize 只保留方向，把向量長度統一縮放成 1——輸出的向量（Vector）欄位現在每個分量都在 -1 到 1 之間，常用來確保法線、方向向量的長度不會因為前面的運算意外跑掉。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：切到「縮放」用 Scale 插槽</h2>
+      <p>把運算切換成縮放（Scale）。這個模式不吃第二個向量，改吃節點下方的縮放（Scale）數值插槽，把第一個向量整體放大或縮小——把 Scale 調到 2 以上，看看放射狀漸層的範圍怎麼變化。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：切到「外積」算出垂直向量</h2>
+      <p>把運算切換成外積（Cross Product），並把第二個向量（Vector 2）手動改成 (0,1,0)。外積會用兩個向量算出「同時垂直於這兩者」的第三個向量。<br /><br />⚠️ 第二個向量預設是 (0,0,0)——外積跟一個零向量算出來永遠也是零向量，畫面會整片死黑，一定要手動填一個非零的方向才看得出效果。外積在做切線、副法線這類需要「找出垂直方向」的計算時很常用。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

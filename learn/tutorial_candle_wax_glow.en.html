@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Candle Wax: Subsurface Scattering + Add Shader Glow · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Candle wax&#39;s soft translucency, lit from within by the flame, is a classic Subsurface Scattering use case. This tutorial layers SSS&#39;s edge translucency with an extra warm-yellow Emission glow — using Add Shader (not Mix Shader) so the &#39;built-in translucency&#39; and the &#39;extra candlelight&#39; genuinely add up brighter instead of getting averaged down." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Candle Wax: Subsurface Scattering + Add Shader Glow · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Candle wax&#39;s soft translucency, lit from within by the flame, is a classic Subsurface Scattering use case. This tutorial layers SSS&#39;s edge translucency with an extra warm-yellow Emission glow — using Add Shader (not Mix Shader) so the &#39;built-in translucency&#39; and the &#39;extra candlelight&#39; genuinely add up brighter instead of getting averaged down." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Candle Wax: Subsurface Scattering + Add Shader Glow","description":"Candle wax's soft translucency, lit from within by the flame, is a classic Subsurface Scattering use case. This tutorial layers SSS's edge translucency with an extra warm-yellow Emission glow — using Add Shader (not Mix Shader) so the 'built-in translucency' and the 'extra candlelight' genuinely add up brighter instead of getting averaged down.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_candle_wax_glow.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Candle Wax: Subsurface Scattering + Add Shader Glow</h1>
+    <p class="content-lead">Candle wax&#39;s soft translucency, lit from within by the flame, is a classic Subsurface Scattering use case. This tutorial layers SSS&#39;s edge translucency with an extra warm-yellow Emission glow — using Add Shader (not Mix Shader) so the &#39;built-in translucency&#39; and the &#39;extra candlelight&#39; genuinely add up brighter instead of getting averaged down.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_candle_wax_glow&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_candle_wax_glow.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Build the Wax&#39;s Own Translucency</h2>
+      <p>Drag in Subsurface Scattering from the Shader category and connect it directly to Material Output. Change Color to warm yellow (e.g. 0.95/0.78/0.4); set Radius&#39;s R much higher than G and B (e.g. 2/1/0.3) and raise Scale to around 0.15 — wax is a thick translucent material, so it needs a larger scattering range than the skin tutorial&#39;s values.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add a Warm Yellow Emission Layer</h2>
+      <p>Drag in Emission, set its color to warm yellow (e.g. 1/0.85/0.55), and Strength to 1.5 — representing the flame&#39;s own light shining out from inside the wax. Don&#39;t wire it up yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Combine with Add Shader — Not Mix Shader</h2>
+      <p>Drag in Add Shader, connect Subsurface Scattering and Emission to its two inputs, then wire it to Material Output, replacing the direct connection.<br /><br />⚠️ Add Shader is chosen deliberately over Mix Shader here: with Mix Shader (Fac=0.5) the two would be averaged, actually diluting SSS&#39;s warm tone. Add Shader truly sums both lights, so the wax reads as &#39;already translucent, and now lit up further by the flame&#39; — brighter and more saturated overall.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Adjust Flame Strength to Feel the Additive Effect</h2>
+      <p>Raise Emission&#39;s Strength higher (e.g. 3). The whole sphere gets noticeably brighter and warmer, without being capped &#39;somewhere between the two&#39; the way Mix Shader would — direct proof of addition rather than averaging.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

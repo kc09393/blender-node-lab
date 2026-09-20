@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>毛玻璃：用雜訊驅動玻璃的粗糙度 · Blender 5.0 引導教學</title>
+<meta name="description" content="浴室毛玻璃是「玻璃 BSDF（Glass BSDF）＋不均勻粗糙度」做出來的——不是整片統一模糊，而是有細緻顆粒感的霧面。這篇示範把雜訊紋理（Noise Texture）接到玻璃的粗糙度（Roughness），再用映射範圍（Map Range）把範圍收在一個合理的區間，避免霧面收過頭變成完全不透光的白霧。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="毛玻璃：用雜訊驅動玻璃的粗糙度 · Blender 5.0 引導教學" />
+<meta property="og:description" content="浴室毛玻璃是「玻璃 BSDF（Glass BSDF）＋不均勻粗糙度」做出來的——不是整片統一模糊，而是有細緻顆粒感的霧面。這篇示範把雜訊紋理（Noise Texture）接到玻璃的粗糙度（Roughness），再用映射範圍（Map Range）把範圍收在一個合理的區間，避免霧面收過頭變成完全不透光的白霧。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_frosted_glass.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_frosted_glass.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_frosted_glass.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_frosted_glass.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"毛玻璃：用雜訊驅動玻璃的粗糙度","description":"浴室毛玻璃是「玻璃 BSDF（Glass BSDF）＋不均勻粗糙度」做出來的——不是整片統一模糊，而是有細緻顆粒感的霧面。這篇示範把雜訊紋理（Noise Texture）接到玻璃的粗糙度（Roughness），再用映射範圍（Map Range）把範圍收在一個合理的區間，避免霧面收過頭變成完全不透光的白霧。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_frosted_glass.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>毛玻璃：用雜訊驅動玻璃的粗糙度</h1>
+    <p class="content-lead">浴室毛玻璃是「玻璃 BSDF（Glass BSDF）＋不均勻粗糙度」做出來的——不是整片統一模糊，而是有細緻顆粒感的霧面。這篇示範把雜訊紋理（Noise Texture）接到玻璃的粗糙度（Roughness），再用映射範圍（Map Range）把範圍收在一個合理的區間，避免霧面收過頭變成完全不透光的白霧。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_frosted_glass">開啟互動教學</a>
+      <a href="tutorial_frosted_glass.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：先做出一般清澈玻璃</h2>
+      <p>從「著色器 Shader」分類拖入玻璃 BSDF（Glass BSDF），接到材質輸出（Material Output）。IOR 維持 1.45（玻璃的真實折射率）。<br /><br />粗糙度先不用管，等一下會改成接線控制。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用雜訊紋理直接驅動粗糙度</h2>
+      <p>加入雜訊紋理（Noise Texture），把它的係數（Fac）接到玻璃 BSDF 的粗糙度（Roughness）。兩者剛好都是 0-1 範圍，不需要額外換算就能直接接。<br /><br />畫面應該會從清澈變成不均勻的毛玻璃霧面。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用映射範圍收窄粗糙度區間</h2>
+      <p>在雜訊紋理跟玻璃 BSDF 中間插入映射範圍（Map Range），把目標最小（To Min）設成 0.15、目標最大（To Max）設成 0.35。<br /><br />這樣粗糙度只會在「有點霧」到「中度霧」之間變化，不會出現粗糙度衝到 1（完全霧面、幾乎看不透）的區塊，效果更接近真實浴室玻璃的樣子。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調高雜訊縮放，做出更細緻的顆粒</h2>
+      <p>把雜訊紋理的縮放（Scale）調高（例如 18 以上）。<br /><br />真實的毛玻璃是用砂輪細細噴砂出來的，顆粒非常細密——縮放太低會變成一塊塊模糊的大斑塊，不像磨砂質感。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

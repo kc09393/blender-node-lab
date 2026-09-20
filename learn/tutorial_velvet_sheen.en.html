@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sheen BSDF: Velvet Fabric · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Sheen BSDF does nothing meaningful on its own — it only matters layered on top of another material. Use Fresnel to control the blend so the fuzzy edge glow only shows up at grazing/backlit angles, like real fabric." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Sheen BSDF: Velvet Fabric · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Sheen BSDF does nothing meaningful on its own — it only matters layered on top of another material. Use Fresnel to control the blend so the fuzzy edge glow only shows up at grazing/backlit angles, like real fabric." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Sheen BSDF: Velvet Fabric","description":"Sheen BSDF does nothing meaningful on its own — it only matters layered on top of another material. Use Fresnel to control the blend so the fuzzy edge glow only shows up at grazing/backlit angles, like real fabric.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_velvet_sheen.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Sheen BSDF: Velvet Fabric</h1>
+    <p class="content-lead">Sheen BSDF does nothing meaningful on its own — it only matters layered on top of another material. Use Fresnel to control the blend so the fuzzy edge glow only shows up at grazing/backlit angles, like real fabric.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_velvet_sheen&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_velvet_sheen.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add a Sheen BSDF</h2>
+      <p>Drag in a Sheen BSDF from the Shader category. Keep Color near white/light pink for now — don&#39;t wire it up yet.<br /><br />If you connected it alone to Output you&#39;d see an almost-black sphere, since its base color is designed to be pure black, contributing brightness only through the edge glow.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Layer It Over the Fabric Base with Mix Shader</h2>
+      <p>Drag in a Mix Shader, connect the existing Principled BSDF (fabric base) to the top and Sheen BSDF to the bottom, then wire it to Material Output, replacing the direct connection.<br /><br />Even with a fixed Fac, you should already see a bright rim appear.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Use Fresnel to Confine the Glow to the Edges</h2>
+      <p>Add a Fresnel node (Input category) and connect its Fac output to Mix Shader&#39;s Fac.<br /><br />Now the fabric base color shows head-on, and the fuzzy glow only appears at grazing/backlit edges — that&#39;s what real velvet looks like.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Raise Sheen Roughness for a Softer Glow</h2>
+      <p>Raise Sheen BSDF&#39;s Roughness above 0.7.<br /><br />The edge glow becomes wider and softer, closer to the plush look of real velvet instead of a sharp bright rim.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

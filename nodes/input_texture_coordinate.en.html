@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Texture Coordinate · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Provides several coordinate systems to feed into a Texture node&#39;s Vector input." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Texture Coordinate · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Provides several coordinate systems to feed into a Texture node&#39;s Vector input." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_texture_coordinate.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_texture_coordinate.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/input_texture_coordinate.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_texture_coordinate.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Texture Coordinate","description":"Provides several coordinate systems to feed into a Texture node's Vector input.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_texture_coordinate.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Texture Coordinate</h1>
+    <p class="content-lead">Provides several coordinate systems to feed into a Texture node&#39;s Vector input.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=input_texture_coordinate&amp;lang=en">Try it in the sandbox</a>
+      <a href="input_texture_coordinate.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Texture nodes default to UV if Vector is left unconnected. This node lets you switch to other coordinate systems — most commonly Generated (follows the object&#39;s shape, ignores UV) and Object (follows the object itself, unaffected by its transform).</p></section>
+    <section><h2>Technical notes</h2><p>This sandbox&#39;s preview meshes don&#39;t store separate Generated/Object coordinate data, so the Generated/Object/Window outputs are approximated as UV for now — only UV and Normal are computed exactly. Reflection approximates the view direction reflected off the normal.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>OUT</td><td>Generated</td><td>vector</td></tr><tr><td>OUT</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>UV</td><td>vector</td></tr><tr><td>OUT</td><td>Object</td><td>vector</td></tr><tr><td>OUT</td><td>Camera</td><td>vector</td></tr><tr><td>OUT</td><td>Window</td><td>vector</td></tr><tr><td>OUT</td><td>Reflection</td><td>vector</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

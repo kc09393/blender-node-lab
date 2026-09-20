@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>半透射 BSDF · Blender 5.0 節點百科</title>
+<meta name="description" content="讓光從背面透過來，像葉子、紙張透光的感覺。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="半透射 BSDF · Blender 5.0 節點百科" />
+<meta property="og:description" content="讓光從背面透過來，像葉子、紙張透光的感覺。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"半透射 BSDF","description":"讓光從背面透過來，像葉子、紙張透光的感覺。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_translucent_bsdf.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>半透射 BSDF</h1>
+    <p class="content-lead">讓光從背面透過來，像葉子、紙張透光的感覺。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_translucent_bsdf">在沙盒中試用</a>
+      <a href="shader_translucent_bsdf.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>常跟 Diffuse BSDF 用 Mix Shader 混合，模擬光線穿透薄物體背面的效果。</p></section>
+    <section><h2>進階說明</h2><p>真正的半透射需要取得物體背面的光照與厚度資訊，這在單一表面的即時預覽架構下無法取得（原始碼裡 Blender 這個節點確實也只有 Color／Normal 兩個輸入，沒有額外的厚度或半徑參數）。本沙盒改用跟次表面散射類似的簡化：用菲涅爾算出「側邊/背向鏡頭」的比例，疊加一層用 Color 驅動的發光——方向正確（側邊/背光處更亮，模擬光線從背後透出的感覺），但不是真的取樣背面光照。跟次表面散射的差異：次表面散射多了 Radius 讓每個色版散射距離不同（做出偏紅的邊緣），半透射沒有這個色散效果，邊緣發光就是原本的顏色本身。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>法線</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

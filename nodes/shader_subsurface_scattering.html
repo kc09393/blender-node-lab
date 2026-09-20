@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>次表面散射 · Blender 5.0 節點百科</title>
+<meta name="description" content="模擬光線鑽進表面下方再散出來，做皮膚、蠟燭、牛奶的關鍵節點。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="次表面散射 · Blender 5.0 節點百科" />
+<meta property="og:description" content="模擬光線鑽進表面下方再散出來，做皮膚、蠟燭、牛奶的關鍵節點。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"次表面散射","description":"模擬光線鑽進表面下方再散出來，做皮膚、蠟燭、牛奶的關鍵節點。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_subsurface_scattering.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>次表面散射</h1>
+    <p class="content-lead">模擬光線鑽進表面下方再散出來，做皮膚、蠟燭、牛奶的關鍵節點。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_subsurface_scattering">在沙盒中試用</a>
+      <a href="shader_subsurface_scattering.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>沒有次表面散射時，皮膚看起來會像塑膠。這個節點讓邊緣（例如耳朵、鼻子逆光處）透出微微的紅色光暈。</p></section>
+    <section><h2>進階說明</h2><p>真實運算需要在表面下做多次取樣模糊（screen-space 或 burley diffusion profile），是完整光線追蹤/後製管線的工作。本沙盒改用簡化近似：以 Fresnel 算出邊緣比例，讓 Radius 的 R/G/B 三個分量各自的比例變成邊緣處的透光顏色（預設值紅色分量比藍色分量走得遠，所以邊緣會偏紅——這正是皮膚逆光時耳朵、鼻尖會透出紅色光暈的原因），再乘上 Scale 控制整體強弱。這不是真正的次表面漫射，但方向與觀感是對的。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>散射範圍</td><td>float</td></tr><tr><td>IN</td><td>各色道半徑</td><td>vector</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

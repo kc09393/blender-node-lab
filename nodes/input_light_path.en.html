@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Light Path · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Detects whether the current ray is a reflection, refraction, shadow ray, etc. — only meaningful in a path-traced renderer." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Light Path · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Detects whether the current ray is a reflection, refraction, shadow ray, etc. — only meaningful in a path-traced renderer." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_light_path.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Light Path","description":"Detects whether the current ray is a reflection, refraction, shadow ray, etc. — only meaningful in a path-traced renderer.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_light_path.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Light Path</h1>
+    <p class="content-lead">Detects whether the current ray is a reflection, refraction, shadow ray, etc. — only meaningful in a path-traced renderer.</p>
+    <div class="content-actions">
+
+      <a href="input_light_path.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Often used to make a material show an effect only when directly seen by the camera, but not in reflections (e.g. hiding certain effects from mirror reflections).</p></section>
+    <section><h2>Technical notes</h2><p>This node&#39;s meaning is built on a per-ray path-tracing architecture. This sandbox uses real-time rasterization, which has no concept of &#39;which bounce this ray is&#39;. Documentation only.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>OUT</td><td>Is Camera Ray</td><td>float</td></tr><tr><td>OUT</td><td>Is Shadow Ray</td><td>float</td></tr><tr><td>OUT</td><td>Is Reflection Ray</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

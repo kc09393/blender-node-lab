@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>手工組出清漆效果：拆解 Principled BSDF 的內部原理 · Blender 5.0 引導教學</title>
+<meta name="description" content="原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="手工組出清漆效果：拆解 Principled BSDF 的內部原理 · Blender 5.0 引導教學" />
+<meta property="og:description" content="原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"手工組出清漆效果：拆解 Principled BSDF 的內部原理","description":"原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_handbuilt_clearcoat.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>手工組出清漆效果：拆解 Principled BSDF 的內部原理</h1>
+    <p class="content-lead">原理化 BSDF（Principled BSDF）的 Clearcoat（清漆）其實不是魔法——本質就是「用 Fresnel 混合兩層材質」：底層是霧面的漫射 BSDF（Diffuse BSDF），表層是接近鏡面的光澤 BSDF（Glossy BSDF），越靠邊緣角度越容易看到表層清漆的反光。這篇教學帶你用最原始的 3 個節點（Diffuse BSDF／Glossy BSDF／Fresnel）親手組出這個效果，順便介紹兩個材質圖裡最基本的常數節點：RGB 跟數值（Value）。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_handbuilt_clearcoat">開啟互動教學</a>
+      <a href="tutorial_handbuilt_clearcoat.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：用 RGB 節點提供底色</h2>
+      <p>加入 RGB 節點（輸入 Input 分類），選一個顏色（例如深紅色）。<br /><br />把它接到漫射 BSDF（Diffuse BSDF）的顏色（Color）輸入。<br /><br />跟直接在 Diffuse BSDF 上選色不同：RGB 是獨立節點，之後如果同一個顏色要接到好幾個地方（例如同時當底色又當發光顏色），只要改這一個節點，全部都會跟著變。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入光澤 BSDF 當作表層清漆</h2>
+      <p>加入光澤 BSDF（Glossy BSDF），顏色設成白色，粗糙度（Roughness）調到接近 0（幾乎鏡面）。<br /><br />這一層代表車漆表面那層透明的清漆塗層——先不用接到任何地方，下一步才會用到。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用數值節點驅動菲涅爾的 IOR</h2>
+      <p>加入數值（Value）節點，數值設成 1.5（車漆清漆常見的折射率）。<br /><br />加入菲涅爾（Fresnel）節點，把數值節點接到它的 IOR 輸入——這樣以後想統一調整全部用到這個 IOR 的地方，只要改數值節點這一個地方就好。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：用混合著色器把兩層依菲涅爾比例混合</h2>
+      <p>加入混合著色器（Mix Shader）。<br /><br />把漫射 BSDF（底漆）接到第一個著色器輸入，光澤 BSDF（清漆）接到第二個。<br /><br />把菲涅爾的係數（Fac）接到混合著色器的 Fac。<br /><br />把混合著色器的輸出接到材質輸出。<br /><br />轉動預覽球體：正面應該主要看到底漆的顏色跟粗糙質感，邊緣則會越來越亮、越來越像鏡面——這就是 Principled BSDF 的 Clearcoat 插槽在底層做的事。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

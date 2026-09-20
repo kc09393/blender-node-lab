@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Normal · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Manually specify a direction to use as a normal, and output its angle against the original normal." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Normal · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Manually specify a direction to use as a normal, and output its angle against the original normal." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/vector_normal.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/vector_normal.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/vector_normal.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/vector_normal.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Normal","description":"Manually specify a direction to use as a normal, and output its angle against the original normal.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_normal.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Normal</h1>
+    <p class="content-lead">Manually specify a direction to use as a normal, and output its angle against the original normal.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=vector_normal&amp;lang=en">Try it in the sandbox</a>
+      <a href="vector_normal.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>The node has a small ball widget you can drag to set a direction. Dot outputs the cosine of the angle between the two normals — useful for simple directional effects.</p></section>
+    <section><h2>Technical notes</h2><p>Blender uses a draggable 3D direction-ball widget; this sandbox&#39;s node cards only have numeric inputs, so it uses the same X/Y/Z number fields as Vector Math/Combine XYZ instead. The effect is identical — just less tactile than dragging a ball.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>Normal</td><td>vector</td></tr><tr><td>OUT</td><td>Dot</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

@@ -114,5 +114,4 @@ if (categoryParam) {
     target.open = true;
     target.scrollIntoView({ behavior: "smooth", block: "start" });
   }
-  history.replaceState(null, "", location.pathname);
 }

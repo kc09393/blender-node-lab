@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識棋盤格紋理：理解座標系統的最佳工具 · Blender 5.0 引導教學</title>
+<meta name="description" content="棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識棋盤格紋理：理解座標系統的最佳工具 · Blender 5.0 引導教學" />
+<meta property="og:description" content="棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識棋盤格紋理：理解座標系統的最佳工具","description":"棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_texture_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識棋盤格紋理：理解座標系統的最佳工具</h1>
+    <p class="content-lead">棋盤格紋理（Checker Texture）看起來很簡單，卻是理解「座標系統」最好的工具——格子如果扭曲、拉伸、密度改變，代表座標本身在變化。這篇帶你認識 Color 1/2、Scale，還有換一個座標來源會怎麼影響格子。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_checker_texture_tour">開啟互動教學</a>
+      <a href="tutorial_checker_texture_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入棋盤格紋理</h2>
+      <p>從「紋理 Texture」分類拖入棋盤格紋理（Checker Texture），把顏色（Color）輸出接到原理化 BSDF 的底色（Base Color）。預設是黑白相間的格子，沒接任何座標時會自動使用 UV。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：換兩個顏色</h2>
+      <p>把顏色 1（Color 1）跟顏色 2（Color 2）都換成不是黑白的顏色（例如紅色跟藍色）。棋盤格不一定要是黑白的，任何兩個顏色都可以直接做出簡單的雙色材質。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：調整縮放，看格子變密</h2>
+      <p>把縮放（Scale）調到 8 以上。格子會變得更小、更密集——Scale 支援任意正數（不限整數），數值越大，同樣的表面上塞得下越多格子。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：換一個座標來源</h2>
+      <p>加入紋理座標（Texture Coordinate，輸入 Input 分類），把它的 Generated 輸出接到棋盤格紋理的向量（Vector）輸入。格子的排列方式可能會跟著改變。<br /><br />這就是棋盤格紋理最重要的用途：只要格子看起來扭曲、接縫不對齊，通常就代表你接的座標系統本身有問題。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

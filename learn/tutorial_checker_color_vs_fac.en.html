@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checker&#39;s Two Outputs: Color vs Fac · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Checker Texture has two outputs: Color (two colors directly) and Fac (a 0/1 grayscale mask). Most people only ever use Color, but Fac is the key to using Checker to switch entire material types (not just colors) — this tutorial wires Fac into a Mix Shader to build a checkerboard that&#39;s genuinely half plastic, half metal, not just one material in two colors." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Checker&#39;s Two Outputs: Color vs Fac · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Checker Texture has two outputs: Color (two colors directly) and Fac (a 0/1 grayscale mask). Most people only ever use Color, but Fac is the key to using Checker to switch entire material types (not just colors) — this tutorial wires Fac into a Mix Shader to build a checkerboard that&#39;s genuinely half plastic, half metal, not just one material in two colors." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Checker's Two Outputs: Color vs Fac","description":"Checker Texture has two outputs: Color (two colors directly) and Fac (a 0/1 grayscale mask). Most people only ever use Color, but Fac is the key to using Checker to switch entire material types (not just colors) — this tutorial wires Fac into a Mix Shader to build a checkerboard that's genuinely half plastic, half metal, not just one material in two colors.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Checker&#39;s Two Outputs: Color vs Fac</h1>
+    <p class="content-lead">Checker Texture has two outputs: Color (two colors directly) and Fac (a 0/1 grayscale mask). Most people only ever use Color, but Fac is the key to using Checker to switch entire material types (not just colors) — this tutorial wires Fac into a Mix Shader to build a checkerboard that&#39;s genuinely half plastic, half metal, not just one material in two colors.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_checker_color_vs_fac&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_checker_color_vs_fac.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Prepare a Plastic and a Metal Material</h2>
+      <p>The existing Principled BSDF is the plastic: Metallic 0, Roughness 0.3.<br /><br />Drag in a new Principled BSDF for the metal: light gray Base Color, Metallic set to 1, lower Roughness (e.g. 0.2). Don&#39;t wire it up yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Wire Both Into Mix Shader</h2>
+      <p>Add a Mix Shader, connect the plastic and metal Principled nodes to its two Shader inputs, then wire it to Material Output, replacing the direct connection.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Add Checker — This Time Wire Fac, Not Color</h2>
+      <p>Add a Texture Coordinate and a Checker Texture, connect Texture Coordinate&#39;s Generated to Checker&#39;s Vector.<br /><br />⚠️ The key step: connect Checker&#39;s Fac output (not Color!) to Mix Shader&#39;s Fac. Fac is a clean 0 or 1 — exactly what a mix switch needs.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Observe the Result and Understand the Difference</h2>
+      <p>The result should be a checkerboard that&#39;s genuinely half plastic, half metal — not one material recoloring, but the material itself (roughness, metallic, everything) switching.<br /><br />If you&#39;d wired Color instead of Fac, it would technically still work (Color auto-converts to 0-1 via luminance), but semantically that&#39;s odd — you&#39;d be forcing &#39;two colors&#39; into a socket meant to be a switch.<br /><br />Fac is the output actually designed for this purpose.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

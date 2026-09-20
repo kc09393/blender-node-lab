@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Curve Editor: Invert Roughness · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Drag out a custom value-mapping curve with the Float Curve node to flip Noise Texture&#39;s light/dark relationship entirely — see how the curve editor is more flexible than Color Ramp or Map Range." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Curve Editor: Invert Roughness · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Drag out a custom value-mapping curve with the Float Curve node to flip Noise Texture&#39;s light/dark relationship entirely — see how the curve editor is more flexible than Color Ramp or Map Range." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_float_curve.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_float_curve.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_float_curve.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_float_curve.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Curve Editor: Invert Roughness","description":"Drag out a custom value-mapping curve with the Float Curve node to flip Noise Texture's light/dark relationship entirely — see how the curve editor is more flexible than Color Ramp or Map Range.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_float_curve.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Curve Editor: Invert Roughness</h1>
+    <p class="content-lead">Drag out a custom value-mapping curve with the Float Curve node to flip Noise Texture&#39;s light/dark relationship entirely — see how the curve editor is more flexible than Color Ramp or Map Range.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_float_curve&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_float_curve.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add a Noise Texture</h2>
+      <p>Drag in a Noise Texture from the Texture category — we&#39;ll feed its noise into the curve.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add a Float Curve</h2>
+      <p>Drag in a Float Curve from the Converter category and connect Noise Texture&#39;s Fac to its Value input.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Feed Roughness</h2>
+      <p>Connect Float Curve&#39;s Value output to Principled BSDF&#39;s Roughness.<br /><br />The default curve is a diagonal line — it doesn&#39;t change the value yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Drag the Curve Into Reverse</h2>
+      <p>On the Float Curve node card, drag the bottom-left control point to the top-left, and the top-right point to the bottom-right — the curve flips from rising to falling.<br /><br />Areas that were brighter in the noise now get lower roughness (smoother) instead.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

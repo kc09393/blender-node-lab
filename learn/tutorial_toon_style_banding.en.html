@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Stylized Banding: Faking Cel Shading with Hard-Edge Ramps · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="This sandbox&#39;s Toon BSDF and Shader to RGB can&#39;t support live preview because they need to intervene *after* lighting is resolved (both require the final shading result before banding it into discrete steps — but this sandbox&#39;s architecture computes material parameters first, then hands everything to Three.js for lighting in one pass, the opposite order). This tutorial teaches a workaround that doesn&#39;t need either node: Fresnel plus a multi-stop hard-edge Color Ramp (Constant) to fake view-angle-based color banding. It&#39;s not true light-direction-based cel shading, but it gets a similar hand-painted, banded look — and this tutorial is upfront about exactly where the two differ." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Stylized Banding: Faking Cel Shading with Hard-Edge Ramps · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="This sandbox&#39;s Toon BSDF and Shader to RGB can&#39;t support live preview because they need to intervene *after* lighting is resolved (both require the final shading result before banding it into discrete steps — but this sandbox&#39;s architecture computes material parameters first, then hands everything to Three.js for lighting in one pass, the opposite order). This tutorial teaches a workaround that doesn&#39;t need either node: Fresnel plus a multi-stop hard-edge Color Ramp (Constant) to fake view-angle-based color banding. It&#39;s not true light-direction-based cel shading, but it gets a similar hand-painted, banded look — and this tutorial is upfront about exactly where the two differ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Stylized Banding: Faking Cel Shading with Hard-Edge Ramps","description":"This sandbox's Toon BSDF and Shader to RGB can't support live preview because they need to intervene *after* lighting is resolved (both require the final shading result before banding it into discrete steps — but this sandbox's architecture computes material parameters first, then hands everything to Three.js for lighting in one pass, the opposite order). This tutorial teaches a workaround that doesn't need either node: Fresnel plus a multi-stop hard-edge Color Ramp (Constant) to fake view-angle-based color banding. It's not true light-direction-based cel shading, but it gets a similar hand-painted, banded look — and this tutorial is upfront about exactly where the two differ.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_toon_style_banding.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Stylized Banding: Faking Cel Shading with Hard-Edge Ramps</h1>
+    <p class="content-lead">This sandbox&#39;s Toon BSDF and Shader to RGB can&#39;t support live preview because they need to intervene *after* lighting is resolved (both require the final shading result before banding it into discrete steps — but this sandbox&#39;s architecture computes material parameters first, then hands everything to Three.js for lighting in one pass, the opposite order). This tutorial teaches a workaround that doesn&#39;t need either node: Fresnel plus a multi-stop hard-edge Color Ramp (Constant) to fake view-angle-based color banding. It&#39;s not true light-direction-based cel shading, but it gets a similar hand-painted, banded look — and this tutorial is upfront about exactly where the two differ.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_toon_style_banding&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_toon_style_banding.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add Fresnel as the Banding Source</h2>
+      <p>Add a Fresnel node (Input category), keeping IOR moderate (e.g. 1.5). It outputs a gradient factor that&#39;s higher near the edges — used next to decide which color band each point falls into.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add a 3-Stop Hard-Edge Color Ramp</h2>
+      <p>Add a Color Ramp, switch Interpolation to Constant. Add up to 3 stops, dark to light: position 0 dark blue, position 0.4 mid blue, position 0.8 near-white — Constant interpolation keeps each zone a single flat color with no gradient, exactly the classic &#39;shadow / midtone / highlight&#39; three-tone cel-shading split.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Wire Fresnel to Drive the Bands</h2>
+      <p>Connect Fresnel&#39;s Fac to Color Ramp&#39;s Fac, then Color Ramp&#39;s Color to Principled BSDF&#39;s Base Color. Raise Roughness (e.g. 0.9) so the surface&#39;s own specular highlight stays weak and doesn&#39;t wash out the flat color bands.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Know This Technique&#39;s Real Limits</h2>
+      <p>The sphere should now show 3 clear color bands arranged by viewing angle — but look closely and you&#39;ll notice this sandbox&#39;s fixed studio lighting still layers its own soft shading on top of the bands (since lighting is applied uniformly at the end, this technique can&#39;t block that out).<br /><br />Real Toon BSDF/Shader to RGB in Blender bands the *lit* result itself — the bands stay completely locked regardless of light angle. What&#39;s done here bands by viewing angle as a stand-in — similar-looking, but a different mechanism under the hood. Worth knowing honestly, rather than assuming the two are equivalent.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

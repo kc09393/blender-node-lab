@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>棋盤格的兩個輸出：Color 跟 Fac 差在哪 · Blender 5.0 引導教學</title>
+<meta name="description" content="棋盤格紋理（Checker Texture）有兩個輸出：Color（直接兩色）跟 Fac（灰階 0/1）。很多人只用過 Color，但 Fac 才是拿棋盤格來切換「材質種類」（不只是顏色）的關鍵——這篇示範接 Fac 到混合著色器，做出真的一半塑膠、一半金屬的棋盤格，而不是同一種材質換兩個顏色。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="棋盤格的兩個輸出：Color 跟 Fac 差在哪 · Blender 5.0 引導教學" />
+<meta property="og:description" content="棋盤格紋理（Checker Texture）有兩個輸出：Color（直接兩色）跟 Fac（灰階 0/1）。很多人只用過 Color，但 Fac 才是拿棋盤格來切換「材質種類」（不只是顏色）的關鍵——這篇示範接 Fac 到混合著色器，做出真的一半塑膠、一半金屬的棋盤格，而不是同一種材質換兩個顏色。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"棋盤格的兩個輸出：Color 跟 Fac 差在哪","description":"棋盤格紋理（Checker Texture）有兩個輸出：Color（直接兩色）跟 Fac（灰階 0/1）。很多人只用過 Color，但 Fac 才是拿棋盤格來切換「材質種類」（不只是顏色）的關鍵——這篇示範接 Fac 到混合著色器，做出真的一半塑膠、一半金屬的棋盤格，而不是同一種材質換兩個顏色。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_checker_color_vs_fac.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>棋盤格的兩個輸出：Color 跟 Fac 差在哪</h1>
+    <p class="content-lead">棋盤格紋理（Checker Texture）有兩個輸出：Color（直接兩色）跟 Fac（灰階 0/1）。很多人只用過 Color，但 Fac 才是拿棋盤格來切換「材質種類」（不只是顏色）的關鍵——這篇示範接 Fac 到混合著色器，做出真的一半塑膠、一半金屬的棋盤格，而不是同一種材質換兩個顏色。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_checker_color_vs_fac">開啟互動教學</a>
+      <a href="tutorial_checker_color_vs_fac.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：準備塑膠跟金屬兩種材質</h2>
+      <p>現有的原理化 BSDF 就是塑膠：金屬度（Metallic）0、粗糙度（Roughness）0.3。<br /><br />再拖入一個新的原理化 BSDF 當金屬：底色（Base Color）改淺灰、金屬度調到 1、粗糙度調低（例如 0.2），先不用接線。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：混合著色器接好兩種材質</h2>
+      <p>加入混合著色器（Mix Shader），把塑膠跟金屬分別接到兩個著色器輸入，接到材質輸出（Material Output）取代原本的直接連線。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：加入棋盤格，這次接 Fac 而不是 Color</h2>
+      <p>加入紋理座標（Texture Coordinate）跟棋盤格紋理（Checker Texture），把紋理座標的 Generated 接到棋盤格的向量（Vector）。<br /><br />⚠️ 關鍵的一步：把棋盤格的係數（Fac，不是 Color！）接到混合著色器的 Fac。Fac 是乾淨的 0 或 1，剛好可以直接當混合開關用。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：觀察結果，理解兩個輸出的差異</h2>
+      <p>畫面應該會出現真的一半塑膠、一半金屬的棋盤格——不是同一種材質換顏色，是材質本身（連粗糙度、金屬度都不同）在切換。<br /><br />如果剛剛接的是 Color 而不是 Fac，系統雖然還是能運作（Color 會自動依亮度換算成 0-1），但語意上會很奇怪：你等於是拿「兩個顏色」硬套進「應該是開關」的插槽。<br /><br />Fac 才是設計給這種用途的正確輸出。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

@@ -137,6 +137,7 @@ function makeScrubbable(input, { min, max, step, getValue, setValue }) {
 function buildFloatControl(node, def, onParamChange) {
   const input = document.createElement("input");
   input.type = "number";
+  input.setAttribute("aria-label", tBi(resolveLabel(def.label, node.params)));
   input.value = node.params[def.key];
   if (def.step != null) input.step = def.step;
   if (def.min != null) input.min = def.min;
@@ -160,6 +161,7 @@ function buildColorControl(node, def, onParamChange) {
   const swatch = document.createElement("button");
   swatch.type = "button";
   swatch.className = "color-swatch";
+  swatch.setAttribute("aria-label", tBi(resolveLabel(def.label, node.params)));
   const current = node.params[def.key];
   swatch.style.background = `rgb(${Math.round(current[0] * 255)},${Math.round(current[1] * 255)},${Math.round(current[2] * 255)})`;
   swatch.addEventListener("pointerdown", (e) => e.stopPropagation());
@@ -181,6 +183,7 @@ function buildVectorControl(node, def, onParamChange) {
   ["x", "y", "z"].forEach((axis, i) => {
     const input = document.createElement("input");
     input.type = "number";
+    input.setAttribute("aria-label", `${tBi(resolveLabel(def.label, node.params))} ${axis.toUpperCase()}`);
     input.step = def.step ?? 0.1;
     input.value = current[i] ?? 0;
     input.style.width = "36px";
@@ -210,6 +213,7 @@ function buildImageSetting(node, def, onParamChange) {
   wrap.className = "image-control";
   const btn = document.createElement("button");
   btn.type = "button";
+  btn.setAttribute("aria-label", tBi(resolveLabel(def.label, node.params)));
   btn.textContent = node.params[def.key] ? "更換圖片" : "選擇圖片";
   const fileInput = document.createElement("input");
   fileInput.type = "file";
@@ -241,6 +245,7 @@ function buildImageSetting(node, def, onParamChange) {
 
 function buildSelectSetting(node, def, onParamChange) {
   const select = document.createElement("select");
+  select.setAttribute("aria-label", tBi(resolveLabel(def.label, node.params)));
   // 選項數量比較多時（例如 Math 節點的 30+ 種運算），用 group 屬性分組成 <optgroup>，
   // 比照 Blender 下拉選單本身就有分區（Functions/Comparison/Rounding...）的樣子，比較好找。
   const groups = new Map();
@@ -327,6 +332,7 @@ function buildShapePreview(node, def) {
 function buildBoolControl(node, def, onParamChange) {
   const input = document.createElement("input");
   input.type = "checkbox";
+  input.setAttribute("aria-label", tBi(resolveLabel(def.label, node.params)));
   input.checked = !!node.params[def.key];
   input.addEventListener("pointerdown", (e) => e.stopPropagation());
   input.addEventListener("change", () => onParamChange(node.id, def.key, input.checked));
@@ -853,7 +859,16 @@ export function createNodeElement(node, opts) {
     }
   }
 
+  let currentInputSection = null;
   for (const def of typeDef.inputs) {
+    const sectionName = def.section ? tBi(def.section) : null;
+    if (sectionName && sectionName !== currentInputSection) {
+      const heading = document.createElement("div");
+      heading.className = "node-section-label";
+      heading.textContent = sectionName;
+      body.appendChild(heading);
+      currentInputSection = sectionName;
+    }
     const row = document.createElement("div");
     row.className = "node-row input-row";
     const socket = document.createElement("div");
@@ -863,6 +878,7 @@ export function createNodeElement(node, opts) {
     socket.dataset.dir = "in";
     socket.dataset.type = def.type;
     socket.title = socketTitle(resolveLabel(def.label, node.params), def.type, "in");
+    socket.setAttribute("aria-label", socket.title);
     socket.addEventListener("pointerdown", (e) => {
       e.stopPropagation();
       onSocketPointerDown(e, node.id, def.key, "in", def.type);
@@ -914,6 +930,7 @@ export function createNodeElement(node, opts) {
     socket.dataset.dir = "out";
     socket.dataset.type = def.type;
     socket.title = socketTitle(resolveLabel(def.label, node.params), def.type, "out");
+    socket.setAttribute("aria-label", socket.title);
     socket.addEventListener("pointerdown", (e) => {
       e.stopPropagation();
       onSocketPointerDown(e, node.id, def.key, "out", def.type);
@@ -959,7 +976,19 @@ export function renderNodeDoc(typeDef, lang, container) {
   container.appendChild(ioTitle);
   const table = document.createElement("table");
   table.className = "io-table";
+  let currentDocSection = null;
   for (const def of typeDef.inputs) {
+    const sectionName = def.section ? tBi(def.section) : null;
+    if (sectionName && sectionName !== currentDocSection) {
+      const sectionRow = document.createElement("tr");
+      sectionRow.className = "io-section-row";
+      const cell = document.createElement("th");
+      cell.colSpan = 3;
+      cell.textContent = sectionName;
+      sectionRow.appendChild(cell);
+      table.appendChild(sectionRow);
+      currentDocSection = sectionName;
+    }
     table.appendChild(ioRow("IN", def));
   }
   for (const def of typeDef.outputs) {

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Checker Texture · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="A classic checkerboard pattern — great for visualizing coordinates and UV mapping." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Checker Texture · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="A classic checkerboard pattern — great for visualizing coordinates and UV mapping." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_checker.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/texture_checker.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/texture_checker.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_checker.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Checker Texture","description":"A classic checkerboard pattern — great for visualizing coordinates and UV mapping.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_checker.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Checker Texture</h1>
+    <p class="content-lead">A classic checkerboard pattern — great for visualizing coordinates and UV mapping.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=texture_checker&amp;lang=en">Try it in the sandbox</a>
+      <a href="texture_checker.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Checker Texture is the easiest way to visualize a coordinate system: if the squares look stretched or misaligned, the UV unwrap likely has issues. It also works as a simple two-tone material.</p></section>
+    <section><h2>Technical notes</h2><p>Scale supports any positive number (not just integers — e.g. 4.5 correctly scales the cell size proportionally; this doc previously claimed otherwise, now corrected). Difference from Blender: Blender additionally supports 4D coordinates (a W component); this sandbox&#39;s vector type is fixed at three dimensions, with no concept of a 4D coordinate.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Color 1</td><td>color</td></tr><tr><td>IN</td><td>Color 2</td><td>color</td></tr><tr><td>IN</td><td>Scale</td><td>float</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Fac</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

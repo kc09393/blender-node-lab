@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Get to Know Mix Color: Multiply, Screen, Overlay · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Mix Color&#39;s Blend Mode dropdown has 18 options — hard to know which to pick from names alone. This tutorial uses two fixed colors and switches through 3 of the most-used modes: Multiply (darkens), Screen (brightens — similar to &#39;removing black&#39;), and Overlay (does a bit of both), so you can see the difference directly and know which to reach for." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Get to Know Mix Color: Multiply, Screen, Overlay · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Mix Color&#39;s Blend Mode dropdown has 18 options — hard to know which to pick from names alone. This tutorial uses two fixed colors and switches through 3 of the most-used modes: Multiply (darkens), Screen (brightens — similar to &#39;removing black&#39;), and Overlay (does a bit of both), so you can see the difference directly and know which to reach for." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_blend_modes_tour.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_blend_modes_tour.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_blend_modes_tour.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_blend_modes_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Get to Know Mix Color: Multiply, Screen, Overlay","description":"Mix Color's Blend Mode dropdown has 18 options — hard to know which to pick from names alone. This tutorial uses two fixed colors and switches through 3 of the most-used modes: Multiply (darkens), Screen (brightens — similar to 'removing black'), and Overlay (does a bit of both), so you can see the difference directly and know which to reach for.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_blend_modes_tour.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Get to Know Mix Color: Multiply, Screen, Overlay</h1>
+    <p class="content-lead">Mix Color&#39;s Blend Mode dropdown has 18 options — hard to know which to pick from names alone. This tutorial uses two fixed colors and switches through 3 of the most-used modes: Multiply (darkens), Screen (brightens — similar to &#39;removing black&#39;), and Overlay (does a bit of both), so you can see the difference directly and know which to reach for.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_mix_color_blend_modes_tour&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_mix_color_blend_modes_tour.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Wire Up Two Fixed Colors, Set Fac to 1</h2>
+      <p>Add two RGB nodes (Input category): set one to red, one to blue. Add a Mix Color (Color category), connect red to A, blue to B, then to Principled BSDF&#39;s Base Color.<br /><br />Set Fac to 1 (so the blend result shows at full strength, not partially blended back toward A — otherwise you won&#39;t see each mode&#39;s full effect).</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Switch to Multiply — It Gets Darker</h2>
+      <p>Switch Blend Mode to Multiply (&#39;Darken&#39; group). The result is darker than both A and B.<br /><br />The formula multiplies the two color values directly (multiplying two numbers between 0-1 always gives something smaller), commonly used to layer shadows, grime, or vignettes that only ever darken. White (1) has no effect when multiplied; black (0) makes the result fully black.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Switch to Screen — It Gets Brighter</h2>
+      <p>Switch Blend Mode to Screen (&#39;Lighten&#39; group). The result is brighter than both A and B — the exact opposite of Multiply.<br /><br />The formula inverts both colors, multiplies them, then inverts back — meaning each color&#39;s darkness gets washed out by the other&#39;s brightness, almost like &#39;removing black&#39;. Commonly used to layer glows, light bloom, or lens flares that only ever brighten.<br /><br />Black (0) has no effect; white (1) makes the result fully white.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Switch to Overlay — A Bit of Both</h2>
+      <p>Switch Blend Mode to Overlay (&#39;Contrast&#39; group). The result sits between Multiply and Screen.<br /><br />Overlay&#39;s rule is &#39;based on A&#39;s brightness&#39;: A&#39;s darker areas get the Multiply treatment (darker still), A&#39;s brighter areas get the Screen treatment (brighter still), stretching contrast in both directions at once. Great for layering detail/texture without uniformly darkening or brightening everything.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

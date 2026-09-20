@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>混合節點：車漆效果 · Blender 5.0 引導教學</title>
+<meta name="description" content="用混合著色器（Mix Shader）把原理化 BSDF（底漆）跟光澤 BSDF（Glossy BSDF，光澤反射）混合，做出邊緣會反光的車漆材質，學會怎麼把兩個材質疊在一起。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="混合節點：車漆效果 · Blender 5.0 引導教學" />
+<meta property="og:description" content="用混合著色器（Mix Shader）把原理化 BSDF（底漆）跟光澤 BSDF（Glossy BSDF，光澤反射）混合，做出邊緣會反光的車漆材質，學會怎麼把兩個材質疊在一起。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_carpaint.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_carpaint.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_carpaint.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_carpaint.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"混合節點：車漆效果","description":"用混合著色器（Mix Shader）把原理化 BSDF（底漆）跟光澤 BSDF（Glossy BSDF，光澤反射）混合，做出邊緣會反光的車漆材質，學會怎麼把兩個材質疊在一起。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_carpaint.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>混合節點：車漆效果</h1>
+    <p class="content-lead">用混合著色器（Mix Shader）把原理化 BSDF（底漆）跟光澤 BSDF（Glossy BSDF，光澤反射）混合，做出邊緣會反光的車漆材質，學會怎麼把兩個材質疊在一起。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_mix_carpaint">開啟互動教學</a>
+      <a href="tutorial_mix_carpaint.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入 Glossy BSDF</h2>
+      <p>從「著色器 Shader」分類拖入光澤 BSDF（Glossy BSDF）——它是純反射，等一下會疊在底漆（原理化 BSDF，Principled BSDF）上面。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入 Mix Shader，接上兩個材質</h2>
+      <p>從「著色器 Shader」分類拖入混合著色器（Mix Shader）。把原理化 BSDF（Principled BSDF）的 BSDF 輸出接到混合著色器上面的著色器（Shader）插槽，光澤 BSDF（Glossy BSDF）接到下面的著色器插槽（順序不影響效果）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：接到 Material Output</h2>
+      <p>把混合著色器（Mix Shader）的輸出接到材質輸出（Material Output）的表面（Surface）。這時候球體看起來應該介於底漆色跟純反射之間（依 Fac 的比例）。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：用 Fresnel 做出邊緣反光</h2>
+      <p>真正的車漆是「正面看得到底漆、側邊會反光」。<br /><br />加入菲涅爾（Fresnel）節點（輸入 Input 分類），把它的係數（Fac）輸出接到混合著色器（Mix Shader）的 Fac，取代原本固定的滑桿數值。這樣反光比例會依角度自動變化。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

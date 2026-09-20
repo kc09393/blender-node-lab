@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blackbody · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Input a color temperature (K) and get the corresponding real-world light color (warm orange ↔ cool blue)." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Blackbody · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Input a color temperature (K) and get the corresponding real-world light color (warm orange ↔ cool blue)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_blackbody.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_blackbody.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/converter_blackbody.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_blackbody.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Blackbody","description":"Input a color temperature (K) and get the corresponding real-world light color (warm orange ↔ cool blue).","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_blackbody.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Blackbody</h1>
+    <p class="content-lead">Input a color temperature (K) and get the corresponding real-world light color (warm orange ↔ cool blue).</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=converter_blackbody&amp;lang=en">Try it in the sandbox</a>
+      <a href="converter_blackbody.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Studio lights are often labeled by color temperature — daylight ≈5500K, candlelight ≈1900K. This node converts that number directly into a usable material color.</p></section>
+    <section><h2>Technical notes</h2><p>This sandbox uses Tanner Helland&#39;s polynomial fit for color-temperature-to-RGB, which closely matches integrating Planck&#39;s law per wavelength (the same approximation many photography/lighting tools use for their color-temperature sliders). Valid range is roughly 800K-12000K.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Temperature (K)</td><td>float</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

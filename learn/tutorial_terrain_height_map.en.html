@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Terrain Coloring: A Multi-Stop Ramp Plus Detail Overlay · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Game art often auto-colors terrain with a single &#39;height → color&#39; ramp: low = water, mid = grass, high = snow. This tutorial uses a Noise Texture to stand in for height, feeds it through a 6-stop Color Ramp for a water/sand/grass/rock/snow palette, then screens in a detail texture on top — showing how large-scale color zoning and small-scale surface detail can coexist." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Terrain Coloring: A Multi-Stop Ramp Plus Detail Overlay · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Game art often auto-colors terrain with a single &#39;height → color&#39; ramp: low = water, mid = grass, high = snow. This tutorial uses a Noise Texture to stand in for height, feeds it through a 6-stop Color Ramp for a water/sand/grass/rock/snow palette, then screens in a detail texture on top — showing how large-scale color zoning and small-scale surface detail can coexist." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Terrain Coloring: A Multi-Stop Ramp Plus Detail Overlay","description":"Game art often auto-colors terrain with a single 'height → color' ramp: low = water, mid = grass, high = snow. This tutorial uses a Noise Texture to stand in for height, feeds it through a 6-stop Color Ramp for a water/sand/grass/rock/snow palette, then screens in a detail texture on top — showing how large-scale color zoning and small-scale surface detail can coexist.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_terrain_height_map.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Terrain Coloring: A Multi-Stop Ramp Plus Detail Overlay</h1>
+    <p class="content-lead">Game art often auto-colors terrain with a single &#39;height → color&#39; ramp: low = water, mid = grass, high = snow. This tutorial uses a Noise Texture to stand in for height, feeds it through a 6-stop Color Ramp for a water/sand/grass/rock/snow palette, then screens in a detail texture on top — showing how large-scale color zoning and small-scale surface detail can coexist.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_terrain_height_map&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_terrain_height_map.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Use Noise Texture to Stand In for Height</h2>
+      <p>Add a Noise Texture with a low Scale (e.g. 2.5) so it varies gently — more like large-scale terrain undulation than fine speckle.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Build a 5+ Stop Terrain Color Ramp</h2>
+      <p>Add a Color Ramp, connect Noise&#39;s Fac to its Fac, and build at least 5 stops: deep blue (water) → light blue (shallows) → sandy tan → grass green → rock grey → snow white, ordered low to high. This &#39;one ramp, whole terrain palette&#39; technique is extremely common in game art.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Screen In a Layer of Surface Detail</h2>
+      <p>Add another Noise Texture as a detail pattern, with a high Scale (e.g. 18) so it varies finely. Add a Mix Color node — A from the Color Ramp&#39;s color, B from this detail noise&#39;s color, mode Screen, Fac low (e.g. 0.25). Screen only brightens, so this adds fine surface variation without wrecking the terrain&#39;s color zoning.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Connect to Base Color to Finish</h2>
+      <p>Connect the Mix Color node&#39;s output to Principled BSDF&#39;s Base Color. You should see both the large-scale water/sand/grass/rock/snow zoning and fine, small-scale surface variation at once — two scales of detail coexisting, not just one.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

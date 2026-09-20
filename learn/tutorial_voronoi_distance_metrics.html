@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>沃羅諾伊：用距離度量改變細胞形狀 · Blender 5.0 引導教學</title>
+<meta name="description" content="沃羅諾伊紋理（Voronoi Texture）的距離度量（Distance Metric）決定細胞邊界的形狀：歐式是圓潤的、切比雪夫是方形的、閔可夫斯基（Minkowski）則用 Exponent 插槽在兩者之間連續變化——Exponent 越小越像鑽石/菱形，越大越像正方形。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="沃羅諾伊：用距離度量改變細胞形狀 · Blender 5.0 引導教學" />
+<meta property="og:description" content="沃羅諾伊紋理（Voronoi Texture）的距離度量（Distance Metric）決定細胞邊界的形狀：歐式是圓潤的、切比雪夫是方形的、閔可夫斯基（Minkowski）則用 Exponent 插槽在兩者之間連續變化——Exponent 越小越像鑽石/菱形，越大越像正方形。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_distance_metrics.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_distance_metrics.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_distance_metrics.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_distance_metrics.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"沃羅諾伊：用距離度量改變細胞形狀","description":"沃羅諾伊紋理（Voronoi Texture）的距離度量（Distance Metric）決定細胞邊界的形狀：歐式是圓潤的、切比雪夫是方形的、閔可夫斯基（Minkowski）則用 Exponent 插槽在兩者之間連續變化——Exponent 越小越像鑽石/菱形，越大越像正方形。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_distance_metrics.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>沃羅諾伊：用距離度量改變細胞形狀</h1>
+    <p class="content-lead">沃羅諾伊紋理（Voronoi Texture）的距離度量（Distance Metric）決定細胞邊界的形狀：歐式是圓潤的、切比雪夫是方形的、閔可夫斯基（Minkowski）則用 Exponent 插槽在兩者之間連續變化——Exponent 越小越像鑽石/菱形，越大越像正方形。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_voronoi_distance_metrics">開啟互動教學</a>
+      <a href="tutorial_voronoi_distance_metrics.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：用 Distance 畫出細胞邊界</h2>
+      <p>加入沃羅諾伊紋理（Voronoi Texture）跟顏色漸變（Color Ramp），把沃羅諾伊紋理的距離（Distance）接到顏色漸變的係數（Fac），再把顏色漸變的顏色（Color）接到原理化 BSDF 的底色（Base Color）。<br /><br />把顏色漸變的終點位置改小一點（例如 0.25），讓細胞邊界的黑色縫隙更明顯——這樣才看得出細胞形狀。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：切換成切比雪夫看方形細胞</h2>
+      <p>把沃羅諾伊紋理的距離度量（Distance Metric）切換成「切比雪夫 Chebychev」。細胞應該會從預設的圓潤形狀變成明顯的方形——切比雪夫只看兩軸之中差距最大的那個分量，天生就會切出方形邊界。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：切換成閔可夫斯基</h2>
+      <p>再把距離度量切換成「閔可夫斯基 Minkowski」，這時會多出一個 Exponent 插槽。Minkowski 是歐式／曼哈頓／切比雪夫的廣義化：Exponent=1 等於曼哈頓（菱形）、Exponent=2 等於歐式（圓形），Exponent 越大越接近切比雪夫（方形）。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調高 Exponent 逼近方形</h2>
+      <p>把 Exponent 調到 6 以上。細胞形狀應該會從剛剛的圓潤/菱形逐漸變得跟切比雪夫的方形非常接近——這就是 Minkowski 「用一個數字連續調整形狀」的用途，不用在 4 種度量之間切換就能微調細胞的方正程度。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

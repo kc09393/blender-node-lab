@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>材質輸出 · Blender 5.0 節點百科</title>
+<meta name="description" content="整張材質圖的最終出口，決定球體實際顯示的材質。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="材質輸出 · Blender 5.0 節點百科" />
+<meta property="og:description" content="整張材質圖的最終出口，決定球體實際顯示的材質。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/output_material.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/output_material.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/output_material.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/output_material.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"材質輸出","description":"整張材質圖的最終出口，決定球體實際顯示的材質。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/output_material.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>材質輸出</h1>
+    <p class="content-lead">整張材質圖的最終出口，決定球體實際顯示的材質。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=output_material">在沙盒中試用</a>
+      <a href="output_material.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>每張材質圖都需要一個「材質輸出」節點。把任何 Shader（BSDF）類型的節點接到它的 Surface 插槽，畫面就會套用該材質。沒有接東西的話，看到的會是預設灰色。</p></section>
+    <section><h2>進階說明</h2><p>本教學網站的即時預覽現在支援 Surface 與 Displacement 兩個插槽（Displacement 接 Vector 型別，通常來自 Displacement／Vector Displacement 節點）；Volume 插槽（體積材質）目前仍不支援即時渲染，僅在百科中列出說明。Displacement 是在頂點著色器裡運算的，能接的節點種類比 Surface 少（不能用 Bump／Normal Map／Wireframe／Fresnel 等需要 Fragment 端資料的節點），接了不支援的節點會有清楚的錯誤訊息。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>表面</td><td>shader</td></tr><tr><td>IN</td><td>位移</td><td>vector</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

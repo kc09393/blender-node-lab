@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Fresnel · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Computes how much a surface faces the camera vs. grazes it — used for stronger edge reflections." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Fresnel · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Computes how much a surface faces the camera vs. grazes it — used for stronger edge reflections." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Fresnel","description":"Computes how much a surface faces the camera vs. grazes it — used for stronger edge reflections.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_fresnel.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Fresnel</h1>
+    <p class="content-lead">Computes how much a surface faces the camera vs. grazes it — used for stronger edge reflections.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=input_fresnel&amp;lang=en">Try it in the sandbox</a>
+      <a href="input_fresnel.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Almost every real material reflects less when viewed head-on and more at grazing angles — the Fresnel effect (think of looking straight down into a pool vs. across its surface). Wiring Fresnel into a Mix Shader&#39;s Fac creates this edge-brightening look.</p></section>
+    <section><h2>Technical notes</h2><p>The IOR socket controls how strong the edge effect is (higher = more pronounced). This sandbox computes it from the view direction and the geometric (pre-Bump) normal — a simplification; ideally it should use the final normal after Bump is applied.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>Fac</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

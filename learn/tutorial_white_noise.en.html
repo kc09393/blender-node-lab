@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>White Noise: Fully Random, No Pattern · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="White Noise Texture differs from Noise Texture — it has no smooth gradient at all; every coordinate&#39;s value is unrelated to its neighbors, like TV static. Good for &#39;pick something completely at random&#39; situations." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="White Noise: Fully Random, No Pattern · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="White Noise Texture differs from Noise Texture — it has no smooth gradient at all; every coordinate&#39;s value is unrelated to its neighbors, like TV static. Good for &#39;pick something completely at random&#39; situations." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"White Noise: Fully Random, No Pattern","description":"White Noise Texture differs from Noise Texture — it has no smooth gradient at all; every coordinate's value is unrelated to its neighbors, like TV static. Good for 'pick something completely at random' situations.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>White Noise: Fully Random, No Pattern</h1>
+    <p class="content-lead">White Noise Texture differs from Noise Texture — it has no smooth gradient at all; every coordinate&#39;s value is unrelated to its neighbors, like TV static. Good for &#39;pick something completely at random&#39; situations.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_white_noise&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_white_noise.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>3 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add a White Noise Texture</h2>
+      <p>Drag in a White Noise Texture from the Texture category and connect it to Principled BSDF&#39;s Base Color. Fed directly from UV, the result looks like TV static with no pattern.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Use Voronoi&#39;s Cell Position as the Coordinate</h2>
+      <p>Add a Texture Coordinate and a Voronoi Texture, connect Texture Coordinate&#39;s Generated to Voronoi&#39;s Vector, then connect Voronoi&#39;s Position output to White Noise Texture&#39;s Vector input. Now each cell gets one fixed random color (since Position is constant within a cell), instead of noise scattered per-pixel.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Observe the Result</h2>
+      <p>Check the live preview — you should now see clean random color blocks instead of per-pixel static. This shows White Noise itself has no notion of &#39;cells&#39; — the blocky look comes from Voronoi&#39;s cell division; White Noise just turns each coordinate into a random color.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

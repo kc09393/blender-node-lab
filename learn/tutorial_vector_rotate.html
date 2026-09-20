@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>向量旋轉：轉正貼圖角度 · Blender 5.0 引導教學</title>
+<meta name="description" content="向量旋轉（Vector Rotate）節點可以把座標繞任意軸旋轉指定角度，常用來把貼圖的花紋角度轉正，或做出旋轉動畫的基礎。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="向量旋轉：轉正貼圖角度 · Blender 5.0 引導教學" />
+<meta property="og:description" content="向量旋轉（Vector Rotate）節點可以把座標繞任意軸旋轉指定角度，常用來把貼圖的花紋角度轉正，或做出旋轉動畫的基礎。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_rotate.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_rotate.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_rotate.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_rotate.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"向量旋轉：轉正貼圖角度","description":"向量旋轉（Vector Rotate）節點可以把座標繞任意軸旋轉指定角度，常用來把貼圖的花紋角度轉正，或做出旋轉動畫的基礎。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_vector_rotate.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>向量旋轉：轉正貼圖角度</h1>
+    <p class="content-lead">向量旋轉（Vector Rotate）節點可以把座標繞任意軸旋轉指定角度，常用來把貼圖的花紋角度轉正，或做出旋轉動畫的基礎。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_vector_rotate">開啟互動教學</a>
+      <a href="tutorial_vector_rotate.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入棋盤格紋理</h2>
+      <p>從「紋理 Texture」分類拖入棋盤格紋理（Checker Texture），接到原理化 BSDF（Principled BSDF）的底色（Base Color）。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入向量旋轉</h2>
+      <p>從「向量 Vector」分類拖入向量旋轉（Vector Rotate），把它的向量（Vector）輸出接到棋盤格紋理的向量輸入。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：調整角度</h2>
+      <p>把角度（Angle）調成 45 度左右。格紋應該會整個斜轉過來，變成菱形而不是正方格。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：換一個旋轉軸試試看</h2>
+      <p>把軸（Axis）從預設的 (0,0,1) 改成 (1,0,0) 或 (0,1,0)，觀察格紋扭曲的方式有什麼不同——因為球體是彎曲表面，繞不同軸旋轉座標，視覺效果差異會很明顯。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

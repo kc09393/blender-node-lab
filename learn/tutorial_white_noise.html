@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>白雜訊：完全隨機無規律 · Blender 5.0 引導教學</title>
+<meta name="description" content="白噪波紋理（White Noise Texture）跟雜訊紋理（Noise Texture）不同——它完全沒有平滑漸變，每個座標的值都互不相關，看起來像電視雜訊，適合做「完全隨機挑選」的場合。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="白雜訊：完全隨機無規律 · Blender 5.0 引導教學" />
+<meta property="og:description" content="白噪波紋理（White Noise Texture）跟雜訊紋理（Noise Texture）不同——它完全沒有平滑漸變，每個座標的值都互不相關，看起來像電視雜訊，適合做「完全隨機挑選」的場合。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"白雜訊：完全隨機無規律","description":"白噪波紋理（White Noise Texture）跟雜訊紋理（Noise Texture）不同——它完全沒有平滑漸變，每個座標的值都互不相關，看起來像電視雜訊，適合做「完全隨機挑選」的場合。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_white_noise.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>白雜訊：完全隨機無規律</h1>
+    <p class="content-lead">白噪波紋理（White Noise Texture）跟雜訊紋理（Noise Texture）不同——它完全沒有平滑漸變，每個座標的值都互不相關，看起來像電視雜訊，適合做「完全隨機挑選」的場合。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_white_noise">開啟互動教學</a>
+      <a href="tutorial_white_noise.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>3 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入白噪波紋理</h2>
+      <p>從「紋理 Texture」分類拖入白噪波紋理（White Noise Texture），接到原理化 BSDF（Principled BSDF）的底色（Base Color）。直接接 UV 的話，畫面看起來會像雪花雜訊，沒有規律可言。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：改用沃羅諾伊的細胞位置當座標</h2>
+      <p>加入紋理座標（Texture Coordinate）與沃羅諾伊紋理（Voronoi Texture）。<br /><br />把紋理座標的 Generated 輸出，接到沃羅諾伊的向量（Vector）輸入。<br /><br />把沃羅諾伊的 Position 輸出，接到白噪波紋理的向量輸入。<br /><br />這樣「每一格細胞」會得到一個固定的隨機顏色——因為同一格細胞內，Position 都是同一個值，White Noise 對同一個座標永遠輸出同一個顏色，就不會逐像素雜亂無章了。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：觀察結果</h2>
+      <p>看看即時預覽——現在應該是一塊塊清楚的隨機色塊，而不是逐像素的雪花雜訊。這證明了 White Noise 本身沒有「格子」概念，格子感其實來自沃羅諾伊的細胞分割，White Noise 只是負責把每個座標轉成一個隨機顏色。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

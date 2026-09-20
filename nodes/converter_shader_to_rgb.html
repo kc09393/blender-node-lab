@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>著色器轉 RGB · Blender 5.0 節點百科</title>
+<meta name="description" content="把一個已經算好光影的著色器結果「烘」成一般顏色，方便再拿去做卡通量化等後製。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="著色器轉 RGB · Blender 5.0 節點百科" />
+<meta property="og:description" content="把一個已經算好光影的著色器結果「烘」成一般顏色，方便再拿去做卡通量化等後製。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_shader_to_rgb.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_shader_to_rgb.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/converter_shader_to_rgb.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_shader_to_rgb.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"著色器轉 RGB","description":"把一個已經算好光影的著色器結果「烘」成一般顏色，方便再拿去做卡通量化等後製。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_shader_to_rgb.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>著色器轉 RGB</h1>
+    <p class="content-lead">把一個已經算好光影的著色器結果「烘」成一般顏色，方便再拿去做卡通量化等後製。</p>
+    <div class="content-actions">
+
+      <a href="converter_shader_to_rgb.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>常見用法：接在 Diffuse BSDF 後面，把光影結果轉成顏色，再用 Color Ramp 量化成卡通風格的幾個色階。</p></section>
+    <section><h2>進階說明</h2><p>這需要在完整光照計算「之後」介入，跟本沙盒目前『先算材質參數、交給 Three.js 統一打光』的架構相反，是之後才能支援的進階節點。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>著色器</td><td>shader</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

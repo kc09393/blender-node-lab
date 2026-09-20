@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>做出拉絲金屬 · Blender 5.0 引導教學</title>
+<meta name="description" content="用雜訊紋理（Noise Texture）驅動粗糙度（Roughness），做出粗糙度有變化的金屬，比固定數值更真實。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="做出拉絲金屬 · Blender 5.0 引導教學" />
+<meta property="og:description" content="用雜訊紋理（Noise Texture）驅動粗糙度（Roughness），做出粗糙度有變化的金屬，比固定數值更真實。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_metal.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_metal.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_metal.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_metal.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"做出拉絲金屬","description":"用雜訊紋理（Noise Texture）驅動粗糙度（Roughness），做出粗糙度有變化的金屬，比固定數值更真實。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_metal.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>做出拉絲金屬</h1>
+    <p class="content-lead">用雜訊紋理（Noise Texture）驅動粗糙度（Roughness），做出粗糙度有變化的金屬，比固定數值更真實。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_metal">開啟互動教學</a>
+      <a href="tutorial_metal.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：把 Metallic 調到 1</h2>
+      <p>在原理化 BSDF（Principled BSDF）上把金屬度（Metallic）拉到最大（1），這樣才會有金屬的反射方式，而不是塑膠感。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入 Texture Coordinate 與 Noise Texture</h2>
+      <p>從「輸入 Input」分類拖入紋理座標（Texture Coordinate），從「紋理 Texture」分類拖入雜訊紋理（Noise Texture），並把紋理座標的 Generated 接到雜訊紋理的向量（Vector）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用 Map Range 調整範圍</h2>
+      <p>雜訊紋理（Noise Texture）的係數（Fac）是 0-1，直接接粗糙度（Roughness）會太誇張。<br /><br />加入一個映射範圍（Map Range，轉換器 Converter 分類），把雜訊的係數接進去，再把映射範圍的輸出接到原理化 BSDF（Principled BSDF）的粗糙度。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：確認完成</h2>
+      <p>看看右側的即時預覽，球體表面的反光應該有明暗不均的拉絲質感，而不是均勻的鏡面。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

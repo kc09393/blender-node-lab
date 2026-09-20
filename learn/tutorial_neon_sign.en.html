@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Make a Glowing Sign Effect · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Drive Emission&#39;s brightness with a Wave Texture pattern to create a neon sign that glows unevenly — bright in some areas, dark in others — instead of a flat uniform glow." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Make a Glowing Sign Effect · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Drive Emission&#39;s brightness with a Wave Texture pattern to create a neon sign that glows unevenly — bright in some areas, dark in others — instead of a flat uniform glow." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_neon_sign.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_neon_sign.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_neon_sign.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_neon_sign.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Make a Glowing Sign Effect","description":"Drive Emission's brightness with a Wave Texture pattern to create a neon sign that glows unevenly — bright in some areas, dark in others — instead of a flat uniform glow.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_neon_sign.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Make a Glowing Sign Effect</h1>
+    <p class="content-lead">Drive Emission&#39;s brightness with a Wave Texture pattern to create a neon sign that glows unevenly — bright in some areas, dark in others — instead of a flat uniform glow.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_neon_sign&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_neon_sign.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add an Emission Node</h2>
+      <p>Drag in an Emission node from the Shader category and connect it to Material Output&#39;s Surface — it should glow uniformly for now.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add a Wave Texture for the Pattern</h2>
+      <p>Drag in a Wave Texture from the Texture category and set its Wave Type to Rings — we&#39;ll use its banding pattern to control where it glows brightest.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Wire Up Coordinates</h2>
+      <p>Add a Texture Coordinate (Input category) and connect its Generated output to Wave Texture&#39;s Vector input.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Drive Strength with Fac</h2>
+      <p>Connect Wave Texture&#39;s Fac output to Emission&#39;s Strength, replacing the fixed slider value.<br /><br />The surface should now glow brighter and dimmer following the wave pattern — a neon look instead of flat uniform light.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

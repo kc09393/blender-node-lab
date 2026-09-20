@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>山脊多重分形：裂紋岩石質感 · Blender 5.0 引導教學</title>
+<meta name="description" content="雜訊紋理（Noise Texture）除了預設的 fBM（柔和雲霧感）之外，還有 Ridged Multifractal 這種會刻出銳利山脊狀裂紋的類型，很適合做岩石、峽谷、乾裂地面的質感。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="山脊多重分形：裂紋岩石質感 · Blender 5.0 引導教學" />
+<meta property="og:description" content="雜訊紋理（Noise Texture）除了預設的 fBM（柔和雲霧感）之外，還有 Ridged Multifractal 這種會刻出銳利山脊狀裂紋的類型，很適合做岩石、峽谷、乾裂地面的質感。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"山脊多重分形：裂紋岩石質感","description":"雜訊紋理（Noise Texture）除了預設的 fBM（柔和雲霧感）之外，還有 Ridged Multifractal 這種會刻出銳利山脊狀裂紋的類型，很適合做岩石、峽谷、乾裂地面的質感。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>山脊多重分形：裂紋岩石質感</h1>
+    <p class="content-lead">雜訊紋理（Noise Texture）除了預設的 fBM（柔和雲霧感）之外，還有 Ridged Multifractal 這種會刻出銳利山脊狀裂紋的類型，很適合做岩石、峽谷、乾裂地面的質感。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_ridged_terrain">開啟互動教學</a>
+      <a href="tutorial_ridged_terrain.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入雜訊紋理</h2>
+      <p>從「紋理 Texture」分類拖入雜訊紋理（Noise Texture）。預設類型是 fBM，先不用調整，下一步再切換。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：切換成 Ridged Multifractal</h2>
+      <p>把雜訊紋理的「類型 Type」下拉選單切換成「山脊多重分形 Ridged Multifractal」。畫面應該會立刻出現銳利的白色裂紋，這是這個類型的正字標記——公式是 offset 減去雜訊絕對值再平方，讓接近 0 的地方變成又窄又亮的稜線。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：加入 Color Ramp 馴服範圍</h2>
+      <p>加入顏色漸變（Color Ramp，轉換器 Converter 分類），把雜訊紋理的係數（Fac）接到它的係數。<br /><br />⚠️ Ridged Multifractal 這類非 fBM 類型的輸出範圍常常明顯超出 0-1、而且整體偏高（這是公式本身的特性——每一疊代都是非負值累加，Blender 也一樣），直接接顏色常常會整片死白，接 Color Ramp 才能把裂紋跟底色分開上色。<br /><br />試著把停駐點的位置往右移（例如落在 0.1／0.6／1.3 這種範圍，而不是預設的 0-1），顏色從深灰經過中間的褐色、過渡到淺米白色，做出岩石的明暗對比。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：接到 Base Color</h2>
+      <p>把顏色漸變（Color Ramp）的顏色（Color）輸出接到原理化 BSDF（Principled BSDF）的底色（Base Color），完成裂紋岩石材質。也可以把粗糙度（Roughness）調高一點（例如 0.7），讓表面看起來更霧面、更像真的岩石。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Separate Color · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Splits a color into three (or four) separate values, in the chosen color space." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Separate Color · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Splits a color into three (or four) separate values, in the chosen color space." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_separate_color.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_separate_color.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/converter_separate_color.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_separate_color.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Separate Color","description":"Splits a color into three (or four) separate values, in the chosen color space.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_separate_color.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Separate Color</h1>
+    <p class="content-lead">Splits a color into three (or four) separate values, in the chosen color space.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=converter_separate_color&amp;lang=en">Try it in the sandbox</a>
+      <a href="converter_separate_color.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>When you want to process a single channel (e.g. boost only red), split it apart with this node, adjust, and rejoin with Combine Color. Choosing HSV/HSL instead splits into hue/saturation/value(or lightness) — handy when you want to adjust brightness or saturation without touching hue.</p></section>
+    <section><h2>Technical notes</h2><p>Mode has 3 options matching Blender: RGB, HSV, HSL. Switching mode changes what the first three outputs mean (R/G/B ↔ H/S/V ↔ H/S/L); the RGB-to-HSV/HSL formulas are the same ones used by Color Ramp (`js/core/colorRampUtil.js`), cross-checked for consistency.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>r</td><td>float</td></tr><tr><td>OUT</td><td>g</td><td>float</td></tr><tr><td>OUT</td><td>b</td><td>float</td></tr><tr><td>OUT</td><td>A</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

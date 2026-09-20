@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>One Graph, Three Looks: Wave Rings&#39; Many Disguises · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Wave Texture&#39;s Rings mode always looks the same structurally (concentric circles), but just changing the Color Ramp&#39;s palette and the distortion amount takes it from &#39;wood end-grain&#39; to &#39;water ripples&#39; to &#39;hand-thrown pottery grooves&#39; — this tutorial never changes the node structure, only the numbers, so you feel firsthand that many materials differ only in values, not in wiring." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="One Graph, Three Looks: Wave Rings&#39; Many Disguises · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Wave Texture&#39;s Rings mode always looks the same structurally (concentric circles), but just changing the Color Ramp&#39;s palette and the distortion amount takes it from &#39;wood end-grain&#39; to &#39;water ripples&#39; to &#39;hand-thrown pottery grooves&#39; — this tutorial never changes the node structure, only the numbers, so you feel firsthand that many materials differ only in values, not in wiring." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"One Graph, Three Looks: Wave Rings' Many Disguises","description":"Wave Texture's Rings mode always looks the same structurally (concentric circles), but just changing the Color Ramp's palette and the distortion amount takes it from 'wood end-grain' to 'water ripples' to 'hand-thrown pottery grooves' — this tutorial never changes the node structure, only the numbers, so you feel firsthand that many materials differ only in values, not in wiring.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_rings_multi_look.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>One Graph, Three Looks: Wave Rings&#39; Many Disguises</h1>
+    <p class="content-lead">Wave Texture&#39;s Rings mode always looks the same structurally (concentric circles), but just changing the Color Ramp&#39;s palette and the distortion amount takes it from &#39;wood end-grain&#39; to &#39;water ripples&#39; to &#39;hand-thrown pottery grooves&#39; — this tutorial never changes the node structure, only the numbers, so you feel firsthand that many materials differ only in values, not in wiring.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_wave_rings_multi_look&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_wave_rings_multi_look.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Wire Up Rings — Start with Wood Grain</h2>
+      <p>Add a Wave Texture (Type set to Rings) and a Color Ramp, connect Wave&#39;s Fac to Color Ramp&#39;s Fac, then to Principled BSDF&#39;s Base Color.<br /><br />Set the two stops to dark and light brown (e.g. 0.25/0.13/0.05 and 0.55/0.35/0.15) — the classic wood-grain palette.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Switch to Blue/White and Raise Distortion — Now Water Ripples</h2>
+      <p>Change both Color Ramp stops to blues (e.g. dark blue 0.05/0.15/0.35 and light blue-white 0.75/0.85/0.95), then raise Wave Texture&#39;s Distortion above 8. The concentric rings warp irregularly, and with the blue-white palette, it now reads entirely as water ripples.<br /><br />The node structure never changed, only the color and distortion amount.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Switch to Terracotta Orange, Lower Distortion — Now Pottery Grooves</h2>
+      <p>Change the Color Ramp to terracotta orange-red (e.g. dark ochre 0.35/0.16/0.08 and light clay 0.68/0.4/0.24), and lower Distortion below 1 so the rings become regular and even again. It now reads as the concentric grooves left by hand-thrown pottery.<br /><br />The same Rings wave, a third completely different material.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Look Back — Three Materials, One Wiring</h2>
+      <p>From start to finish, the Wave Texture → Color Ramp → Base Color wiring never changed once — you only adjusted the Color Ramp&#39;s palette and the Wave&#39;s distortion amount, and got three completely different materials: wood, water, pottery.<br /><br />This illustrates an important idea: material design is often not about inventing new node combinations, but about deciding what values to plug in — once the wiring logic is right, tuning parameters alone unlocks a lot of variety.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

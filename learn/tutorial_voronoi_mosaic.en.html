@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Voronoi Mosaic: Random Tile Colors · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Voronoi Texture&#39;s Color output gives each cell its own random color — great for mosaic tiles, cobblestone floors, or anything where &#39;each patch is a slightly different color&#39;. This is a completely different technique from the Stone tutorial&#39;s Distance-based mottling." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Voronoi Mosaic: Random Tile Colors · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Voronoi Texture&#39;s Color output gives each cell its own random color — great for mosaic tiles, cobblestone floors, or anything where &#39;each patch is a slightly different color&#39;. This is a completely different technique from the Stone tutorial&#39;s Distance-based mottling." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Voronoi Mosaic: Random Tile Colors","description":"Voronoi Texture's Color output gives each cell its own random color — great for mosaic tiles, cobblestone floors, or anything where 'each patch is a slightly different color'. This is a completely different technique from the Stone tutorial's Distance-based mottling.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_mosaic.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Voronoi Mosaic: Random Tile Colors</h1>
+    <p class="content-lead">Voronoi Texture&#39;s Color output gives each cell its own random color — great for mosaic tiles, cobblestone floors, or anything where &#39;each patch is a slightly different color&#39;. This is a completely different technique from the Stone tutorial&#39;s Distance-based mottling.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_voronoi_mosaic&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_voronoi_mosaic.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add a Voronoi Texture</h2>
+      <p>Drag in a Voronoi Texture from the Texture category.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Wire Up Coordinates</h2>
+      <p>Add a Texture Coordinate (Input category) and connect its Generated output to Voronoi Texture&#39;s Vector input.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Use Color, Not Distance</h2>
+      <p>This time connect Voronoi Texture&#39;s Color output (not Distance) to Principled BSDF&#39;s Base Color.<br /><br />Each cell should now be its own random solid color.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Raise Scale for More, Smaller Tiles</h2>
+      <p>Raise Scale above 8 — the tiles become smaller and denser, closer to a real mosaic.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

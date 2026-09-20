@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>羅盤材質：用向量數學指向固定方向 · Blender 5.0 引導教學</title>
+<meta name="description" content="菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="羅盤材質：用向量數學指向固定方向 · Blender 5.0 引導教學" />
+<meta property="og:description" content="菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"羅盤材質：用向量數學指向固定方向","description":"菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>羅盤材質：用向量數學指向固定方向</h1>
+    <p class="content-lead">菲涅爾（Fresnel）驅動的效果永遠只跟「攝影機角度」有關，轉動攝影機時亮邊會一直跟著跑。但如果你想要一個「不管怎麼轉動攝影機，永遠固定指向某個方向」的效果（例如物體上一個固定的發光標記），就要換一種做法：用向量數學（Vector Math）的內積（Dot Product）算出「表面法線」跟「你指定的固定方向」有多接近，越接近就越亮。這篇教學示範這個技巧，順便介紹怎麼用數值（Value）節點把一個常用參數抽出來獨立調整。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_compass_material">開啟互動教學</a>
+      <a href="tutorial_compass_material.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：用向量數學算出法線跟固定方向的接近程度</h2>
+      <p>加入紋理座標（Texture Coordinate），把它的 Normal 輸出接到向量數學（Vector Math）的第一個向量輸入。<br /><br />運算選內積（Dot Product）。<br /><br />第二個向量輸入手動填一個方向，例如 (0.4, 0.7, 0.5)——這代表你想要效果固定指向的方向，不管攝影機怎麼轉都不會變。<br /><br />內積的結果：表面法線跟這個方向越接近（同方向），數值越接近 1；越垂直，數值越接近 0；完全相反方向，數值接近 -1。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：用映射範圍把內積結果換算成 0-1</h2>
+      <p>加入映射範圍（Map Range），把向量數學的數值（Value）輸出接到它的數值輸入。<br /><br />來源最小（From Min）設成 -1，來源最大（From Max）設成 1，目標維持 0 到 1。<br /><br />因為內積的原始範圍是 -1 到 1，不轉換的話後面接色彩帶會很奇怪（負值會被當成 0 處理，浪費掉一半的漸層）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用數值節點抽出「銳利度」參數</h2>
+      <p>加入數值（Value）節點，設成 6——這個數字之後會控制發光斑點有多集中、多銳利。<br /><br />加入數學（Math）節點，運算選次方（Power）。<br /><br />把映射範圍的結果接到數學節點的第一個數值，剛剛的數值節點接到第二個數值（次方的指數）。<br /><br />次方運算會讓「已經很接近 1」的數值保持接近 1、其餘的數值被壓得更低——指數（剛剛的數值節點）越大，發光斑點就越集中越小。獨立抽成一個數值節點的好處：之後想調整銳利度，不用去改數學節點本身，只要改這一個地方。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：接到色彩帶跟發光，疊加在原本材質上</h2>
+      <p>加入顏色漸變（Color Ramp），把數學節點的結果接到它的係數（Fac），設定成「大部分是黑、接近 1 的地方才變亮」。<br /><br />加入發光（Emission）節點，把色彩帶的顏色接到它的顏色，強度調高（例如 4）。<br /><br />加入加法著色器（Add Shader），把原本的材質接到一個輸入、剛做的發光接到另一個輸入，輸出接到材質輸出。<br /><br />轉動攝影機環繞球體看看：發光的斑點應該固定出現在球體上同一個地方（跟著物體本身、不是跟著攝影機角度），這跟菲涅爾效果完全不同。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

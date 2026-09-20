@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識波浪紋理：Bands、Rings、剖面一次搞懂 · Blender 5.0 引導教學</title>
+<meta name="description" content="波浪紋理（Wave Texture）能做出規律的條紋或環狀波紋，是木紋、水波、金屬拉絲的常見基礎。這篇帶你認識波形（Bands/Rings）、剖面（Profile）、扭曲（Distortion）這幾個關鍵設定，一次一個切給你看。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識波浪紋理：Bands、Rings、剖面一次搞懂 · Blender 5.0 引導教學" />
+<meta property="og:description" content="波浪紋理（Wave Texture）能做出規律的條紋或環狀波紋，是木紋、水波、金屬拉絲的常見基礎。這篇帶你認識波形（Bands/Rings）、剖面（Profile）、扭曲（Distortion）這幾個關鍵設定，一次一個切給你看。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_texture_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_texture_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_texture_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_texture_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識波浪紋理：Bands、Rings、剖面一次搞懂","description":"波浪紋理（Wave Texture）能做出規律的條紋或環狀波紋，是木紋、水波、金屬拉絲的常見基礎。這篇帶你認識波形（Bands/Rings）、剖面（Profile）、扭曲（Distortion）這幾個關鍵設定，一次一個切給你看。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_wave_texture_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識波浪紋理：Bands、Rings、剖面一次搞懂</h1>
+    <p class="content-lead">波浪紋理（Wave Texture）能做出規律的條紋或環狀波紋，是木紋、水波、金屬拉絲的常見基礎。這篇帶你認識波形（Bands/Rings）、剖面（Profile）、扭曲（Distortion）這幾個關鍵設定，一次一個切給你看。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_wave_texture_tour">開啟互動教學</a>
+      <a href="tutorial_wave_texture_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入波浪紋理</h2>
+      <p>從「紋理 Texture」分類拖入波浪紋理（Wave Texture），把係數（Fac）輸出接到原理化 BSDF 的底色（Base Color）。<br /><br />預設是條紋（Bands）波形＋正弦（Sine）剖面，畫面會是規律的黑白條紋。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：切到「環狀」看波紋變同心圓</h2>
+      <p>把波形（Wave Type）切換成環狀（Rings）。條紋會變成一圈一圈的同心圓，像水面漣漪或年輪。<br /><br />Bands 跟 Rings 差別在於：Bands 沿著一個方向線性排列，Rings 則是以中心點為圓心往外擴散。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：切到「鋸齒」剖面看邊緣變銳利</h2>
+      <p>把剖面（Profile）切換成鋸齒（Saw）。原本柔和的正弦波紋會變成邊緣銳利的鋸齒狀。<br /><br />Profile 決定每一圈波紋「由暗到亮」的過渡方式：正弦（Sine）平滑、鋸齒（Saw）是直線陡降、三角（Triangle）則是對稱的斜坡。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：加上扭曲，模擬木紋年輪</h2>
+      <p>把扭曲（Distortion）調到 2 以上。原本工整的圓圈會變得不規則、有機。<br /><br />這正是程序化木紋最常見的做法：環狀波形＋扭曲，模擬樹木年輪自然生長時的歪斜感。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

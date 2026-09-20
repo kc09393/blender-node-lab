@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>RGB Curves · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="A freely-draggable curve for remapping each color channel&#39;s tonal response." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="RGB Curves · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="A freely-draggable curve for remapping each color channel&#39;s tonal response." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/color_rgb_curves.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/color_rgb_curves.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/color_rgb_curves.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/color_rgb_curves.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"RGB Curves","description":"A freely-draggable curve for remapping each color channel's tonal response.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/color_rgb_curves.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>RGB Curves</h1>
+    <p class="content-lead">A freely-draggable curve for remapping each color channel&#39;s tonal response.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=color_rgb_curves&amp;lang=en">Try it in the sandbox</a>
+      <a href="color_rgb_curves.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>More flexible than Brightness/Contrast — you can pull just the shadows, just the highlights, or invert sections. Same concept as Photoshop&#39;s Curves tool.</p></section>
+    <section><h2>Technical notes</h2><p>Now has a draggable curve editor; the curve itself is a smooth Cardinal (Catmull-Rom-style) polynomial passing through every control point, matching Blender&#39;s default smooth handle look (not a piecewise-straight line). It now also has all 4 independent curves like Blender: the &#39;C&#39; combined curve is applied to R/G/B first, and the result is then fed through each channel&#39;s own independent R/G/B curve — this order was verified against Blender&#39;s GPU shader source (`curves_combined_rgb` in `gpu_shader_common_curves.glsl`). Difference: this sandbox doesn&#39;t have Blender&#39;s channel-tab switcher — all 4 curves are shown at once.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>Color</td><td>color</td></tr><tr><td>OUT</td><td>Color</td><td>color</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

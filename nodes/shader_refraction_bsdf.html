@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>折射 BSDF · Blender 5.0 節點百科</title>
+<meta name="description" content="只有折射穿透、沒有反射的表面，通常配合 Glass 概念使用。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="折射 BSDF · Blender 5.0 節點百科" />
+<meta property="og:description" content="只有折射穿透、沒有反射的表面，通常配合 Glass 概念使用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"折射 BSDF","description":"只有折射穿透、沒有反射的表面，通常配合 Glass 概念使用。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_refraction_bsdf.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>折射 BSDF</h1>
+    <p class="content-lead">只有折射穿透、沒有反射的表面，通常配合 Glass 概念使用。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_refraction_bsdf">在沙盒中試用</a>
+      <a href="shader_refraction_bsdf.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>跟 Glass BSDF 很像，但完全沒有反光，適合用來理解『折射』跟『反射』是兩件獨立的事。</p></section>
+    <section><h2>進階說明</h2><p>真正的折射彎曲需要對背景做逐光線取樣，本沙盒的即時預覽管線做不到（Glass BSDF 也一樣做不到真的彎曲，改用 Fresnel 驅動的透明度取代）。這個節點刻意用比 Glass 更簡化的方式實作，藉此凸顯兩者的概念差異：Glass BSDF＝反射＋折射依 Fresnel 混合（所以側邊角度會明顯變得更反光），Refraction BSDF＝只有純折射穿透、完全沒有反射分量，因此本沙盒讓它的透明度只取決於 Roughness（不像 Glass 那樣隨視角在邊緣變亮），比較兩者的即時預覽就能感受到「有沒有 Fresnel 反射」這個差異。**誠實記錄的簡化**：IOR 插槽在本沙盒沒有可見效果——沒有真的彎曲光線，IOR 便無事可做；保留這個插槽只是為了跟 Blender 介面一致、方便理解概念，不要誤以為調它會看到變化。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>IN</td><td>粗糙度</td><td>float</td></tr><tr><td>IN</td><td>IOR</td><td>float</td></tr><tr><td>OUT</td><td>BSDF</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

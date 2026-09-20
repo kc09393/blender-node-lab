@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>環境光遮蔽 · Blender 5.0 節點百科</title>
+<meta name="description" content="偵測凹角、縫隙等光線較難照到的區域，常用來加深髒污/陰影。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="環境光遮蔽 · Blender 5.0 節點百科" />
+<meta property="og:description" content="偵測凹角、縫隙等光線較難照到的區域，常用來加深髒污/陰影。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"環境光遮蔽","description":"偵測凹角、縫隙等光線較難照到的區域，常用來加深髒污/陰影。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/input_ambient_occlusion.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>環境光遮蔽</h1>
+    <p class="content-lead">偵測凹角、縫隙等光線較難照到的區域，常用來加深髒污/陰影。</p>
+    <div class="content-actions">
+
+      <a href="input_ambient_occlusion.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>常接到 Mix Color 或 Color Ramp，讓模型凹陷處自然變暗，增加真實感。</p></section>
+    <section><h2>進階說明</h2><p>正確運算需要對周遭幾何做多方向取樣（螢幕空間 SSAO 或逐光線取樣），計算量較大；本沙盒的即時預覽管線目前沒有這一道多重取樣步驟，先列文件。（曾嘗試用螢幕空間法線曲率（dFdx/dFdy）近似邊角遮蔽，實測即使在方塊的銳利邊緣上，效果也被抗鋸齒/多重取樣稀釋到肉眼幾乎看不出來，判斷不值得為了一個看不見的效果新增節點支援，故維持文件狀態。）</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>距離</td><td>float</td></tr><tr><td>IN</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>AO</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

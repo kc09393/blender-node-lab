@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Procedural Weathering: Rusted Metal · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Use Noise Texture&#39;s output, remapped by a Color Ramp into a black/white mask, to drive Mix Shader blending &#39;clean metal&#39; and &#39;rust&#39; on the same surface — the classic procedural weathering technique used throughout games and VFX." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Procedural Weathering: Rusted Metal · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Use Noise Texture&#39;s output, remapped by a Color Ramp into a black/white mask, to drive Mix Shader blending &#39;clean metal&#39; and &#39;rust&#39; on the same surface — the classic procedural weathering technique used throughout games and VFX." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Procedural Weathering: Rusted Metal","description":"Use Noise Texture's output, remapped by a Color Ramp into a black/white mask, to drive Mix Shader blending 'clean metal' and 'rust' on the same surface — the classic procedural weathering technique used throughout games and VFX.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_rust_weathering.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Procedural Weathering: Rusted Metal</h1>
+    <p class="content-lead">Use Noise Texture&#39;s output, remapped by a Color Ramp into a black/white mask, to drive Mix Shader blending &#39;clean metal&#39; and &#39;rust&#39; on the same surface — the classic procedural weathering technique used throughout games and VFX.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_rust_weathering&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_rust_weathering.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Blend the Two Materials with Mix Shader</h2>
+      <p>Drag in a Mix Shader, connect the clean metal (top) and rusty material (bottom) to its two Shader sockets, then wire it to Material Output. With a fixed Fac slider, the surface blends uniformly — no rust shape yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add Noise Texture as the Weathering Source</h2>
+      <p>Add a Texture Coordinate (Input category) and a Noise Texture (Texture category), and connect Texture Coordinate&#39;s Generated to Noise Texture&#39;s Vector. Set Noise Texture&#39;s Scale between 3-6 for medium-sized patches.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Turn Noise into a Black/White Mask with Color Ramp</h2>
+      <p>Add a Color Ramp (Converter category) and connect Noise Texture&#39;s Fac to its Fac. Move the two stops close together (e.g. 0.45 and 0.55), with the left stop black and the right stop white — this turns the noise into sharp-edged black/white patches instead of a blurry gray gradient. Also set the left (black) stop&#39;s Alpha number field to 0, keeping the right (white) stop at 1 — the next step uses the Alpha output as a blend mask, and if both stops have the same Alpha, the output would be a constant value everywhere with no masking effect.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Drive Mix Shader&#39;s Fac with the Mask</h2>
+      <p>Connect Color Ramp&#39;s Alpha output to Mix Shader&#39;s Fac, replacing the fixed slider. The sphere should now show mostly clean metal with random rust patches breaking through — the same technique used for weathered game assets.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

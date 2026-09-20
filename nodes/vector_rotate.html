@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>向量旋轉 · Blender 5.0 節點百科</title>
+<meta name="description" content="把一個向量繞著指定的中心點與軸旋轉。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="向量旋轉 · Blender 5.0 節點百科" />
+<meta property="og:description" content="把一個向量繞著指定的中心點與軸旋轉。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"向量旋轉","description":"把一個向量繞著指定的中心點與軸旋轉。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>向量旋轉</h1>
+    <p class="content-lead">把一個向量繞著指定的中心點與軸旋轉。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=vector_rotate">在沙盒中試用</a>
+      <a href="vector_rotate.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>跟 Mapping 的旋轉類似，但更單純：只做旋轉，並且可以指定旋轉的軸方向（不是固定 X/Y/Z 依序旋轉）。</p></section>
+    <section><h2>進階說明</h2><p>類型（Type）現在有 5 種，跟 Blender 一致：軸角（Axis Angle，繞任意軸轉指定角度，用 Rodrigues 旋轉公式）、X／Y／Z 軸（固定繞該軸轉，等於軸角模式把 Axis 鎖死成該軸）、歐拉 XYZ（Euler XYZ，改用一個三軸角度向量，依 X→Y→Z 順序疊加旋轉，跟 Mapping 節點的 Rotation 用同一套公式）。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>中心</td><td>vector</td></tr><tr><td>IN</td><td>軸</td><td>vector</td></tr><tr><td>IN</td><td>角度(度)</td><td>float</td></tr><tr><td>IN</td><td>歐拉角(度)</td><td>vector</td></tr><tr><td>OUT</td><td>向量</td><td>vector</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>色溫節點：燭光暖黃光 · Blender 5.0 引導教學</title>
+<meta name="description" content="用黑體（Blackbody）節點把「色溫（K）」這個攝影/燈光常用單位直接轉成物理精確的顏色，做出燭光般的暖黃發光效果。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="色溫節點：燭光暖黃光 · Blender 5.0 引導教學" />
+<meta property="og:description" content="用黑體（Blackbody）節點把「色溫（K）」這個攝影/燈光常用單位直接轉成物理精確的顏色，做出燭光般的暖黃發光效果。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_blackbody_glow.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_blackbody_glow.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_blackbody_glow.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_blackbody_glow.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"色溫節點：燭光暖黃光","description":"用黑體（Blackbody）節點把「色溫（K）」這個攝影/燈光常用單位直接轉成物理精確的顏色，做出燭光般的暖黃發光效果。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_blackbody_glow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>色溫節點：燭光暖黃光</h1>
+    <p class="content-lead">用黑體（Blackbody）節點把「色溫（K）」這個攝影/燈光常用單位直接轉成物理精確的顏色，做出燭光般的暖黃發光效果。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_blackbody_glow">開啟互動教學</a>
+      <a href="tutorial_blackbody_glow.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入 Blackbody 節點</h2>
+      <p>從「轉換器 Converter」分類拖入黑體（Blackbody）節點。色溫（Temperature）預設是 5500K（接近正午日光）。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入 Emission 並接到輸出</h2>
+      <p>拖入發光（Emission）節點，接到材質輸出（Material Output）的表面（Surface）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：把 Blackbody 接到 Emission 的顏色</h2>
+      <p>把黑體（Blackbody）的顏色（Color）輸出接到發光（Emission）的顏色（Color）。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調到燭光的色溫</h2>
+      <p>把色溫（Temperature）調到 1800-2200K 之間——真實蠟燭火焰的色溫。顏色應該會變成明顯的暖橘色，跟預設的白光完全不同。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

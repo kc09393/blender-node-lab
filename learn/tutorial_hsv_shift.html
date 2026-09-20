@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>色相偏移：一鍵換色 · Blender 5.0 引導教學</title>
+<meta name="description" content="用色相/飽和度/明度（Hue Saturation Value）節點調整顏色，比直接改 RGB 更直覺——轉 Hue 就能把紅色變藍色，不用重新調三個色版。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="色相偏移：一鍵換色 · Blender 5.0 引導教學" />
+<meta property="og:description" content="用色相/飽和度/明度（Hue Saturation Value）節點調整顏色，比直接改 RGB 更直覺——轉 Hue 就能把紅色變藍色，不用重新調三個色版。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_shift.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_shift.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_shift.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_shift.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"色相偏移：一鍵換色","description":"用色相/飽和度/明度（Hue Saturation Value）節點調整顏色，比直接改 RGB 更直覺——轉 Hue 就能把紅色變藍色，不用重新調三個色版。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_hsv_shift.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>色相偏移：一鍵換色</h1>
+    <p class="content-lead">用色相/飽和度/明度（Hue Saturation Value）節點調整顏色，比直接改 RGB 更直覺——轉 Hue 就能把紅色變藍色，不用重新調三個色版。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_hsv_shift">開啟互動教學</a>
+      <a href="tutorial_hsv_shift.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入色相/飽和度/明度節點</h2>
+      <p>從「顏色 Color」分類拖入色相/飽和度/明度（Hue Saturation Value）節點。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：接到底色</h2>
+      <p>把它的顏色（Color）輸出接到原理化 BSDF（Principled BSDF）的底色（Base Color）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：轉動色相</h2>
+      <p>把色相（Hue）從預設的 0.5 調成一個不同的值（例如 0.15）。顏色應該會整個轉到色環上不同的位置。<br /><br />這比分別調整 R/G/B 三個色版直覺得多。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：拉高飽和度</h2>
+      <p>把飽和度（Saturation）調到 1.3 以上，顏色會變得更鮮豔飽和，而不是黯淡的灰調。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

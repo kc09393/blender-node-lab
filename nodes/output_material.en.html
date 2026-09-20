@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Material Output · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="The final destination of the material graph." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Material Output · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="The final destination of the material graph." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/output_material.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/output_material.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/output_material.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/output_material.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Material Output","description":"The final destination of the material graph.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/output_material.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Material Output</h1>
+    <p class="content-lead">The final destination of the material graph.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=output_material&amp;lang=en">Try it in the sandbox</a>
+      <a href="output_material.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Every material graph needs a Material Output node. Connect any Shader (BSDF) node to its Surface socket to apply that material. Without a connection, you&#39;ll see a default gray.</p></section>
+    <section><h2>Technical notes</h2><p>This site&#39;s live preview now wires up both Surface and Displacement (Displacement takes a Vector, typically from a Displacement/Vector Displacement node); Volume is still documented but not rendered live. Displacement runs in the vertex shader, so it accepts fewer node types than Surface (no Bump/Normal Map/Wireframe/Fresnel, which need fragment-only data) — connecting an unsupported node produces a clear error message.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Surface</td><td>shader</td></tr><tr><td>IN</td><td>Displacement</td><td>vector</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

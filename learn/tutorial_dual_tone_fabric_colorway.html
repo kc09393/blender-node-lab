@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>雙色織布：用 HSV 一次換掉整個配色 · Blender 5.0 引導教學</title>
+<meta name="description" content="做好一個雙色織紋圖案之後，如果想要換一個配色（例如藍白格改成綠白格），不需要重新調整顏色漸變（Color Ramp）裡的每一個停駐點——接一個色相/飽和度/明度（Hue Saturation Value）節點在後面，轉一下 Hue，整組配色會保持原本的明暗對比跟圖案，一次全部換色。這篇示範這個「圖案跟配色分開處理」的實用技巧。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="雙色織布：用 HSV 一次換掉整個配色 · Blender 5.0 引導教學" />
+<meta property="og:description" content="做好一個雙色織紋圖案之後，如果想要換一個配色（例如藍白格改成綠白格），不需要重新調整顏色漸變（Color Ramp）裡的每一個停駐點——接一個色相/飽和度/明度（Hue Saturation Value）節點在後面，轉一下 Hue，整組配色會保持原本的明暗對比跟圖案，一次全部換色。這篇示範這個「圖案跟配色分開處理」的實用技巧。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_dual_tone_fabric_colorway.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_dual_tone_fabric_colorway.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_dual_tone_fabric_colorway.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_dual_tone_fabric_colorway.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"雙色織布：用 HSV 一次換掉整個配色","description":"做好一個雙色織紋圖案之後，如果想要換一個配色（例如藍白格改成綠白格），不需要重新調整顏色漸變（Color Ramp）裡的每一個停駐點——接一個色相/飽和度/明度（Hue Saturation Value）節點在後面，轉一下 Hue，整組配色會保持原本的明暗對比跟圖案，一次全部換色。這篇示範這個「圖案跟配色分開處理」的實用技巧。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_dual_tone_fabric_colorway.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>雙色織布：用 HSV 一次換掉整個配色</h1>
+    <p class="content-lead">做好一個雙色織紋圖案之後，如果想要換一個配色（例如藍白格改成綠白格），不需要重新調整顏色漸變（Color Ramp）裡的每一個停駐點——接一個色相/飽和度/明度（Hue Saturation Value）節點在後面，轉一下 Hue，整組配色會保持原本的明暗對比跟圖案，一次全部換色。這篇示範這個「圖案跟配色分開處理」的實用技巧。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_dual_tone_fabric_colorway">開啟互動教學</a>
+      <a href="tutorial_dual_tone_fabric_colorway.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：用雜訊＋硬邊漸變做出雙色織紋</h2>
+      <p>加入雜訊紋理（Noise Texture），縮放（Scale）調高（例如 22）做出細密的紋理。加入顏色漸變（Color Ramp），插值方式切換成常量（Constant），兩個停駐點：位置 0 深藍、位置 0.5 接近白色。<br /><br />硬邊過渡會產生清楚的深/淺兩色交錯圖案，很像織布的經緯紋理。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：接到底色，確認圖案</h2>
+      <p>先把顏色漸變的顏色（Color）直接接到原理化 BSDF 的底色（Base Color），確認圖案是清楚的深藍/白兩色交錯，不是模糊漸層。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：插入色相/飽和度/明度節點</h2>
+      <p>在顏色漸變跟原理化 BSDF 中間插入色相/飽和度/明度（Hue Saturation Value）節點：顏色漸變的顏色接到它的顏色（Color）輸入，它的顏色輸出改接到原理化 BSDF 的底色，取代原本的直接連線。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：轉 Hue 換配色，調 Saturation 換飽和度</h2>
+      <p>把 Hue 從預設的 0.5 調開（例如 0.15），深藍會整組轉成另一個色相（例如綠色），但兩色之間的明暗對比、圖案本身完全不變。<br /><br />因為 Hue 是對整張圖統一旋轉色相，不是重新調整某一個停駐點。<br /><br />再把 Saturation 調高（例如 1.3），顏色會更加鮮豔飽和，適合做出「亮色系」款式而不用回頭改顏色漸變。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

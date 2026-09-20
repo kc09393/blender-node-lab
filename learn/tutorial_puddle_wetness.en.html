@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Puddle Ground: Procedural Wet Patches · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Wet ground pools into smooth patches in low spots while staying dry and rough elsewhere. This tutorial uses Voronoi Texture&#39;s Smooth F1 feature — whose blob-like shape is a natural fit — piped through a hard-edged Color Ramp (Constant) to build a puddle mask, driving a Mix Shader between &#39;dry and rough&#39; and &#39;wet and glossy&#39;. This time the mask comes from a texture, not the viewing angle — a nice complement to the edge-wear tutorial." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Puddle Ground: Procedural Wet Patches · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Wet ground pools into smooth patches in low spots while staying dry and rough elsewhere. This tutorial uses Voronoi Texture&#39;s Smooth F1 feature — whose blob-like shape is a natural fit — piped through a hard-edged Color Ramp (Constant) to build a puddle mask, driving a Mix Shader between &#39;dry and rough&#39; and &#39;wet and glossy&#39;. This time the mask comes from a texture, not the viewing angle — a nice complement to the edge-wear tutorial." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Puddle Ground: Procedural Wet Patches","description":"Wet ground pools into smooth patches in low spots while staying dry and rough elsewhere. This tutorial uses Voronoi Texture's Smooth F1 feature — whose blob-like shape is a natural fit — piped through a hard-edged Color Ramp (Constant) to build a puddle mask, driving a Mix Shader between 'dry and rough' and 'wet and glossy'. This time the mask comes from a texture, not the viewing angle — a nice complement to the edge-wear tutorial.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_puddle_wetness.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Puddle Ground: Procedural Wet Patches</h1>
+    <p class="content-lead">Wet ground pools into smooth patches in low spots while staying dry and rough elsewhere. This tutorial uses Voronoi Texture&#39;s Smooth F1 feature — whose blob-like shape is a natural fit — piped through a hard-edged Color Ramp (Constant) to build a puddle mask, driving a Mix Shader between &#39;dry and rough&#39; and &#39;wet and glossy&#39;. This time the mask comes from a texture, not the viewing angle — a nice complement to the edge-wear tutorial.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_puddle_wetness&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_puddle_wetness.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Prepare a Dry Material and a Wet Material</h2>
+      <p>The existing Principled BSDF is the dry ground: Roughness around 0.85, earthy tan color.<br /><br />Drag in a new Principled BSDF for the puddle: darken its Base Color (wet ground looks darker) and drop Roughness near 0 (e.g. 0.05). Don&#39;t wire it up yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Wire Both Into Mix Shader</h2>
+      <p>Add a Mix Shader, connect the dry and wet Principled nodes to its two Shader inputs, then wire it to Material Output, replacing the direct connection.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Shape the Puddles with Voronoi&#39;s Smooth F1</h2>
+      <p>Add a Voronoi Texture and switch Feature to Smooth F1 — low values near cell centers, higher near boundaries, with a smooth rounded transition that resembles how puddles naturally pool.<br /><br />Add a Color Ramp, switch Interpolation to Constant, and set stops: position 0 white, position 0.25 black — white means &#39;puddle&#39;, black means &#39;dry&#39;, with a hard edge so the puddle boundary reads clearly instead of hazy.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Drive the Blend with the Mask</h2>
+      <p>Connect Color Ramp&#39;s Color output to Mix Shader&#39;s Fac. You should now see a few sharp-edged glossy puddles, with the rest staying rough and dry — try raising Voronoi&#39;s Scale to get more puddles, though each one shrinks as a result.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

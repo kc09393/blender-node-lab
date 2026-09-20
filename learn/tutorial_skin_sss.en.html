@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Subsurface Scattering: Skin Material · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Use the Subsurface Scattering node to get skin&#39;s characteristic translucent edge glow, then layer a subtle highlight on top — learn the &#39;stack multiple BSDFs&#39; technique for complex organic materials." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Subsurface Scattering: Skin Material · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Use the Subsurface Scattering node to get skin&#39;s characteristic translucent edge glow, then layer a subtle highlight on top — learn the &#39;stack multiple BSDFs&#39; technique for complex organic materials." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_skin_sss.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_skin_sss.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_skin_sss.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_skin_sss.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Subsurface Scattering: Skin Material","description":"Use the Subsurface Scattering node to get skin's characteristic translucent edge glow, then layer a subtle highlight on top — learn the 'stack multiple BSDFs' technique for complex organic materials.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_skin_sss.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Subsurface Scattering: Skin Material</h1>
+    <p class="content-lead">Use the Subsurface Scattering node to get skin&#39;s characteristic translucent edge glow, then layer a subtle highlight on top — learn the &#39;stack multiple BSDFs&#39; technique for complex organic materials.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_skin_sss&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_skin_sss.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add Subsurface Scattering</h2>
+      <p>Drag in Subsurface Scattering from the Shader category and connect it directly to Material Output&#39;s Surface. Change Color to a warm skin tone (e.g. light orange/pink).</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Tune Radius for a Reddish Edge</h2>
+      <p>Radius&#39;s three components are the scattering distance for red/green/blue individually. Set R higher than G and B (e.g. 1 / 0.3 / 0.15) and the sphere&#39;s backlit edges will glow reddish.<br /><br />The same reason a backlit ear or nose tip looks red.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Add a Glossy BSDF for Surface Sheen</h2>
+      <p>Real skin has a thin oily/moist layer that creates a subtle but distinct highlight. Drag in a Glossy BSDF with medium Roughness (e.g. 0.3) — don&#39;t wire it up yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Blend In a Little Highlight with Mix Shader</h2>
+      <p>Drag in a Mix Shader, connect Subsurface Scattering to the top and Glossy BSDF to the bottom, and set Fac very low (e.g. 0.08).<br /><br />The highlight should only be a small amount, or the skin will look waxy.<br /><br />Connect Mix Shader to Material Output, replacing the direct connection.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

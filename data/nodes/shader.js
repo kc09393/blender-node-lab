@@ -7,31 +7,74 @@ export default [
     id: "shader_principled_bsdf",
     category: "shader",
     name: { zh: "原理化 BSDF", en: "Principled BSDF" },
-    summary: { zh: "最常用的萬用材質節點，一個節點就能做出金屬、塑膠、發光等多種材質。", en: "The all-in-one material node used for most real-world surfaces." },
+    summary: { zh: "以 Blender 5.0 OpenPBR 架構為準的萬用材質節點。", en: "The Blender 5.0 OpenPBR-based all-in-one surface shader." },
     docBeginner: {
-      zh: "Principled BSDF 是 Blender 預設材質使用的節點，幾乎所有材質都能從它開始調：Base Color 決定顏色、Roughness 決定表面粗糙（0=鏡面、1=完全霧面）、Metallic 決定是不是金屬。",
-      en: "Principled BSDF is Blender's default material node. Base Color sets the color, Roughness controls surface smoothness (0 = mirror, 1 = fully matte), and Metallic switches between dielectric and metal response.",
+      zh: "這是 Blender 5.0 新建材質時的主要表面節點。先從底色、金屬度與粗糙度開始；需要玻璃、車漆、布料或薄膜彩虹時，再使用透射、塗層、絨光與薄膜區塊。",
+      en: "This is Blender 5.0's primary surface shader. Start with Base Color, Metallic, and Roughness; use Transmission, Coat, Sheen, or Thin Film for glass, paint, fabric, and interference colors.",
     },
     docPro: {
-      zh: "完整版 Principled BSDF 還有 Subsurface、Transmission、Sheen、Clearcoat、IOR 等進階插槽，這裡先只做出對材質外觀影響最直接的 6 個常用插槽，其餘進階插槽會逐步加入百科（目前只有說明、沙盒中尚未支援）。",
-      en: "The full Principled BSDF also has Subsurface, Transmission, Sheen, Clearcoat, IOR and more. This sandbox currently implements the 6 most impactful sockets; the rest are documented but not yet wired into live preview.",
+      zh: "輸入分組與名稱依 Blender 5.0／OpenPBR：基礎、漫射、次表面、鏡面反射、透射、塗層、絨光、發光與薄膜。即時預覽會把各層映射到 Three.js 物理材質；次表面是畫面空間近似，透射不會像 Cycles 一樣追蹤真正的折射光路。",
+      en: "Inputs follow Blender 5.0/OpenPBR groups: Base, Diffuse, Subsurface, Specular, Transmission, Coat, Sheen, Emission, and Thin Film. The preview maps these layers to Three.js physical shading; subsurface is a screen-space approximation and transmission does not trace refracted paths like Cycles.",
     },
     supported: true,
     inputs: [
-      { key: "baseColor", label: { zh: "底色", en: "Base Color" }, type: "color", default: [0.8, 0.8, 0.8, 1] },
-      { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
-      { key: "metallic", label: { zh: "金屬度", en: "Metallic" }, type: "float", default: 0.0, min: 0, max: 1, step: 0.01 },
-      { key: "emissionColor", label: { zh: "發光顏色", en: "Emission Color" }, type: "color", default: [0, 0, 0, 1] },
-      { key: "emissionStrength", label: { zh: "發光強度", en: "Emission Strength" }, type: "float", default: 0, min: 0, max: 20, step: 0.1 },
-      { key: "alpha", label: { zh: "透明度", en: "Alpha" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
-      { key: "normal", label: { zh: "法線", en: "Normal" }, type: "vector", default: "NORMAL" },
+      { key: "baseColor", label: { zh: "底色", en: "Base Color" }, section: { zh: "基礎", en: "Base" }, type: "color", default: [0.8, 0.8, 0.8, 1] },
+      { key: "metallic", label: { zh: "金屬度", en: "Metallic" }, section: { zh: "基礎", en: "Base" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "roughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "基礎", en: "Base" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "ior", label: { zh: "折射率", en: "IOR" }, section: { zh: "基礎", en: "Base" }, type: "float", default: 1.5, min: 1, max: 4, step: 0.01 },
+      { key: "alpha", label: { zh: "Alpha", en: "Alpha" }, section: { zh: "基礎", en: "Base" }, type: "float", default: 1, min: 0, max: 1, step: 0.01 },
+      { key: "normal", label: { zh: "法線", en: "Normal" }, section: { zh: "基礎", en: "Base" }, type: "vector", default: "NORMAL" },
+      { key: "diffuseRoughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "漫射", en: "Diffuse" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "subsurfaceWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "subsurfaceRadius", label: { zh: "半徑", en: "Radius" }, section: { zh: "次表面", en: "Subsurface" }, type: "vector", default: [1, 0.2, 0.1], min: 0, max: 10, step: 0.01 },
+      { key: "subsurfaceScale", label: { zh: "縮放", en: "Scale" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0.05, min: 0, max: 10, step: 0.01 },
+      { key: "subsurfaceIor", label: { zh: "折射率", en: "IOR" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 1.4, min: 1, max: 4, step: 0.01 },
+      { key: "subsurfaceAnisotropy", label: { zh: "非等向性", en: "Anisotropy" }, section: { zh: "次表面", en: "Subsurface" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "specularIorLevel", label: { zh: "IOR 等級", en: "IOR Level" }, section: { zh: "鏡面反射", en: "Specular" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "specularTint", label: { zh: "染色", en: "Tint" }, section: { zh: "鏡面反射", en: "Specular" }, type: "color", default: [1, 1, 1, 1] },
+      { key: "anisotropy", label: { zh: "非等向性", en: "Anisotropic" }, section: { zh: "鏡面反射", en: "Specular" }, type: "float", default: 0, min: -1, max: 1, step: 0.01 },
+      { key: "anisotropyRotation", label: { zh: "非等向旋轉", en: "Anisotropic Rotation" }, section: { zh: "鏡面反射", en: "Specular" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "tangent", label: { zh: "切線", en: "Tangent" }, section: { zh: "鏡面反射", en: "Specular" }, type: "vector", default: [1, 0, 0], min: -1, max: 1, step: 0.01 },
+      { key: "transmissionWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "透射", en: "Transmission" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "coatWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "塗層", en: "Coat" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "coatRoughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "塗層", en: "Coat" }, type: "float", default: 0.03, min: 0, max: 1, step: 0.01 },
+      { key: "coatIor", label: { zh: "折射率", en: "IOR" }, section: { zh: "塗層", en: "Coat" }, type: "float", default: 1.5, min: 1, max: 4, step: 0.01 },
+      { key: "coatTint", label: { zh: "染色", en: "Tint" }, section: { zh: "塗層", en: "Coat" }, type: "color", default: [1, 1, 1, 1] },
+      { key: "coatNormal", label: { zh: "法線", en: "Normal" }, section: { zh: "塗層", en: "Coat" }, type: "vector", default: "NORMAL" },
+      { key: "sheenWeight", label: { zh: "權重", en: "Weight" }, section: { zh: "絨光", en: "Sheen" }, type: "float", default: 0, min: 0, max: 1, step: 0.01 },
+      { key: "sheenRoughness", label: { zh: "粗糙度", en: "Roughness" }, section: { zh: "絨光", en: "Sheen" }, type: "float", default: 0.5, min: 0, max: 1, step: 0.01 },
+      { key: "sheenTint", label: { zh: "染色", en: "Tint" }, section: { zh: "絨光", en: "Sheen" }, type: "color", default: [1, 1, 1, 1] },
+      { key: "emissionColor", label: { zh: "顏色", en: "Color" }, section: { zh: "發光", en: "Emission" }, type: "color", default: [0, 0, 0, 1] },
+      { key: "emissionStrength", label: { zh: "強度", en: "Strength" }, section: { zh: "發光", en: "Emission" }, type: "float", default: 0, min: 0, max: 20, step: 0.1 },
+      { key: "thinFilmThickness", label: { zh: "厚度", en: "Thickness" }, section: { zh: "薄膜", en: "Thin Film" }, type: "float", default: 0, min: 0, max: 1000, step: 1 },
+      { key: "thinFilmIor", label: { zh: "折射率", en: "IOR" }, section: { zh: "薄膜", en: "Thin Film" }, type: "float", default: 1.33, min: 1, max: 4, step: 0.01 },
     ],
     outputs: [{ key: "bsdf", label: { zh: "BSDF", en: "BSDF" }, type: "shader" }],
     glsl: {
       emit(ctx, ins) {
         ctx.line(`normal = normalize(${ins.normal});`);
+        const fresnel = ctx.freshVar("sssFresnel");
+        ctx.line(`float ${fresnel} = bml_fresnel(normalize(vNormal), max(${ins.subsurfaceIor}, 1.001));`);
+        const subsurface = ctx.freshVar("sssGlow");
+        ctx.line(`vec3 ${subsurface} = (${ins.baseColor}).rgb * max(${ins.subsurfaceRadius}, vec3(0.0)) * clamp(${ins.subsurfaceScale}, 0.0, 10.0) * clamp(${ins.subsurfaceWeight}, 0.0, 1.0) * mix(1.0 - ${fresnel}, 1.0, clamp(${ins.subsurfaceAnisotropy}, 0.0, 1.0)) * 0.45;`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.baseColor}).rgb, clamp(${ins.roughness}, 0.035, 1.0), clamp(${ins.metallic}, 0.0, 1.0), (${ins.emissionColor}).rgb * ${ins.emissionStrength}, clamp(${ins.alpha}, 0.0, 1.0));`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.baseColor}).rgb, clamp(${ins.roughness} + ${ins.diffuseRoughness} * 0.15, 0.035, 1.0), clamp(${ins.metallic}, 0.0, 1.0), (${ins.emissionColor}).rgb * ${ins.emissionStrength} + ${subsurface}, clamp(${ins.alpha}, 0.0, 1.0));`);
+        ctx.line(`${v}.ior = clamp(${ins.ior}, 1.0, 4.0);`);
+        ctx.line(`${v}.transmission = clamp(${ins.transmissionWeight}, 0.0, 1.0);`);
+        ctx.line(`${v}.coatWeight = clamp(${ins.coatWeight}, 0.0, 1.0);`);
+        ctx.line(`${v}.coatRoughness = clamp(${ins.coatRoughness}, 0.035, 1.0);`);
+        ctx.line(`${v}.coatIor = clamp(${ins.coatIor}, 1.0, 4.0);`);
+        ctx.line(`${v}.coatTint = (${ins.coatTint}).rgb;`);
+        ctx.line(`${v}.coatNormal = normalize(${ins.coatNormal});`);
+        ctx.line(`${v}.sheenColor = (${ins.sheenTint}).rgb * clamp(${ins.sheenWeight}, 0.0, 1.0);`);
+        ctx.line(`${v}.sheenRoughness = clamp(${ins.sheenRoughness}, 0.035, 1.0);`);
+        ctx.line(`${v}.anisotropy = abs(clamp(${ins.anisotropy}, -1.0, 1.0));`);
+        ctx.line(`${v}.anisotropyRotation = fract(clamp(${ins.anisotropyRotation}, 0.0, 1.0) + atan((${ins.tangent}).y, (${ins.tangent}).x) / 6.28318530718 + (${ins.anisotropy} < 0.0 ? 0.25 : 0.0));`);
+        ctx.line(`${v}.specularIorLevel = clamp(${ins.specularIorLevel}, 0.0, 1.0);`);
+        ctx.line(`${v}.specularTint = (${ins.specularTint}).rgb;`);
+        ctx.line(`${v}.thinFilmWeight = step(0.001, ${ins.thinFilmThickness});`);
+        ctx.line(`${v}.thinFilmIor = clamp(${ins.thinFilmIor}, 1.0, 4.0);`);
+        ctx.line(`${v}.thinFilmThickness = clamp(${ins.thinFilmThickness}, 0.0, 1000.0);`);
         return { bsdf: v };
       },
     },
@@ -60,7 +103,7 @@ export default [
       emit(ctx, ins) {
         ctx.line(`normal = normalize(${ins.normal});`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.color}).rgb, clamp(0.9 + ${ins.roughness} * 0.1, 0.035, 1.0), 0.0, vec3(0.0), 1.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(0.9 + ${ins.roughness} * 0.1, 0.035, 1.0), 0.0, vec3(0.0), 1.0);`);
         return { bsdf: v };
       },
     },
@@ -89,7 +132,7 @@ export default [
       emit(ctx, ins) {
         ctx.line(`normal = normalize(${ins.normal});`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 1.0, vec3(0.0), 1.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 1.0, vec3(0.0), 1.0);`);
         return { bsdf: v };
       },
     },
@@ -116,7 +159,7 @@ export default [
     glsl: {
       emit(ctx, ins) {
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf(vec3(0.0), 0.5, 0.0, (${ins.color}).rgb * ${ins.strength}, 1.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf(vec3(0.0), 0.5, 0.0, (${ins.color}).rgb * ${ins.strength}, 1.0);`);
         return { bsdf: v };
       },
     },
@@ -140,7 +183,7 @@ export default [
     glsl: {
       emit(ctx, ins) {
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.color}).rgb, 0.5, 0.0, vec3(0.0), 0.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, 0.5, 0.0, vec3(0.0), 0.0);`);
         return { bsdf: v };
       },
     },
@@ -155,8 +198,8 @@ export default [
       en: "Mix Shader has three inputs: Fac (0 = fully the top shader, 1 = fully the bottom one), Shader (top), Shader (bottom). Very common for layered materials like glass or car paint.",
     },
     docPro: {
-      zh: "物理上 Mix Shader 是依 Fac 對两個 BSDF 做加權平均，而不是像 Add Shader 直接相加。本沙盒對 baseColor/roughness/metallic/emission/alpha 五個欄位各自做線性 mix，是簡化但方向正確的近似。",
-      en: "Physically, Mix Shader is a weighted average of two BSDFs by Fac (unlike Add Shader, which sums them). This sandbox linearly mixes each of baseColor/roughness/metallic/emission/alpha — a simplified but directionally correct approximation.",
+      zh: "物理上 Mix Shader 是依 Fac 選擇兩個 BSDF 的光程機率，而不是把材質參數直接混色。本沙盒會線性混合基礎、透射、塗層、絨光與薄膜等預覽欄位，是適合即時教學的近似。",
+      en: "Physically, Mix Shader chooses between two BSDFs by path probability rather than simply blending material parameters. This preview linearly mixes its Base, Transmission, Coat, Sheen, and Thin Film fields as a real-time teaching approximation.",
     },
     supported: true,
     inputs: [
@@ -183,8 +226,8 @@ export default [
       en: "Similar to Mix Shader but without a Fac ratio — both inputs are simply added together. Often used to layer extra reflection or glow on top of a base material.",
     },
     docPro: {
-      zh: "本沙盒的近似作法：baseColor/roughness/metallic 取兩者平均（避免直接相加超出 0-1 范围失真），emission 直接相加、alpha 取最大值。這跟真實的輻射相加不完全相同，但足以示範『疊加』的概念。",
-      en: "Approximation used here: baseColor/roughness/metallic are averaged (adding them directly would blow past valid 0-1 ranges), emission is summed directly, alpha takes the max. Not identical to true radiance addition, but demonstrates the 'layering' concept.",
+      zh: "本沙盒的近似作法：基礎參數取兩者平均、發光直接相加，透射、塗層與薄膜取較強的一側，避免直接相加超出合理範圍。這跟真實的輻射相加不完全相同，但足以示範『疊加』的概念。",
+      en: "Approximation used here: base parameters are averaged, emission is summed, and the stronger Transmission, Coat, and Thin Film layers are kept to avoid invalid ranges. This is not true radiance addition, but it demonstrates the layering concept.",
     },
     supported: true,
     inputs: [
@@ -227,7 +270,7 @@ export default [
         const alpha = ctx.freshVar("galpha");
         ctx.line(`float ${alpha} = clamp(0.06 + ${fres} * 0.9, 0.0, 1.0);`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 0.0, vec3(0.0), ${alpha});`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 0.0, vec3(0.0), ${alpha});`);
         return { bsdf: v };
       },
     },
@@ -274,7 +317,7 @@ export default [
         const glow = ctx.freshVar("translGlow");
         ctx.line(`vec3 ${glow} = (${ins.color}).rgb * ${fres} * 0.6;`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.color}).rgb * 0.6, 0.9, 0.0, ${glow}, 1.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb * 0.6, 0.9, 0.0, ${glow}, 1.0);`);
         return { bsdf: v };
       },
     },
@@ -305,7 +348,7 @@ export default [
         const glow = ctx.freshVar("sssGlow");
         ctx.line(`vec3 ${glow} = (${ins.color}).rgb * ${radius} * ${fres} * ${ins.scale} * 4.0;`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.color}).rgb, 0.85, 0.0, ${glow}, 1.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, 0.85, 0.0, ${glow}, 1.0);`);
         return { bsdf: v };
       },
     },
@@ -317,8 +360,8 @@ export default [
     summary: { zh: "布料邊緣逆光時的微光，做絨布、天鵝絨質感。", en: "The faint edge glow seen on backlit fabric — for velvet and cloth." },
     docBeginner: { zh: "單獨使用效果不明顯，通常混合進 Principled BSDF 的材質裡，讓布料邊緣多一點絨毛感的反光。", en: "Subtle on its own — usually blended into a Principled BSDF material to add a fuzzy edge highlight to fabric." },
     docPro: {
-      zh: "Blender 4.0 後 Sheen 已整合進 Principled BSDF 本身；這裡仍保留獨立節點方便教學拆解。本沙盒把它實作成一個底色全黑、只靠 Fresnel 邊緣光（Emission 欄位）貢獻亮度的 BSDF——這樣跟其他材質用 Mix Shader 疊加時，才不會把底色蓋掉，只會在邊緣多一圈絨毛感的光暈。Roughness 越高，光暈覆蓋的角度範圍越寬、越柔和。",
-      en: "Since Blender 4.0, Sheen has been folded into Principled BSDF itself; this standalone node is kept here for teaching purposes. This sandbox implements it as a BSDF with a fully black base color that only contributes brightness through a Fresnel-driven edge glow (via the Emission channel) — so when layered onto another material with Mix Shader, it won't wash out the base color, just add a fuzzy rim highlight. Higher Roughness widens and softens the glow.",
+      zh: "在 Blender 5.0，Sheen 已是 Principled BSDF 的絨光層；這裡仍保留獨立節點方便教學拆解。本沙盒把它實作成一個底色全黑、只靠 Fresnel 邊緣光（Emission 欄位）貢獻亮度的 BSDF——這樣跟其他材質用 Mix Shader 疊加時，才不會把底色蓋掉，只會在邊緣多一圈絨毛感的光暈。Roughness 越高，光暈覆蓋的角度範圍越寬、越柔和。",
+      en: "In Blender 5.0, Sheen is a layer of Principled BSDF; this standalone node is kept here for teaching purposes. This sandbox implements it as a BSDF with a fully black base color that only contributes brightness through a Fresnel-driven edge glow (via the Emission channel) — so when layered onto another material with Mix Shader, it won't wash out the base color, just add a fuzzy rim highlight. Higher Roughness widens and softens the glow.",
     },
     supported: true,
     inputs: [
@@ -335,7 +378,7 @@ export default [
         const glow = ctx.freshVar("sheenGlow");
         ctx.line(`vec3 ${glow} = (${ins.color}).rgb * ${fres} * 0.6;`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf(vec3(0.0), clamp(${ins.roughness}, 0.035, 1.0), 0.0, ${glow}, 1.0);`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf(vec3(0.0), clamp(${ins.roughness}, 0.035, 1.0), 0.0, ${glow}, 1.0);`);
         return { bsdf: v };
       },
     },
@@ -373,7 +416,7 @@ export default [
         const alpha = ctx.freshVar("refrAlpha");
         ctx.line(`float ${alpha} = clamp(0.05 + (${ins.roughness}) * 0.35, 0.0, 1.0);`);
         const v = ctx.freshVar("bsdf");
-        ctx.line(`BmlBsdf ${v} = BmlBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 0.0, vec3(0.0), ${alpha});`);
+        ctx.line(`BmlBsdf ${v} = bml_makeBsdf((${ins.color}).rgb, clamp(${ins.roughness}, 0.035, 1.0), 0.0, vec3(0.0), ${alpha});`);
         return { bsdf: v };
       },
     },

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>數學 · Blender 5.0 節點百科</title>
+<meta name="description" content="對兩個數值做加減乘除等運算，是最基礎的數值調整工具。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="數學 · Blender 5.0 節點百科" />
+<meta property="og:description" content="對兩個數值做加減乘除等運算，是最基礎的數值調整工具。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_math.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_math.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/converter_math.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_math.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"數學","description":"對兩個數值做加減乘除等運算，是最基礎的數值調整工具。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_math.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>數學</h1>
+    <p class="content-lead">對兩個數值做加減乘除等運算，是最基礎的數值調整工具。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=converter_math">在沙盒中試用</a>
+      <a href="converter_math.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>Math 節點就是計算機：選擇一種運算（Add/Subtract/Multiply...），輸入數值，輸出結果。常用來把某個節點的輸出「乘一個倍率」或「加一點偏移」後再接到下一個節點。</p></section>
+    <section><h2>進階說明</h2><p>運算清單盡量對齊 Blender 完整版（含三角函數、Round/Modulo/Wrap/Ping-Pong 等）。跟 Blender 不同的地方：Blender 會依選的運算方式動態隱藏用不到的插槽（例如 Sine 只顯示 1 個），本沙盒為了架構簡單，固定顯示 3 個數值輸入，用不到的插槽直接忽略即可，不影響結果。Clamp 開關會把最終結果夾在 0-1 之間。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>數值</td><td>float</td></tr><tr><td>IN</td><td>數值</td><td>float</td></tr><tr><td>IN</td><td>數值</td><td>float</td></tr><tr><td>OUT</td><td>數值</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

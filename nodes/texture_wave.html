@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>波浪紋理 · Blender 5.0 節點百科</title>
+<meta name="description" content="規律的條紋或環狀波紋，適合做木紋、水波、金屬拉絲。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="波浪紋理 · Blender 5.0 節點百科" />
+<meta property="og:description" content="規律的條紋或環狀波紋，適合做木紋、水波、金屬拉絲。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/texture_wave.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/texture_wave.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/texture_wave.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/texture_wave.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"波浪紋理","description":"規律的條紋或環狀波紋，適合做木紋、水波、金屬拉絲。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/texture_wave.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>波浪紋理</h1>
+    <p class="content-lead">規律的條紋或環狀波紋，適合做木紋、水波、金屬拉絲。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=texture_wave">在沙盒中試用</a>
+      <a href="texture_wave.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>Wave Texture 產生規律的明暗條紋。Distortion 可以讓條紋加入一點雜訊、變得不那麼死板規律，很適合模擬木紋的年輪。</p></section>
+    <section><h2>進階說明</h2><p>Wave Type（Bands/Rings）、方向（Direction：X/Y/Z/Diagonal，Rings 模式下 Diagonal 會退回跟球狀一樣的效果，跟 Blender 一致）、Profile（Sine/Saw/Triangle）、Detail/Detail Scale/Detail Roughness、Phase Offset 現在都是真的可調參數，涵蓋範圍跟 Blender 一致。Detail 系列參數是用可調的分形雜訊去扭曲波形，細節上跟 Blender 內部演算法不完全相同，但方向與可控性一致。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>向量</td><td>vector</td></tr><tr><td>IN</td><td>縮放</td><td>float</td></tr><tr><td>IN</td><td>扭曲</td><td>float</td></tr><tr><td>IN</td><td>細節</td><td>float</td></tr><tr><td>IN</td><td>細節縮放</td><td>float</td></tr><tr><td>IN</td><td>細節粗糙度</td><td>float</td></tr><tr><td>IN</td><td>相位偏移</td><td>float</td></tr><tr><td>OUT</td><td>顏色</td><td>color</td></tr><tr><td>OUT</td><td>係數</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

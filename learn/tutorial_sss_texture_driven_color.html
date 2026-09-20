@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>次表面散射也能接紋理：雲霧狀玉石 · Blender 5.0 引導教學</title>
+<meta name="description" content="次表面散射（Subsurface Scattering）的顏色（Color）插槽平常都是接一個固定顏色，但它跟其他顏色輸入一樣，也可以接紋理。這篇用雜訊紋理＋顏色漸變驅動 SSS 的顏色，做出玉石內部深淺不一的雲霧狀翠綠紋理，而不是死板的單一綠色。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="次表面散射也能接紋理：雲霧狀玉石 · Blender 5.0 引導教學" />
+<meta property="og:description" content="次表面散射（Subsurface Scattering）的顏色（Color）插槽平常都是接一個固定顏色，但它跟其他顏色輸入一樣，也可以接紋理。這篇用雜訊紋理＋顏色漸變驅動 SSS 的顏色，做出玉石內部深淺不一的雲霧狀翠綠紋理，而不是死板的單一綠色。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_sss_texture_driven_color.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_sss_texture_driven_color.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_sss_texture_driven_color.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_sss_texture_driven_color.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"次表面散射也能接紋理：雲霧狀玉石","description":"次表面散射（Subsurface Scattering）的顏色（Color）插槽平常都是接一個固定顏色，但它跟其他顏色輸入一樣，也可以接紋理。這篇用雜訊紋理＋顏色漸變驅動 SSS 的顏色，做出玉石內部深淺不一的雲霧狀翠綠紋理，而不是死板的單一綠色。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_sss_texture_driven_color.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>次表面散射也能接紋理：雲霧狀玉石</h1>
+    <p class="content-lead">次表面散射（Subsurface Scattering）的顏色（Color）插槽平常都是接一個固定顏色，但它跟其他顏色輸入一樣，也可以接紋理。這篇用雜訊紋理＋顏色漸變驅動 SSS 的顏色，做出玉石內部深淺不一的雲霧狀翠綠紋理，而不是死板的單一綠色。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_sss_texture_driven_color">開啟互動教學</a>
+      <a href="tutorial_sss_texture_driven_color.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：先接一個固定的綠色</h2>
+      <p>加入次表面散射（Subsurface Scattering），直接接到材質輸出（Material Output）。顏色（Color）改成綠色（例如 0.15/0.55/0.35）。<br /><br />先看看固定單一顏色的樣子——整顆球會是很均勻、有點死板的綠色玉石感。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：加入雜訊紋理接顏色漸變</h2>
+      <p>加入雜訊紋理（Noise Texture，扭曲 Distortion 調到 2 左右做出雲霧感）跟顏色漸變（Color Ramp），把雜訊的係數（Fac）接到顏色漸變的係數。<br /><br />停駐點設成深綠到淺綠的漸層（例如 0=深綠、0.5=中綠、1=淺綠）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：把顏色漸變接進 SSS 的顏色插槽</h2>
+      <p>把顏色漸變的顏色（Color）輸出接到次表面散射的顏色（Color）輸入，取代原本的固定顏色。畫面應該會出現深淺不一、雲霧狀的翠綠紋理，而不是均勻的單一綠色。<br /><br />這就是「顏色插槽其實都能接紋理，不是只能填色票」的證明。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調整 Radius，讓綠色分量走得更遠</h2>
+      <p>把各色道半徑（Radius）的 G（第二個數值）調得比 R（第一個）跟 B（第三個）都大（例如 0.25/0.6/0.4）。邊緣逆光處會透出偏綠的光暈，而不是像皮膚教學那樣偏紅。<br /><br />同一個節點、同樣的公式，只是換了哪個色道走得比較遠，就能做出完全不同材質的通透感。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

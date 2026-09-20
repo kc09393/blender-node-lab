@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Vector Rotate · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Rotates a vector around a chosen center and axis." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Vector Rotate · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Rotates a vector around a chosen center and axis." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Vector Rotate","description":"Rotates a vector around a chosen center and axis.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/vector_rotate.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Vector Rotate</h1>
+    <p class="content-lead">Rotates a vector around a chosen center and axis.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=vector_rotate&amp;lang=en">Try it in the sandbox</a>
+      <a href="vector_rotate.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>Similar to Mapping&#39;s rotation, but simpler: it only rotates, and lets you pick any custom axis (not a fixed X→Y→Z order).</p></section>
+    <section><h2>Technical notes</h2><p>Type now has 5 options matching Blender: Axis Angle (rotate by an angle around any axis, via Rodrigues&#39; rotation formula), X/Y/Z Axis (fixed rotation around that axis — equivalent to Axis Angle with Axis locked to that direction), and Euler XYZ (uses a 3-axis rotation vector instead, applied in X→Y→Z order — the same formula as the Mapping node&#39;s Rotation).</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Vector</td><td>vector</td></tr><tr><td>IN</td><td>Center</td><td>vector</td></tr><tr><td>IN</td><td>Axis</td><td>vector</td></tr><tr><td>IN</td><td>Angle (deg)</td><td>float</td></tr><tr><td>IN</td><td>Rotation (deg)</td><td>vector</td></tr><tr><td>OUT</td><td>Vector</td><td>vector</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

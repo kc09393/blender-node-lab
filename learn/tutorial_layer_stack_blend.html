@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>疊圖技巧：多層混合模式堆疊 · Blender 5.0 引導教學</title>
+<meta name="description" content="真實的材質貼圖很少只疊一層——通常是「底色 → 正片疊底疊污漬 → 濾色疊磨損高光」這樣一層一層疊上去，跟 Photoshop 的圖層堆疊完全同一個概念。這篇教學串接兩個混合顏色（Mix Color）節點，各自用不同的混合模式，做出「又髒又有磨損高光」的複雜表面。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="疊圖技巧：多層混合模式堆疊 · Blender 5.0 引導教學" />
+<meta property="og:description" content="真實的材質貼圖很少只疊一層——通常是「底色 → 正片疊底疊污漬 → 濾色疊磨損高光」這樣一層一層疊上去，跟 Photoshop 的圖層堆疊完全同一個概念。這篇教學串接兩個混合顏色（Mix Color）節點，各自用不同的混合模式，做出「又髒又有磨損高光」的複雜表面。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"疊圖技巧：多層混合模式堆疊","description":"真實的材質貼圖很少只疊一層——通常是「底色 → 正片疊底疊污漬 → 濾色疊磨損高光」這樣一層一層疊上去，跟 Photoshop 的圖層堆疊完全同一個概念。這篇教學串接兩個混合顏色（Mix Color）節點，各自用不同的混合模式，做出「又髒又有磨損高光」的複雜表面。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>疊圖技巧：多層混合模式堆疊</h1>
+    <p class="content-lead">真實的材質貼圖很少只疊一層——通常是「底色 → 正片疊底疊污漬 → 濾色疊磨損高光」這樣一層一層疊上去，跟 Photoshop 的圖層堆疊完全同一個概念。這篇教學串接兩個混合顏色（Mix Color）節點，各自用不同的混合模式，做出「又髒又有磨損高光」的複雜表面。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_layer_stack_blend">開啟互動教學</a>
+      <a href="tutorial_layer_stack_blend.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：第一層——用正片疊底疊上污漬</h2>
+      <p>加入紋理座標（Texture Coordinate）跟沃羅諾伊紋理（Voronoi Texture），當作污漬圖案。<br /><br />加入第一個混合顏色（Mix Color）節點。A 保留原本的底色不動，B 接沃羅諾伊的顏色（Color）輸出。<br /><br />混合模式選正片疊底（Multiply）。正片疊底的特性是「只會變暗、不會變亮」，很適合拿來疊污漬。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：第二層——用濾色疊上磨損高光</h2>
+      <p>加入雜訊紋理（Noise Texture），當作磨損高光圖案。<br /><br />加入第二個混合顏色節點（這是新的一個，跟上一步那個不是同一個）。A 接第一層（正片疊底）的輸出，B 接雜訊的顏色（Color）輸出。<br /><br />混合模式選濾色（Screen）。濾色的特性是「只會變亮、不會變暗」，正好跟正片疊底相反，適合拿來疊高光。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：接到底色，確認兩層都看得到</h2>
+      <p>把第二層（濾色）的輸出，接到原理化 BSDF（Principled BSDF）的底色（Base Color）。<br /><br />仔細看即時預覽：應該同時看得到暗色的污漬區塊、跟亮色的高光區塊，不是只有其中一種。這就是「疊圖」的重點——兩層效果同時存在，互不取代。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：調整兩層的強度比例</h2>
+      <p>分別調整兩個混合顏色節點的 Fac，數值越高、該層效果越明顯。<br /><br />試著把第一層調高、第二層調低，感受兩層各自獨立可調的感覺。<br /><br />這就是分層製作材質的核心優勢：不用重新調整上游的紋理節點，只要調整每一層混合的比例就好。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

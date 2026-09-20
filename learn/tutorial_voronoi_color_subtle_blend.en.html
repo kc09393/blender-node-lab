@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Making Voronoi Cells Subtle: Low-Ratio Color Blending · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Wiring Voronoi Texture&#39;s Color output straight into a base color gives each cell a bold random flat color — striking, but few real materials actually look like that. This tutorial teaches the trick used in the Galvanized Zinc preset: instead of showing Voronoi&#39;s Color directly, blend it into a base tone at a low ratio (e.g. 0.22) using Mix Color. The cells instantly go from looking like a tiled mosaic to the subtle crystalline pattern a real metal surface has." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Making Voronoi Cells Subtle: Low-Ratio Color Blending · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Wiring Voronoi Texture&#39;s Color output straight into a base color gives each cell a bold random flat color — striking, but few real materials actually look like that. This tutorial teaches the trick used in the Galvanized Zinc preset: instead of showing Voronoi&#39;s Color directly, blend it into a base tone at a low ratio (e.g. 0.22) using Mix Color. The cells instantly go from looking like a tiled mosaic to the subtle crystalline pattern a real metal surface has." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Making Voronoi Cells Subtle: Low-Ratio Color Blending","description":"Wiring Voronoi Texture's Color output straight into a base color gives each cell a bold random flat color — striking, but few real materials actually look like that. This tutorial teaches the trick used in the Galvanized Zinc preset: instead of showing Voronoi's Color directly, blend it into a base tone at a low ratio (e.g. 0.22) using Mix Color. The cells instantly go from looking like a tiled mosaic to the subtle crystalline pattern a real metal surface has.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Making Voronoi Cells Subtle: Low-Ratio Color Blending</h1>
+    <p class="content-lead">Wiring Voronoi Texture&#39;s Color output straight into a base color gives each cell a bold random flat color — striking, but few real materials actually look like that. This tutorial teaches the trick used in the Galvanized Zinc preset: instead of showing Voronoi&#39;s Color directly, blend it into a base tone at a low ratio (e.g. 0.22) using Mix Color. The cells instantly go from looking like a tiled mosaic to the subtle crystalline pattern a real metal surface has.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_voronoi_color_subtle_blend&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_voronoi_color_subtle_blend.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Show Voronoi&#39;s Color Directly — See It Overpower</h2>
+      <p>Add Texture Coordinate, Mapping (Scale around 12), and a Voronoi Texture (Feature set to F1, Scale around 18). Connect its Color output directly into the Principled BSDF&#39;s Base Color.<br /><br />You&#39;ll get a patchwork of randomly colored polygons — looks like mosaic tile, nothing like any real metal surface.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Switch to Mix Color at a Low Ratio</h2>
+      <p>Add a Mix Color node: set A to the original steel-gray base color, wire B from Voronoi&#39;s Color output, keep the blend mode at Mix, and set Fac to around 0.22. Reconnect the Principled BSDF&#39;s Base Color from Mix Color&#39;s output (replacing Voronoi&#39;s direct connection).<br /><br />The cells should immediately look far more subtle — the base tone still dominates, with just a faint hint of color variance at each cell boundary, closer to a real metal&#39;s crystalline texture than an obvious tiled pattern.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Add a Touch of Bump from the Same Voronoi&#39;s Distance</h2>
+      <p>Add a Bump node, wire the same Voronoi Texture&#39;s Distance output into Bump&#39;s Height, keep the strength low (around 0.25), and connect Bump&#39;s Normal into the Principled BSDF&#39;s Normal socket.<br /><br />Now the cell boundaries carry a faint textural grain in addition to the subtle color variance — the two cues together read much closer to an actual metal surface.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Where Else This Trick Applies</h2>
+      <p>Whenever a mask or texture&#39;s raw output feels too loud or artificially tiled, don&#39;t rush to swap out the whole technique — try blending it back into a base tone at a low ratio with Mix Color first. It&#39;s often faster than redesigning the texture from scratch, and gets you closer to the subtle, understated variation real materials actually have.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

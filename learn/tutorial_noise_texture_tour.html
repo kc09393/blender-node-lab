@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>認識雜訊紋理：Detail、Distortion、Type 一次搞懂 · Blender 5.0 引導教學</title>
+<meta name="description" content="雜訊紋理（Noise Texture）幾乎是所有程序化材質的起點，但 Detail／Roughness／Distortion 這些插槽、還有 5 種 Noise Type 到底差在哪，光看名字很難想像。這篇用最直接的方式，一個一個調給你看。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="認識雜訊紋理：Detail、Distortion、Type 一次搞懂 · Blender 5.0 引導教學" />
+<meta property="og:description" content="雜訊紋理（Noise Texture）幾乎是所有程序化材質的起點，但 Detail／Roughness／Distortion 這些插槽、還有 5 種 Noise Type 到底差在哪，光看名字很難想像。這篇用最直接的方式，一個一個調給你看。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_noise_texture_tour.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_noise_texture_tour.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_noise_texture_tour.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_noise_texture_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"認識雜訊紋理：Detail、Distortion、Type 一次搞懂","description":"雜訊紋理（Noise Texture）幾乎是所有程序化材質的起點，但 Detail／Roughness／Distortion 這些插槽、還有 5 種 Noise Type 到底差在哪，光看名字很難想像。這篇用最直接的方式，一個一個調給你看。","inLanguage":"zh-Hant","educationalLevel":"入門","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_noise_texture_tour.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>認識雜訊紋理：Detail、Distortion、Type 一次搞懂</h1>
+    <p class="content-lead">雜訊紋理（Noise Texture）幾乎是所有程序化材質的起點，但 Detail／Roughness／Distortion 這些插槽、還有 5 種 Noise Type 到底差在哪，光看名字很難想像。這篇用最直接的方式，一個一個調給你看。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_noise_texture_tour">開啟互動教學</a>
+      <a href="tutorial_noise_texture_tour.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>入門</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：加入雜訊紋理</h2>
+      <p>從「紋理 Texture」分類拖入雜訊紋理（Noise Texture），把顏色（Color）輸出接到原理化 BSDF 的底色（Base Color）。<br /><br />預設是 fBM 類型，畫面會是一團柔和的雲霧狀圖案。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：調高細節，看花紋變複雜</h2>
+      <p>把細節（Detail）調到 6 以上。<br /><br />Detail 是疊代次數：每多一層疊代，就會疊加一層更細碎的花紋，數值越高，圖案看起來越有層次、越複雜（但算得也越久）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：加上扭曲，打散規律感</h2>
+      <p>把扭曲（Distortion）調到 2 以上。<br /><br />Distortion 會先用另一組雜訊把座標本身「揉皺」，再拿揉皺後的座標去取樣——花紋會變得更不規則、更自然，常用來讓過於工整的圖案看起來更有機。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：切換類型到 Multifractal</h2>
+      <p>把類型（Type）切換成多重分形（Multifractal）。<br /><br />跟預設 fBM 逐層「相加」振幅不同，Multifractal 逐層「相乘」——畫面通常會比 fBM 更明亮、對比更強烈，是另一種常見的地形/雲霧生成基礎。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

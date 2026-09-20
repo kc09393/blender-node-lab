@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ridged Multifractal: Cracked Rock Look · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Beyond the default fBM (soft, cloud-like noise), Noise Texture also has Ridged Multifractal — a type that carves sharp, ridge-like creases. Great for rock, canyons, and cracked ground." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Ridged Multifractal: Cracked Rock Look · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Beyond the default fBM (soft, cloud-like noise), Noise Texture also has Ridged Multifractal — a type that carves sharp, ridge-like creases. Great for rock, canyons, and cracked ground." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Ridged Multifractal: Cracked Rock Look","description":"Beyond the default fBM (soft, cloud-like noise), Noise Texture also has Ridged Multifractal — a type that carves sharp, ridge-like creases. Great for rock, canyons, and cracked ground.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_ridged_terrain.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Ridged Multifractal: Cracked Rock Look</h1>
+    <p class="content-lead">Beyond the default fBM (soft, cloud-like noise), Noise Texture also has Ridged Multifractal — a type that carves sharp, ridge-like creases. Great for rock, canyons, and cracked ground.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_ridged_terrain&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_ridged_terrain.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add a Noise Texture</h2>
+      <p>Drag in a Noise Texture from the Texture category. It defaults to fBM — leave it for now, we&#39;ll switch it in the next step.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Switch to Ridged Multifractal</h2>
+      <p>Switch the Noise Texture&#39;s Type dropdown to &#39;Ridged Multifractal&#39;. You should immediately see sharp white creases appear — that&#39;s this type&#39;s signature look, from squaring (offset minus the absolute noise value), which turns near-zero crossings into narrow, bright ridges.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Tame the Range with Color Ramp</h2>
+      <p>Add a Color Ramp (Converter category), and connect Noise Texture&#39;s Fac to its Fac.<br /><br />⚠️ Non-fBM types like Ridged Multifractal often output well beyond 0-1, and skew high overall (that&#39;s inherent to the formula — every octave adds a non-negative amount, true in real Blender too) — feeding it straight into a color often looks blown-out white. A Color Ramp lets you color the ridges and the base separately.<br /><br />Try shifting the stop positions to the right (e.g. around 0.1 / 0.6 / 1.3 instead of the default 0-1 range), going from dark gray through a mid brown to a light cream, for a rock-like contrast.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Feed Base Color</h2>
+      <p>Connect Color Ramp&#39;s Color output to Principled BSDF&#39;s Base Color to finish the cracked rock material. You can also raise Roughness (e.g. to 0.7) for a more matte, rock-like finish.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

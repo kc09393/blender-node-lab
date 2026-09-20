@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Compass Material: Pointing a Fixed Direction with Vector Math · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math&#39;s Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Compass Material: Pointing a Fixed Direction with Vector Math · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math&#39;s Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Compass Material: Pointing a Fixed Direction with Vector Math","description":"Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math's Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_compass_material.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Compass Material: Pointing a Fixed Direction with Vector Math</h1>
+    <p class="content-lead">Fresnel-driven effects only ever depend on camera angle — the bright edge always follows the camera as you orbit. But if you want an effect that stays fixed to a chosen direction in object space (like a fixed glowing marker on an object) regardless of camera movement, you need a different technique: Vector Math&#39;s Dot Product measures how closely the surface normal aligns with a direction you pick — the closer, the brighter. This tutorial builds that effect, and shows how to extract a frequently-tuned parameter into its own Value node.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_compass_material&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_compass_material.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Measure Normal-vs-Fixed-Direction Alignment with Vector Math</h2>
+      <p>Add a Texture Coordinate and connect its Normal output to Vector Math&#39;s first vector input.<br /><br />Set the operation to Dot Product.<br /><br />Manually fill the second vector input with a direction, e.g. (0.4, 0.7, 0.5) — this is the fixed direction you want the effect to point at, unaffected by camera movement.<br /><br />The dot product result: closer to 1 when the surface normal aligns with this direction, closer to 0 when perpendicular, and closer to -1 when opposite.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Rescale the Dot Product to 0-1 with Map Range</h2>
+      <p>Add a Map Range node and connect Vector Math&#39;s Value output to its value input.<br /><br />Set From Min to -1 and From Max to 1, keeping the target at 0 to 1.<br /><br />Since the dot product&#39;s raw range is -1 to 1, skipping this rescale would waste half the downstream Color Ramp&#39;s range on negative values (which just get clamped to 0).</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Extract a &#39;Sharpness&#39; Parameter with a Value Node</h2>
+      <p>Add a Value node set to 6 — this number will control how tight and sharp the glowing spot is.<br /><br />Add a Math node with operation Power.<br /><br />Connect Map Range&#39;s result to the Math node&#39;s first value, and the Value node to its second value (the exponent).<br /><br />Power pushes values already close to 1 to stay close to 1, while pushing everything else lower — a bigger exponent (the Value node) makes the glowing spot tighter and smaller. Extracting it into its own Value node means you can retune sharpness without touching the Math node itself.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Feed a Color Ramp and Emission, Add on Top of the Base Material</h2>
+      <p>Add a Color Ramp, connect the Math node&#39;s result to its Fac, and set it up so most of it stays black with only values near 1 lighting up.<br /><br />Add an Emission node, connect the Color Ramp&#39;s color to it, and raise Strength (e.g. to 4).<br /><br />Add an Add Shader, connect the original material to one input and the new Emission to the other, then wire its output to the material output.<br /><br />Orbit the camera around the sphere: the glowing spot should stay fixed at the same place on the sphere (tied to the object, not the camera angle) — completely unlike a Fresnel-driven effect.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

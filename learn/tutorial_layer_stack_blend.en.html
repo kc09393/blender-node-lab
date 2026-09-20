@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Layer Stacking: Chaining Multiple Blend Modes · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Real-world material textures are rarely a single layer — usually it&#39;s &#39;base color → Multiply in grime → Screen in worn highlights&#39;, stacked one after another, exactly like layers in Photoshop. This tutorial chains two Mix Color nodes with different blend modes to create a surface that&#39;s both dirty and has worn highlights." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Layer Stacking: Chaining Multiple Blend Modes · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Real-world material textures are rarely a single layer — usually it&#39;s &#39;base color → Multiply in grime → Screen in worn highlights&#39;, stacked one after another, exactly like layers in Photoshop. This tutorial chains two Mix Color nodes with different blend modes to create a surface that&#39;s both dirty and has worn highlights." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Layer Stacking: Chaining Multiple Blend Modes","description":"Real-world material textures are rarely a single layer — usually it's 'base color → Multiply in grime → Screen in worn highlights', stacked one after another, exactly like layers in Photoshop. This tutorial chains two Mix Color nodes with different blend modes to create a surface that's both dirty and has worn highlights.","inLanguage":"en","educationalLevel":"Advanced","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_layer_stack_blend.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Layer Stacking: Chaining Multiple Blend Modes</h1>
+    <p class="content-lead">Real-world material textures are rarely a single layer — usually it&#39;s &#39;base color → Multiply in grime → Screen in worn highlights&#39;, stacked one after another, exactly like layers in Photoshop. This tutorial chains two Mix Color nodes with different blend modes to create a surface that&#39;s both dirty and has worn highlights.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_layer_stack_blend&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_layer_stack_blend.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Advanced</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Layer One — Multiply In Grime</h2>
+      <p>Add a Texture Coordinate and Voronoi Texture as the grime pattern, then add a Mix Color node — keep A as the original base color, connect Voronoi&#39;s Color output to B, and set the mode to Multiply. Multiply can only darken, perfect for grime.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Layer Two — Screen In Worn Highlights</h2>
+      <p>Add a Noise Texture as the worn-highlight pattern, then add a second Mix Color node — connect A to the first layer&#39;s (Multiply) output, B to Noise&#39;s Color output, and set the mode to Screen. Screen can only brighten — the opposite of Multiply, perfect for highlights.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Connect to Base Color and Confirm Both Layers Show</h2>
+      <p>Connect the second (Screen) layer&#39;s output to Principled BSDF&#39;s Base Color. Look closely at the live preview — you should see both dark grime patches AND bright highlight patches at once, not just one or the other. That&#39;s the point of layering: both effects coexist without replacing each other.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Balance Both Layers&#39; Strength</h2>
+      <p>Adjust both Mix Color nodes&#39; Fac independently — higher values make that layer&#39;s effect stronger. Try raising the first layer and lowering the second to feel how each layer is independently tunable — the core advantage of layered material authoring: you never need to touch the upstream texture nodes, just each layer&#39;s blend ratio.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

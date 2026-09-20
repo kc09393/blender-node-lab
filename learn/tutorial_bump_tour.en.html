@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Get to Know Bump: Faking Surface Detail · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Bump shows up in nearly every textured material — it fakes surface bumps&#39; lighting from a grayscale height value, without actually changing the geometry. This tutorial covers Height and Strength, plus the one thing beginners most often forget: Bump&#39;s output must be connected to a Normal socket to have any effect at all." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Get to Know Bump: Faking Surface Detail · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Bump shows up in nearly every textured material — it fakes surface bumps&#39; lighting from a grayscale height value, without actually changing the geometry. This tutorial covers Height and Strength, plus the one thing beginners most often forget: Bump&#39;s output must be connected to a Normal socket to have any effect at all." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Get to Know Bump: Faking Surface Detail","description":"Bump shows up in nearly every textured material — it fakes surface bumps' lighting from a grayscale height value, without actually changing the geometry. This tutorial covers Height and Strength, plus the one thing beginners most often forget: Bump's output must be connected to a Normal socket to have any effect at all.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_bump_tour.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Get to Know Bump: Faking Surface Detail</h1>
+    <p class="content-lead">Bump shows up in nearly every textured material — it fakes surface bumps&#39; lighting from a grayscale height value, without actually changing the geometry. This tutorial covers Height and Strength, plus the one thing beginners most often forget: Bump&#39;s output must be connected to a Normal socket to have any effect at all.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_bump_tour&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_bump_tour.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>3 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Noise → Bump → Normal</h2>
+      <p>Add a Noise Texture and a Bump node (Vector category), connect Noise&#39;s Fac to Bump&#39;s Height, then connect Bump&#39;s Normal output to Principled BSDF&#39;s Normal socket.<br /><br />⚠️ It must go into the Normal socket — connecting it anywhere else (like Base Color) produces zero bump effect. This is the single most common beginner mistake with this node.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Raise Strength for a Deeper Effect</h2>
+      <p>Raise Strength above 2. The bump effect becomes noticeably more pronounced.<br /><br />Strength directly scales how much the height value bends the normal, so higher values give more dramatic surface relief.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Swap the Height Source for a Different Pattern</h2>
+      <p>Swap in a Voronoi Texture, connecting its Distance output to Bump&#39;s Height. The bump pattern completely changes.<br /><br />Bump itself has no pattern of its own; it just converts whatever value feeds its Height into a bump effect. The pattern&#39;s shape depends entirely on which texture node feeds Height.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

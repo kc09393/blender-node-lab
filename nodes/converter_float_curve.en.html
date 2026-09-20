@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Float Curve · Blender 5.0 Node Encyclopedia</title>
+<meta name="description" content="Uses a draggable curve to remap one value into another." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Float Curve · Blender 5.0 Node Encyclopedia" />
+<meta property="og:description" content="Uses a draggable curve to remap one value into another." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Float Curve","description":"Uses a draggable curve to remap one value into another.","inLanguage":"en","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/converter_float_curve.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Node Encyclopedia</div>
+    <h1>Float Curve</h1>
+    <p class="content-lead">Uses a draggable curve to remap one value into another.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=converter_float_curve&amp;lang=en">Try it in the sandbox</a>
+      <a href="converter_float_curve.html">繁體中文</a>
+    </div>
+    <section><h2>Beginner explanation</h2><p>More flexible than Map Range — it can create nonlinear, S-curve, or even oscillating mappings.</p></section>
+    <section><h2>Technical notes</h2><p>Now has a draggable curve editor (drag control points directly on the node card, or use the adjacent numeric inputs for precision). The curve itself is a smooth Cardinal (Catmull-Rom-style) cubic that passes through every control point, matching Blender&#39;s default smooth (Auto Handle) look rather than a stiff piecewise-straight line; like Blender, it may slightly overshoot the range between points — that&#39;s normal smooth-curve behavior. Difference: this sandbox doesn&#39;t support Blender&#39;s per-point &#39;Vector&#39; (sharp corner) handle type — every control point uses the same smoothing.</p></section>
+    <section><h2>Sockets</h2><table><thead><tr><th>Direction</th><th>Name</th><th>Type</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>Value</td><td>float</td></tr><tr><td>OUT</td><td>Value</td><td>float</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

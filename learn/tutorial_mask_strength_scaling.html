@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>把遮罩調含蓄一點：用 Math 縮小整體影響力 · Blender 5.0 引導教學</title>
+<meta name="description" content="拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="把遮罩調含蓄一點：用 Math 縮小整體影響力 · Blender 5.0 引導教學" />
+<meta property="og:description" content="拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"把遮罩調含蓄一點：用 Math 縮小整體影響力","description":"拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mask_strength_scaling.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>把遮罩調含蓄一點：用 Math 縮小整體影響力</h1>
+    <p class="content-lead">拿一個 0-1 的雜訊直接當混合著色器（Mix Shader）的 Fac，效果常常太搶戲——兩種材質各佔一半畫面，而不是「主要是 A、偶爾露一點 B」的含蓄效果。這篇教一個簡單技巧：在雜訊跟 Fac 中間插一個數學（Math）節點做「相乘」，把整段 0-1 的範圍直接壓扁到很小的區間（例如 0-0.15），讓次要材質只在少數地方低調地透出來。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_mask_strength_scaling">開啟互動教學</a>
+      <a href="tutorial_mask_strength_scaling.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：先直接用雜訊驅動混合，看看太搶戲的樣子</h2>
+      <p>加入光澤 BSDF（Glossy BSDF，暖白色、粗糙度調低，代表一種閃亮的金屬碎屑材質）跟混合著色器（Mix Shader），把原本的原理化 BSDF（底材質）跟光澤 BSDF 分別接到兩個著色器輸入，混合著色器接到材質輸出。<br /><br />加入雜訊紋理（Noise Texture），把它的係數（Fac）直接接到混合著色器的 Fac。畫面會變成兩種材質幾乎對半分——光澤材質佔比太高，看起來不像「點綴」，比較像兩種材質隨機拼接。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：插入一個數學節點，運算選「相乘」</h2>
+      <p>在雜訊紋理跟混合著色器中間插入數學（Math）節點，運算（Operation）選相乘（Multiply）。先不改第二個數值，這一步只是把接線改成「雜訊→數學→Fac」。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：把第二個數值調很小，壓扁整段範圍</h2>
+      <p>把數學節點的第二個數值調到 0.15 左右。原本 0-1 的雜訊範圍，乘上 0.15 之後全部被壓進 0-0.15 之間——這代表 Fac 幾乎永遠很小、只有極少數最亮的雜訊點才會讓光澤材質稍微露臉。畫面應該會變成「主要是原本的底材質，只在少數地方低調閃一下」，含蓄很多。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：理解這個技巧能用在哪裡</h2>
+      <p>這個「乘一個小於 1 的數字，把範圍壓扁」的技巧不是只能用在 Mix Shader 的 Fac——任何接受 0-1 數值的插槽（例如 Bump 的 Strength、Emission 的 Strength 想要的話也可以反過來乘大於 1 的數放大），都可以用同樣的方法讓效果更含蓄或更強烈，是比映射範圍（Map Range）更簡單、專門用在「只想往 0 靠攏、不需要改變上限」這種場合的做法。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

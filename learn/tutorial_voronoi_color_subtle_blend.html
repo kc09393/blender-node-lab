@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>讓沃羅諾伊色塊變得若隱若現：低比例混色 · Blender 5.0 引導教學</title>
+<meta name="description" content="沃羅諾伊紋理（Voronoi Texture）的顏色（Color）輸出直接接到底色，每個細胞會是一塊隨機的鮮豔色塊——很搶眼，但很少有真實材質長這樣。這篇教鍍鋅浪板（Galvanized Zinc）這個材質用的技巧：不要直接顯示 Voronoi 的顏色，而是用混合顏色（Mix Color）把它以很低的比例（例如 0.22）疊回一個基底色，色塊立刻從「拼貼馬賽克」變成金屬表面本身那種若隱若現的結晶紋路。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="讓沃羅諾伊色塊變得若隱若現：低比例混色 · Blender 5.0 引導教學" />
+<meta property="og:description" content="沃羅諾伊紋理（Voronoi Texture）的顏色（Color）輸出直接接到底色，每個細胞會是一塊隨機的鮮豔色塊——很搶眼，但很少有真實材質長這樣。這篇教鍍鋅浪板（Galvanized Zinc）這個材質用的技巧：不要直接顯示 Voronoi 的顏色，而是用混合顏色（Mix Color）把它以很低的比例（例如 0.22）疊回一個基底色，色塊立刻從「拼貼馬賽克」變成金屬表面本身那種若隱若現的結晶紋路。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"讓沃羅諾伊色塊變得若隱若現：低比例混色","description":"沃羅諾伊紋理（Voronoi Texture）的顏色（Color）輸出直接接到底色，每個細胞會是一塊隨機的鮮豔色塊——很搶眼，但很少有真實材質長這樣。這篇教鍍鋅浪板（Galvanized Zinc）這個材質用的技巧：不要直接顯示 Voronoi 的顏色，而是用混合顏色（Mix Color）把它以很低的比例（例如 0.22）疊回一個基底色，色塊立刻從「拼貼馬賽克」變成金屬表面本身那種若隱若現的結晶紋路。","inLanguage":"zh-Hant","educationalLevel":"中階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_voronoi_color_subtle_blend.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>讓沃羅諾伊色塊變得若隱若現：低比例混色</h1>
+    <p class="content-lead">沃羅諾伊紋理（Voronoi Texture）的顏色（Color）輸出直接接到底色，每個細胞會是一塊隨機的鮮豔色塊——很搶眼，但很少有真實材質長這樣。這篇教鍍鋅浪板（Galvanized Zinc）這個材質用的技巧：不要直接顯示 Voronoi 的顏色，而是用混合顏色（Mix Color）把它以很低的比例（例如 0.22）疊回一個基底色，色塊立刻從「拼貼馬賽克」變成金屬表面本身那種若隱若現的結晶紋路。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_voronoi_color_subtle_blend">開啟互動教學</a>
+      <a href="tutorial_voronoi_color_subtle_blend.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>中階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：直接顯示 Voronoi 顏色，看看太搶眼的樣子</h2>
+      <p>加入貼圖座標、映射（Scale 調到 12 左右）、沃羅諾伊紋理（Feature 選 F1，Scale 調到 18），把它的顏色（Color）輸出直接接到原理化 BSDF 的底色（Base Color）。<br /><br />畫面會變成一塊塊隨機顏色的多邊形拼貼，很像馬賽克磁磚，但完全不像任何真實金屬表面。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：改用混合顏色，把比例壓得很低</h2>
+      <p>加入混合顏色（Mix Color）節點：A 填回原本的鋼灰色底色、B 接沃羅諾伊的 Color 輸出、混合模式維持正常（Mix）、Fac 調到 0.22 左右。把原理化 BSDF 的底色改接混合顏色的輸出（取代原本沃羅諾伊直接接過去的線）。<br /><br />色塊應該立刻變得含蓄很多——底色仍然是主體，只在每個細胞邊界透出一點點若隱若現的色差，比較像真實金屬表面的結晶紋理，不再是明顯的拼貼色塊。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：用同一顆 Voronoi 的距離加一點點凹凸</h2>
+      <p>加入凹凸（Bump）節點，把同一顆沃羅諾伊紋理的距離（Distance）輸出接到 Bump 的高度（Height），強度調低（例如 0.25），再把 Bump 的法線接到原理化 BSDF 的法線插槽。<br /><br />現在細胞邊界不只顏色若隱若現，摸起來（光影反應）也有一點點顆粒感，兩種線索疊在一起更像實際金屬表面。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：這個技巧能用在哪裡</h2>
+      <p>只要一個遮罩或紋理的原始輸出「太搶戲、太像人工拼貼」，先別急著換掉整個技法——試試看用混合顏色把它以低比例疊回基底色，往往比重新設計整套紋理更快、更接近真實材質那種細膩、不張揚的變化感。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

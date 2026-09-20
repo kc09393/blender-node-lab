@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>混合著色器 · Blender 5.0 節點百科</title>
+<meta name="description" content="把兩個材質依照比例混合成一個，例如玻璃 = 玻璃反射 + 折射穿透混合。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="混合著色器 · Blender 5.0 節點百科" />
+<meta property="og:description" content="把兩個材質依照比例混合成一個，例如玻璃 = 玻璃反射 + 折射穿透混合。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/nodes/shader_mix_shader.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/nodes/shader_mix_shader.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/nodes/shader_mix_shader.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/nodes/shader_mix_shader.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"混合著色器","description":"把兩個材質依照比例混合成一個，例如玻璃 = 玻璃反射 + 折射穿透混合。","inLanguage":"zh-Hant","about":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/nodes/shader_mix_shader.html","isPartOf":"https://kc09393.github.io/blender-node-lab/encyclopedia.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 節點百科</div>
+    <h1>混合著色器</h1>
+    <p class="content-lead">把兩個材質依照比例混合成一個，例如玻璃 = 玻璃反射 + 折射穿透混合。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../sandbox.html?addNode=shader_mix_shader">在沙盒中試用</a>
+      <a href="shader_mix_shader.en.html">English</a>
+    </div>
+    <section><h2>新手說明</h2><p>Mix Shader 有三個輸入：Fac（混合比例，0 = 完全用上面那個、1 = 完全用下面那個）、Shader（上）、Shader（下）。做玻璃、車漆等「多層材質疊加」效果時很常用。</p></section>
+    <section><h2>進階說明</h2><p>物理上 Mix Shader 是依 Fac 選擇兩個 BSDF 的光程機率，而不是把材質參數直接混色。本沙盒會線性混合基礎、透射、塗層、絨光與薄膜等預覽欄位，是適合即時教學的近似。</p></section>
+    <section><h2>插槽</h2><table><thead><tr><th>方向</th><th>名稱</th><th>型別</th></tr></thead><tbody><tr><td>IN</td><td>Fac</td><td>float</td></tr><tr><td>IN</td><td>著色器</td><td>shader</td></tr><tr><td>IN</td><td>著色器</td><td>shader</td></tr><tr><td>OUT</td><td>Shader</td><td>shader</td></tr></tbody></table></section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>菲涅爾反轉：核心發光、邊緣透明 · Blender 5.0 引導教學</title>
+<meta name="description" content="菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。" />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="菲涅爾反轉：核心發光、邊緣透明 · Blender 5.0 引導教學" />
+<meta property="og:description" content="菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html" />
+<link rel="alternate" hreflang="en" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.en.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"菲涅爾反轉：核心發光、邊緣透明","description":"菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。","inLanguage":"zh-Hant","educationalLevel":"進階","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_fresnel_invert_core_glow.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">首頁</a>
+    <a href="../encyclopedia.html">節點百科</a>
+    <a href="../tutorials.html">引導教學</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 引導教學</div>
+    <h1>菲涅爾反轉：核心發光、邊緣透明</h1>
+    <p class="content-lead">菲涅爾（Fresnel）天生是「側邊掠視角度數值高、正對鏡頭數值低」——這剛好跟「正面看得到核心發光、側邊才露出玻璃反光」的需求完全相反。這篇教一個簡單但好用的技巧：用數學（Math）節點的「相減」算出「1 減菲涅爾」，直接把整條曲線上下反過來，霓虹燈管這種材質就是這樣做出來的。</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_fresnel_invert_core_glow">開啟互動教學</a>
+      <a href="tutorial_fresnel_invert_core_glow.en.html">English</a>
+    </div>
+    <div class="content-facts"><span>進階</span><span>4 個步驟</span></div>
+
+    <section class="content-step">
+      <h2>1. 第一步：疊一層發光，先用固定比例混合</h2>
+      <p>加入發光（Emission，顏色調成鮮豔的洋紅或青色，強度 3 左右）跟混合著色器（Mix Shader）。把原本的玻璃 BSDF 接到混合著色器的第一個 Shader 輸入、發光接到第二個，混合著色器接到材質輸出（取代原本玻璃直接接輸出的線）。<br /><br />先不要動 Fac，看看固定 50/50 混合是什麼樣子——整顆球均勻地半透明半發光，沒有「核心」跟「邊緣」的分別。</p>
+    </section>
+    <section class="content-step">
+      <h2>2. 第二步：接上菲涅爾，先看看方向對不對</h2>
+      <p>加入菲涅爾（Fresnel，IOR 用預設 1.45），把它的係數（Fac）直接接到混合著色器的 Fac。<br /><br />⚠️ 這一步先不要急著調整——旋轉一下預覽球觀察畫面：正對鏡頭的核心區域反而變成玻璃，側邊掠視角度反而是發光——這跟我們想要的「核心發光、邊緣玻璃」正好相反。原因是菲涅爾本身「正面看數值低、側邊掠視數值高」，而 Fac＝0 選第一個 Shader（玻璃）、Fac＝1 選第二個（發光）。</p>
+    </section>
+    <section class="content-step">
+      <h2>3. 第三步：插入數學節點做「1 減去」，把方向反過來</h2>
+      <p>在菲涅爾跟混合著色器中間插入一個數學（Math）節點，運算選相減（Subtract），第一個數值填 1，第二個數值接菲涅爾的 Fac；數學節點的輸出改接到混合著色器的 Fac（取代原本菲涅爾直接接過去的線）。<br /><br />現在「1 減菲涅爾」在正對鏡頭時數值高（選中發光）、側邊掠視時數值低（選中玻璃）——方向正確了。再轉一下預覽球確認：核心穩定發光，邊緣輪廓露出玻璃的反光質感。</p>
+    </section>
+    <section class="content-step">
+      <h2>4. 第四步：這個技巧能用在哪裡</h2>
+      <p>「用數學節點算 1 減某個值」是個通用技巧，不是只能反轉菲涅爾——任何一個 0-1 的遮罩，只要你想要的是它的「相反」（本來該亮的地方變暗、該暗的地方變亮），都可以用同一招，比重新設計一整套遮罩邏輯更簡單直接。</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Coordinates &amp; Mapping Basics · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Use a checker pattern to understand UV coordinates, and learn to control how a texture wraps, tiles, and positions using Texture Coordinate and Mapping." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Coordinates &amp; Mapping Basics · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Use a checker pattern to understand UV coordinates, and learn to control how a texture wraps, tiles, and positions using Texture Coordinate and Mapping." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Coordinates & Mapping Basics","description":"Use a checker pattern to understand UV coordinates, and learn to control how a texture wraps, tiles, and positions using Texture Coordinate and Mapping.","inLanguage":"en","educationalLevel":"Beginner","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_uv_mapping.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Coordinates &amp; Mapping Basics</h1>
+    <p class="content-lead">Use a checker pattern to understand UV coordinates, and learn to control how a texture wraps, tiles, and positions using Texture Coordinate and Mapping.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_uv_mapping&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_uv_mapping.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Beginner</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add a Checker Texture</h2>
+      <p>Drag in a Checker Texture from the Texture category and connect its Color output to Principled BSDF&#39;s Base Color. Right now it defaults to the object&#39;s UV, with no coordinate adjustment yet.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Wire Up Texture Coordinate</h2>
+      <p>Add a Texture Coordinate (Input category) and connect its Generated output to Checker Texture&#39;s Vector input.<br /><br />Generated coordinates follow the object&#39;s shape — even if the object moves or rotates, the pattern won&#39;t shift. That&#39;s its key difference from UV.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Add Mapping to Control Density</h2>
+      <p>Insert a Mapping node between Texture Coordinate and Checker Texture, and set all three Scale axes to 3 or higher — the checker pattern should get noticeably denser.<br /><br />Higher Scale means the texture repeats more times across the same surface.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Shift the Texture with Location</h2>
+      <p>Change Mapping&#39;s Location X to a non-zero value (e.g. 0.3) — the whole pattern should shift over. Location fine-tunes where the texture starts, often used when you need to align texture details precisely.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>

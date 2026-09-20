@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mix Color: Layering On Grime · Blender 5.0 Guided Tutorial</title>
+<meta name="description" content="Mix Color&#39;s Multiply mode can only darken, never brighten — the standard technique for layering grime or shadow maps onto a base color. The same concept as Photoshop&#39;s &#39;Multiply&#39; layer blend mode." />
+<meta name="theme-color" content="#1b1b1e" />
+<meta property="og:title" content="Mix Color: Layering On Grime · Blender 5.0 Guided Tutorial" />
+<meta property="og:description" content="Mix Color&#39;s Multiply mode can only darken, never brighten — the standard technique for layering grime or shadow maps onto a base color. The same concept as Photoshop&#39;s &#39;Multiply&#39; layer blend mode." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.en.html" />
+<meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="canonical" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.en.html" />
+<link rel="alternate" hreflang="zh-Hant" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.html" />
+<link rel="alternate" hreflang="x-default" href="https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.html" />
+<link rel="stylesheet" href="../css/theme.css" />
+<link rel="stylesheet" href="../css/content-page.css" />
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"LearningResource","name":"Mix Color: Layering On Grime","description":"Mix Color's Multiply mode can only darken, never brighten — the standard technique for layering grime or shadow maps onto a base color. The same concept as Photoshop's 'Multiply' layer blend mode.","inLanguage":"en","educationalLevel":"Intermediate","teaches":"Blender 5.0 material nodes","url":"https://kc09393.github.io/blender-node-lab/learn/tutorial_mix_color_grime.en.html","isPartOf":"https://kc09393.github.io/blender-node-lab/tutorials.html"}</script>
+</head>
+<body class="content-page">
+  <header class="content-nav">
+    <a href="../index.html">Home</a>
+    <a href="../encyclopedia.html">Node Encyclopedia</a>
+    <a href="../tutorials.html">Guided Tutorials</a>
+    <span>Blender 5.0</span>
+  </header>
+  <main class="content-main">
+
+    <div class="content-kicker">Blender 5.0 Guided Tutorial</div>
+    <h1>Mix Color: Layering On Grime</h1>
+    <p class="content-lead">Mix Color&#39;s Multiply mode can only darken, never brighten — the standard technique for layering grime or shadow maps onto a base color. The same concept as Photoshop&#39;s &#39;Multiply&#39; layer blend mode.</p>
+    <div class="content-actions">
+      <a class="content-primary" href="../tutorials.html?tutorial=tutorial_mix_color_grime&amp;lang=en">Open the interactive tutorial</a>
+      <a href="tutorial_mix_color_grime.html">繁體中文</a>
+    </div>
+    <div class="content-facts"><span>Intermediate</span><span>4 steps</span></div>
+
+    <section class="content-step">
+      <h2>1. Step 1: Add Voronoi as the Grime Pattern</h2>
+      <p>Add a Texture Coordinate and a Voronoi Texture, connect Generated to Vector, and raise Scale (e.g. to 8) for fine speckled spots.</p>
+    </section>
+    <section class="content-step">
+      <h2>2. Step 2: Add a Mix Color Node</h2>
+      <p>Drag in a Mix Color from the Color category, leave A as the original base color, and connect Voronoi&#39;s Color output to the B input.</p>
+    </section>
+    <section class="content-step">
+      <h2>3. Step 3: Switch to Multiply Mode</h2>
+      <p>Change the blend mode to Multiply. Its defining trait is &#39;can only darken, never brighten&#39;.<br /><br />No matter how bright the B input is, the result never exceeds the original base color. Perfect for grime and dirt.</p>
+    </section>
+    <section class="content-step">
+      <h2>4. Step 4: Connect to Base Color and Adjust the Ratio</h2>
+      <p>Connect Mix Color&#39;s output to Principled BSDF&#39;s Base Color, and raise Fac above 0.5 to make the grime more visible.</p>
+    </section>
+  </main>
+  <footer class="content-footer">Blender Material Node Lab · Blender 5.0 · 2026-09-20</footer>
+</body>
+</html>
