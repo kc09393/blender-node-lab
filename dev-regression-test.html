@@ -51,7 +51,7 @@ import { compileGraph } from "./js/core/compiler.js";
 import { getNodeType } from "./js/core/nodeRegistry.js";
 import presets from "./data/presets/index.js";
 import tutorials from "./data/tutorials/index.js";
-import { learningActivities } from "./data/learningActivities.js";
+import { learningActivities, resolveLearningActivity } from "./data/learningActivities.js";
 
 // 檢查一份原始 JSON graph 資料：typeId 是否存在、有沒有重複 id、
 // 連線是否都指向真的存在的節點/socket——這些問題 Graph.fromJSON() 會「悄悄跳過」
@@ -156,14 +156,9 @@ function runAll() {
   }
 
   for (const activity of learningActivities) {
-    const source = activity.sourceTutorialId
-      ? tutorials.find((tutorial) => tutorial.id === activity.sourceTutorialId)
-      : null;
-    const startGraph = activity.startGraph || source?.startGraph;
-    const targetGraph = activity.targetGraph || source?.endGraph;
-    const checks = activity.checksFromTutorial && source
-      ? source.steps.map((step) => step.check)
-      : (activity.checks || []).map((check) => check.test);
+    const resolved = resolveLearningActivity(activity, tutorials);
+    const { source, startGraph, targetGraph } = resolved;
+    const checks = resolved.checks.map((check) => check.test);
     const errors = [];
     if (activity.sourceTutorialId && !source) errors.push(`找不到來源教學：${activity.sourceTutorialId}`);
     if (!startGraph) errors.push("缺少 startGraph");
@@ -172,8 +167,17 @@ function runAll() {
     const targetAudit = targetGraph ? auditRawGraph(targetGraph) : { problems: [], graph: null };
     startAudit.problems.forEach((problem) => errors.push(`[startGraph] ${problem}`));
     targetAudit.problems.forEach((problem) => errors.push(`[targetGraph] ${problem}`));
+    const startCompile = tryCompile(startAudit.graph);
     const targetCompile = tryCompile(targetAudit.graph);
+    if (!startCompile.ok) errors.push(`[startGraph] 編譯錯誤：${startCompile.error}`);
     if (!targetCompile.ok) errors.push(`[targetGraph] 編譯錯誤：${targetCompile.error}`);
+    if (startAudit.graph && checks.length) {
+      try {
+        if (checks.every((check) => check(startAudit.graph))) errors.push("[startGraph] 一開始就通過全部檢查，案例沒有可完成的任務");
+      } catch (error) {
+        errors.push(`[startGraph checks] 拋出例外：${error.message}`);
+      }
+    }
     if (targetAudit.graph) {
       checks.forEach((check, index) => {
         try {

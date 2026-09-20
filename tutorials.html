@@ -77,6 +77,15 @@
           </div>
           <div class="section-progress" id="challenge-progress"></div>
         </div>
+        <div class="activity-toolbar">
+          <input type="search" id="challenge-search" aria-label="搜尋實戰案例 / Search challenges" placeholder="搜尋實戰案例…" data-i18n-placeholder="tutorials.searchChallenges" />
+          <select id="challenge-level" aria-label="實戰難度 / Challenge level">
+            <option value="" data-i18n="tutorials.caseFilterAll">全部難度</option>
+            <option value="beginner" data-i18n="tutorials.filterBeginner">入門</option>
+            <option value="intermediate" data-i18n="tutorials.filterIntermediate">中階</option>
+            <option value="advanced" data-i18n="tutorials.filterAdvanced">進階</option>
+          </select>
+        </div>
         <div class="activity-grid" id="challenge-cards"></div>
       </section>
 
@@ -87,6 +96,15 @@
             <p data-i18n="tutorials.debugSub">節點圖已經故意弄壞；找出症狀、原因與修法。</p>
           </div>
           <div class="section-progress" id="debug-progress"></div>
+        </div>
+        <div class="activity-toolbar">
+          <input type="search" id="debug-search" aria-label="搜尋除錯案例 / Search debug labs" placeholder="搜尋除錯案例…" data-i18n-placeholder="tutorials.searchDebugLabs" />
+          <select id="debug-level" aria-label="除錯難度 / Debug level">
+            <option value="" data-i18n="tutorials.caseFilterAll">全部難度</option>
+            <option value="beginner" data-i18n="tutorials.filterBasic">基礎</option>
+            <option value="intermediate" data-i18n="tutorials.filterIntermediate">中階</option>
+            <option value="advanced" data-i18n="tutorials.filterAdvanced">進階</option>
+          </select>
         </div>
         <div class="activity-grid" id="debug-cards"></div>
       </section>

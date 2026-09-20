@@ -24,7 +24,7 @@ import {
 } from "./core/learningProgress.js";
 import tutorials from "../data/tutorials/index.js";
 import learningPath from "../data/tutorials/learningPath.js";
-import { challenges, debugLabs, learningActivities, assessmentQuestions, conceptCards } from "../data/learningActivities.js";
+import { challenges, debugLabs, learningActivities, assessmentQuestions, conceptCards, resolveLearningActivity } from "../data/learningActivities.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
@@ -100,20 +100,7 @@ function getPathPosition(tutorialId) {
 }
 
 // ---------- 學習中心：診斷、實戰、除錯、間隔複習 ----------
-const resolvedActivities = learningActivities.map((activity) => {
-  const source = activity.sourceTutorialId
-    ? tutorials.find((tutorial) => tutorial.id === activity.sourceTutorialId)
-    : null;
-  const checks = activity.checksFromTutorial && source
-    ? source.steps.map((step) => ({ label: step.title, test: step.check }))
-    : activity.checks;
-  return {
-    ...activity,
-    startGraph: activity.startGraph || source?.startGraph,
-    targetGraph: activity.targetGraph || source?.endGraph,
-    checks: checks || [],
-  };
-});
+const resolvedActivities = learningActivities.map((activity) => resolveLearningActivity(activity, tutorials));
 const resolvedActivityById = new Map(resolvedActivities.map((activity) => [activity.id, activity]));
 
 const learningDialog = document.getElementById("learning-dialog");
@@ -174,15 +161,40 @@ function renderLearningDashboard() {
   mistakeButton.disabled = stats.mistakes === 0;
 }
 
-function renderActivityCards(items, containerId, progressId) {
+const activityFilters = {
+  challenge: { query: "", level: "" },
+  debug: { query: "", level: "" },
+};
+
+function activityDifficulty(activity) {
+  const label = `${activity.level?.zh || ""} ${activity.level?.en || ""}`.toLowerCase();
+  if (label.includes("進階") || label.includes("advanced")) return "advanced";
+  if (label.includes("中階") || label.includes("intermediate")) return "intermediate";
+  return "beginner";
+}
+
+function activityMatchesFilter(activity, filter) {
+  if (filter.level && activityDifficulty(activity) !== filter.level) return false;
+  const query = filter.query.trim().toLowerCase();
+  if (!query) return true;
+  return [activity.name?.zh, activity.name?.en, activity.description?.zh, activity.description?.en, activity.objective?.zh, activity.objective?.en, activity.topic]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase()
+    .includes(query);
+}
+
+function renderActivityCards(items, containerId, progressId, filterKey) {
   const lang = getLang();
   const container = document.getElementById(containerId);
   container.innerHTML = "";
   let completed = 0;
+  const visibleItems = items.filter((item) => activityMatchesFilter(item, activityFilters[filterKey]));
   for (const originalActivity of items) {
     const activity = resolvedActivityById.get(originalActivity.id);
     const record = learningState.activities[activity.id];
     if (record?.completedAt) completed += 1;
+    if (!visibleItems.some((item) => item.id === activity.id)) continue;
     const card = document.createElement("article");
     card.className = `activity-card${record?.completedAt ? " completed" : ""}`;
     card.innerHTML = `
@@ -195,9 +207,13 @@ function renderActivityCards(items, containerId, progressId) {
     card.querySelector("button").addEventListener("click", () => startActivity(activity));
     container.appendChild(card);
   }
+  if (visibleItems.length === 0) {
+    container.innerHTML = `<div class="activity-empty">${lang === "zh" ? "沒有符合條件的案例" : "No activities match these filters"}</div>`;
+  }
+  const filteredNote = visibleItems.length === items.length ? "" : (lang === "zh" ? ` · 顯示 ${visibleItems.length}` : ` · showing ${visibleItems.length}`);
   document.getElementById(progressId).textContent = lang === "zh"
-    ? `已完成 ${completed} / ${items.length}`
-    : `${completed} / ${items.length} completed`;
+    ? `已完成 ${completed} / ${items.length}${filteredNote}`
+    : `${completed} / ${items.length} completed${filteredNote}`;
 }
 
 let conceptIndex = Math.floor(Date.now() / 86400000) % conceptCards.length;
@@ -296,10 +312,26 @@ function openAssessment() {
 
 function renderLearningHub() {
   renderLearningDashboard();
-  renderActivityCards(challenges, "challenge-cards", "challenge-progress");
-  renderActivityCards(debugLabs, "debug-cards", "debug-progress");
+  renderActivityCards(challenges, "challenge-cards", "challenge-progress", "challenge");
+  renderActivityCards(debugLabs, "debug-cards", "debug-progress", "debug");
   renderConceptCard();
 }
+
+function bindActivityFilters(kind, items, containerId, progressId) {
+  const search = document.getElementById(`${kind}-search`);
+  const level = document.getElementById(`${kind}-level`);
+  search.addEventListener("input", () => {
+    activityFilters[kind].query = search.value;
+    renderActivityCards(items, containerId, progressId, kind);
+  });
+  level.addEventListener("change", () => {
+    activityFilters[kind].level = level.value;
+    renderActivityCards(items, containerId, progressId, kind);
+  });
+}
+
+bindActivityFilters("challenge", challenges, "challenge-cards", "challenge-progress");
+bindActivityFilters("debug", debugLabs, "debug-cards", "debug-progress");
 
 document.getElementById("assessment-start-btn").addEventListener("click", openAssessment);
 document.getElementById("review-due-btn").addEventListener("click", () => {
