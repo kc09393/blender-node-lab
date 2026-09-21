@@ -61,6 +61,12 @@ try {
 
   await page.goto(`http://127.0.0.1:${port}/tutorials.html`, { waitUntil: "networkidle" });
   await page.waitForSelector('[data-learning-view="courses"]:not([hidden])');
+  await page.waitForSelector(".path-stage[open]");
+  if (await page.locator(".path-stage[open]").count() !== 1) errors.push("learning path should expand only the current stage");
+  if (await page.locator(".browse-all-details").evaluate((details) => details.open)) errors.push("all tutorials should stay collapsed until requested");
+  await page.locator(".browse-all-details > summary").click();
+  if (await page.locator("#tutorial-cards .tutorial-card").count() !== 83) errors.push("collapsed tutorial directory did not preserve all 83 lessons");
+  await page.locator(".browse-all-details > summary").click();
   if (!await page.locator('[data-learning-view="review"]').first().isHidden()) errors.push("review content should not clutter the default course view");
   await page.locator('[data-learning-view-target="review"]').click();
   await page.waitForSelector(".skill-row");
@@ -114,6 +120,38 @@ try {
   watchPage(page);
   await page.goto(`http://127.0.0.1:${port}/sandbox.html`, { waitUntil: "commit" });
   await page.waitForFunction(() => Boolean(window.__bmlSandbox?.editor), null, { timeout: 60000 });
+  if (await page.locator("#btn-export").isVisible()) errors.push("secondary file tools should not clutter the default sandbox toolbar");
+  await page.locator(".toolbar-more > summary").click();
+  if (!await page.locator("#btn-export").isVisible()) errors.push("more-tools menu did not reveal JSON tools");
+  await page.locator(".toolbar-more > summary").click();
+  await page.keyboard.press("Shift+A");
+  if ((await page.evaluate(() => document.activeElement?.id)) !== "palette-search") errors.push("Shift+A did not open the add-node search like Blender");
+  await page.locator("#graph-canvas").click({ position: { x: 30, y: 30 } });
+  const nodeCountBeforeDelete = await page.locator(".node-card").count();
+  const editableNodeId = await page.evaluate(() => [...window.__bmlSandbox.editor.graph.nodes.values()].find((node) => node.typeId !== "output_material")?.id);
+  await page.locator(`.node-card[data-node-id="${editableNodeId}"] .node-header`).click();
+  await page.keyboard.press("x");
+  if (await page.locator(".node-card").count() !== nodeCountBeforeDelete - 1) errors.push("X did not delete the selected node like Blender");
+  await page.keyboard.press("Control+z");
+  if (await page.locator(".node-card").count() !== nodeCountBeforeDelete) errors.push("undo did not restore the node deleted with X");
+  const cutGesture = await page.evaluate(() => {
+    const editor = window.__bmlSandbox.editor;
+    const link = [...editor.graph.links.values()][0];
+    const from = document.querySelector(`.socket[data-node-id="${link.fromNode}"][data-socket-key="${link.fromSocket}"][data-dir="out"]`).getBoundingClientRect();
+    const to = document.querySelector(`.socket[data-node-id="${link.toNode}"][data-socket-key="${link.toSocket}"][data-dir="in"]`).getBoundingClientRect();
+    const x = ((from.left + from.right) / 2 + (to.left + to.right) / 2) / 2;
+    const y = ((from.top + from.bottom) / 2 + (to.top + to.bottom) / 2) / 2;
+    return { x, y, linkCount: editor.graph.links.size };
+  });
+  await page.keyboard.down("Control");
+  await page.mouse.move(cutGesture.x, cutGesture.y - 70);
+  await page.mouse.down({ button: "right" });
+  await page.mouse.move(cutGesture.x, cutGesture.y + 70, { steps: 8 });
+  await page.mouse.up({ button: "right" });
+  await page.keyboard.up("Control");
+  const linkCountAfterCut = await page.evaluate(() => window.__bmlSandbox.editor.graph.links.size);
+  if (linkCountAfterCut !== cutGesture.linkCount - 1) errors.push("Ctrl+right-drag did not cut a link like Blender");
+  await page.keyboard.press("Control+z");
   await page.locator("#btn-ab-save").click();
   if (await page.locator("#btn-ab-compare").isDisabled()) errors.push("A/B compare did not enable after saving baseline A");
   await page.evaluate(() => {

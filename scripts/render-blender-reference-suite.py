@@ -144,8 +144,13 @@ manifest = {
         ["metal-roughness-015", "metal-roughness-080"],
         ["transmission-000", "transmission-100"],
         ["emission-strength-1", "emission-strength-8"],
-        ["subsurface-000", "subsurface-100"],
         ["thin-wall-off", "thin-wall-on"],
+    ],
+    "excludedPairs": [
+        {
+            "ids": ["subsurface-000", "subsurface-100"],
+            "reason": "This fixed EEVEE sphere scene changes RGB by at most one 8-bit code value, so it is retained as a reference render but not counted as visible A/B evidence.",
+        }
     ],
 }
 (OUTPUT / "manifest.json").write_text(json.dumps(manifest, ensure_ascii=False, indent=2), encoding="utf-8")

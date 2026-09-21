@@ -142,9 +142,20 @@
 .learning-path-header h2 { margin: 0 0 4px; font-size: 17px; }
 .learning-path-sub { margin: 0; color: var(--text-2); font-size: 12.5px; max-width: 560px; line-height: 1.6; }
 .learning-path-progress { margin-top: 8px; font-size: 12px; color: var(--accent); font-weight: 600; }
-.path-toggle-btn { flex-shrink: 0; font-size: 12px; }
-.learning-path-body { margin-top: 18px; display: flex; flex-direction: column; gap: 18px; }
-.path-stage h3 { margin: 0 0 10px; font-size: 13px; color: var(--accent); }
+.learning-path-body { margin-top: 18px; display: flex; flex-direction: column; gap: 9px; }
+.path-stage { overflow: hidden; border: 1px solid var(--border); border-radius: 8px; background: rgba(20,20,24,.38); }
+.path-stage[open] { border-color: rgba(255,164,48,.5); background: rgba(255,164,48,.035); }
+.path-stage > summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 14px; color: var(--text-1); font-size: 13px; font-weight: 700; cursor: pointer;
+  list-style: none;
+}
+.path-stage > summary::-webkit-details-marker { display: none; }
+.path-stage > summary::after { content: "▾"; color: var(--text-2); transition: transform .15s ease; }
+.path-stage:not([open]) > summary::after { transform: rotate(-90deg); }
+.path-stage[open] > summary { color: var(--accent); border-bottom: 1px solid var(--border); }
+.path-stage-progress { margin-left: auto; color: var(--text-2); font-size: 11px; font-weight: 600; }
+.path-stage .path-steps { padding: 12px; }
 .path-steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
 .path-step {
   display: flex; gap: 10px; padding: 10px 12px; border-radius: 6px;
@@ -166,7 +177,10 @@
 .path-step-name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
 .path-step-note { font-size: 11.5px; color: var(--text-2); line-height: 1.5; }
 
-.browse-all-heading { font-size: 15px; color: var(--text-1); margin: 0 0 14px; }
+.browse-all-details { margin-bottom: 30px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--bg-1); }
+.browse-all-details > summary { padding: 14px 18px; color: var(--text-1); font-size: 14px; font-weight: 700; cursor: pointer; }
+.browse-all-details[open] > summary { color: var(--accent); border-bottom: 1px solid var(--border); }
+.browse-all-content { padding: 18px; }
 
 .tutorial-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-bottom: 20px; }
 .tutorial-search { flex: 1; min-width: 200px; }

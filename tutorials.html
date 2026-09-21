@@ -161,25 +161,28 @@
             <p class="learning-path-sub" data-i18n="tutorials.pathSub">不知道從哪裡開始？照這條主線走一輪，從材質圖基礎到綜合實戰，一步一步循序漸進。</p>
             <div class="learning-path-progress" id="learning-path-progress"></div>
           </div>
-          <button type="button" id="path-toggle" class="path-toggle-btn"></button>
         </div>
         <div id="learning-path-body" class="learning-path-body"></div>
       </section>
 
-      <h2 class="browse-all-heading" data-i18n="tutorials.browseAllHeading">瀏覽全部教學</h2>
-      <div class="tutorial-toolbar">
-        <input type="text" id="tutorial-search" class="tutorial-search" aria-label="搜尋教學 / Search tutorials" placeholder="搜尋教學名稱、內容…" data-i18n-placeholder="tutorials.searchPlaceholder" />
-        <div class="tutorial-level-filters" id="tutorial-level-filters">
-          <button type="button" class="level-filter-btn active" data-level="" data-i18n="tutorials.filterAll">全部</button>
-          <button type="button" class="level-filter-btn" data-level="入門" data-i18n="tutorials.filterBeginner">入門</button>
-          <button type="button" class="level-filter-btn" data-level="中階" data-i18n="tutorials.filterIntermediate">中階</button>
-          <button type="button" class="level-filter-btn" data-level="進階" data-i18n="tutorials.filterAdvanced">進階</button>
+      <details class="browse-all-details">
+        <summary data-i18n="tutorials.browseAllHeading">瀏覽全部教學</summary>
+        <div class="browse-all-content">
+          <div class="tutorial-toolbar">
+            <input type="text" id="tutorial-search" class="tutorial-search" aria-label="搜尋教學 / Search tutorials" placeholder="搜尋教學名稱、內容…" data-i18n-placeholder="tutorials.searchPlaceholder" />
+            <div class="tutorial-level-filters" id="tutorial-level-filters">
+              <button type="button" class="level-filter-btn active" data-level="" data-i18n="tutorials.filterAll">全部</button>
+              <button type="button" class="level-filter-btn" data-level="入門" data-i18n="tutorials.filterBeginner">入門</button>
+              <button type="button" class="level-filter-btn" data-level="中階" data-i18n="tutorials.filterIntermediate">中階</button>
+              <button type="button" class="level-filter-btn" data-level="進階" data-i18n="tutorials.filterAdvanced">進階</button>
+            </div>
+            <div class="tutorial-progress" id="tutorial-progress"></div>
+          </div>
+          <div id="tutorial-cards" class="tutorial-cards">
+            <div class="empty-hint">教學載入中…</div>
+          </div>
         </div>
-        <div class="tutorial-progress" id="tutorial-progress"></div>
-      </div>
-      <div id="tutorial-cards" class="tutorial-cards">
-        <div class="empty-hint">教學載入中…</div>
-      </div>
+      </details>
       </section>
     </div>
 

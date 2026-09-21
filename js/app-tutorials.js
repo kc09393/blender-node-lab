@@ -48,7 +48,6 @@ const searchInput = document.getElementById("tutorial-search");
 const levelFilterContainer = document.getElementById("tutorial-level-filters");
 const progressEl = document.getElementById("tutorial-progress");
 const pathBody = document.getElementById("learning-path-body");
-const pathToggleBtn = document.getElementById("path-toggle");
 
 // 學習中心只顯示一種工作模式，避免課程、挑戰、除錯與複習內容同時堆在長頁面上。
 // view 會留在網址中，讓使用者可以直接分享某個分區，也支援瀏覽器上一頁／下一頁。
@@ -89,23 +88,6 @@ const learningState = loadLearningState();
 const completedSet = completedTutorialIds(learningState);
 
 let currentLevelFilter = ""; // "" = 全部，或 "入門"/"中階"/"進階"（用 level.zh 當穩定 key，不受目前顯示語言影響）
-
-// ---------- 建議學習路徑：跟下面的搜尋/篩選清單完全獨立，只是另一種瀏覽方式 ----------
-const PATH_COLLAPSED_KEY = "bml_learning_path_collapsed_v1";
-function isPathCollapsed() {
-  try {
-    return localStorage.getItem(PATH_COLLAPSED_KEY) === "1";
-  } catch {
-    return false;
-  }
-}
-function setPathCollapsed(collapsed) {
-  try {
-    localStorage.setItem(PATH_COLLAPSED_KEY, collapsed ? "1" : "0");
-  } catch {
-    // 存不進去就這次瀏覽記不住收合狀態，不影響功能本身。
-  }
-}
 
 // 學習路徑的扁平順序（跨階段），用來在「完成教學」時算出「下一步是哪篇」——
 // 沒有這個，使用者跟著學習路徑做完一篇教學後只會被丟回一個很長的列表最上方，
@@ -542,12 +524,6 @@ document.getElementById("progress-restore-input").addEventListener("change", asy
 });
 
 function renderLearningPath() {
-  const collapsed = isPathCollapsed();
-  pathToggleBtn.textContent = collapsed
-    ? (getLang() === "zh" ? "展開 ▾" : "Expand ▾")
-    : (getLang() === "zh" ? "收合 ▴" : "Collapse ▴");
-  pathBody.hidden = collapsed;
-
   // 路徑本身的完成度（跟下面「瀏覽全部教學」的全站進度數字是兩個不同的概念，
   // 分開顯示——使用者跟著路徑走時關心的是「這條路徑走到哪」，不是全站教學總數裡完成幾篇，
   // 兩個數字混在一起容易誤解。放在收合狀態外面，收合時也看得到目前進度。
@@ -560,19 +536,26 @@ function renderLearningPath() {
         : `Path progress: ${pathDone} / ${learningPathFlatIds.length} completed`;
   }
 
-  if (collapsed) return;
-
   // 回訪的使用者（關掉瀏覽器隔天回來）沒有「完成教學」那個當下的下一步提示可看，
   // 只能自己在 27 張卡片裡找第一個沒打勾的——標出「從這裡繼續」，跟前面完成教學後
   // 的即時導引互補，涵蓋「當下繼續」跟「回訪繼續」兩種情境。
   const nextUpId = learningPathFlatIds.find((id) => !completedSet.has(id));
+  const nextStageIndex = learningPath.findIndex((stage) => stage.steps.some((step) => step.tutorialId === nextUpId));
+  const currentStageIndex = nextStageIndex >= 0 ? nextStageIndex : Math.max(0, learningPath.length - 1);
 
   pathBody.innerHTML = "";
-  for (const stage of learningPath) {
-    const stageEl = document.createElement("div");
+  learningPath.forEach((stage, stageIndex) => {
+    const stageEl = document.createElement("details");
     stageEl.className = "path-stage";
-    const stageTitle = document.createElement("h3");
-    stageTitle.textContent = tBi(stage.title);
+    stageEl.open = stageIndex === currentStageIndex;
+    const stageDone = stage.steps.reduce((count, step) => count + Number(completedSet.has(step.tutorialId)), 0);
+    const stageTitle = document.createElement("summary");
+    const titleText = document.createElement("span");
+    titleText.textContent = tBi(stage.title);
+    const progressText = document.createElement("span");
+    progressText.className = "path-stage-progress";
+    progressText.textContent = `${stageDone}/${stage.steps.length}`;
+    stageTitle.append(titleText, progressText);
     stageEl.appendChild(stageTitle);
 
     const list = document.createElement("div");
@@ -601,12 +584,8 @@ function renderLearningPath() {
     });
     stageEl.appendChild(list);
     pathBody.appendChild(stageEl);
-  }
+  });
 }
-pathToggleBtn.addEventListener("click", () => {
-  setPathCollapsed(!isPathCollapsed());
-  renderLearningPath();
-});
 
 // ---------- 教學卡片縮圖：把每個教學的「完成材質」（endGraph）渲染成一張靜態小圖 ----------
 // 用同一個隱藏的 Preview3D 實例依序渲染每張縮圖，而不是每張卡片各開一個 WebGL context——
@@ -897,6 +876,11 @@ function ensureEditorInitialized() {
 
   const paletteList = document.getElementById("t-palette-list");
   const paletteSearch = document.getElementById("t-palette-search");
+  canvasEl.addEventListener("nodeaddrequest", () => {
+    document.querySelector('#tutorial-run-view .mobile-panel-tab[data-panel="nodes"]')?.click();
+    paletteSearch.focus();
+    paletteSearch.select();
+  });
   function refreshPalette() {
     // 點選節點面板的項目：節點會跟著游標移動，再點一次畫布才放置（比照 Blender 的 Shift+A 流程）。
     renderPalette(paletteList, paletteSearch.value, (typeId) => editor.startPlacingNode(typeId));

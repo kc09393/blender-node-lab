@@ -35,7 +35,7 @@
     <section class="validation-stats">
       <div><strong>81 / 82</strong><span data-i18n="validation.schemaStat">節點映射到官方 5.2.2 結構；1 個為已移除舊節點</span></div>
       <div><strong>12</strong><span data-i18n="validation.renderStat">官方 Blender 參考渲染</span></div>
-      <div><strong>6</strong><span data-i18n="validation.pairStat">單一參數 A/B 效果組</span></div>
+      <div><strong>5</strong><span data-i18n="validation.pairStat">通過像素門檻的單一參數 A/B 效果組</span></div>
       <div><strong>90</strong><span data-i18n="validation.assetStat">已驗證 Material Assets</span></div>
     </section>
     <section class="validation-section">
@@ -43,7 +43,7 @@
       <ol>
         <li data-i18n="validation.method1">以 Blender 5.2.2 執行檔匯出 118 種著色節點的中英文名稱、插槽、預設值與選項。</li>
         <li data-i18n="validation.method2">自動比對網站 82 個節點；81 個對應現行官方節點，Point Density 保留為歷史文件。</li>
-        <li data-i18n="validation.method3">固定場景、攝影機與燈光，只改一個參數後由 EEVEE 渲染，確認每組結果確實有像素差異。</li>
+        <li data-i18n="validation.method3">固定場景、攝影機與燈光，只改一個參數後由 EEVEE 渲染；解碼 PNG 逐像素比較 RGB，未達可量化差異門檻的組合不列入有效證據。</li>
         <li data-i18n="validation.method4">將網站節點圖匯出到 Blender，重建所有 90 個材質並重新開啟 .blend 檢查資產與接線。</li>
       </ol>
     </section>

@@ -264,12 +264,17 @@
       "emission-strength-8"
     ],
     [
-      "subsurface-000",
-      "subsurface-100"
-    ],
-    [
       "thin-wall-off",
       "thin-wall-on"
     ]
+  ],
+  "excludedPairs": [
+    {
+      "ids": [
+        "subsurface-000",
+        "subsurface-100"
+      ],
+      "reason": "This fixed EEVEE sphere scene changes RGB by at most one 8-bit code value, so it is retained as a reference render but not counted as visible A/B evidence."
+    }
   ]
 }

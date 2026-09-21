@@ -155,6 +155,14 @@ if (addNodeParam && getNodeType(addNodeParam)) {
 const paletteList = document.getElementById("palette-list");
 const paletteSearch = document.getElementById("palette-search");
 
+// Blender 的 Shift+A 是新增節點入口；在本站將焦點移到同一份可搜尋節點清單。
+// 手機上先切到「節點」分頁，避免焦點落到目前看不見的側欄。
+canvasEl.addEventListener("nodeaddrequest", () => {
+  document.querySelector('.mobile-panel-tab[data-panel="nodes"]')?.click();
+  paletteSearch.focus();
+  paletteSearch.select();
+});
+
 function addNodeNearCenter(typeId) {
   const rect = canvasEl.getBoundingClientRect();
   const { x, y } = editor.screenToGraph(rect.left + rect.width / 2, rect.top + rect.height / 2);
@@ -348,6 +356,10 @@ document.getElementById("btn-blender-export").addEventListener("click", () => {
 
 document.getElementById("btn-blender-library").addEventListener("click", () => {
   location.href = "downloads/blender-node-lab-material-library-5.2.2.blend";
+});
+
+document.querySelector(".toolbar-more")?.addEventListener("click", (event) => {
+  if (event.target.closest("button")) event.currentTarget.open = false;
 });
 
 let abSnapshot = null;

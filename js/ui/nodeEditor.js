@@ -103,7 +103,8 @@ export class NodeEditor {
     // B 自己的監聽器永遠不會被觸發，使用者會發現「用手指怎麼拖都連不上線」。
     window.addEventListener("pointerup", (e) => this._resolvePendingLinkFromPointer(e), true);
     container.addEventListener("contextmenu", (e) => {
-      // 右鍵在這個畫布上永遠用來取消放置節點／剪電線手勢，不要跳出瀏覽器的右鍵選單。
+      // 右鍵在放置節點時等同 Blender 的取消；Ctrl+右鍵拖曳則是 Blender 的剪線手勢。
+      // 本站沒有自訂節點右鍵選單，因此仍阻止瀏覽器選單蓋住畫布。
       e.preventDefault();
       if (this.placingTypeId) this._cancelPlacing();
     });
@@ -434,8 +435,8 @@ export class NodeEditor {
       return;
     }
 
-    // 右鍵拖曳＝剪斷電線（比照 Blender 的 Ctrl+右鍵剪刀手勢，這裡簡化成單純右鍵拖曳）。
-    if (e.button === 2) {
+    // Ctrl+右鍵拖曳＝剪斷電線，跟 Blender Node Editor 的 Cut Links 完全相同。
+    if (e.button === 2 && e.ctrlKey) {
       e.preventDefault();
       const rect = this.container.getBoundingClientRect();
       this.cutStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
@@ -872,7 +873,28 @@ export class NodeEditor {
       this._spacePressed = true;
       e.preventDefault();
     }
-    if (e.key === "Delete" || e.key === "Backspace") {
+    // Shift+A：跟 Blender 一樣開啟新增節點入口。實際呈現由沙盒／教學頁把焦點
+    // 移到可搜尋節點面板，NodeEditor 本身保持不依賴外部版面。
+    if (e.code === "KeyA" && e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      this.container.dispatchEvent(new CustomEvent("nodeaddrequest", { bubbles: true }));
+      return;
+    }
+    // A 全選、Alt+A 取消全選，對齊 Blender 預設鍵位。
+    if (e.code === "KeyA" && !e.ctrlKey && !e.metaKey) {
+      e.preventDefault();
+      if (e.altKey) {
+        this.selectedNodeIds.clear();
+        this._lastSelectedId = null;
+        this.selectedLinkId = null;
+      } else {
+        this.selectedNodeIds = new Set(this.graph.nodes.keys());
+        this._lastSelectedId = [...this.selectedNodeIds][0] || null;
+      }
+      this.render();
+      return;
+    }
+    if (e.key === "Delete" || e.key === "Backspace" || (e.code === "KeyX" && !e.ctrlKey && !e.metaKey && !e.altKey)) {
       if (this.selectedNodeIds.size > 0 || this.selectedLinkId) {
         e.preventDefault();
         this.removeSelected();
@@ -888,6 +910,11 @@ export class NodeEditor {
     if (e.key === "Home") {
       e.preventDefault();
       this.frameAll();
+    }
+    // Numpad .：縮放至選取項目（Blender 的 Frame Selected）。
+    if (e.code === "NumpadDecimal") {
+      e.preventDefault();
+      this.frameSelected();
     }
     // Ctrl/Cmd+Z＝復原，Ctrl/Cmd+Shift+Z 或 Ctrl/Cmd+Y＝重做（比照大多數軟體慣例）。
     // 用 e.code 而非 e.key：Ctrl 按住時某些鍵盤配置的 e.key 不是穩定的 "z"/"y"。
@@ -929,7 +956,14 @@ export class NodeEditor {
   }
 
   frameAll() {
-    const nodes = [...this.graph.nodes.values()];
+    this._frameNodes([...this.graph.nodes.values()]);
+  }
+
+  frameSelected() {
+    this._frameNodes([...this.selectedNodeIds].map((id) => this.graph.nodes.get(id)).filter(Boolean));
+  }
+
+  _frameNodes(nodes) {
     if (nodes.length === 0) return;
     let minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity;
     for (const node of nodes) {
