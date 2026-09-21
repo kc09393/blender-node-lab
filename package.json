@@ -4,6 +4,7 @@
   "type": "module",
   "scripts": {
     "generate:seo": "node scripts/generate-seo-pages.mjs",
+    "generate:home-posters": "node scripts/generate-home-posters.mjs",
     "generate:blender-map": "node scripts/generate-blender-export-map.mjs",
     "build:blender-library": "node scripts/build-blender-asset-library.mjs",
     "qa:blender-renders": "node scripts/audit-blender-reference-renders.mjs",

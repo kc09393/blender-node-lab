@@ -114,6 +114,15 @@ const DICT = {
   },
   "landing.ctaLearningPath": { zh: "開始第一堂課", en: "Start the First Lesson" },
   "landing.ctaSandbox": { zh: "開啟節點沙盒", en: "Open the Node Sandbox" },
+  "landing.enable3d": { zh: "啟用互動 3D", en: "Enable Interactive 3D" },
+  "landing.loading3d": { zh: "正在載入 3D…", en: "Loading 3D…" },
+  "landing.unavailable3d": { zh: "此裝置無法啟用 3D", en: "3D Unavailable on This Device" },
+  "landing.materialPeacock": { zh: "孔雀羽毛", en: "Peacock Feather" },
+  "landing.materialHolographic": { zh: "全像箔膜", en: "Holographic Foil" },
+  "landing.materialGold": { zh: "熔化黃金", en: "Molten Gold" },
+  "landing.materialJade": { zh: "翡翠玉石", en: "Jade Stone" },
+  "landing.materialDragon": { zh: "龍鱗盔甲", en: "Dragon Scale Armor" },
+  "landing.materialMeteorite": { zh: "外星隕石", en: "Alien Meteorite" },
   "landing.pathwaysTitle": { zh: "你現在想做什麼？", en: "What Do You Want to Do?" },
   "landing.pathwaysSub": { zh: "不用先理解全部功能，直接選最接近你現在需求的入口。", en: "Skip the feature tour and choose the route that matches what you need now." },
   "landing.pathCourseTitle": { zh: "從基礎開始學", en: "Start from the Basics" },
@@ -286,6 +295,9 @@ export function applyI18n(root = document) {
   });
   root.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
     el.setAttribute("placeholder", t(el.getAttribute("data-i18n-placeholder")));
+  });
+  root.querySelectorAll("[data-i18n-alt]").forEach((el) => {
+    el.setAttribute("alt", t(el.getAttribute("data-i18n-alt")));
   });
   root.querySelectorAll("[data-i18n-content]").forEach((el) => {
     el.setAttribute("content", t(el.getAttribute("data-i18n-content")));

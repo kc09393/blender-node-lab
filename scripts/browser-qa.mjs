@@ -21,24 +21,35 @@ const server = createServer((request, response) => {
 await new Promise((resolveListen) => server.listen(0, "127.0.0.1", resolveListen));
 const { port } = server.address();
 const browser = await chromium.launch({ headless: true });
-const page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+let page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
 const errors = [];
-page.on("pageerror", (error) => errors.push(`pageerror: ${error.message}`));
-page.on("console", (message) => {
-  if (message.type() === "error") errors.push(`console: ${message.text()}`);
-});
+const requestedUrls = [];
+function watchPage(activePage) {
+  activePage.on("request", (request) => requestedUrls.push(request.url()));
+  activePage.on("pageerror", (error) => errors.push(`pageerror: ${error.message}`));
+  activePage.on("console", (message) => {
+    if (message.type() === "error") errors.push(`console: ${message.text()}`);
+  });
+}
+watchPage(page);
 
 try {
+  await page.setViewportSize({ width: 390, height: 844 });
   await page.goto(`http://127.0.0.1:${port}/index.html`, { waitUntil: "networkidle" });
-  await page.waitForFunction(() => document.querySelector(".gallery-thumb")?.src?.startsWith("data:image/"), null, { timeout: 30000 });
+  await page.waitForFunction(() => document.querySelector(".hero-preview-poster")?.complete && document.querySelector(".hero-preview-poster")?.naturalWidth > 0);
   if (await page.locator(".pathway-card").count() !== 4) errors.push("homepage should offer 4 task-based entry paths");
   if (await page.locator(".gallery-card").count() !== 6) errors.push("homepage gallery should show 6 focused material examples");
+  if (!String(await page.locator(".gallery-thumb").first().getAttribute("src")).endsWith(".jpg")) errors.push("homepage gallery does not use static material posters");
+  if (await page.locator("#hero-preview-container canvas").count()) errors.push("homepage mobile view created WebGL before user consent");
+  if (requestedUrls.some((url) => url.includes("three.module.js"))) errors.push("homepage mobile view downloaded Three.js before user consent");
   if (await page.locator(".version-badge").count()) errors.push("homepage still exposes the old technical version badge");
   const statValues = await page.locator("#hero-stats b").allTextContents();
   if (statValues.join(",") !== "90,83,80") errors.push(`unexpected homepage learning stats: ${statValues.join(",")}`);
-  await page.setViewportSize({ width: 390, height: 844 });
   const homeOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   if (homeOverflow !== 0) errors.push(`homepage mobile horizontal overflow: ${homeOverflow}px`);
+  await page.locator("#hero-enable-3d").click();
+  await page.waitForSelector("#hero-preview-container.live canvas", { timeout: 30000 });
+  if (!requestedUrls.some((url) => url.includes("three.module.js"))) errors.push("homepage 3D opt-in did not load Three.js");
   await page.setViewportSize({ width: 1280, height: 900 });
 
   await page.goto(`http://127.0.0.1:${port}/dev-regression-test.html`, { waitUntil: "networkidle" });
@@ -72,6 +83,11 @@ try {
   await page.locator("#challenge-topic").selectOption("");
   await page.locator('[data-learning-view-target="review"]').click();
 
+  await page.locator("#smart-practice-btn").click();
+  await page.waitForSelector("#tutorial-run-view.active");
+  if (!await page.locator("#tutorial-overlay .step-count").textContent()) errors.push("recommended activity did not open");
+  await page.locator("#t-back-to-list").click();
+
   const downloadPromise = page.waitForEvent("download");
   await page.locator("#progress-backup-btn").click();
   const download = await downloadPromise;
@@ -82,11 +98,7 @@ try {
   await page.locator("#progress-restore-input").setInputFiles(backupPath);
   await page.waitForFunction(() => document.querySelector("#learning-dialog-title")?.textContent?.includes("匯入完成"));
   await page.locator("#learning-dialog-close").click();
-
-  await page.locator("#smart-practice-btn").click();
-  await page.waitForSelector("#tutorial-run-view.active");
-  if (!await page.locator("#tutorial-overlay .step-count").textContent()) errors.push("recommended activity did not open");
-  await page.locator("#t-back-to-list").click();
+  await page.waitForFunction(() => !document.querySelector("#learning-dialog")?.open);
   await page.locator("#lang-toggle").click();
   if (await page.locator("html").getAttribute("lang") !== "en") errors.push("English language switch did not update document language");
   if (!/All Topics/.test(await page.locator("#challenge-topic option").first().textContent())) errors.push("topic filter did not translate to English");
@@ -95,13 +107,29 @@ try {
   const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
   if (overflow !== 0) errors.push(`mobile horizontal overflow: ${overflow}px`);
 
-  await page.setViewportSize({ width: 1280, height: 900 });
-  await page.goto(`http://127.0.0.1:${port}/sandbox.html`, { waitUntil: "networkidle" });
+  // 教學中心同時保留多張 WebGL 縮圖；關掉該頁、用乾淨頁面測沙盒，避免 GPU 工作
+  // 讓下一次導覽的 lifecycle 事件在負載較高的機器上偶發逾時。
+  await page.close();
+  page = await browser.newPage({ viewport: { width: 1280, height: 900 } });
+  watchPage(page);
+  await page.goto(`http://127.0.0.1:${port}/sandbox.html`, { waitUntil: "commit" });
+  await page.waitForFunction(() => Boolean(window.__bmlSandbox?.editor), null, { timeout: 60000 });
   await page.locator("#btn-ab-save").click();
   if (await page.locator("#btn-ab-compare").isDisabled()) errors.push("A/B compare did not enable after saving baseline A");
+  await page.evaluate(() => {
+    const { editor, recompile } = window.__bmlSandbox;
+    const principled = [...editor.graph.nodes.values()].find((node) => node.typeId === "shader_principled_bsdf");
+    principled.params.roughness = principled.params.roughness === 0.17 ? 0.73 : 0.17;
+    editor.render();
+    recompile(editor.graph);
+  });
   await page.locator("#btn-ab-compare").click();
   if (!await page.locator("#ab-dialog").evaluate((dialog) => dialog.open)) errors.push("A/B comparison dialog did not open");
   if (!String(await page.locator("#ab-image-a").getAttribute("src")).startsWith("data:image/")) errors.push("A/B baseline image was not captured");
+  if (await page.locator("#ab-changes .ab-change-card").count() < 1) errors.push("A/B comparison did not explain changed parameters");
+  if (await page.locator(".node-card.ab-diff-changed").count() < 1) errors.push("A/B comparison did not highlight changed nodes");
+  await page.locator("#ab-slider").fill("25");
+  if ((await page.locator("#ab-wipe").getAttribute("style"))?.includes("25%") !== true) errors.push("A/B draggable divider did not update");
   await page.locator("#ab-dialog-close").click();
   const python = await page.evaluate(async () => {
     const { graphToBlenderPython } = await import("./js/core/blenderPythonExport.js");

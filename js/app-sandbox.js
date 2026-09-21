@@ -37,6 +37,7 @@ document.getElementById("mesh-select").addEventListener("change", (e) => {
 const canvasEl = document.getElementById("graph-canvas");
 const inspectorBody = document.getElementById("inspector-body");
 const errorBox = document.getElementById("shader-error");
+let abHighlightedNodeIds = new Set();
 mountControlsHint(canvasEl.parentElement);
 
 function showError(message) {
@@ -83,6 +84,7 @@ function refreshUndoRedoButtons() {
 
 const editor = new NodeEditor(canvasEl, {
   onChange: (graph) => {
+    clearAbHighlights();
     recompile(graph);
     autosave(graph);
     refreshUndoRedoButtons();
@@ -351,6 +353,9 @@ document.getElementById("btn-blender-library").addEventListener("click", () => {
 let abSnapshot = null;
 const abCompareButton = document.getElementById("btn-ab-compare");
 const abDialog = document.getElementById("ab-dialog");
+const abWipe = document.getElementById("ab-wipe");
+const abSlider = document.getElementById("ab-slider");
+const abChanges = document.getElementById("ab-changes");
 function capturePreview() {
   try {
     return preview.renderer.domElement.toDataURL("image/jpeg", 0.9);
@@ -358,24 +363,164 @@ function capturePreview() {
     return "";
   }
 }
+
+function cloneGraphData(graph) {
+  return typeof structuredClone === "function" ? structuredClone(graph) : JSON.parse(JSON.stringify(graph));
+}
+
+function linkSignature(link) {
+  return `${link.fromNode}:${link.fromSocket}>${link.toNode}:${link.toSocket}`;
+}
+
+function valueLabel(value) {
+  if (value === undefined) return "—";
+  if (typeof value === "boolean") return tBi(value ? { zh: "開", en: "On" } : { zh: "關", en: "Off" });
+  if (typeof value === "number") return Number.isInteger(value) ? String(value) : String(Number(value.toFixed(3)));
+  if (Array.isArray(value)) return value.map(valueLabel).join(", ");
+  if (value && typeof value === "object") return JSON.stringify(value);
+  return String(value);
+}
+
+function nodeLabel(node) {
+  return tBi(getNodeType(node.typeId)?.name || { zh: node.typeId, en: node.typeId });
+}
+
 function graphDifference(left, right) {
   const leftNodes = new Map(left.nodes.map((node) => [node.id, node]));
-  let changedParams = 0;
+  const rightNodes = new Map(right.nodes.map((node) => [node.id, node]));
+  const changedNodes = [];
   for (const node of right.nodes) {
     const previous = leftNodes.get(node.id);
     if (!previous) continue;
+    const typeDef = getNodeType(node.typeId);
+    const definitions = [...(typeDef?.inputs || []), ...(typeDef?.settings || [])];
+    const definitionByKey = new Map(definitions.map((definition) => [definition.key, definition]));
+    const params = [];
     const keys = new Set([...Object.keys(previous.params || {}), ...Object.keys(node.params || {})]);
-    for (const key of keys) if (JSON.stringify(previous.params?.[key]) !== JSON.stringify(node.params?.[key])) changedParams += 1;
+    for (const key of keys) {
+      if (JSON.stringify(previous.params?.[key]) === JSON.stringify(node.params?.[key])) continue;
+      const definition = definitionByKey.get(key);
+      params.push({
+        key,
+        label: definition?.label ? tBi(definition.label) : key,
+        before: previous.params?.[key],
+        after: node.params?.[key],
+      });
+    }
+    if (params.length) changedNodes.push({ id: node.id, label: nodeLabel(node), params });
   }
+  const addedNodes = right.nodes.filter((node) => !leftNodes.has(node.id));
+  const removedNodes = left.nodes.filter((node) => !rightNodes.has(node.id));
+  const leftLinks = new Set(left.links.map(linkSignature));
+  const rightLinks = new Set(right.links.map(linkSignature));
+  const addedLinks = right.links.filter((link) => !leftLinks.has(linkSignature(link)));
+  const removedLinks = left.links.filter((link) => !rightLinks.has(linkSignature(link)));
   return {
-    addedNodes: right.nodes.filter((node) => !leftNodes.has(node.id)).length,
-    removedNodes: left.nodes.filter((node) => !right.nodes.some((candidate) => candidate.id === node.id)).length,
-    linkDelta: right.links.length - left.links.length,
-    changedParams,
+    addedNodes,
+    removedNodes,
+    addedLinks,
+    removedLinks,
+    changedNodes,
+    changedParams: changedNodes.reduce((sum, node) => sum + node.params.length, 0),
   };
 }
+
+function clearAbHighlights() {
+  abHighlightedNodeIds.clear();
+  canvasEl.querySelectorAll(".node-card.ab-diff-changed, .node-card.ab-diff-added").forEach((node) => {
+    node.classList.remove("ab-diff-changed", "ab-diff-added");
+  });
+}
+
+function applyAbHighlights(difference) {
+  clearAbHighlights();
+  const changed = new Set(difference.changedNodes.map((node) => node.id));
+  const added = new Set(difference.addedNodes.map((node) => node.id));
+  for (const link of difference.addedLinks) {
+    if (editor.graph.nodes.has(link.fromNode)) changed.add(link.fromNode);
+    if (editor.graph.nodes.has(link.toNode)) changed.add(link.toNode);
+  }
+  for (const id of changed) {
+    const node = canvasEl.querySelector(`.node-card[data-node-id="${id}"]`);
+    if (node) node.classList.add("ab-diff-changed");
+    abHighlightedNodeIds.add(id);
+  }
+  for (const id of added) {
+    const node = canvasEl.querySelector(`.node-card[data-node-id="${id}"]`);
+    if (node) node.classList.add("ab-diff-added");
+    abHighlightedNodeIds.add(id);
+  }
+}
+
+function appendChangeCard(title, items, kind = "changed") {
+  const article = document.createElement("article");
+  article.className = `ab-change-card ab-change-${kind}`;
+  const heading = document.createElement("h3");
+  heading.textContent = title;
+  article.appendChild(heading);
+  if (items.length) {
+    const list = document.createElement("ul");
+    for (const item of items) {
+      const row = document.createElement("li");
+      if (item.label) {
+        const label = document.createElement("strong");
+        label.textContent = `${item.label}：`;
+        row.append(label, document.createTextNode(`${valueLabel(item.before)} → ${valueLabel(item.after)}`));
+      } else {
+        row.textContent = item.text;
+      }
+      list.appendChild(row);
+    }
+    article.appendChild(list);
+  }
+  abChanges.appendChild(article);
+}
+
+function renderAbChanges(difference) {
+  abChanges.replaceChildren();
+  for (const node of difference.changedNodes) appendChangeCard(node.label, node.params, "changed");
+  if (difference.addedNodes.length) {
+    appendChangeCard(
+      tBi({ zh: "新增節點", en: "Added nodes" }),
+      difference.addedNodes.map((node) => ({ text: nodeLabel(node) })),
+      "added",
+    );
+  }
+  if (difference.removedNodes.length) {
+    appendChangeCard(
+      tBi({ zh: "移除節點", en: "Removed nodes" }),
+      difference.removedNodes.map((node) => ({ text: nodeLabel(node) })),
+      "removed",
+    );
+  }
+  if (difference.addedLinks.length || difference.removedLinks.length) {
+    appendChangeCard(tBi({ zh: "連線變更", en: "Link changes" }), [{
+      text: tBi({
+        zh: `新增 ${difference.addedLinks.length} 條，移除 ${difference.removedLinks.length} 條`,
+        en: `${difference.addedLinks.length} added, ${difference.removedLinks.length} removed`,
+      }),
+    }], "links");
+  }
+  if (!abChanges.childElementCount) {
+    const empty = document.createElement("div");
+    empty.className = "ab-change-empty";
+    empty.textContent = tBi({ zh: "節點與參數沒有變動，可拖曳上方分界檢查視覺差異。", en: "No node or parameter changes. Drag the divider above to inspect visual differences." });
+    abChanges.appendChild(empty);
+  }
+}
+
+function updateAbSplit() {
+  const value = Number(abSlider.value);
+  abWipe.style.setProperty("--split", `${value}%`);
+  abSlider.setAttribute("aria-valuetext", tBi({ zh: `顯示 ${value}% 的 A 材質`, en: `Showing ${value}% of material A` }));
+}
+abSlider.addEventListener("input", updateAbSplit);
+
 document.getElementById("btn-ab-save").addEventListener("click", () => {
-  abSnapshot = { graph: editor.graph.toJSON(), image: capturePreview() };
+  clearAbHighlights();
+  // Graph.toJSON() 保留 params 內部陣列/物件的參照；必須再深複製，否則儲存 A 後
+  // 編輯 B 會同步改到 A，差異檢查永遠誤判為「沒有變更」。
+  abSnapshot = { graph: cloneGraphData(editor.graph.toJSON()), image: capturePreview() };
   abCompareButton.disabled = false;
   const button = document.getElementById("btn-ab-save");
   button.textContent = tBi({ zh: "A 已更新 ✓", en: "A Updated ✓" });
@@ -386,14 +531,18 @@ abCompareButton.addEventListener("click", () => {
   const current = editor.graph.toJSON();
   const difference = graphDifference(abSnapshot.graph, current);
   document.getElementById("ab-dialog-title").textContent = tBi({ zh: "材質 A/B 比較", en: "Material A/B Comparison" });
-  document.querySelector("#ab-dialog figure:first-child figcaption").textContent = tBi({ zh: "A · 儲存基準", en: "A · Saved Baseline" });
-  document.querySelector("#ab-dialog figure:last-child figcaption").textContent = tBi({ zh: "B · 目前材質", en: "B · Current Material" });
+  document.getElementById("ab-label-a").textContent = tBi({ zh: "A · 儲存基準", en: "A · Saved Baseline" });
+  document.getElementById("ab-label-b").textContent = tBi({ zh: "B · 目前材質", en: "B · Current Material" });
   document.getElementById("ab-image-a").src = abSnapshot.image;
   document.getElementById("ab-image-b").src = capturePreview();
   document.getElementById("ab-summary").textContent = tBi({
-    zh: `參數變更 ${difference.changedParams} 項 · 新增節點 ${difference.addedNodes} · 移除節點 ${difference.removedNodes} · 連線差 ${difference.linkDelta >= 0 ? "+" : ""}${difference.linkDelta}`,
-    en: `${difference.changedParams} parameter changes · ${difference.addedNodes} nodes added · ${difference.removedNodes} removed · link delta ${difference.linkDelta >= 0 ? "+" : ""}${difference.linkDelta}`,
+    zh: `參數變更 ${difference.changedParams} 項 · 新增節點 ${difference.addedNodes.length} · 移除節點 ${difference.removedNodes.length} · 連線新增 ${difference.addedLinks.length}／移除 ${difference.removedLinks.length}`,
+    en: `${difference.changedParams} parameter changes · ${difference.addedNodes.length} nodes added · ${difference.removedNodes.length} removed · ${difference.addedLinks.length} links added / ${difference.removedLinks.length} removed`,
   });
+  abSlider.value = "50";
+  updateAbSplit();
+  renderAbChanges(difference);
+  applyAbHighlights(difference);
   abDialog.showModal();
 });
 document.getElementById("ab-dialog-close").addEventListener("click", () => abDialog.close());

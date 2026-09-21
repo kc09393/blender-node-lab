@@ -117,8 +117,16 @@
 <dialog id="ab-dialog" class="ab-dialog">
   <div class="ab-dialog-head"><h2 id="ab-dialog-title">材質 A/B 比較</h2><button id="ab-dialog-close" type="button" aria-label="Close">×</button></div>
   <div class="ab-dialog-body">
-    <div class="ab-grid"><figure><figcaption>A · 基準</figcaption><img id="ab-image-a" alt="Material A preview" /></figure><figure><figcaption>B · 目前</figcaption><img id="ab-image-b" alt="Material B preview" /></figure></div>
+    <div id="ab-wipe" class="ab-wipe" style="--split: 50%">
+      <img id="ab-image-b" class="ab-wipe-image" alt="Material B preview" />
+      <img id="ab-image-a" class="ab-wipe-image ab-wipe-image-a" alt="Material A preview" />
+      <span id="ab-label-a" class="ab-wipe-label ab-wipe-label-a">A · 基準</span>
+      <span id="ab-label-b" class="ab-wipe-label ab-wipe-label-b">B · 目前</span>
+      <span class="ab-wipe-divider" aria-hidden="true"></span>
+      <input id="ab-slider" class="ab-wipe-slider" type="range" min="0" max="100" value="50" aria-label="調整 A/B 比較分界" />
+    </div>
     <p id="ab-summary"></p>
+    <div id="ab-changes" class="ab-changes" aria-live="polite"></div>
   </div>
 </dialog>
 

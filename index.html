@@ -60,11 +60,18 @@
           <a class="cta primary" href="tutorials.html" data-i18n="landing.ctaLearningPath">開始第一堂課</a>
           <a class="cta" href="sandbox.html" data-i18n="landing.ctaSandbox">開啟節點沙盒</a>
         </div>
-        <div class="hero-stats" id="hero-stats"></div>
+        <div class="hero-stats" id="hero-stats">
+          <div class="stat-chip"><b>90</b><span data-i18n="landing.statsPresets">個材質案例</span></div>
+          <div class="stat-chip"><b>83</b><span data-i18n="landing.statsTutorials">篇互動課程</span></div>
+          <div class="stat-chip"><b>80</b><span data-i18n="landing.statsPractice">個挑戰與除錯</span></div>
+        </div>
       </div>
       <div class="hero-preview">
-        <div id="hero-preview-container" class="hero-preview-container"></div>
-        <div class="hero-preview-caption" id="hero-preview-caption"></div>
+        <div id="hero-preview-container" class="hero-preview-container">
+          <img class="hero-preview-poster" src="img/material-previews/peacock_feather.jpg" alt="孔雀羽毛材質預覽" data-i18n-alt="landing.materialPeacock" fetchpriority="high" />
+          <button id="hero-enable-3d" class="hero-preview-enable" type="button" data-i18n="landing.enable3d">啟用互動 3D</button>
+        </div>
+        <div class="hero-preview-caption" id="hero-preview-caption" data-i18n="landing.materialPeacock">孔雀羽毛</div>
       </div>
     </section>
 
@@ -108,7 +115,12 @@
         <a class="section-link" href="sandbox.html" data-i18n="landing.galleryAll">查看全部 90 個材質 →</a>
       </div>
       <div class="gallery-grid" id="gallery-grid">
-        <div class="empty-hint" data-i18n="landing.galleryLoading">材質縮圖渲染中…</div>
+        <a class="gallery-card" href="sandbox.html?preset=peacock_feather"><img class="gallery-thumb" src="img/material-previews/peacock_feather.jpg" alt="孔雀羽毛" data-i18n-alt="landing.materialPeacock" loading="lazy" decoding="async" /><div class="gallery-label" data-i18n="landing.materialPeacock">孔雀羽毛</div></a>
+        <a class="gallery-card" href="sandbox.html?preset=holographic_foil"><img class="gallery-thumb" src="img/material-previews/holographic_foil.jpg" alt="全像箔膜" data-i18n-alt="landing.materialHolographic" loading="lazy" decoding="async" /><div class="gallery-label" data-i18n="landing.materialHolographic">全像箔膜</div></a>
+        <a class="gallery-card" href="sandbox.html?preset=molten_gold"><img class="gallery-thumb" src="img/material-previews/molten_gold.jpg" alt="熔化黃金" data-i18n-alt="landing.materialGold" loading="lazy" decoding="async" /><div class="gallery-label" data-i18n="landing.materialGold">熔化黃金</div></a>
+        <a class="gallery-card" href="sandbox.html?preset=jade_stone"><img class="gallery-thumb" src="img/material-previews/jade_stone.jpg" alt="翡翠玉石" data-i18n-alt="landing.materialJade" loading="lazy" decoding="async" /><div class="gallery-label" data-i18n="landing.materialJade">翡翠玉石</div></a>
+        <a class="gallery-card" href="sandbox.html?preset=dragon_scale_armor"><img class="gallery-thumb" src="img/material-previews/dragon_scale_armor.jpg" alt="龍鱗盔甲" data-i18n-alt="landing.materialDragon" loading="lazy" decoding="async" /><div class="gallery-label" data-i18n="landing.materialDragon">龍鱗盔甲</div></a>
+        <a class="gallery-card" href="sandbox.html?preset=alien_meteorite"><img class="gallery-thumb" src="img/material-previews/alien_meteorite.jpg" alt="外星隕石" data-i18n-alt="landing.materialMeteorite" loading="lazy" decoding="async" /><div class="gallery-label" data-i18n="landing.materialMeteorite">外星隕石</div></a>
       </div>
     </section>
 
@@ -123,8 +135,6 @@
       </div>
     </section>
 
-    <!-- 縮圖渲染用的隱藏畫布：移到畫面外（而不是 display:none），保留真實版面尺寸讓 ResizeObserver 量得到寬高。 -->
-    <div id="thumb-render-container" class="thumb-render-container"></div>
   </main>
 </div>
 
