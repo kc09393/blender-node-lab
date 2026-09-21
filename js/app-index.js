@@ -4,9 +4,9 @@ import { initMobileNav } from "./ui/mobileNav.js";
 import { Preview3D } from "./ui/preview3d.js";
 import { compileGraph, applyFragmentChunk, createPreviewMaterial } from "./core/compiler.js";
 import { Graph } from "./core/graphModel.js";
-import { listNodeTypes } from "./core/nodeRegistry.js";
 import presets from "../data/presets/index.js";
 import tutorials from "../data/tutorials/index.js";
+import { learningActivities } from "../data/learningActivities.js";
 
 initLangToggle();
 initMobileNav();
@@ -15,11 +15,10 @@ initGlobalSearch();
 // ---------- 統計數字：直接算真實資料筆數，不寫死數字，內容增加時不會忘記同步 ----------
 function renderStats() {
   const statsEl = document.getElementById("hero-stats");
-  const nodeCount = listNodeTypes().length;
   statsEl.innerHTML = `
-    <div class="stat-chip"><b>${nodeCount}</b>${t("landing.statsNodes")}</div>
     <div class="stat-chip"><b>${presets.length}</b>${t("landing.statsPresets")}</div>
     <div class="stat-chip"><b>${tutorials.length}</b>${t("landing.statsTutorials")}</div>
+    <div class="stat-chip"><b>${learningActivities.length}</b>${t("landing.statsPractice")}</div>
   `;
 }
 
@@ -31,7 +30,7 @@ function initHeroPreview() {
   if (!container) return;
   heroPreview = new Preview3D(container);
   heroPreview.setMaterial(createPreviewMaterial());
-  heroPreview.controls.autoRotate = true;
+  heroPreview.controls.autoRotate = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   heroPreview.controls.autoRotateSpeed = 2.2;
   heroPreview.controls.enableZoom = false;
   // OrbitControls 會直接把 canvas 的 inline style 設成 touch-action:none（攔截所有觸控手勢
@@ -58,7 +57,7 @@ function updateHeroCaption(preset) {
 // ---------- 材質縮圖畫廊：跟教學列表用同一套「隱藏畫布依序渲染」手法 ----------
 const GALLERY_PRESET_IDS = [
   "peacock_feather", "holographic_foil", "molten_gold", "jade_stone",
-  "dragon_scale_armor", "alien_meteorite", "aurora", "iridescent_beetle",
+  "dragon_scale_armor", "alien_meteorite",
 ];
 
 let thumbPreview = null;

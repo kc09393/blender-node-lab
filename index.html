@@ -53,12 +53,12 @@
   <main class="landing-body">
     <section class="hero">
       <div class="hero-copy">
-        <div class="version-badge" data-i18n="landing.versionBadge">依 Blender 5.2 LTS 校對</div>
-        <h1><span class="hero-line1" data-i18n="landing.heroTitle1">從 0 基礎到專業，</span><br /><span class="hero-line2" data-i18n="landing.heroTitle2">看懂 Blender 每一個材質節點</span></h1>
-        <p data-i18n="landing.heroSubtitle">不知道怎麼開始？跟著建議學習路徑一步步學會材質怎麼連接、怎麼使用；已經有想法的話，也可以直接查節點百科或動手玩沙盒。</p>
+        <div class="hero-eyebrow" data-i18n="landing.heroEyebrow">互動式 Blender 材質節點學習工具</div>
+        <h1><span class="hero-line1" data-i18n="landing.heroTitle1">看懂節點怎麼連，</span><br /><span class="hero-line2" data-i18n="landing.heroTitle2">真正做出 Blender 材質</span></h1>
+        <p data-i18n="landing.heroSubtitle">從拆解材質效果開始，跟著課程接線、做挑戰、練除錯；每一次修改都能立即看到 3D 結果。</p>
         <div class="hero-actions">
-          <a class="cta primary" href="tutorials.html" data-i18n="landing.ctaLearningPath">不知道從哪開始？跟著學</a>
-          <a class="cta" href="sandbox.html" data-i18n="landing.ctaSandbox">直接動手玩沙盒</a>
+          <a class="cta primary" href="tutorials.html" data-i18n="landing.ctaLearningPath">開始第一堂課</a>
+          <a class="cta" href="sandbox.html" data-i18n="landing.ctaSandbox">開啟節點沙盒</a>
         </div>
         <div class="hero-stats" id="hero-stats"></div>
       </div>
@@ -68,39 +68,59 @@
       </div>
     </section>
 
+    <section class="pathways-section" aria-labelledby="pathways-title">
+      <div class="section-heading">
+        <div>
+          <h2 id="pathways-title" data-i18n="landing.pathwaysTitle">你現在想做什麼？</h2>
+          <p data-i18n="landing.pathwaysSub">不用先理解全部功能，直接選最接近你現在需求的入口。</p>
+        </div>
+      </div>
+      <div class="pathway-grid">
+        <a class="pathway-card" href="tutorials.html">
+          <span class="pathway-index">01</span>
+          <div><strong data-i18n="landing.pathCourseTitle">從基礎開始學</strong><p data-i18n="landing.pathCourseDesc">照課程路徑一步步完成節點接線。</p></div>
+          <span class="pathway-arrow">→</span>
+        </a>
+        <a class="pathway-card" href="tutorials.html?view=challenges">
+          <span class="pathway-index">02</span>
+          <div><strong data-i18n="landing.pathChallengeTitle">看效果做挑戰</strong><p data-i18n="landing.pathChallengeDesc">從目標材質反推節點與參數。</p></div>
+          <span class="pathway-arrow">→</span>
+        </a>
+        <a class="pathway-card" href="tutorials.html?view=debug">
+          <span class="pathway-index">03</span>
+          <div><strong data-i18n="landing.pathDebugTitle">練習排除錯誤</strong><p data-i18n="landing.pathDebugDesc">修好故意弄壞的材質節點圖。</p></div>
+          <span class="pathway-arrow">→</span>
+        </a>
+        <a class="pathway-card" href="encyclopedia.html">
+          <span class="pathway-index">04</span>
+          <div><strong data-i18n="landing.pathLookupTitle">查一個節點</strong><p data-i18n="landing.pathLookupDesc">快速確認插槽、用途與使用方式。</p></div>
+          <span class="pathway-arrow">→</span>
+        </a>
+      </div>
+    </section>
+
     <section class="gallery-section">
-      <h2 data-i18n="landing.galleryTitle">材質範例，點一下直接開始玩</h2>
-      <p class="gallery-sub" data-i18n="landing.gallerySub">全部都是真的節點圖算出來的，不是照片——點縮圖直接在沙盒裡打開，拆開來看怎麼接的。</p>
+      <div class="section-heading gallery-heading">
+        <div>
+          <h2 data-i18n="landing.galleryTitle">先看效果，再拆開節點</h2>
+          <p class="gallery-sub" data-i18n="landing.gallerySub">每張縮圖都由真正的節點圖即時算出；點一下就能在沙盒裡查看接線。</p>
+        </div>
+        <a class="section-link" href="sandbox.html" data-i18n="landing.galleryAll">查看全部 90 個材質 →</a>
+      </div>
       <div class="gallery-grid" id="gallery-grid">
         <div class="empty-hint" data-i18n="landing.galleryLoading">材質縮圖渲染中…</div>
       </div>
     </section>
 
-    <section class="feature-grid">
-      <a class="feature-card" href="tutorials.html">
-        <div class="feature-icon icon-tutorials" aria-hidden="true"></div>
-        <h3 data-i18n="landing.featureTutorialsTitle">引導教學</h3>
-        <p data-i18n="landing.featureTutorialsDesc">不知道從哪開始？建議學習路徑一步步帶你學會材質怎麼連接、怎麼使用，每一步都有提示與驗證。</p>
-        <span class="feature-arrow">→</span>
-      </a>
-      <a class="feature-card" href="encyclopedia.html">
-        <div class="feature-icon icon-encyclopedia" aria-hidden="true"></div>
-        <h3 data-i18n="landing.featureEncyclopediaTitle">節點百科</h3>
-        <p data-i18n="landing.featureEncyclopediaDesc">依分類瀏覽所有材質節點，每個節點都有新手／進階雙層說明與輸入輸出圖解。</p>
-        <span class="feature-arrow">→</span>
-      </a>
-      <a class="feature-card" href="sandbox.html">
-        <div class="feature-icon icon-sandbox" aria-hidden="true"></div>
-        <h3 data-i18n="landing.featureSandboxTitle">自由沙盒</h3>
-        <p data-i18n="landing.featureSandboxDesc">拖拉節點、自己接線，右側 3D 預覽即時反應每一次修改。</p>
-        <span class="feature-arrow">→</span>
-      </a>
-      <a class="feature-card" href="validation.html">
-        <div class="feature-icon icon-encyclopedia" aria-hidden="true"></div>
-        <h3 data-i18n="landing.featureValidationTitle">Blender 一致性驗證</h3>
-        <p data-i18n="landing.featureValidationDesc">查看官方節點結構、Blender 真實渲染 A/B、瀏覽器近似邊界與可下載資產庫。</p>
-        <span class="feature-arrow">→</span>
-      </a>
+    <section class="blender-transfer-strip">
+      <div>
+        <strong data-i18n="landing.transferTitle">想把練習帶進 Blender？</strong>
+        <span data-i18n="landing.transferDesc">下載 90 個材質資產，或查看本站如何用 Blender 5.2.2 驗證節點與效果。</span>
+      </div>
+      <div class="transfer-actions">
+        <a href="downloads/blender-node-lab-material-library-5.2.2.blend" download data-i18n="landing.transferDownload">下載材質庫</a>
+        <a href="validation.html" data-i18n="landing.transferValidation">查看驗證方法</a>
+      </div>
     </section>
 
     <!-- 縮圖渲染用的隱藏畫布：移到畫面外（而不是 display:none），保留真實版面尺寸讓 ResizeObserver 量得到寬高。 -->

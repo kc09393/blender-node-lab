@@ -29,6 +29,18 @@ page.on("console", (message) => {
 });
 
 try {
+  await page.goto(`http://127.0.0.1:${port}/index.html`, { waitUntil: "networkidle" });
+  await page.waitForFunction(() => document.querySelector(".gallery-thumb")?.src?.startsWith("data:image/"), null, { timeout: 30000 });
+  if (await page.locator(".pathway-card").count() !== 4) errors.push("homepage should offer 4 task-based entry paths");
+  if (await page.locator(".gallery-card").count() !== 6) errors.push("homepage gallery should show 6 focused material examples");
+  if (await page.locator(".version-badge").count()) errors.push("homepage still exposes the old technical version badge");
+  const statValues = await page.locator("#hero-stats b").allTextContents();
+  if (statValues.join(",") !== "90,83,80") errors.push(`unexpected homepage learning stats: ${statValues.join(",")}`);
+  await page.setViewportSize({ width: 390, height: 844 });
+  const homeOverflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+  if (homeOverflow !== 0) errors.push(`homepage mobile horizontal overflow: ${homeOverflow}px`);
+  await page.setViewportSize({ width: 1280, height: 900 });
+
   await page.goto(`http://127.0.0.1:${port}/dev-regression-test.html`, { waitUntil: "networkidle" });
   await page.waitForFunction(() => document.querySelector(".stat.err b")?.textContent === "0", null, { timeout: 30000 });
   const summary = await page.locator("#summary").innerText();
