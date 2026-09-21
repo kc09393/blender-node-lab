@@ -37,11 +37,18 @@ try {
   if (regressionRows < 187 || reportedTotal !== regressionRows) errors.push(`unexpected regression total: ${summary}`);
 
   await page.goto(`http://127.0.0.1:${port}/tutorials.html`, { waitUntil: "networkidle" });
+  await page.waitForSelector('[data-learning-view="courses"]:not([hidden])');
+  if (!await page.locator('[data-learning-view="review"]').first().isHidden()) errors.push("review content should not clutter the default course view");
+  await page.locator('[data-learning-view-target="review"]').click();
   await page.waitForSelector(".skill-row");
   if (await page.locator(".skill-row").count() !== 6) errors.push("skill map should contain 6 skills");
   await page.locator("#assessment-start-btn").click();
   if (await page.locator(".assessment-form fieldset").count() !== 30) errors.push("assessment should contain 30 diagnostic questions");
   await page.locator("#learning-dialog-close").click();
+  await page.locator('[data-learning-view-target="challenges"]').click();
+  if (!page.url().includes("view=challenges")) errors.push("challenge view URL is not shareable");
+  await page.waitForFunction(() => document.querySelector("#challenge-cards .activity-thumb")?.src?.startsWith("data:image/"), null, { timeout: 30000 });
+  if (await page.locator("#challenge-cards .activity-thumb.failed").count()) errors.push("challenge material preview failed to render");
   if (await page.locator("#challenge-topic option").count() < 3) errors.push("challenge topic filter was not populated");
   await page.locator(".activity-favorite").first().click();
   if ((await page.locator(".activity-favorite").first().getAttribute("aria-pressed")) !== "true") errors.push("favorite toggle did not update");
@@ -51,6 +58,7 @@ try {
   await page.locator("#challenge-topic").selectOption("pbr");
   if (await page.locator("#challenge-cards .activity-card").count() < 2) errors.push("topic filter returned too few PBR activities");
   await page.locator("#challenge-topic").selectOption("");
+  await page.locator('[data-learning-view-target="review"]').click();
 
   const downloadPromise = page.waitForEvent("download");
   await page.locator("#progress-backup-btn").click();

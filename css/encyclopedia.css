@@ -34,16 +34,6 @@
   display: inline-block; margin-top: 6px; font-size: 10.5px; padding: 2px 6px; border-radius: 4px;
   background: rgba(255,138,43,.15); color: var(--accent);
 }
-.node-grid-item .badge-schema {
-  display: inline-block; margin-top: 7px; margin-right: 4px; font-size: 10.5px; padding: 2px 6px; border-radius: 4px;
-  background: rgba(70, 156, 255, .14); color: var(--accent-2);
-}
-.node-grid-item .badge-fidelity {
-  display: block; width: fit-content; margin-top: 6px; padding: 3px 7px;
-  border: 1px solid rgba(102, 187, 255, .35); border-radius: 999px;
-  color: #9fd4ff; background: rgba(63, 140, 210, .09); font-size: 10px; line-height: 1.4;
-}
-
 .detail-panel { width: 380px; flex-shrink: 0; overflow-y: auto; }
 .detail-panel .node-doc { padding: 16px; }
 .try-sandbox-btn {

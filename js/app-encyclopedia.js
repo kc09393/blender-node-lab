@@ -8,7 +8,6 @@ import tutorials from "../data/tutorials/index.js";
 import nodeTutorialIndex from "../data/tutorials/nodeIndex.js";
 import presets from "../data/presets/index.js";
 import { nodeSeo, setPageSeo } from "./seo.js";
-import { nodeFidelity } from "./core/nodeFidelity.js";
 
 initLangToggle();
 initMobileNav();
@@ -81,8 +80,6 @@ function renderGrid() {
       <div class="n-name">${tBi(typeDef.name)}</div>
       <div class="n-name-sub">${typeDef.name.zh} · ${typeDef.name.en}</div>
       <div class="n-desc">${glossNodeNames(tBi(typeDef.summary), getLang())}</div>
-      <span class="badge-schema">${getLang() === "en" ? "Blender 5.2.2 name verified · live approximation" : "Blender 5.2.2 名稱已核對 · 即時預覽近似"}</span>
-      <span class="badge-fidelity">${nodeFidelity(typeDef, getLang())}</span>
       ${typeDef.supported === false ? `<span class="badge-unsupported">${t("encyclopedia.notSupportedYet") || "沙盒尚未支援即時預覽"}</span>` : ""}
     `;
     card.addEventListener("click", (event) => {

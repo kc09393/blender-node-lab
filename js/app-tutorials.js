@@ -50,6 +50,40 @@ const progressEl = document.getElementById("tutorial-progress");
 const pathBody = document.getElementById("learning-path-body");
 const pathToggleBtn = document.getElementById("path-toggle");
 
+// 學習中心只顯示一種工作模式，避免課程、挑戰、除錯與複習內容同時堆在長頁面上。
+// view 會留在網址中，讓使用者可以直接分享某個分區，也支援瀏覽器上一頁／下一頁。
+const LEARNING_VIEWS = new Set(["courses", "challenges", "debug", "review"]);
+function learningViewFromLocation() {
+  const requested = new URLSearchParams(location.search).get("view");
+  return LEARNING_VIEWS.has(requested) ? requested : "courses";
+}
+let activeLearningView = learningViewFromLocation();
+
+function applyLearningView(view, { updateUrl = false } = {}) {
+  activeLearningView = LEARNING_VIEWS.has(view) ? view : "courses";
+  document.querySelectorAll("[data-learning-view]").forEach((section) => {
+    section.hidden = section.dataset.learningView !== activeLearningView;
+  });
+  document.querySelectorAll("[data-learning-view-target]").forEach((button) => {
+    const active = button.dataset.learningViewTarget === activeLearningView;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", String(active));
+  });
+  if (updateUrl) {
+    const url = new URL(location.href);
+    if (activeLearningView === "courses") url.searchParams.delete("view");
+    else url.searchParams.set("view", activeLearningView);
+    history.pushState({ learningView: activeLearningView }, "", `${url.pathname}${url.search}${url.hash}`);
+    listView.scrollTo({ top: 0, behavior: "smooth" });
+  }
+}
+
+document.querySelectorAll("[data-learning-view-target]").forEach((button) => {
+  button.addEventListener("click", () => applyLearningView(button.dataset.learningViewTarget, { updateUrl: true }));
+});
+window.addEventListener("popstate", () => applyLearningView(learningViewFromLocation()));
+applyLearningView(activeLearningView);
+
 // ---------- 學習紀錄（只存這台裝置的 localStorage，不需要帳號）----------
 const learningState = loadLearningState();
 const completedSet = completedTutorialIds(learningState);
@@ -248,16 +282,30 @@ function renderActivityCards(items, containerId, progressId, filterKey) {
       <div class="activity-card-top"><span>${tBi(activity.level)}</span><button type="button" class="activity-favorite${favorite ? " active" : ""}" aria-label="${favorite ? (lang === "zh" ? "取消收藏" : "Remove favorite") : (lang === "zh" ? "加入收藏" : "Add favorite")}" aria-pressed="${favorite}">${favorite ? "★" : "☆"}</button></div>
       <h3>${tBi(activity.name)}</h3>
       <p>${tBi(activity.description)}</p>
+      <img class="activity-thumb loading" data-thumbnail-id="${activity.id}" alt="${tBi(activity.name)}">
       <div class="activity-tags"><span>${tBi(topicLabel(topic))}</span><span>⏱ ${minutes} ${lang === "zh" ? "分鐘" : "min"}</span>${variants.length > 1 ? `<span>◐ ${variants.length} ${lang === "zh" ? "種變體" : "variants"}</span>` : ""}</div>
       <div class="activity-meta"><span>${record?.bestScore ? `${lang === "zh" ? "最佳" : "Best"} ${record.bestScore}` : `${activity.checks.length} ${lang === "zh" ? "個驗證目標" : "checks"}`}</span>${record?.completedAt ? `<span class="activity-done">✓ ${lang === "zh" ? "完成" : "Done"}</span>` : ""}</div>
       <button type="button" class="primary activity-start">${record?.completedAt ? (lang === "zh" ? "再練一次" : "Practice Again") : (lang === "zh" ? "開始實作" : "Start")}</button>
     `;
+    const thumb = card.querySelector(".activity-thumb");
+    const cached = thumbCache.get(activity.id);
+    if (cached) {
+      thumb.src = cached;
+      thumb.classList.remove("loading");
+    } else if (thumbCache.has(activity.id)) {
+      thumb.classList.remove("loading");
+      thumb.classList.add("failed");
+    }
     card.querySelector(".activity-start").addEventListener("click", () => startActivity(activity));
     card.querySelector(".activity-favorite").addEventListener("click", () => {
       toggleFavoriteActivity(learningState, activity.id);
       renderLearningHub();
     });
     container.appendChild(card);
+    if (!thumbCache.has(activity.id)) {
+      if (thumbnailObserver) thumbnailObserver.observe(thumb);
+      else queueThumbnail(activity.id);
+    }
   }
   if (visibleItems.length === 0) {
     container.innerHTML = `<div class="activity-empty">${lang === "zh" ? "沒有符合條件的案例" : "No activities match these filters"}</div>`;
@@ -598,18 +646,21 @@ function renderTutorialThumbnail(tut) {
 // 縮圖快取：一份材質圖只需要渲染一次，搜尋/篩選/切換語言都只是重新篩過 DOM，不用重畫縮圖
 // （縮圖渲染要跑一次完整編譯+WebGL render，全部重畫會在每次打字時卡頓）。
 const thumbCache = new Map();
-const tutorialById = new Map(tutorials.map((tutorial) => [tutorial.id, tutorial]));
+const thumbnailGraphById = new Map([
+  ...tutorials.map((tutorial) => [tutorial.id, tutorial.endGraph || tutorial.startGraph]),
+  ...[...resolvedActivityById.values()].map((activity) => [activity.id, activity.targetGraph || activity.startGraph]),
+]);
 const pendingThumbnailIds = [];
 const queuedThumbnailIds = new Set();
 let thumbnailWorkScheduled = false;
 
-function applyCachedThumbnail(tutorialId) {
-  const cached = thumbCache.get(tutorialId);
-  document.querySelectorAll(`.t-thumb[data-tutorial-id="${CSS.escape(tutorialId)}"]`).forEach((img) => {
+function applyCachedThumbnail(thumbnailId) {
+  const cached = thumbCache.get(thumbnailId);
+  document.querySelectorAll(`[data-thumbnail-id="${CSS.escape(thumbnailId)}"]`).forEach((img) => {
     if (cached) {
       img.src = cached;
       img.classList.remove("loading");
-    } else if (thumbCache.has(tutorialId)) {
+    } else if (thumbCache.has(thumbnailId)) {
       img.classList.remove("loading");
       img.classList.add("failed");
     }
@@ -618,14 +669,14 @@ function applyCachedThumbnail(tutorialId) {
 
 function processNextThumbnail() {
   thumbnailWorkScheduled = false;
-  const tutorialId = pendingThumbnailIds.shift();
-  if (!tutorialId) return;
-  queuedThumbnailIds.delete(tutorialId);
-  if (!thumbCache.has(tutorialId)) {
-    const tutorial = tutorialById.get(tutorialId);
-    thumbCache.set(tutorialId, tutorial ? renderTutorialThumbnail(tutorial) : null);
+  const thumbnailId = pendingThumbnailIds.shift();
+  if (!thumbnailId) return;
+  queuedThumbnailIds.delete(thumbnailId);
+  if (!thumbCache.has(thumbnailId)) {
+    const graph = thumbnailGraphById.get(thumbnailId);
+    thumbCache.set(thumbnailId, renderGraphThumbnail(graph, thumbnailId));
   }
-  applyCachedThumbnail(tutorialId);
+  applyCachedThumbnail(thumbnailId);
   scheduleThumbnailWork();
 }
 
@@ -639,14 +690,14 @@ function scheduleThumbnailWork() {
   }
 }
 
-function queueThumbnail(tutorialId) {
-  if (thumbCache.has(tutorialId)) {
-    applyCachedThumbnail(tutorialId);
+function queueThumbnail(thumbnailId) {
+  if (thumbCache.has(thumbnailId)) {
+    applyCachedThumbnail(thumbnailId);
     return;
   }
-  if (!queuedThumbnailIds.has(tutorialId)) {
-    queuedThumbnailIds.add(tutorialId);
-    pendingThumbnailIds.push(tutorialId);
+  if (!queuedThumbnailIds.has(thumbnailId)) {
+    queuedThumbnailIds.add(thumbnailId);
+    pendingThumbnailIds.push(thumbnailId);
   }
   scheduleThumbnailWork();
 }
@@ -656,7 +707,7 @@ const thumbnailObserver = typeof IntersectionObserver === "function"
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
         thumbnailObserver.unobserve(entry.target);
-        queueThumbnail(entry.target.dataset.tutorialId);
+        queueThumbnail(entry.target.dataset.thumbnailId);
       }
     }, { root: listView, rootMargin: "500px 0px" })
   : null;
@@ -694,7 +745,7 @@ function renderTutorialCards() {
     const cached = thumbCache.get(tut.id);
     thumb.className = cached ? "t-thumb" : "t-thumb loading";
     if (cached) thumb.src = cached;
-    thumb.dataset.tutorialId = tut.id;
+    thumb.dataset.thumbnailId = tut.id;
     thumb.alt = tBi(tut.name);
     card.appendChild(thumb);
     if (completedSet.has(tut.id)) {
@@ -1358,6 +1409,9 @@ const tutorialParam = new URLSearchParams(location.search).get("tutorial");
 const activityParam = new URLSearchParams(location.search).get("activity");
 const targetTutorial = tutorialParam ? tutorials.find((t) => t.id === tutorialParam) : null;
 const targetActivity = activityParam ? resolvedActivityById.get(activityParam) : null;
+if (targetActivity && !new URLSearchParams(location.search).has("view")) {
+  applyLearningView(targetActivity.kind === "debug" ? "debug" : "challenges");
+}
 renderLearningPath();
 renderLearningHub();
 if (targetActivity) startActivity(targetActivity);

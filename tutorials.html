@@ -54,7 +54,14 @@
     <div id="tutorial-list-view" class="tutorial-list-view">
       <h1 data-i18n="tutorials.title">互動學習中心</h1>
 
-      <section class="learning-dashboard" aria-labelledby="learning-dashboard-title">
+      <nav class="learning-view-nav" aria-label="學習中心分區 / Learning center sections">
+        <button type="button" class="learning-view-tab" data-learning-view-target="courses" data-i18n="tutorials.viewCourses">課程路徑</button>
+        <button type="button" class="learning-view-tab" data-learning-view-target="challenges" data-i18n="tutorials.viewChallenges">實作挑戰</button>
+        <button type="button" class="learning-view-tab" data-learning-view-target="debug" data-i18n="tutorials.viewDebug">除錯實驗</button>
+        <button type="button" class="learning-view-tab" data-learning-view-target="review" data-i18n="tutorials.viewReview">診斷與複習</button>
+      </nav>
+
+      <section class="learning-dashboard" data-learning-view="review" aria-labelledby="learning-dashboard-title">
         <div class="learning-dashboard-copy">
           <div class="learning-eyebrow" data-i18n="tutorials.dashboardEyebrow">你的學習儀表板</div>
           <h2 id="learning-dashboard-title" data-i18n="tutorials.dashboardTitle">今天要練什麼？</h2>
@@ -75,7 +82,7 @@
         </div>
       </section>
 
-      <section class="learning-activities-section" aria-labelledby="challenge-heading">
+      <section class="learning-activities-section" data-learning-view="challenges" aria-labelledby="challenge-heading">
         <div class="section-heading-row">
           <div>
             <h2 id="challenge-heading" data-i18n="tutorials.challengeTitle">實戰挑戰</h2>
@@ -103,7 +110,7 @@
         <div class="activity-grid" id="challenge-cards"></div>
       </section>
 
-      <section class="learning-activities-section" aria-labelledby="debug-heading">
+      <section class="learning-activities-section" data-learning-view="debug" aria-labelledby="debug-heading">
         <div class="section-heading-row">
           <div>
             <h2 id="debug-heading" data-i18n="tutorials.debugTitle">材質除錯實驗室</h2>
@@ -131,7 +138,7 @@
         <div class="activity-grid" id="debug-cards"></div>
       </section>
 
-      <section class="concept-review-section" aria-labelledby="concept-heading">
+      <section class="concept-review-section" data-learning-view="review" aria-labelledby="concept-heading">
         <div class="concept-copy">
           <div class="learning-eyebrow" data-i18n="tutorials.conceptEyebrow">每日 5 分鐘</div>
           <h2 id="concept-heading" data-i18n="tutorials.conceptTitle">概念卡片</h2>
@@ -146,6 +153,7 @@
         </div>
       </section>
 
+      <section class="learning-course-section" data-learning-view="courses">
       <section class="learning-path-section">
         <div class="learning-path-header">
           <div>
@@ -172,6 +180,7 @@
       <div id="tutorial-cards" class="tutorial-cards">
         <div class="empty-hint">教學載入中…</div>
       </div>
+      </section>
     </div>
 
     <!-- 縮圖渲染用的隱藏畫布：移到畫面外（而不是 display:none），這樣 ResizeObserver 才量得到寬高。 -->
