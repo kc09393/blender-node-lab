@@ -14,6 +14,7 @@ import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
 import { initMobilePreviewDock } from "./ui/mobilePreviewDock.js";
+import { mountNodeAddMenu } from "./ui/nodeAddMenu.js";
 import { encodeGraphToShareParam, decodeShareParam } from "./core/shareLink.js";
 import { downloadBlenderPython } from "./core/blenderPythonExport.js";
 
@@ -155,13 +156,9 @@ if (addNodeParam && getNodeType(addNodeParam)) {
 const paletteList = document.getElementById("palette-list");
 const paletteSearch = document.getElementById("palette-search");
 
-// Blender 的 Shift+A 是新增節點入口；在本站將焦點移到同一份可搜尋節點清單。
-// 手機上先切到「節點」分頁，避免焦點落到目前看不見的側欄。
-canvasEl.addEventListener("nodeaddrequest", () => {
-  document.querySelector('.mobile-panel-tab[data-panel="nodes"]')?.click();
-  paletteSearch.focus();
-  paletteSearch.select();
-});
+// Blender 的 Shift+A 會在游標旁開啟新增選單；拖一條 noodle 到空白處也會開啟
+// 相容節點搜尋。左側完整節點面板仍保留，方便觸控裝置瀏覽分類。
+mountNodeAddMenu(canvasEl, editor);
 
 function addNodeNearCenter(typeId) {
   const rect = canvasEl.getBoundingClientRect();

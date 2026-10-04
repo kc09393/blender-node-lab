@@ -5,8 +5,8 @@ import { getLang } from "../i18n.js";
 const DISMISS_KEY = "bml_controls_hint_dismissed";
 
 const TEXT = {
-  zh: "Blender 操作：Shift+A 新增・拖曳插槽接線・中鍵平移・滾輪縮放・A 全選・X/Delete 刪除・Shift+D 複製・Home 全覽・Ctrl+右鍵拖曳剪線",
-  en: "Blender controls: Shift+A add · drag sockets to connect · middle-drag pan · wheel zoom · A select all · X/Delete remove · Shift+D duplicate · Home frame all · Ctrl+right-drag cut links",
+  zh: "Blender 操作：Shift+A 游標旁新增・G 移動・Shift+D 複製後移動・B 框選・L/Shift+L 選取前後連線・中鍵平移・Ctrl+中鍵/滾輪縮放・拖線到空白處搜尋相容節點・Ctrl+右鍵剪線",
+  en: "Blender controls: Shift+A add at cursor · G move · Shift+D duplicate then move · B box select · L/Shift+L select linked · middle-drag pan · Ctrl+middle-drag/wheel zoom · drop a wire on empty space for compatible search · Ctrl+right-drag cut links",
 };
 
 // 觸控裝置沒有中鍵/右鍵/實體鍵盤，上面那組滑鼠慣例的提示文字完全用不上，改用觸控手勢

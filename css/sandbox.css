@@ -194,6 +194,9 @@
   touch-action: none;
 }
 .graph-canvas.panning { cursor: grabbing; }
+.graph-canvas.zooming { cursor: ns-resize; }
+.graph-canvas.transforming { cursor: move; }
+.graph-canvas.box-selecting { cursor: crosshair; }
 .graph-canvas.cutting { cursor: crosshair; }
 .graph-layer { position: absolute; inset: 0; transform-origin: 0 0; }
 .wire-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
@@ -288,7 +291,8 @@
 
 /* 節點編輯器：選取狀態、輔助控制項 */
 .node-card { user-select: none; }
-.node-card.selected { outline: 2px solid var(--accent-2); }
+.node-card.selected { outline: 2px solid var(--accent); }
+.node-card.active { outline-color: #fff; box-shadow: 0 0 0 2px var(--accent), 0 8px 24px rgba(0,0,0,.45); }
 .node-delete-btn {
   background: transparent; border: none; color: rgba(255,255,255,.75); padding: 0 4px;
   font-size: 15px; line-height: 1; border-radius: 4px;
@@ -328,6 +332,27 @@
   box-shadow: 0 4px 14px rgba(0,0,0,.5);
   white-space: nowrap;
 }
+
+/* Blender 式 Shift+A 浮動新增選單：在游標附近開啟、可直接輸入搜尋、方向鍵選擇。 */
+.node-add-popover {
+  position: fixed;
+  z-index: 10020;
+  width: min(330px, calc(100vw - 16px));
+  max-height: min(540px, calc(100vh - 16px));
+  overflow: hidden;
+  padding: 8px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: rgba(31,31,35,.98);
+  box-shadow: 0 20px 55px rgba(0,0,0,.62);
+}
+.node-add-popover[hidden] { display: none; }
+.node-add-popover-head { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 7px; color: var(--text-0); font-size: 12px; }
+.node-add-popover-head kbd { padding: 2px 5px; border: 1px solid var(--border); border-radius: 4px; color: var(--text-2); background: var(--bg-0); font: 10px var(--font-mono); }
+.node-add-popover input { width: 100%; margin-bottom: 7px; }
+.node-add-popover .node-add-results { max-height: min(450px, calc(100vh - 110px)); padding: 0 2px 4px; overflow-y: auto; }
+.node-add-popover .palette-item.keyboard-active { background: var(--accent); color: #171717; }
+.node-add-popover .palette-item.keyboard-active .dot { box-shadow: 0 0 0 1px rgba(0,0,0,.4); }
 
 .image-control { display: flex; align-items: center; gap: 6px; flex: 1; }
 .image-control button { font-size: 11px; padding: 3px 8px; }

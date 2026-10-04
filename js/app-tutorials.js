@@ -39,6 +39,7 @@ import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
 import { initMobileNav } from "./ui/mobileNav.js";
 import { initMobilePreviewDock } from "./ui/mobilePreviewDock.js";
+import { mountNodeAddMenu } from "./ui/nodeAddMenu.js";
 import { setPageSeo, tutorialSeo } from "./seo.js";
 
 initLangToggle();
@@ -1339,11 +1340,7 @@ function ensureEditorInitialized() {
 
   const paletteList = document.getElementById("t-palette-list");
   const paletteSearch = document.getElementById("t-palette-search");
-  canvasEl.addEventListener("nodeaddrequest", () => {
-    document.querySelector('#tutorial-run-view .mobile-panel-tab[data-panel="nodes"]')?.click();
-    paletteSearch.focus();
-    paletteSearch.select();
-  });
+  mountNodeAddMenu(canvasEl, editor);
   function refreshPalette() {
     // 點選節點面板的項目：節點會跟著游標移動，再點一次畫布才放置（比照 Blender 的 Shift+A 流程）。
     renderPalette(paletteList, paletteSearch.value, (typeId) => editor.startPlacingNode(typeId));

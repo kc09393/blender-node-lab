@@ -767,11 +767,11 @@ function buildCurveControl(node, def, onParamChange) {
 }
 
 export function createNodeElement(node, opts) {
-  const { onHeaderPointerDown, onSocketPointerDown, onSocketPointerUp, onParamChange, onDelete, connectedInputKeys, selected } = opts;
+  const { onHeaderPointerDown, onSocketPointerDown, onSocketPointerUp, onParamChange, onDelete, connectedInputKeys, selected, active } = opts;
   const typeDef = getNodeType(node.typeId);
 
   const el = document.createElement("div");
-  el.className = `node-card cat-${typeDef.category}${selected ? " selected" : ""}`;
+  el.className = `node-card cat-${typeDef.category}${selected ? " selected" : ""}${active ? " active" : ""}`;
   el.style.left = `${node.x}px`;
   el.style.top = `${node.y}px`;
   el.dataset.nodeId = node.id;

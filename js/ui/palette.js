@@ -1,14 +1,15 @@
 import { listByCategory, CATEGORY_LABELS, searchNodeTypes } from "../core/nodeRegistry.js";
 import { tBi, getLang } from "../i18n.js";
 
-export function renderPalette(container, query, onPick) {
+export function renderPalette(container, query, onPick, { filter = null } = {}) {
   container.innerHTML = "";
   const lang = getLang();
   const filtered = query ? new Set(searchNodeTypes(query, lang).map((n) => n.id)) : null;
   const byCategory = listByCategory();
 
   for (const [category, types] of byCategory) {
-    const visible = filtered ? types.filter((t) => filtered.has(t.id)) : types;
+    const searched = filtered ? types.filter((t) => filtered.has(t.id)) : types;
+    const visible = filter ? searched.filter(filter) : searched;
     if (visible.length === 0) continue;
 
     const group = document.createElement("div");
@@ -24,6 +25,9 @@ export function renderPalette(container, query, onPick) {
     for (const typeDef of visible) {
       const item = document.createElement("div");
       item.className = "palette-item";
+      item.setAttribute("role", "option");
+      item.tabIndex = -1;
+      item.dataset.typeId = typeDef.id;
       item.draggable = true;
       item.title = tBi(typeDef.summary);
       item.innerHTML = `<span class="dot" style="background:var(--cat-${category})"></span><span>${tBi(typeDef.name)}</span>`;
@@ -42,7 +46,7 @@ export function renderPalette(container, query, onPick) {
   if (container.children.length === 0) {
     const hint = document.createElement("div");
     hint.className = "empty-hint";
-    hint.textContent = "找不到符合的節點";
+    hint.textContent = lang === "en" ? "No matching nodes" : "找不到符合的節點";
     container.appendChild(hint);
   }
 }

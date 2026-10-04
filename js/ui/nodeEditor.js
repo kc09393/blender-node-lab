@@ -37,8 +37,12 @@ export class NodeEditor {
     this.pendingLink = null;
     this.isPanning = false;
     this.boxSelectStart = null;
+    this.boxSelectArmed = false;
     this.placingTypeId = null;
     this._spacePressed = false;
+    this.modalTransform = null;
+    this.isZooming = false;
+    this._lastPointer = null;
 
     // 觸控手勢：追蹤目前畫布範圍內按著的每一根手指（pointerId -> {x,y}），只在
     // pointerType === "touch" 時記錄，滑鼠/觸控筆完全不受影響。兩指同時按著＝縮放＋平移
@@ -67,6 +71,9 @@ export class NodeEditor {
     container.appendChild(this.svg);
     container.appendChild(this.layer);
 
+    // G / Shift+D 進入 Blender 式 modal transform 後，下一次左鍵是確認、右鍵是取消；
+    // 用捕獲階段先攔住，避免那一下同時又選到或拖到下面的節點。
+    container.addEventListener("pointerdown", (e) => this._onModalPointerDown(e), true);
     container.addEventListener("pointerdown", (e) => this._onCanvasPointerDown(e));
     window.addEventListener("pointermove", (e) => this._onPointerMove(e));
     // _onPointerUp 留在冒泡階段——它裡面 pendingLink 的收尾（見下方）只是「還沒被處理掉的話
@@ -189,7 +196,7 @@ export class NodeEditor {
   }
 
   // 進入「放置模式」：節點跟著游標移動，使用者點一下畫布才真的放進圖裡（比照 Blender Shift+A）。
-  startPlacingNode(typeId) {
+  startPlacingNode(typeId, clientX = null, clientY = null) {
     this._cancelPlacing();
     this.placingTypeId = typeId;
     const typeDef = getNodeType(typeId);
@@ -199,6 +206,11 @@ export class NodeEditor {
     ghost.style.visibility = "hidden";
     document.body.appendChild(ghost);
     this._placingGhostEl = ghost;
+    if (Number.isFinite(clientX) && Number.isFinite(clientY)) {
+      ghost.style.visibility = "visible";
+      ghost.style.left = `${clientX + 14}px`;
+      ghost.style.top = `${clientY + 14}px`;
+    }
   }
 
   _finishPlacingNode(clientX, clientY) {
@@ -213,6 +225,33 @@ export class NodeEditor {
       this._placingGhostEl = null;
     }
     this.placingTypeId = null;
+  }
+
+  // 從一條放到空白處的 noodle 搜尋相容節點後，一次完成「新增＋自動接線」。
+  // connection 是拖線起點；輸出起點找新節點輸入，輸入起點則找新節點輸出。
+  addConnectedNode(typeId, connection, graphX, graphY) {
+    if (!connection?.historyPushed) this._pushHistory();
+    const node = this.graph.addNode(typeId, graphX, graphY);
+    const typeDef = getNodeType(typeId);
+    let link = null;
+    if (connection.dir === "out") {
+      const input = typeDef.inputs.find((socket) => socketsCompatible(connection.type, socket.type));
+      if (input) link = this.graph.addLink(connection.nodeId, connection.socketKey, node.id, input.key);
+    } else {
+      const output = typeDef.outputs.find((socket) => socketsCompatible(socket.type, connection.type));
+      if (output) link = this.graph.addLink(node.id, output.key, connection.nodeId, connection.socketKey);
+    }
+    if (!link) {
+      this.graph.removeNode(node.id);
+      if (!connection.historyPushed) this._undoStack.pop();
+      this._flashInvalid();
+      this.render();
+      return null;
+    }
+    this._selectOnly(node.id);
+    this.render();
+    this.onChange();
+    return node;
   }
 
   removeSelected() {
@@ -286,6 +325,7 @@ export class NodeEditor {
       );
       const el = createNodeElement(node, {
         selected: this.selectedNodeIds.has(node.id),
+        active: this.selectedNodeIds.has(node.id) && this._lastSelectedId === node.id,
         connectedInputKeys,
         onHeaderPointerDown: (e, nodeId) => this._onNodeHeaderPointerDown(e, nodeId),
         onSocketPointerDown: (e, nodeId, key, dir, type) => this._onSocketPointerDown(e, nodeId, key, dir, type),
@@ -417,6 +457,101 @@ export class NodeEditor {
 
   // ---------- interaction ----------
 
+  _pointerAnchor() {
+    if (this._lastPointer && this._isInsideContainer(this._lastPointer.x, this._lastPointer.y)) return this._lastPointer;
+    const rect = this.container.getBoundingClientRect();
+    return { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 };
+  }
+
+  _onModalPointerDown(e) {
+    if (this.boxSelectArmed && (e.button === 0 || e.button === 2)) {
+      e.preventDefault();
+      e.stopPropagation();
+      this.boxSelectArmed = false;
+      this.container.classList.remove("box-selecting");
+      if (e.button === 2) return;
+      const rect = this.container.getBoundingClientRect();
+      this.boxSelectStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+      if (!e.shiftKey) {
+        this.selectedNodeIds.clear();
+        this._lastSelectedId = null;
+        this.selectedLinkId = null;
+      }
+      this.render();
+      return;
+    }
+    if (!this.modalTransform) return;
+    if (e.button !== 0 && e.button !== 2) return;
+    e.preventDefault();
+    e.stopPropagation();
+    this._finishModalTransform(e.button === 2);
+  }
+
+  _beginMoveSelected(kind = "move") {
+    if (this.selectedNodeIds.size === 0) return false;
+    const startPositions = new Map();
+    for (const id of this.selectedNodeIds) {
+      const node = this.graph.nodes.get(id);
+      if (node) startPositions.set(id, { x: node.x, y: node.y });
+    }
+    if (!startPositions.size) return false;
+    const anchor = this._pointerAnchor();
+    this.modalTransform = {
+      kind,
+      startClientX: anchor.x,
+      startClientY: anchor.y,
+      startPositions,
+      historySnapshot: kind === "move" ? JSON.stringify(this.graph.toJSON()) : null,
+    };
+    this.container.classList.add("transforming");
+    for (const id of startPositions.keys()) this.layer.querySelector(`.node-card[data-node-id="${id}"]`)?.classList.add("dragging");
+    return true;
+  }
+
+  _applyModalTransform(clientX, clientY) {
+    if (!this.modalTransform) return;
+    const dx = (clientX - this.modalTransform.startClientX) / this.scale;
+    const dy = (clientY - this.modalTransform.startClientY) / this.scale;
+    for (const [id, start] of this.modalTransform.startPositions) {
+      const node = this.graph.nodes.get(id);
+      if (!node) continue;
+      node.x = start.x + dx;
+      node.y = start.y + dy;
+      const element = this.layer.querySelector(`.node-card[data-node-id="${id}"]`);
+      if (element) {
+        element.style.left = `${node.x}px`;
+        element.style.top = `${node.y}px`;
+      }
+    }
+    this._drawWires();
+  }
+
+  _finishModalTransform(cancelled = false) {
+    const transform = this.modalTransform;
+    if (!transform) return;
+    const moved = [...transform.startPositions].some(([id, start]) => {
+      const node = this.graph.nodes.get(id);
+      return node && (Math.abs(node.x - start.x) > 0.5 || Math.abs(node.y - start.y) > 0.5);
+    });
+    // Blender 中 G 取消會回到原位；Shift+D 取消的是「移動」而不是「複製」，
+    // 因此複製品仍留在原節點正上方，下一次移動時才會看見兩份。
+    if (cancelled) {
+      for (const [id, start] of transform.startPositions) {
+        const node = this.graph.nodes.get(id);
+        if (node) Object.assign(node, start);
+      }
+    } else if (transform.kind === "move" && moved && transform.historySnapshot) {
+      this._undoStack.push(transform.historySnapshot);
+      if (this._undoStack.length > 100) this._undoStack.shift();
+      this._redoStack.length = 0;
+      this._lastParamChangeKey = null;
+    }
+    this.modalTransform = null;
+    this.container.classList.remove("transforming");
+    this.render();
+    if (moved || transform.kind === "duplicate") this.onChange();
+  }
+
   _onCanvasPointerDown(e) {
     if (this._touchPoints.size >= 2) return; // 兩指手勢進行中，不要同時啟動框選/剪線
     const isBackground = e.target === this.container || e.target === this.layer || e.target === this.svg;
@@ -424,6 +559,21 @@ export class NodeEditor {
 
     if (this.placingTypeId) {
       if (e.button === 0) this._finishPlacingNode(e.clientX, e.clientY);
+      return;
+    }
+
+    // Blender Node Editor：Ctrl+中鍵上下拖曳縮放，縮放錨點維持在開始拖曳的位置。
+    if (e.button === 1 && e.ctrlKey) {
+      e.preventDefault();
+      const rect = this.container.getBoundingClientRect();
+      this.isZooming = true;
+      this._zoomStart = {
+        y: e.clientY,
+        scale: this.scale,
+        pan: { ...this.pan },
+        anchor: { x: e.clientX - rect.left, y: e.clientY - rect.top },
+      };
+      this.container.classList.add("zooming");
       return;
     }
 
@@ -449,6 +599,8 @@ export class NodeEditor {
     // 左鍵在空白處拖曳＝框選（比照 Blender 預設的 tweak 工具）。
     const rect = this.container.getBoundingClientRect();
     this.boxSelectStart = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+    this.boxSelectArmed = false;
+    this.container.classList.remove("box-selecting");
     if (!e.shiftKey) {
       this.selectedNodeIds.clear();
       this._lastSelectedId = null;
@@ -458,6 +610,7 @@ export class NodeEditor {
   }
 
   _onNodeHeaderPointerDown(e, nodeId) {
+    if (e.button !== 0) return;
     if (this.placingTypeId) return;
     if (this._touchPoints.size >= 2) return; // 兩指手勢進行中，不要同時啟動節點拖曳
     const alreadySelected = this.selectedNodeIds.has(nodeId);
@@ -494,6 +647,7 @@ export class NodeEditor {
   }
 
   _onSocketPointerDown(e, nodeId, socketKey, dir, type) {
+    if (e.button !== 0) return;
     if (this._touchPoints.size >= 2) return; // 兩指手勢進行中，不要同時啟動拉線
     // 比照 Blender：從「已經接著電線的輸入插槽」拖曳，是抓住那條電線本身，
     // 一開始拖曳就立刻斷開舊連線，讓電線跟著游標走（而不是等放開滑鼠才決定要不要換線）。
@@ -503,7 +657,7 @@ export class NodeEditor {
         this._pushHistory();
         const startPos = this._socketCanvasPos(existingLink.fromNode, existingLink.fromSocket, "out");
         this.graph.removeLink(existingLink.id);
-        this.pendingLink = { nodeId, socketKey, dir: "in", type, startPos, currentPos: startPos };
+        this.pendingLink = { nodeId, socketKey, dir: "in", type, startPos, currentPos: startPos, startClientX: e.clientX, startClientY: e.clientY, historyPushed: true };
         // 這裡故意只重畫電線（_drawWires），不要整個 render()——render() 會把包含這個 socket
         // 本身在內的所有節點卡片 DOM 全部拆掉重建，而這個當下手勢才剛開始、pointerId 還在
         // 進行中。觸控裝置的「隱性捕獲」是鎖定在一開始按下去的那個實際 DOM 節點上，如果這裡
@@ -517,7 +671,7 @@ export class NodeEditor {
       }
     }
     const startPos = this._socketCanvasPos(nodeId, socketKey, dir);
-    this.pendingLink = { nodeId, socketKey, dir, type, startPos, currentPos: startPos };
+    this.pendingLink = { nodeId, socketKey, dir, type, startPos, currentPos: startPos, startClientX: e.clientX, startClientY: e.clientY, historyPushed: false };
     this._drawWires();
   }
 
@@ -619,12 +773,17 @@ export class NodeEditor {
   }
 
   _onPointerMove(e) {
+    if (this._isInsideContainer(e.clientX, e.clientY)) this._lastPointer = { x: e.clientX, y: e.clientY };
     if (this.placingTypeId) {
       if (this._placingGhostEl) {
         this._placingGhostEl.style.visibility = "visible";
         this._placingGhostEl.style.left = `${e.clientX + 14}px`;
         this._placingGhostEl.style.top = `${e.clientY + 14}px`;
       }
+      return;
+    }
+    if (this.modalTransform) {
+      this._applyModalTransform(e.clientX, e.clientY);
       return;
     }
     if (this.draggingNodes) {
@@ -647,6 +806,19 @@ export class NodeEditor {
     if (this.isPanning) {
       this.pan.x = this._panStart.panX + (e.clientX - this._panStart.x);
       this.pan.y = this._panStart.panY + (e.clientY - this._panStart.y);
+      this._applyTransform();
+      this._drawWires();
+      return;
+    }
+    if (this.isZooming) {
+      const oldScale = this._zoomStart.scale;
+      const factor = Math.exp((this._zoomStart.y - e.clientY) * 0.008);
+      const newScale = Math.min(2.5, Math.max(0.3, oldScale * factor));
+      const worldX = (this._zoomStart.anchor.x - this._zoomStart.pan.x) / oldScale;
+      const worldY = (this._zoomStart.anchor.y - this._zoomStart.pan.y) / oldScale;
+      this.pan.x = this._zoomStart.anchor.x - worldX * newScale;
+      this.pan.y = this._zoomStart.anchor.y - worldY * newScale;
+      this.scale = newScale;
       this._applyTransform();
       this._drawWires();
       return;
@@ -745,10 +917,16 @@ export class NodeEditor {
       this._dragHistorySnapshot = null;
       this.draggingNodes = null;
       this.layer.querySelectorAll(".node-card.dragging").forEach((el) => el.classList.remove("dragging"));
+      if (moved) this.onChange();
     }
     if (this.isPanning) {
       this.isPanning = false;
       this.container.classList.remove("panning");
+    }
+    if (this.isZooming) {
+      this.isZooming = false;
+      this._zoomStart = null;
+      this.container.classList.remove("zooming");
     }
     if (this.cutStart) {
       this.cutStart = null;
@@ -767,6 +945,14 @@ export class NodeEditor {
       this.render();
     }
     if (this.pendingLink) {
+      const distance = Math.hypot(e.clientX - this.pendingLink.startClientX, e.clientY - this.pendingLink.startClientY);
+      if (distance > 8 && this._isInsideContainer(e.clientX, e.clientY)) {
+        const connection = { ...this.pendingLink };
+        this.container.dispatchEvent(new CustomEvent("nodeaddrequest", {
+          bubbles: true,
+          detail: { clientX: e.clientX, clientY: e.clientY, connection },
+        }));
+      }
       this.pendingLink = null;
       this._drawWires();
     }
@@ -863,8 +1049,17 @@ export class NodeEditor {
   }
 
   _onKeyDown(e) {
-    if (e.key === "Escape" && this.placingTypeId) {
-      this._cancelPlacing();
+    if (e.key === "Escape") {
+      if (this.modalTransform) this._finishModalTransform(true);
+      if (this.placingTypeId) this._cancelPlacing();
+      if (this.pendingLink) {
+        this.pendingLink = null;
+        this._drawWires();
+      }
+      if (this.boxSelectArmed) {
+        this.boxSelectArmed = false;
+        this.container.classList.remove("box-selecting");
+      }
       return;
     }
     const tag = document.activeElement?.tagName;
@@ -877,7 +1072,11 @@ export class NodeEditor {
     // 移到可搜尋節點面板，NodeEditor 本身保持不依賴外部版面。
     if (e.code === "KeyA" && e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey) {
       e.preventDefault();
-      this.container.dispatchEvent(new CustomEvent("nodeaddrequest", { bubbles: true }));
+      const anchor = this._pointerAnchor();
+      this.container.dispatchEvent(new CustomEvent("nodeaddrequest", {
+        bubbles: true,
+        detail: { clientX: anchor.x, clientY: anchor.y },
+      }));
       return;
     }
     // A 全選、Alt+A 取消全選，對齊 Blender 預設鍵位。
@@ -894,6 +1093,30 @@ export class NodeEditor {
       this.render();
       return;
     }
+    // Ctrl+I：反轉節點選取，與 Blender Select > Invert 相同。
+    if (e.code === "KeyI" && (e.ctrlKey || e.metaKey) && !e.shiftKey && !e.altKey) {
+      e.preventDefault();
+      const next = new Set();
+      for (const id of this.graph.nodes.keys()) if (!this.selectedNodeIds.has(id)) next.add(id);
+      this.selectedNodeIds = next;
+      this._lastSelectedId = [...next][0] || null;
+      this.selectedLinkId = null;
+      this.render();
+      return;
+    }
+    // B：進入框選模式；下一次左鍵拖曳決定範圍，Esc 可取消。
+    if (e.code === "KeyB" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      this.boxSelectArmed = true;
+      this.container.classList.add("box-selecting");
+      return;
+    }
+    // L / Shift+L：沿輸入方向或輸出方向擴張選取。
+    if (e.code === "KeyL" && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      this.selectLinked(e.shiftKey ? "to" : "from");
+      return;
+    }
     if (e.key === "Delete" || e.key === "Backspace" || (e.code === "KeyX" && !e.ctrlKey && !e.metaKey && !e.altKey)) {
       if (this.selectedNodeIds.size > 0 || this.selectedLinkId) {
         e.preventDefault();
@@ -904,7 +1127,19 @@ export class NodeEditor {
     // 避免非英文鍵盤配置（例如某些歐洲語言鍵盤 Shift+D 打出不同字元）導致快捷鍵失效。
     if (e.code === "KeyD" && e.shiftKey && this.selectedNodeIds.size > 0) {
       e.preventDefault();
-      this.duplicateSelected();
+      this.duplicateSelected({ interactive: true });
+      return;
+    }
+    // G：選取節點跟著游標移動；左鍵/Enter 確認，右鍵/Esc 取消。
+    if (e.code === "KeyG" && !e.shiftKey && !e.ctrlKey && !e.metaKey && !e.altKey) {
+      e.preventDefault();
+      this._beginMoveSelected("move");
+      return;
+    }
+    if (e.key === "Enter" && this.modalTransform) {
+      e.preventDefault();
+      this._finishModalTransform(false);
+      return;
     }
     // Home：縮放平移到剛好框住所有節點（比照 Blender 的 View > Frame All）。
     if (e.key === "Home") {
@@ -927,7 +1162,32 @@ export class NodeEditor {
     }
   }
 
-  duplicateSelected() {
+  selectLinked(direction) {
+    if (this.selectedNodeIds.size === 0) return;
+    const selected = new Set(this.selectedNodeIds);
+    let changed = true;
+    while (changed) {
+      changed = false;
+      for (const link of this.graph.links.values()) {
+        const sourceSelected = selected.has(link.fromNode);
+        const targetSelected = selected.has(link.toNode);
+        const nextId = direction === "from" && targetSelected
+          ? link.fromNode
+          : direction === "to" && sourceSelected
+            ? link.toNode
+            : null;
+        if (nextId && !selected.has(nextId)) {
+          selected.add(nextId);
+          changed = true;
+        }
+      }
+    }
+    this.selectedNodeIds = selected;
+    this.selectedLinkId = null;
+    this.render();
+  }
+
+  duplicateSelected({ interactive = false } = {}) {
     const pushed = this._pushHistory();
     const idMap = new Map();
     for (const oldId of this.selectedNodeIds) {
@@ -935,7 +1195,8 @@ export class NodeEditor {
       if (!oldNode) continue;
       const typeDef = getNodeType(oldNode.typeId);
       if (typeDef.category === "output") continue; // 材質輸出只能有一個，不重複複製
-      const newNode = this.graph.addNode(oldNode.typeId, oldNode.x + 30, oldNode.y + 30);
+      const offset = interactive ? 0 : 30;
+      const newNode = this.graph.addNode(oldNode.typeId, oldNode.x + offset, oldNode.y + offset);
       newNode.params = JSON.parse(JSON.stringify(oldNode.params));
       idMap.set(oldId, newNode.id);
     }
@@ -952,7 +1213,8 @@ export class NodeEditor {
     this.selectedNodeIds = new Set(idMap.values());
     this._lastSelectedId = [...idMap.values()][0] || null;
     this.render();
-    this.onChange();
+    if (interactive) this._beginMoveSelected("duplicate");
+    else this.onChange();
   }
 
   frameAll() {
