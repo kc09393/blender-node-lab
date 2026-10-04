@@ -51,6 +51,10 @@ import { compileGraph } from "./js/core/compiler.js";
 import { getNodeType } from "./js/core/nodeRegistry.js";
 import presets from "./data/presets/index.js";
 import tutorials from "./data/tutorials/index.js";
+import learningPath from "./data/tutorials/learningPath.js";
+import materialBlueprints, { materialThinkingFlow, materialDiagnostics } from "./data/materialBlueprints.js";
+import materialCompositions from "./data/materialCompositions.js";
+import materialParameterLabs from "./data/materialParameterLabs.js";
 import { learningActivities, resolveLearningActivity } from "./data/learningActivities.js";
 import { activityVariants, createActivityVariant } from "./js/core/learningVariants.js";
 import { calculateSkillMastery, estimateActivityMinutes, inferActivityTopic, recommendActivity } from "./js/core/learningSkills.js";
@@ -212,6 +216,122 @@ function runAll() {
       detail: errors.join("\n"),
     });
   }
+
+  const pathIds = learningPath.flatMap((stage) => stage.steps.map((step) => step.tutorialId));
+  const tutorialIds = new Set(tutorials.map((tutorial) => tutorial.id));
+  const pathProblems = [];
+  const duplicatedPathIds = [...new Set(pathIds.filter((id, index) => pathIds.indexOf(id) !== index))];
+  const missingPathIds = tutorials.filter((tutorial) => !pathIds.includes(tutorial.id)).map((tutorial) => tutorial.id);
+  const unknownPathIds = pathIds.filter((id) => !tutorialIds.has(id));
+  if (duplicatedPathIds.length) pathProblems.push(`重複出現：${duplicatedPathIds.join(", ")}`);
+  if (missingPathIds.length) pathProblems.push(`尚未排入路徑：${missingPathIds.join(", ")}`);
+  if (unknownPathIds.length) pathProblems.push(`找不到教學：${unknownPathIds.join(", ")}`);
+  if (learningPath.some((stage) => !stage.summary?.zh || !stage.summary?.en)) pathProblems.push("有階段缺少雙語學習目標");
+  results.push({
+    kind: "課程路徑",
+    id: "complete-learning-path",
+    name: `${learningPath.length} 階段涵蓋全部 ${tutorials.length} 篇教學`,
+    status: pathProblems.length ? "err" : "ok",
+    detail: pathProblems.join("\n"),
+  });
+
+  const decoderProblems = [];
+  const decoderIds = materialBlueprints.map((blueprint) => blueprint.id);
+  const presetIds = new Set(presets.map((preset) => preset.id));
+  const decoderKinds = ["coordinate", "signal", "shape", "surface", "output"];
+  const hasBilingualText = (value) => Boolean(value?.zh?.trim() && value?.en?.trim());
+  if (new Set(decoderIds).size !== decoderIds.length) decoderProblems.push("材質家族 id 重複");
+  if (materialThinkingFlow.length !== 5) decoderProblems.push(`材質拆解流程應為 5 步，目前是 ${materialThinkingFlow.length} 步`);
+  materialThinkingFlow.forEach((step, index) => {
+    if (!hasBilingualText(step)) decoderProblems.push(`材質拆解流程第 ${index + 1} 步缺少雙語文字`);
+  });
+  materialBlueprints.forEach((blueprint) => {
+    if (blueprint.chain?.length !== 5) decoderProblems.push(`${blueprint.id} 的接線骨架不是 5 段`);
+    if (!hasBilingualText(blueprint.name) || !hasBilingualText(blueprint.cue)) decoderProblems.push(`${blueprint.id} 缺少雙語名稱或觀察線索`);
+    if (!blueprint.preview?.trim()) decoderProblems.push(`${blueprint.id} 缺少預覽樣式`);
+    blueprint.chain?.forEach((step, index) => {
+      if (step.kind !== decoderKinds[index]) decoderProblems.push(`${blueprint.id} 第 ${index + 1} 段應為 ${decoderKinds[index]}，目前是 ${step.kind || "空白"}`);
+      if (!hasBilingualText(step.role) || !hasBilingualText(step.name) || !hasBilingualText(step.why)) decoderProblems.push(`${blueprint.id} 第 ${index + 1} 段缺少雙語角色、節點或原因`);
+    });
+    if (blueprint.parameters?.length < 3 || blueprint.variants?.length < 2) decoderProblems.push(`${blueprint.id} 的起始參數或延伸變化不足`);
+    blueprint.parameters?.forEach((parameter, index) => {
+      if (!hasBilingualText(parameter.name) || !hasBilingualText(parameter.value)) decoderProblems.push(`${blueprint.id} 第 ${index + 1} 組參數缺少雙語內容`);
+    });
+    blueprint.variants?.forEach((variant, index) => {
+      if (!hasBilingualText(variant)) decoderProblems.push(`${blueprint.id} 第 ${index + 1} 個延伸變化缺少雙語內容`);
+    });
+    if (blueprint.tutorialIds?.length !== 3 || new Set(blueprint.tutorialIds).size !== blueprint.tutorialIds.length) decoderProblems.push(`${blueprint.id} 應連到 3 篇不重複教學`);
+    (blueprint.tutorialIds || []).forEach((tutorialId) => {
+      if (!tutorialIds.has(tutorialId)) decoderProblems.push(`${blueprint.id} 指向不存在的教學：${tutorialId}`);
+    });
+    if (blueprint.presetIds?.length !== 3 || new Set(blueprint.presetIds).size !== blueprint.presetIds.length) decoderProblems.push(`${blueprint.id} 應連到 3 個不重複成品`);
+    (blueprint.presetIds || []).forEach((presetId) => {
+      if (!presetIds.has(presetId)) decoderProblems.push(`${blueprint.id} 指向不存在的成品：${presetId}`);
+    });
+    const diagnostics = materialDiagnostics[blueprint.id];
+    if (diagnostics?.length !== 2) decoderProblems.push(`${blueprint.id} 應有 2 個常見問題診斷`);
+    diagnostics?.forEach((diagnostic, index) => {
+      if (!hasBilingualText(diagnostic.symptom) || !hasBilingualText(diagnostic.cause) || !hasBilingualText(diagnostic.fix)) decoderProblems.push(`${blueprint.id} 第 ${index + 1} 個診斷缺少雙語症狀、原因或修法`);
+    });
+  });
+  Object.keys(materialDiagnostics).forEach((blueprintId) => {
+    if (!decoderIds.includes(blueprintId)) decoderProblems.push(`診斷資料指向不存在的材質家族：${blueprintId}`);
+  });
+  results.push({
+    kind: "材質拆解器",
+    id: "material-decoder-blueprints",
+    name: `${materialBlueprints.length} 類材質的五段接線骨架`,
+    status: decoderProblems.length ? "err" : "ok",
+    detail: decoderProblems.join("\n"),
+  });
+
+  const compositionProblems = [];
+  const compositionIds = materialCompositions.map((composition) => composition.id);
+  if (new Set(compositionIds).size !== compositionIds.length) compositionProblems.push("複合材質案例 id 重複");
+  materialCompositions.forEach((composition) => {
+    if (!hasBilingualText(composition.name) || !hasBilingualText(composition.summary) || !hasBilingualText(composition.connection)) compositionProblems.push(`${composition.id} 缺少雙語名稱、摘要或接線順序`);
+    if (composition.layers?.length !== 4) compositionProblems.push(`${composition.id} 應拆成 4 個層級`);
+    composition.layers?.forEach((layer, index) => {
+      if (!hasBilingualText(layer.name) || !hasBilingualText(layer.role)) compositionProblems.push(`${composition.id} 第 ${index + 1} 層缺少雙語名稱或功能`);
+    });
+    if (!presetIds.has(composition.presetId)) compositionProblems.push(`${composition.id} 指向不存在的成品：${composition.presetId}`);
+    if (composition.tutorialIds?.length !== 3 || new Set(composition.tutorialIds).size !== composition.tutorialIds.length) compositionProblems.push(`${composition.id} 應連到 3 篇不重複教學`);
+    (composition.tutorialIds || []).forEach((tutorialId) => {
+      if (!tutorialIds.has(tutorialId)) compositionProblems.push(`${composition.id} 指向不存在的教學：${tutorialId}`);
+    });
+  });
+  results.push({
+    kind: "複合材質案例",
+    id: "layered-material-compositions",
+    name: `${materialCompositions.length} 個四層拆解案例`,
+    status: compositionProblems.length ? "err" : "ok",
+    detail: compositionProblems.join("\n"),
+  });
+
+  const parameterLabProblems = [];
+  const parameterLabIds = materialParameterLabs.map((experiment) => experiment.id);
+  if (new Set(parameterLabIds).size !== parameterLabIds.length) parameterLabProblems.push("A/B 參數實驗 id 重複");
+  materialParameterLabs.forEach((experiment) => {
+    if (!hasBilingualText(experiment.name) || !hasBilingualText(experiment.watch) || !hasBilingualText(experiment.warning)) parameterLabProblems.push(`${experiment.id} 缺少雙語名稱、觀察重點或誤判提醒`);
+    for (const side of ["a", "b"]) {
+      const state = experiment[side];
+      if (!hasBilingualText(state?.label) || typeof state?.value !== "string" || !state?.material || Object.keys(state.material).length < 3) parameterLabProblems.push(`${experiment.id} 的 ${side.toUpperCase()} 狀態資料不完整`);
+      if (Object.values(state?.material || {}).some((value) => typeof value === "number" && !Number.isFinite(value))) parameterLabProblems.push(`${experiment.id} 的 ${side.toUpperCase()} 材質包含無效數值`);
+      const pattern = state?.material?.pattern;
+      if (pattern && !["checker", "height"].includes(pattern.type)) parameterLabProblems.push(`${experiment.id} 的 ${side.toUpperCase()} 使用未知程序紋理 ${pattern.type}`);
+      if (pattern?.type === "height" && !["bump", "normal", "displacement", "color", "surface"].includes(pattern.mode)) parameterLabProblems.push(`${experiment.id} 的 ${side.toUpperCase()} 使用未知高度模式 ${pattern.mode}`);
+      const visualization = state?.material?.visualization;
+      if (visualization && (visualization.type !== "coordinate" || !["uv", "generated", "normal", "reflection"].includes(visualization.mode))) parameterLabProblems.push(`${experiment.id} 的 ${side.toUpperCase()} 使用未知座標視覺化模式`);
+    }
+    if (!tutorialIds.has(experiment.tutorialId)) parameterLabProblems.push(`${experiment.id} 指向不存在的教學：${experiment.tutorialId}`);
+  });
+  results.push({
+    kind: "參數 A/B 實驗",
+    id: "material-parameter-ab-labs",
+    name: `${materialParameterLabs.length} 組同模型即時 PBR 對照`,
+    status: parameterLabProblems.length ? "err" : "ok",
+    detail: parameterLabProblems.join("\n"),
+  });
 
   const fakeState = { version: 2, tutorials: {}, activities: {}, assessment: null, knownConcepts: [], favoriteActivities: [], lastActivityId: null };
   const backupText = createLearningBackup(fakeState);

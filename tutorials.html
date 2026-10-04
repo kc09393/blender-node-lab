@@ -4,10 +4,10 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title data-i18n="meta.tutorials.title">互動學習中心 · Blender 5.2 LTS 材質節點</title>
-<meta name="description" data-i18n-content="meta.tutorials.description" content="用程度診斷、挑戰題、除錯實驗、間隔複習與智慧節點檢查，真正學會 Blender 5.2 LTS 材質節點。" />
+<meta name="description" data-i18n-content="meta.tutorials.description" content="用 13 類材質拆解器、16 組即時 A/B 對照、9 個複合案例與 83 篇課程，學會反推 Blender 5.2 LTS 材質接線。" />
 <meta name="theme-color" content="#1b1b1e" />
 <meta property="og:title" data-i18n-content="meta.tutorials.title" content="互動學習中心 · Blender 5.2 LTS 材質節點" />
-<meta property="og:description" data-i18n-content="meta.tutorials.description" content="用程度診斷、挑戰題、除錯實驗、間隔複習與智慧節點檢查，真正學會 Blender 5.2 LTS 材質節點。" />
+<meta property="og:description" data-i18n-content="meta.tutorials.description" content="用 13 類材質拆解器、16 組即時 A/B 對照、9 個複合案例與 83 篇課程，學會反推 Blender 5.2 LTS 材質接線。" />
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://kc09393.github.io/blender-node-lab/tutorials.html" />
 <meta property="og:image" content="https://kc09393.github.io/blender-node-lab/img/og-image.png" />
@@ -154,11 +154,62 @@
       </section>
 
       <section class="learning-course-section" data-learning-view="courses">
+      <section class="material-decoder-section" aria-labelledby="material-decoder-title">
+        <div class="material-decoder-header">
+          <div>
+            <div class="learning-eyebrow" data-i18n="tutorials.decoderEyebrow">從外觀倒推節點</div>
+            <h2 id="material-decoder-title" data-i18n="tutorials.decoderTitle">材質拆解器：任何材質都先回答 5 個問題</h2>
+            <p data-i18n="tutorials.decoderSub">不要背完整節點圖。先找出圖案依附的座標、產生變化的訊號、調整訊號的方法，以及它真正控制的表面性質。</p>
+          </div>
+          <div class="decoder-rule" data-i18n="tutorials.decoderRule">看外觀 → 拆訊號 → 決定接線</div>
+        </div>
+        <div class="decoder-thinking-flow" id="decoder-thinking-flow" aria-label="材質拆解五步驟 / Five-step material analysis"></div>
+        <div class="material-family-tabs" id="material-family-tabs" role="tablist" aria-orientation="horizontal" aria-label="材質家族 / Material families"></div>
+        <div class="material-decoder-detail" id="material-decoder-detail" role="tabpanel" aria-live="polite"></div>
+      </section>
+
+      <section class="parameter-lab-section" aria-labelledby="parameter-lab-title">
+        <div class="parameter-lab-header">
+          <div>
+            <div class="learning-eyebrow" data-i18n="tutorials.parameterEyebrow">同一個物件、同一個環境、一次比較一項原理</div>
+            <h2 id="parameter-lab-title" data-i18n="tutorials.parameterTitle">材質核心原理 A/B 即時對照</h2>
+            <p data-i18n="tutorials.parameterSub">左右預覽使用相同模型與環境。從座標、Mapping、遮罩與色彩空間，到高光、反射、透射與真實位移，一次只改一項核心設定。</p>
+          </div>
+          <div class="parameter-live-badge" data-i18n="tutorials.parameterBadge">即時 PBR 預覽</div>
+        </div>
+        <div class="parameter-lab-tabs" id="parameter-lab-tabs" role="tablist" aria-orientation="horizontal" aria-label="材質原理 / Material principles"></div>
+        <div class="parameter-lab-body" id="parameter-lab-body" role="tabpanel" aria-live="polite">
+          <div class="parameter-preview-pair">
+            <article class="parameter-preview-card">
+              <div class="parameter-preview-canvas" id="parameter-preview-a"></div>
+              <div class="parameter-preview-label" id="parameter-label-a"></div>
+            </article>
+            <article class="parameter-preview-card">
+              <div class="parameter-preview-canvas" id="parameter-preview-b"></div>
+              <div class="parameter-preview-label" id="parameter-label-b"></div>
+            </article>
+          </div>
+          <div class="parameter-explanation" id="parameter-explanation"></div>
+        </div>
+      </section>
+
+      <section class="material-composition-section" aria-labelledby="material-composition-title">
+        <div class="material-composition-header">
+          <div>
+            <div class="learning-eyebrow" data-i18n="tutorials.compositionEyebrow">從單一原理到複合成品</div>
+            <h2 id="material-composition-title" data-i18n="tutorials.compositionTitle">複合材質案例：看懂每一層負責什麼</h2>
+            <p data-i18n="tutorials.compositionSub">複雜材質不是把節點一直疊上去；先分開完成底材、覆蓋層與遮罩，再決定哪些表面性質要一起改變。</p>
+          </div>
+          <div class="composition-rule" data-i18n="tutorials.compositionRule">先完成每一層 → 再用遮罩組合</div>
+        </div>
+        <div class="material-composition-grid" id="material-composition-grid"></div>
+      </section>
+
       <section class="learning-path-section">
         <div class="learning-path-header">
           <div>
-            <h2 data-i18n="tutorials.pathTitle">建議學習路徑</h2>
-            <p class="learning-path-sub" data-i18n="tutorials.pathSub">不知道從哪裡開始？照這條主線走一輪，從材質圖基礎到綜合實戰，一步一步循序漸進。</p>
+            <h2 data-i18n="tutorials.pathTitle">完整材質原理課程</h2>
+            <p class="learning-path-sub" data-i18n="tutorials.pathSub">全站教學已排成 10 個循序漸進階段；從 PBR 基礎、座標與程序紋理，一路練到分層材質、製作工作流與複雜案例。</p>
             <div class="learning-path-progress" id="learning-path-progress"></div>
           </div>
         </div>

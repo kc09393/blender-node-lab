@@ -1,4 +1,5 @@
 import { initLangToggle, tBi, getLang, t } from "./i18n.js";
+import * as THREE from "three";
 import { initGlobalSearch } from "./globalSearch.js";
 import { Preview3D } from "./ui/preview3d.js";
 import { NodeEditor } from "./ui/nodeEditor.js";
@@ -29,6 +30,10 @@ import { calculateSkillMastery, recommendActivity, inferActivityTopic, topicLabe
 import { activityVariants, createActivityVariant } from "./core/learningVariants.js";
 import tutorials from "../data/tutorials/index.js";
 import learningPath from "../data/tutorials/learningPath.js";
+import materialBlueprints, { materialThinkingFlow, materialDiagnostics } from "../data/materialBlueprints.js";
+import materialCompositions from "../data/materialCompositions.js";
+import materialParameterLabs from "../data/materialParameterLabs.js";
+import presets from "../data/presets/index.js";
 import { challenges, debugLabs, learningActivities, assessmentQuestions, conceptCards, resolveLearningActivity } from "../data/learningActivities.js";
 import { mountControlsHint } from "./ui/controlsHint.js";
 import { initMobilePanelTabs } from "./ui/mobilePanels.js";
@@ -48,6 +53,17 @@ const searchInput = document.getElementById("tutorial-search");
 const levelFilterContainer = document.getElementById("tutorial-level-filters");
 const progressEl = document.getElementById("tutorial-progress");
 const pathBody = document.getElementById("learning-path-body");
+const decoderThinkingFlow = document.getElementById("decoder-thinking-flow");
+const materialFamilyTabs = document.getElementById("material-family-tabs");
+const materialDecoderDetail = document.getElementById("material-decoder-detail");
+const materialCompositionGrid = document.getElementById("material-composition-grid");
+const parameterLabTabs = document.getElementById("parameter-lab-tabs");
+const parameterLabBody = document.getElementById("parameter-lab-body");
+const parameterPreviewAContainer = document.getElementById("parameter-preview-a");
+const parameterPreviewBContainer = document.getElementById("parameter-preview-b");
+const parameterLabelA = document.getElementById("parameter-label-a");
+const parameterLabelB = document.getElementById("parameter-label-b");
+const parameterExplanation = document.getElementById("parameter-explanation");
 
 // 學習中心只顯示一種工作模式，避免課程、挑戰、除錯與複習內容同時堆在長頁面上。
 // view 會留在網址中，讓使用者可以直接分享某個分區，也支援瀏覽器上一頁／下一頁。
@@ -88,6 +104,443 @@ const learningState = loadLearningState();
 const completedSet = completedTutorialIds(learningState);
 
 let currentLevelFilter = ""; // "" = 全部，或 "入門"/"中階"/"進階"（用 level.zh 當穩定 key，不受目前顯示語言影響）
+const requestedMaterialBlueprintId = new URLSearchParams(location.search).get("blueprint");
+let activeMaterialBlueprintId = materialBlueprints.some((item) => item.id === requestedMaterialBlueprintId)
+  ? requestedMaterialBlueprintId
+  : materialBlueprints[0]?.id || "";
+
+function selectMaterialBlueprint(id, { focus = false, updateUrl = true } = {}) {
+  if (!materialBlueprints.some((item) => item.id === id)) return;
+  activeMaterialBlueprintId = id;
+  if (updateUrl) {
+    const url = new URL(location.href);
+    url.searchParams.set("blueprint", id);
+    history.replaceState(history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }
+  renderMaterialDecoder();
+  if (focus) materialFamilyTabs.querySelector(`[data-blueprint-id="${id}"]`)?.focus();
+}
+
+function renderMaterialDecoder() {
+  if (!decoderThinkingFlow || !materialFamilyTabs || !materialDecoderDetail) return;
+  const lang = getLang();
+  decoderThinkingFlow.innerHTML = materialThinkingFlow.map((item, index) => `
+    <div class="decoder-thinking-step">
+      <span>${index + 1}</span>
+      <strong>${tBi(item)}</strong>
+    </div>
+  `).join("");
+
+  materialFamilyTabs.innerHTML = materialBlueprints.map((blueprint) => `
+    <button type="button" role="tab" id="material-tab-${blueprint.id}" data-blueprint-id="${blueprint.id}" aria-controls="material-decoder-detail" aria-selected="${blueprint.id === activeMaterialBlueprintId}" tabindex="${blueprint.id === activeMaterialBlueprintId ? "0" : "-1"}" class="${blueprint.id === activeMaterialBlueprintId ? "active" : ""}">${tBi(blueprint.name)}</button>
+  `).join("");
+
+  const blueprint = materialBlueprints.find((item) => item.id === activeMaterialBlueprintId) || materialBlueprints[0];
+  if (!blueprint) return;
+  activeMaterialBlueprintId = blueprint.id;
+  materialDecoderDetail.setAttribute("aria-labelledby", `material-tab-${blueprint.id}`);
+  const chainHtml = blueprint.chain.map((item, index) => `
+    ${index > 0 ? '<div class="decoder-chain-arrow" aria-hidden="true">→</div>' : ""}
+    <div class="decoder-node decoder-node-${item.kind}">
+      <span>${tBi(item.role)}</span>
+      <strong>${tBi(item.name)}</strong>
+      <small>${tBi(item.why)}</small>
+    </div>
+  `).join("");
+  const tutorialButtons = blueprint.tutorialIds.map((tutorialId, index) => {
+    const tutorial = tutorials.find((item) => item.id === tutorialId);
+    if (!tutorial) return "";
+    return `<button type="button" data-decoder-tutorial="${tutorial.id}" class="${index === 0 ? "primary" : ""}">${index === 0 ? (lang === "zh" ? "先學：" : "Start: ") : ""}${tBi(tutorial.name)}</button>`;
+  }).join("");
+  const presetLinks = blueprint.presetIds.map((presetId) => {
+    const preset = presets.find((item) => item.id === presetId);
+    if (!preset) return "";
+    return `<a href="sandbox.html?preset=${encodeURIComponent(preset.id)}&lang=${lang}" class="decoder-preset-link">${tBi(preset.name)}<span aria-hidden="true">→</span></a>`;
+  }).join("");
+  const diagnosticCards = (materialDiagnostics[blueprint.id] || []).map((item) => `
+    <article class="decoder-diagnostic-card">
+      <h4>${tBi(item.symptom)}</h4>
+      <p><strong>${lang === "zh" ? "可能原因" : "Likely cause"}</strong>${tBi(item.cause)}</p>
+      <p><strong>${lang === "zh" ? "修正順序" : "Fix order"}</strong>${tBi(item.fix)}</p>
+    </article>
+  `).join("");
+
+  materialDecoderDetail.innerHTML = `
+    <div class="decoder-visual-card">
+      <div class="decoder-swatch decoder-preview-${blueprint.preview}" aria-hidden="true"><i></i></div>
+      <div class="decoder-visual-copy">
+        <span>${lang === "zh" ? "觀察線索" : "What to Observe"}</span>
+        <h3>${tBi(blueprint.name)}</h3>
+        <p>${tBi(blueprint.cue)}</p>
+      </div>
+    </div>
+    <div class="decoder-blueprint">
+      <div class="decoder-section-label">${lang === "zh" ? "通用接線骨架" : "Reusable Connection Blueprint"}</div>
+      <div class="decoder-chain">${chainHtml}</div>
+      <div class="decoder-lower-grid">
+        <div>
+          <div class="decoder-section-label">${lang === "zh" ? "起始參數，不是死答案" : "Starting Values, Not Fixed Answers"}</div>
+          <div class="decoder-parameters">${blueprint.parameters.map((item) => `<div><span>${tBi(item.name)}</span><strong>${tBi(item.value)}</strong></div>`).join("")}</div>
+        </div>
+        <div>
+          <div class="decoder-section-label">${lang === "zh" ? "同一骨架可以怎麼變化" : "Ways to Extend the Same Blueprint"}</div>
+          <ul class="decoder-variants">${blueprint.variants.map((item) => `<li>${tBi(item)}</li>`).join("")}</ul>
+        </div>
+      </div>
+      <div class="decoder-lessons">
+        <span>${lang === "zh" ? "照順序學這組原理" : "Learn These Principles in Order"}</span>
+        <div>${tutorialButtons}</div>
+      </div>
+      <div class="decoder-examples">
+        <div>
+          <span>${lang === "zh" ? "進沙盒拆解成品" : "Open Finished Materials in the Sandbox"}</span>
+          <small>${lang === "zh" ? "打開後先觀察預覽，再沿著輸出節點反向追線。" : "Observe the preview first, then trace backward from Material Output."}</small>
+        </div>
+        <div>${presetLinks}</div>
+      </div>
+      <details class="decoder-diagnostics">
+        <summary>${lang === "zh" ? "看起來不對？檢查這兩個常見問題" : "Looks wrong? Check these two common failures"}</summary>
+        <div>${diagnosticCards}</div>
+      </details>
+    </div>
+  `;
+
+  materialFamilyTabs.querySelectorAll("[data-blueprint-id]").forEach((button) => {
+    button.addEventListener("click", () => {
+      selectMaterialBlueprint(button.dataset.blueprintId);
+    });
+    button.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = materialBlueprints.findIndex((item) => item.id === button.dataset.blueprintId);
+      const nextIndex = event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? materialBlueprints.length - 1
+          : (currentIndex + (event.key === "ArrowRight" ? 1 : -1) + materialBlueprints.length) % materialBlueprints.length;
+      selectMaterialBlueprint(materialBlueprints[nextIndex].id, { focus: true });
+    });
+  });
+  materialDecoderDetail.querySelectorAll("[data-decoder-tutorial]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const tutorial = tutorials.find((item) => item.id === button.dataset.decoderTutorial);
+      if (tutorial) startTutorial(tutorial);
+    });
+  });
+}
+
+renderMaterialDecoder();
+
+const requestedParameterLabId = new URLSearchParams(location.search).get("parameter");
+let activeParameterLabId = materialParameterLabs.some((item) => item.id === requestedParameterLabId)
+  ? requestedParameterLabId
+  : materialParameterLabs[0]?.id || "";
+let revealRequestedParameterLab = Boolean(requestedParameterLabId && activeParameterLabId === requestedParameterLabId);
+let parameterPreviewA = null;
+let parameterPreviewB = null;
+
+function ensureParameterPreviews() {
+  if (!parameterPreviewA && parameterPreviewAContainer) {
+    parameterPreviewA = new Preview3D(parameterPreviewAContainer);
+    parameterPreviewA.controls.enablePan = false;
+  }
+  if (!parameterPreviewB && parameterPreviewBContainer) {
+    parameterPreviewB = new Preview3D(parameterPreviewBContainer);
+    parameterPreviewB.controls.enablePan = false;
+  }
+}
+
+function configureLabTexture(texture, pattern) {
+  const repeat = Number(pattern.repeat) || 1;
+  texture.wrapS = THREE.RepeatWrapping;
+  texture.wrapT = THREE.RepeatWrapping;
+  texture.repeat.set(repeat, repeat);
+  texture.center.set(0.5, 0.5);
+  texture.rotation = Number(pattern.rotation) || 0;
+  texture.offset.set(pattern.offset?.[0] || 0, pattern.offset?.[1] || 0);
+  texture.magFilter = THREE.LinearFilter;
+  texture.minFilter = THREE.LinearMipmapLinearFilter;
+  texture.generateMipmaps = true;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function createCheckerLabTexture(pattern) {
+  const canvas = document.createElement("canvas");
+  canvas.width = 128;
+  canvas.height = 128;
+  const context = canvas.getContext("2d");
+  const cell = canvas.width / 2;
+  for (let y = 0; y < 2; y++) {
+    for (let x = 0; x < 2; x++) {
+      context.fillStyle = (x + y) % 2 ? "#27314b" : "#e3aa55";
+      context.fillRect(x * cell, y * cell, cell, cell);
+    }
+  }
+  const texture = configureLabTexture(new THREE.CanvasTexture(canvas), pattern);
+  texture.colorSpace = THREE.SRGBColorSpace;
+  return texture;
+}
+
+function createHeightLabData(size = 128) {
+  const heights = new Float32Array(size * size);
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const u = x / size;
+      const v = y / size;
+      const broad = Math.sin((u * 3.1 + Math.sin(v * 7.2) * 0.18) * Math.PI * 2);
+      const fine = Math.sin((v * 6.4 - u * 1.7) * Math.PI * 2) * 0.35;
+      heights[y * size + x] = Math.min(1, Math.max(0, 0.5 + broad * 0.34 + fine * 0.2));
+    }
+  }
+  return heights;
+}
+
+function createHeightLabTexture(pattern, asNormal = false) {
+  const size = 128;
+  const heights = createHeightLabData(size);
+  const pixels = new Uint8Array(size * size * 4);
+  const at = (x, y) => heights[((y + size) % size) * size + ((x + size) % size)];
+  for (let y = 0; y < size; y++) {
+    for (let x = 0; x < size; x++) {
+      const offset = (y * size + x) * 4;
+      if (asNormal) {
+        const dx = (at(x + 1, y) - at(x - 1, y)) * (pattern.strength || 1);
+        const dy = (at(x, y + 1) - at(x, y - 1)) * (pattern.strength || 1);
+        const length = Math.hypot(dx, dy, 1) || 1;
+        pixels[offset] = Math.round((-dx / length * 0.5 + 0.5) * 255);
+        pixels[offset + 1] = Math.round((-dy / length * 0.5 + 0.5) * 255);
+        pixels[offset + 2] = Math.round((1 / length * 0.5 + 0.5) * 255);
+      } else {
+        const height = heights[y * size + x];
+        const value = pattern.transform === "threshold"
+          ? (height >= 0.55 ? 255 : 0)
+          : Math.round(height * 255);
+        pixels[offset] = value;
+        pixels[offset + 1] = value;
+        pixels[offset + 2] = value;
+      }
+      pixels[offset + 3] = 255;
+    }
+  }
+  const texture = configureLabTexture(new THREE.DataTexture(pixels, size, size, THREE.RGBAFormat), pattern);
+  texture.colorSpace = pattern.colorSpace === "srgb" ? THREE.SRGBColorSpace : THREE.NoColorSpace;
+  return texture;
+}
+
+function coordinateLabMaterial(mode) {
+  return new THREE.ShaderMaterial({
+    toneMapped: false,
+    vertexShader: `
+      varying vec2 vUvCoord;
+      varying vec3 vObjectPosition;
+      varying vec3 vViewNormal;
+      varying vec3 vViewDirection;
+      void main() {
+        vec4 viewPosition = modelViewMatrix * vec4(position, 1.0);
+        vUvCoord = uv;
+        vObjectPosition = position * 0.5 + 0.5;
+        vViewNormal = normalize(normalMatrix * normal);
+        vViewDirection = normalize(-viewPosition.xyz);
+        gl_Position = projectionMatrix * viewPosition;
+      }
+    `,
+    fragmentShader: `
+      varying vec2 vUvCoord;
+      varying vec3 vObjectPosition;
+      varying vec3 vViewNormal;
+      varying vec3 vViewDirection;
+
+      vec3 checkerColor(float checker) {
+        return mix(vec3(0.05, 0.11, 0.24), vec3(1.0, 0.48, 0.08), checker);
+      }
+
+      void main() {
+        vec3 color;
+        ${mode === "uv" ? `
+          vec2 cell = floor(vUvCoord * vec2(10.0, 6.0));
+          color = checkerColor(mod(cell.x + cell.y, 2.0));
+        ` : mode === "generated" ? `
+          vec3 cell = floor(vObjectPosition * 7.0);
+          color = checkerColor(mod(cell.x + cell.y + cell.z, 2.0));
+        ` : mode === "normal" ? `
+          color = normalize(vViewNormal) * 0.5 + 0.5;
+        ` : `
+          vec3 reflected = reflect(-normalize(vViewDirection), normalize(vViewNormal));
+          color = reflected * 0.5 + 0.5;
+        `}
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `,
+  });
+}
+
+function parameterMaterial(options) {
+  const { pattern, visualization, ...materialOptions } = options;
+  if (visualization?.type === "coordinate") return coordinateLabMaterial(visualization.mode);
+  const material = new THREE.MeshPhysicalMaterial({ envMapIntensity: 1, ...materialOptions });
+  if (!pattern) return material;
+  const ownedTextures = [];
+  if (pattern.type === "checker") {
+    const texture = createCheckerLabTexture(pattern);
+    material.map = texture;
+    ownedTextures.push(texture);
+  } else if (pattern.mode === "normal") {
+    const texture = createHeightLabTexture(pattern, true);
+    material.normalMap = texture;
+    material.normalScale.set(1, 1);
+    ownedTextures.push(texture);
+  } else if (pattern.mode === "color") {
+    const texture = createHeightLabTexture({ ...pattern, colorSpace: "srgb" });
+    material.map = texture;
+    ownedTextures.push(texture);
+  } else if (pattern.mode === "surface") {
+    const colorTexture = createHeightLabTexture({ ...pattern, colorSpace: "srgb" });
+    const dataTexture = createHeightLabTexture({ ...pattern, colorSpace: "linear" });
+    material.map = colorTexture;
+    material.roughnessMap = dataTexture;
+    material.bumpMap = dataTexture;
+    material.bumpScale = pattern.strength || 0.1;
+    ownedTextures.push(colorTexture, dataTexture);
+  } else {
+    const texture = createHeightLabTexture(pattern);
+    if (pattern.mode === "displacement") {
+      material.displacementMap = texture;
+      material.displacementScale = pattern.strength || 0.15;
+      material.displacementBias = -(pattern.strength || 0.15) * 0.5;
+    } else {
+      material.bumpMap = texture;
+      material.bumpScale = pattern.strength || 0.1;
+    }
+    ownedTextures.push(texture);
+  }
+  material.userData.bmlOwnedTextures = ownedTextures;
+  material.needsUpdate = true;
+  return material;
+}
+
+function setParameterPreviewMaterial(preview, material) {
+  preview?.getMaterial()?.userData?.bmlOwnedTextures?.forEach((texture) => texture.dispose());
+  preview?.setMaterial(material);
+}
+
+function selectParameterLab(id, { focus = false, updateUrl = true } = {}) {
+  if (!materialParameterLabs.some((item) => item.id === id)) return;
+  activeParameterLabId = id;
+  if (updateUrl) {
+    const url = new URL(location.href);
+    url.searchParams.set("parameter", id);
+    history.replaceState(history.state, "", `${url.pathname}${url.search}${url.hash}`);
+  }
+  renderParameterLab();
+  if (focus) parameterLabTabs?.querySelector(`[data-parameter-id="${id}"]`)?.focus();
+}
+
+function renderParameterLab() {
+  if (!parameterLabTabs || !parameterLabBody || !parameterLabelA || !parameterLabelB || !parameterExplanation) return;
+  const lang = getLang();
+  const experiment = materialParameterLabs.find((item) => item.id === activeParameterLabId) || materialParameterLabs[0];
+  if (!experiment) return;
+  activeParameterLabId = experiment.id;
+  parameterLabTabs.innerHTML = materialParameterLabs.map((item) => `
+    <button type="button" role="tab" id="parameter-tab-${item.id}" data-parameter-id="${item.id}" aria-controls="parameter-lab-body" aria-selected="${item.id === experiment.id}" tabindex="${item.id === experiment.id ? "0" : "-1"}" class="${item.id === experiment.id ? "active" : ""}">${tBi(item.name)}</button>
+  `).join("");
+  parameterLabBody.setAttribute("aria-labelledby", `parameter-tab-${experiment.id}`);
+  parameterLabelA.innerHTML = `<span>A · ${tBi(experiment.a.label)}</span><strong>${experiment.a.value}</strong>`;
+  parameterLabelB.innerHTML = `<span>B · ${tBi(experiment.b.label)}</span><strong>${experiment.b.value}</strong>`;
+  const tutorial = tutorials.find((item) => item.id === experiment.tutorialId);
+  parameterExplanation.innerHTML = `
+    <h3>${tBi(experiment.name)}</h3>
+    <div><span>${lang === "zh" ? "應該觀察哪裡" : "What to Observe"}</span><p>${tBi(experiment.watch)}</p></div>
+    <div><span>${lang === "zh" ? "避免這個誤判" : "Avoid This Misread"}</span><p>${tBi(experiment.warning)}</p></div>
+    ${tutorial ? `<button type="button" data-parameter-tutorial="${tutorial.id}" class="primary">${lang === "zh" ? "進入完整課程：" : "Open Full Lesson: "}${tBi(tutorial.name)}</button>` : ""}
+  `;
+
+  ensureParameterPreviews();
+  setParameterPreviewMaterial(parameterPreviewA, parameterMaterial(experiment.a.material));
+  setParameterPreviewMaterial(parameterPreviewB, parameterMaterial(experiment.b.material));
+
+  parameterLabTabs.querySelectorAll("[data-parameter-id]").forEach((button) => {
+    button.addEventListener("click", () => selectParameterLab(button.dataset.parameterId));
+    button.addEventListener("keydown", (event) => {
+      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = materialParameterLabs.findIndex((item) => item.id === button.dataset.parameterId);
+      const nextIndex = event.key === "Home"
+        ? 0
+        : event.key === "End"
+          ? materialParameterLabs.length - 1
+          : (currentIndex + (event.key === "ArrowRight" ? 1 : -1) + materialParameterLabs.length) % materialParameterLabs.length;
+      selectParameterLab(materialParameterLabs[nextIndex].id, { focus: true });
+    });
+  });
+  parameterExplanation.querySelector("[data-parameter-tutorial]")?.addEventListener("click", (event) => {
+    const target = tutorials.find((item) => item.id === event.currentTarget.dataset.parameterTutorial);
+    if (target) startTutorial(target);
+  });
+  if (revealRequestedParameterLab) {
+    revealRequestedParameterLab = false;
+    requestAnimationFrame(() => {
+      document.querySelector(".parameter-lab-section")?.scrollIntoView({ block: "start" });
+      parameterLabTabs.querySelector(`[data-parameter-id="${experiment.id}"]`)?.scrollIntoView({ block: "nearest", inline: "center" });
+    });
+  }
+}
+
+renderParameterLab();
+
+function renderMaterialCompositions() {
+  if (!materialCompositionGrid) return;
+  const lang = getLang();
+  const requestedCompositionId = new URLSearchParams(location.search).get("composition");
+  const hasRequestedComposition = materialCompositions.some((item) => item.id === requestedCompositionId);
+  materialCompositionGrid.innerHTML = materialCompositions.map((composition, index) => {
+    const preset = presets.find((item) => item.id === composition.presetId);
+    const lessons = composition.tutorialIds.map((tutorialId) => {
+      const tutorial = tutorials.find((item) => item.id === tutorialId);
+      if (!tutorial) return "";
+      return `<button type="button" data-composition-tutorial="${tutorial.id}">${tBi(tutorial.name)}</button>`;
+    }).join("");
+    return `
+      <details class="composition-card" id="composition-${composition.id}" ${index === 0 || composition.id === requestedCompositionId ? "open" : ""}>
+        <summary>
+          <span>${String(index + 1).padStart(2, "0")}</span>
+          <div><strong>${tBi(composition.name)}</strong><small>${tBi(composition.summary)}</small></div>
+        </summary>
+        <div class="composition-card-body">
+          <div class="composition-layers">
+            ${composition.layers.map((item, layerIndex) => `
+              <div class="composition-layer">
+                <span>${layerIndex + 1}</span>
+                <div><strong>${tBi(item.name)}</strong><small>${tBi(item.role)}</small></div>
+              </div>
+            `).join("")}
+          </div>
+          <div class="composition-connection">
+            <span>${lang === "zh" ? "完整接線順序" : "Complete Connection Order"}</span>
+            <p>${tBi(composition.connection)}</p>
+          </div>
+          <div class="composition-actions">
+            ${preset ? `<a href="sandbox.html?preset=${encodeURIComponent(preset.id)}&lang=${lang}" class="composition-preset-link">${lang === "zh" ? "打開成品：" : "Open Result: "}${tBi(preset.name)} <span aria-hidden="true">→</span></a>` : ""}
+            <div>${lessons}</div>
+          </div>
+        </div>
+      </details>
+    `;
+  }).join("");
+
+  materialCompositionGrid.querySelectorAll("[data-composition-tutorial]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const tutorial = tutorials.find((item) => item.id === button.dataset.compositionTutorial);
+      if (tutorial) startTutorial(tutorial);
+    });
+  });
+  if (hasRequestedComposition) {
+    requestAnimationFrame(() => document.getElementById(`composition-${requestedCompositionId}`)?.scrollIntoView({ block: "start" }));
+  }
+}
+
+renderMaterialCompositions();
 
 // 學習路徑的扁平順序（跨階段），用來在「完成教學」時算出「下一步是哪篇」——
 // 沒有這個，使用者跟著學習路徑做完一篇教學後只會被丟回一個很長的列表最上方，
@@ -105,7 +558,7 @@ function getNextInPath(tutorialId) {
 
 // 找出一篇教學在學習路徑裡的位置（第幾階段、階段內第幾步、全路徑第幾步）——用來在
 // 教學進行中顯示「你在整條路徑的哪裡」，以及在完成教學時判斷「這是不是剛好走完一整個
-// 階段」，讓使用者不是只在做完全部 27 篇之後才有「里程碑」的感覺，每個階段本身也算一個
+// 階段」，讓使用者不是只在做完整條長路徑之後才有「里程碑」的感覺，每個階段本身也算一個
 // 有感的段落，減少「每篇教學都是孤立一篇」的分割感。回傳 null 代表這篇不在路徑裡。
 function getPathPosition(tutorialId) {
   const flatIndex = learningPathFlatIds.indexOf(tutorialId);
@@ -537,7 +990,7 @@ function renderLearningPath() {
   }
 
   // 回訪的使用者（關掉瀏覽器隔天回來）沒有「完成教學」那個當下的下一步提示可看，
-  // 只能自己在 27 張卡片裡找第一個沒打勾的——標出「從這裡繼續」，跟前面完成教學後
+  // 只能自己在大量卡片裡找第一個沒打勾的——標出「從這裡繼續」，跟前面完成教學後
   // 的即時導引互補，涵蓋「當下繼續」跟「回訪繼續」兩種情境。
   const nextUpId = learningPathFlatIds.find((id) => !completedSet.has(id));
   const nextStageIndex = learningPath.findIndex((stage) => stage.steps.some((step) => step.tutorialId === nextUpId));
@@ -557,6 +1010,13 @@ function renderLearningPath() {
     progressText.textContent = `${stageDone}/${stage.steps.length}`;
     stageTitle.append(titleText, progressText);
     stageEl.appendChild(stageTitle);
+
+    if (stage.summary) {
+      const summary = document.createElement("p");
+      summary.className = "path-stage-summary";
+      summary.textContent = tBi(stage.summary);
+      stageEl.appendChild(summary);
+    }
 
     const list = document.createElement("div");
     list.className = "path-steps";
@@ -754,6 +1214,9 @@ function renderTutorialCards() {
   updateProgressLabel();
 }
 document.addEventListener("langchange", () => {
+  renderMaterialDecoder();
+  renderParameterLab();
+  renderMaterialCompositions();
   renderTutorialCards();
   renderLearningPath();
   renderLearningHub();
@@ -1157,7 +1620,7 @@ function finishTutorial() {
     return;
   }
   // 如果下一篇屬於不同的階段，代表剛好走完一整個階段——這比「完成了一篇教學」更值得
-  // 慶祝一下，用一個階段里程碑訊息取代平常的「下一步」訊息，讓 27 篇教學不是全部走完
+  // 慶祝一下，用一個階段里程碑訊息取代平常的「下一步」訊息，讓整條長路徑不是全部走完
   // 才有成就感，每個階段本身也是一個有感的段落。
   let stageJustCompleted = null;
   if (nextId !== null) {

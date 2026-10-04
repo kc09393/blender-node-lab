@@ -5,6 +5,9 @@ import { listNodeTypes } from "./core/nodeRegistry.js";
 import { tBi, t, getLang } from "./i18n.js";
 import presets from "../data/presets/index.js";
 import tutorials from "../data/tutorials/index.js";
+import materialBlueprints, { materialDiagnostics } from "../data/materialBlueprints.js";
+import materialCompositions from "../data/materialCompositions.js";
+import materialParameterLabs from "../data/materialParameterLabs.js";
 import { learningActivities } from "../data/learningActivities.js";
 import troubleshootGuide from "../data/troubleshootGuide.js";
 
@@ -24,6 +27,27 @@ function buildIndex() {
       group: "tutorial", name: tut.name, sub: tut.description,
       dot: "var(--accent-2)", href: `tutorials.html?tutorial=${encodeURIComponent(tut.id)}`,
     })),
+    ...materialBlueprints.map((blueprint) => ({
+      group: "blueprint", name: blueprint.name, sub: blueprint.cue,
+      keywords: {
+        zh: (materialDiagnostics[blueprint.id] || []).flatMap((item) => [item.symptom.zh, item.cause.zh, item.fix.zh]).join(" "),
+        en: (materialDiagnostics[blueprint.id] || []).flatMap((item) => [item.symptom.en, item.cause.en, item.fix.en]).join(" "),
+      },
+      dot: "var(--accent)", href: `tutorials.html?blueprint=${encodeURIComponent(blueprint.id)}`,
+    })),
+    ...materialCompositions.map((composition) => ({
+      group: "blueprint", name: composition.name, sub: composition.summary,
+      keywords: {
+        zh: [composition.connection.zh, ...composition.layers.flatMap((item) => [item.name.zh, item.role.zh])].join(" "),
+        en: [composition.connection.en, ...composition.layers.flatMap((item) => [item.name.en, item.role.en])].join(" "),
+      },
+      dot: "var(--accent-2)", href: `tutorials.html?composition=${encodeURIComponent(composition.id)}`,
+    })),
+    ...materialParameterLabs.map((experiment) => ({
+      group: "blueprint", name: experiment.name, sub: experiment.watch,
+      keywords: { zh: experiment.warning.zh, en: experiment.warning.en },
+      dot: "var(--ok)", href: `tutorials.html?parameter=${encodeURIComponent(experiment.id)}`,
+    })),
     ...learningActivities.map((activity) => ({
       group: "activity", name: activity.name, sub: activity.description,
       dot: "var(--ok)", href: `tutorials.html?activity=${encodeURIComponent(activity.id)}`,
@@ -39,13 +63,14 @@ const GROUP_LABEL_KEY = {
   node: "search.groupNode",
   preset: "search.groupPreset",
   tutorial: "search.groupTutorial",
+  blueprint: "search.groupBlueprint",
   activity: "search.groupActivity",
   troubleshoot: "search.groupTroubleshoot",
 };
-const GROUP_ORDER = ["node", "preset", "tutorial", "activity", "troubleshoot"];
+const GROUP_ORDER = ["node", "preset", "blueprint", "tutorial", "activity", "troubleshoot"];
 
 function haystack(item) {
-  return [item.name.zh, item.name.en, item.sub?.zh, item.sub?.en].filter(Boolean).join(" ").toLowerCase();
+  return [item.name.zh, item.name.en, item.sub?.zh, item.sub?.en, item.keywords?.zh, item.keywords?.en].filter(Boolean).join(" ").toLowerCase();
 }
 
 export function initGlobalSearch() {
